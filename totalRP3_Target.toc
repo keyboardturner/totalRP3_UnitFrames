@@ -1,0 +1,8 @@
+## Interface: 100000
+## Author: Keyboardturner
+## Version: 0.0.1
+## Title: Total RP 3: Target
+## Notes: Modifies the target frame to have some additional profile info.
+## Dependencies: totalRP3
+
+core.lua

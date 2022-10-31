@@ -25,6 +25,8 @@ Modifies the target frame to have some additional profile info.
 
 - option to use player portrait as button function
 
+- potentially turn player portrait into icon itself
+
 - potentially implement as module in totalrp3 
 
 - potentially options to adjust fade time of buttons

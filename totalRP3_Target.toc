@@ -4,5 +4,7 @@
 ## Title: Total RP 3: Target
 ## Notes: Modifies the target frame to have some additional profile info.
 ## Dependencies: totalRP3
+## SavedVariables: TRP3_TargetDB
+## SavedVariablesPerCharacter: TRP3_CharDB
 
 core.lua

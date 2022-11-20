@@ -1,5 +1,5 @@
-# totalRP3_Target
-Modifies the target frame to have some additional profile info.
+# totalRP3_UnitFrames
+Modifies the target and player frames to have some additional profile info.
 
 ## Completed:
 

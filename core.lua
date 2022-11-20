@@ -13,26 +13,27 @@
 --TargetFrame.TargetFrameContent.TargetFrameContentContextual
 
 ------------------------------------------------------------------------------------------------------------------
---TRP3_TargetDB
+--TRP3_UF_DB
 
 local defaultsTable = {
 	Target = {show = true, x = 5, y = 5, point = "CENTER", relativePoint = "BOTTOMLEFT", scale = 1.5,
 		colorText = {r = 1, g = 1, b = 1, custom = false, class = false,},
-		colorBack = {r = 1, g = 1, b = 1, a = 1, custom = false, class = false,},
+		colorBack = {r = 0, g = 0, b = 0, a = 1, custom = false, class = false,},
 	},
 	Player = {show = true, x = 5, y = 5, point = "CENTER", relativePoint = "BOTTOMRIGHT", scale = 1.5,
 		colorText = {r = 1, g = 1, b = 1, custom = false, class = false,},
-		colorBack = {r = 1, g = 1, b = 1, a = 1, custom = false, class = false,},
+		colorBack = {r = 0, g = 0, b = 0, a = 1, custom = false, class = false,},
 	},
 
 	Border = {show = false, style = "rare-elite",
 		color = {r = 1, g = 1, b = 1, a = 1, custom = false, class = false,},
+		status = false,
 	},
 
 	Setting = {locked = true, charSpecific = false,},
 };
 
---if TRP3_TargetDB.Setting.charSpecific == true then
+--if TRP3_UF_DB.Setting.charSpecific == true then
 --	TRP3_CharDB stuff
 --
 
@@ -51,7 +52,7 @@ local function round(number, decimals)
 	return (("%%.%df"):format(decimals)):format(number)
 end
 
-local function myColorCallback(restore)
+local function TargetBackdropColor(restore)
 	local newR, newG, newB, newA; -- I forgot what to do with the alpha value but it's needed to not swap RGB values
 	if restore then
 	 -- The user bailed, we extract the old color from the table created by ShowColorPicker.
@@ -61,109 +62,188 @@ local function myColorCallback(restore)
 		newA, newR, newG, newB = OpacitySliderFrame:GetValue(), ColorPickerFrame:GetColorRGB();
 	end
 	 -- Update our internal storage.
-	TRP3_TargetDB.Target.colorBack.r, TRP3_TargetDB.Target.colorBack.g, TRP3_TargetDB.Target.colorBack.b, TRP3_TargetDB.Target.colorBack.a = newR, newG, newB, newA;
+	TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a = newR, newG, newB, newA;
 	 -- And update any UI elements that use this color...
-	print("New values: " .. "\nRGB(0-1) - |cffff7f7f" .. round(TRP3_TargetDB.Target.colorBack.r,2) .. "|r, |cff7fff7f" .. round(TRP3_TargetDB.Target.colorBack.g,2) .. "|r, |cff7f7fff" .. round(TRP3_TargetDB.Target.colorBack.b,2) .. "|r\nRGB(0-255) - |cffff7f7f" .. round(TRP3_TargetDB.Target.colorBack.r*255) .. "|r, |cff7fff7f" .. round(TRP3_TargetDB.Target.colorBack.g*255) .. "|r, |cff7f7fff" .. round(TRP3_TargetDB.Target.colorBack.b*255) .. "|r")
-	TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(TRP3_TargetDB.Target.colorBack.r, TRP3_TargetDB.Target.colorBack.g, TRP3_TargetDB.Target.colorBack.b, TRP3_TargetDB.Target.colorBack.a)
+	TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a)
+end
+SLASH_TARGETBCOLOR1 = "/targetbcolor"
+SlashCmdList["TARGETBCOLOR"] = function(msg)
+	ShowColorPicker(TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a, TargetBackdropColor);
+	print("Target Backdrop Current values: " .. "\nRGB(0-1) - |cffff7f7f" .. round(TRP3_UF_DB.Target.colorBack.r,2) .. "|r, |cff7fff7f" .. round(TRP3_UF_DB.Target.colorBack.g,2) .. "|r, |cff7f7fff" .. round(TRP3_UF_DB.Target.colorBack.b,2) .. "|r\nRGB(0-255) - |cffff7f7f" .. round(TRP3_UF_DB.Target.colorBack.r*255) .. "|r, |cff7fff7f" .. round(TRP3_UF_DB.Target.colorBack.g*255) .. "|r, |cff7f7fff" .. round(TRP3_UF_DB.Target.colorBack.b*255) .. "|r")
 end
 
-SLASH_BINGUS1 = "/bingus"
-SlashCmdList["BINGUS"] = function(msg)
-	ShowColorPicker(TRP3_TargetDB.Target.colorBack.r, TRP3_TargetDB.Target.colorBack.g, TRP3_TargetDB.Target.colorBack.b, TRP3_TargetDB.Target.colorBack.a, myColorCallback);
-	print("Current values: " .. "\nRGB(0-1) - |cffff7f7f" .. round(TRP3_TargetDB.Target.colorBack.r,2) .. "|r, |cff7fff7f" .. round(TRP3_TargetDB.Target.colorBack.g,2) .. "|r, |cff7f7fff" .. round(TRP3_TargetDB.Target.colorBack.b,2) .. "|r\nRGB(0-255) - |cffff7f7f" .. round(TRP3_TargetDB.Target.colorBack.r*255) .. "|r, |cff7fff7f" .. round(TRP3_TargetDB.Target.colorBack.g*255) .. "|r, |cff7f7fff" .. round(TRP3_TargetDB.Target.colorBack.b*255) .. "|r")
+
+local function TargetTextColor(restore)
+	local newR, newG, newB, newA; -- I forgot what to do with the alpha value but it's needed to not swap RGB values
+	if restore then
+	 -- The user bailed, we extract the old color from the table created by ShowColorPicker.
+	newR, newG, newB, newA = unpack(restore);
+	else
+	 -- Something changed
+		newA, newR, newG, newB = OpacitySliderFrame:GetValue(), ColorPickerFrame:GetColorRGB();
+	end
+	 -- Update our internal storage.
+	TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b = newR, newG, newB;
+	 -- And update any UI elements that use this color...
+	TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetTextColor(TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b)
 end
+SLASH_TARGETTCOLOR1 = "/targettcolor"
+SlashCmdList["TARGETTCOLOR"] = function(msg)
+	ShowColorPicker(TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b, nil, TargetTextColor);
+	print("Target Text Current values: " .. "\nRGB(0-1) - |cffff7f7f" .. round(TRP3_UF_DB.Target.colorText.r,2) .. "|r, |cff7fff7f" .. round(TRP3_UF_DB.Target.colorText.g,2) .. "|r, |cff7f7fff" .. round(TRP3_UF_DB.Target.colorText.b,2) .. "|r\nRGB(0-255) - |cffff7f7f" .. round(TRP3_UF_DB.Target.colorText.r*255) .. "|r, |cff7fff7f" .. round(TRP3_UF_DB.Target.colorText.g*255) .. "|r, |cff7f7fff" .. round(TRP3_UF_DB.Target.colorText.b*255) .. "|r")
+end
+
+
+local function PlayerBackdropColor(restore)
+	local newR, newG, newB, newA; -- I forgot what to do with the alpha value but it's needed to not swap RGB values
+	if restore then
+	 -- The user bailed, we extract the old color from the table created by ShowColorPicker.
+	newR, newG, newB, newA = unpack(restore);
+	else
+	 -- Something changed
+		newA, newR, newG, newB = OpacitySliderFrame:GetValue(), ColorPickerFrame:GetColorRGB();
+	end
+	 -- Update our internal storage.
+	TRP3_UF_DB.Player.colorBack.r, TRP3_UF_DB.Player.colorBack.g, TRP3_UF_DB.Player.colorBack.b, TRP3_UF_DB.Player.colorBack.a = newR, newG, newB, newA;
+	 -- And update any UI elements that use this color...
+	PlayerFrameReputationColor:SetVertexColor(TRP3_UF_DB.Player.colorBack.r, TRP3_UF_DB.Player.colorBack.g, TRP3_UF_DB.Player.colorBack.b, TRP3_UF_DB.Player.colorBack.a)
+end
+SLASH_PLAYERBCOLOR1 = "/playerbcolor"
+SlashCmdList["PLAYERBCOLOR"] = function(msg)
+	ShowColorPicker(TRP3_UF_DB.Player.colorBack.r, TRP3_UF_DB.Player.colorBack.g, TRP3_UF_DB.Player.colorBack.b, TRP3_UF_DB.Player.colorBack.a, PlayerBackdropColor);
+	print("Target Backdrop Current values: " .. "\nRGB(0-1) - |cffff7f7f" .. round(TRP3_UF_DB.Player.colorBack.r,2) .. "|r, |cff7fff7f" .. round(TRP3_UF_DB.Player.colorBack.g,2) .. "|r, |cff7f7fff" .. round(TRP3_UF_DB.Player.colorBack.b,2) .. "|r\nRGB(0-255) - |cffff7f7f" .. round(TRP3_UF_DB.Player.colorBack.r*255) .. "|r, |cff7fff7f" .. round(TRP3_UF_DB.Player.colorBack.g*255) .. "|r, |cff7f7fff" .. round(TRP3_UF_DB.Player.colorBack.b*255) .. "|r")
+end
+
+
+local function PlayerTextColor(restore)
+	local newR, newG, newB, newA; -- I forgot what to do with the alpha value but it's needed to not swap RGB values
+	if restore then
+	 -- The user bailed, we extract the old color from the table created by ShowColorPicker.
+	newR, newG, newB, newA = unpack(restore);
+	else
+	 -- Something changed
+		newA, newR, newG, newB = OpacitySliderFrame:GetValue(), ColorPickerFrame:GetColorRGB();
+	end
+	 -- Update our internal storage.
+	TRP3_UF_DB.Player.colorText.r, TRP3_UF_DB.Player.colorText.g, TRP3_UF_DB.Player.colorText.b = newR, newG, newB;
+	 -- And update any UI elements that use this color...
+	PlayerName:SetTextColor(TRP3_UF_DB.Player.colorText.r, TRP3_UF_DB.Player.colorText.g, TRP3_UF_DB.Player.colorText.b)
+end
+SLASH_PLAYERTCOLOR1 = "/playertcolor"
+SlashCmdList["PLAYERTCOLOR"] = function(msg)
+	ShowColorPicker(TRP3_UF_DB.Player.colorText.r, TRP3_UF_DB.Player.colorText.g, TRP3_UF_DB.Player.colorText.b, nil, PlayerTextColor);
+	print("Target Text Current values: " .. "\nRGB(0-1) - |cffff7f7f" .. round(TRP3_UF_DB.Player.colorText.r,2) .. "|r, |cff7fff7f" .. round(TRP3_UF_DB.Player.colorText.g,2) .. "|r, |cff7f7fff" .. round(TRP3_UF_DB.Player.colorText.b,2) .. "|r\nRGB(0-255) - |cffff7f7f" .. round(TRP3_UF_DB.Player.colorText.r*255) .. "|r, |cff7fff7f" .. round(TRP3_UF_DB.Player.colorText.g*255) .. "|r, |cff7f7fff" .. round(TRP3_UF_DB.Player.colorText.b*255) .. "|r")
+end
+
+--PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:Hide() -- make this into an option to hide the "rested glow" or even change color
+--PLAYER_REGEN_DISABLED -- trigger upon this event
+
+------------------------------------------------------------------------------------------------------------------
+
+--set up the art border portrait frame
+
+local PlayerDragonFrame = CreateFrame("Frame", nil, PlayerFrame)
+PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
+PlayerDragonFrame:SetSize(99, 81);
+PlayerDragonFrame.tex = PlayerDragonFrame:CreateTexture(nil, "ARTWORK", nil, 0)
+PlayerDragonFrame.tex:SetAllPoints(PlayerDragonFrame)
+PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\uiunitframeboss2x")
+PlayerDragonFrame.tex:SetTexCoord(1, 0, 0, 1)
+PlayerDragonFrame.tex:SetVertexColor(1,1,1)
+
+------------------------------------------------------------------------------------------------------------------
 
 local trpTarget, trpPlayer
 trpTarget = CreateFrame("Frame")
 trpPlayer = CreateFrame("Frame")
 
-local VERSION_TEXT = string.format(TRP3_API.loc.CREDITS_VERSION_TEXT, GetAddOnMetadata("TotalRP3_Target", "Version"));
-local TRP3_TargetPanel = CreateFrame("Frame");
-TRP3_TargetPanel.name = "Total RP 3: Target";
+local VERSION_TEXT = string.format(TRP3_API.loc.CREDITS_VERSION_TEXT, GetAddOnMetadata("totalRP3_UnitFrames", "Version"));
+local TRP3_UFPanel = CreateFrame("Frame");
+TRP3_UFPanel.name = "Total RP 3: Unit Frames";
 
-TRP3_TargetPanel.Headline = TRP3_TargetPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
-TRP3_TargetPanel.Headline:SetFont(TRP3_TargetPanel.Headline:GetFont(), 23);
-TRP3_TargetPanel.Headline:SetTextColor(1,.73,0,1);
-TRP3_TargetPanel.Headline:ClearAllPoints();
-TRP3_TargetPanel.Headline:SetPoint("TOPLEFT", TRP3_TargetPanel, "TOPLEFT",12,-12);
-TRP3_TargetPanel.Headline:SetText("|cffF5038BTotal RP 3|r|cffffffff: Target|r");
+TRP3_UFPanel.Headline = TRP3_UFPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+TRP3_UFPanel.Headline:SetFont(TRP3_UFPanel.Headline:GetFont(), 23);
+TRP3_UFPanel.Headline:SetTextColor(1,.73,0,1);
+TRP3_UFPanel.Headline:ClearAllPoints();
+TRP3_UFPanel.Headline:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT",12,-12);
+TRP3_UFPanel.Headline:SetText("|cffF5038BTotal RP 3|r|cffffffff: Unit Frames|r");
 
-TRP3_TargetPanel.Version = TRP3_TargetPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
-TRP3_TargetPanel.Version:SetFont(TRP3_TargetPanel.Version:GetFont(), 12);
-TRP3_TargetPanel.Version:SetTextColor(1,1,1,1);
-TRP3_TargetPanel.Version:ClearAllPoints();
-TRP3_TargetPanel.Version:SetPoint("TOPLEFT", TRP3_TargetPanel, "TOPLEFT",400,-21);
-TRP3_TargetPanel.Version:SetText(VERSION_TEXT);
+TRP3_UFPanel.Version = TRP3_UFPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+TRP3_UFPanel.Version:SetFont(TRP3_UFPanel.Version:GetFont(), 12);
+TRP3_UFPanel.Version:SetTextColor(1,1,1,1);
+TRP3_UFPanel.Version:ClearAllPoints();
+TRP3_UFPanel.Version:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT",400,-21);
+TRP3_UFPanel.Version:SetText(VERSION_TEXT);
 
 
 ------------------------------------------------------------------------------------------------------------------
 --position presets
-TRP3_TargetPanel.Pf = CreateFrame("Frame", nil, TRP3_TargetPanel)
-TRP3_TargetPanel.Pf:ClearAllPoints();
-TRP3_TargetPanel.Pf:SetPoint("TOPLEFT", TRP3_TargetPanel, "TOPLEFT", 12, -53*2);
-TRP3_TargetPanel.Pf:SetSize(64, 64)
+TRP3_UFPanel.Pf = CreateFrame("Frame", nil, TRP3_UFPanel)
+TRP3_UFPanel.Pf:ClearAllPoints();
+TRP3_UFPanel.Pf:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT", 12, -53*2);
+TRP3_UFPanel.Pf:SetSize(64, 64)
 
-TRP3_TargetPanel.Pf.tex = TRP3_TargetPanel.Pf:CreateTexture()
-TRP3_TargetPanel.Pf.tex:SetAllPoints(TRP3_TargetPanel.Pf)
-SetPortraitTexture(TRP3_TargetPanel.Pf.tex, "player")
+TRP3_UFPanel.Pf.tex = TRP3_UFPanel.Pf:CreateTexture("badabingus")
+TRP3_UFPanel.Pf.tex:SetAllPoints(TRP3_UFPanel.Pf)
+SetPortraitTexture(TRP3_UFPanel.Pf.tex, "player")
 
-TRP3_TargetPanel.Pf.radioTopLeft = CreateFrame("CheckButton", nil, TRP3_TargetPanel.Pf, "UIRadioButtonTemplate")
-TRP3_TargetPanel.Pf.radioTop = CreateFrame("CheckButton", nil, TRP3_TargetPanel.Pf, "UIRadioButtonTemplate")
-TRP3_TargetPanel.Pf.radioTopRight = CreateFrame("CheckButton", nil, TRP3_TargetPanel.Pf, "UIRadioButtonTemplate")
-TRP3_TargetPanel.Pf.radioLeft = CreateFrame("CheckButton", nil, TRP3_TargetPanel.Pf, "UIRadioButtonTemplate")
-TRP3_TargetPanel.Pf.radioCenter = CreateFrame("CheckButton", nil, TRP3_TargetPanel.Pf, "UIRadioButtonTemplate")
-TRP3_TargetPanel.Pf.radioRight = CreateFrame("CheckButton", nil, TRP3_TargetPanel.Pf, "UIRadioButtonTemplate")
-TRP3_TargetPanel.Pf.radioBottomLeft = CreateFrame("CheckButton", nil, TRP3_TargetPanel.Pf, "UIRadioButtonTemplate")
-TRP3_TargetPanel.Pf.radioBottom = CreateFrame("CheckButton", nil, TRP3_TargetPanel.Pf, "UIRadioButtonTemplate")
-TRP3_TargetPanel.Pf.radioBottomRight = CreateFrame("CheckButton", nil, TRP3_TargetPanel.Pf, "UIRadioButtonTemplate")
+TRP3_UFPanel.Pf.radioTopLeft = CreateFrame("CheckButton", nil, TRP3_UFPanel.Pf, "UIRadioButtonTemplate")
+TRP3_UFPanel.Pf.radioTop = CreateFrame("CheckButton", nil, TRP3_UFPanel.Pf, "UIRadioButtonTemplate")
+TRP3_UFPanel.Pf.radioTopRight = CreateFrame("CheckButton", nil, TRP3_UFPanel.Pf, "UIRadioButtonTemplate")
+TRP3_UFPanel.Pf.radioLeft = CreateFrame("CheckButton", nil, TRP3_UFPanel.Pf, "UIRadioButtonTemplate")
+TRP3_UFPanel.Pf.radioCenter = CreateFrame("CheckButton", nil, TRP3_UFPanel.Pf, "UIRadioButtonTemplate")
+TRP3_UFPanel.Pf.radioRight = CreateFrame("CheckButton", nil, TRP3_UFPanel.Pf, "UIRadioButtonTemplate")
+TRP3_UFPanel.Pf.radioBottomLeft = CreateFrame("CheckButton", nil, TRP3_UFPanel.Pf, "UIRadioButtonTemplate")
+TRP3_UFPanel.Pf.radioBottom = CreateFrame("CheckButton", nil, TRP3_UFPanel.Pf, "UIRadioButtonTemplate")
+TRP3_UFPanel.Pf.radioBottomRight = CreateFrame("CheckButton", nil, TRP3_UFPanel.Pf, "UIRadioButtonTemplate")
 
-TRP3_TargetPanel.Pf.radioTopLeft:SetChecked(false)
-TRP3_TargetPanel.Pf.radioTop:SetChecked(false)
-TRP3_TargetPanel.Pf.radioTopRight:SetChecked(false)
-TRP3_TargetPanel.Pf.radioLeft:SetChecked(false)
-TRP3_TargetPanel.Pf.radioCenter:SetChecked(false)
-TRP3_TargetPanel.Pf.radioRight:SetChecked(false)
-TRP3_TargetPanel.Pf.radioBottomLeft:SetChecked(false)
-TRP3_TargetPanel.Pf.radioBottom:SetChecked(false)
-TRP3_TargetPanel.Pf.radioBottomRight:SetChecked(true)
+TRP3_UFPanel.Pf.radioTopLeft:SetChecked(false)
+TRP3_UFPanel.Pf.radioTop:SetChecked(false)
+TRP3_UFPanel.Pf.radioTopRight:SetChecked(false)
+TRP3_UFPanel.Pf.radioLeft:SetChecked(false)
+TRP3_UFPanel.Pf.radioCenter:SetChecked(false)
+TRP3_UFPanel.Pf.radioRight:SetChecked(false)
+TRP3_UFPanel.Pf.radioBottomLeft:SetChecked(false)
+TRP3_UFPanel.Pf.radioBottom:SetChecked(false)
+TRP3_UFPanel.Pf.radioBottomRight:SetChecked(true)
 
-TRP3_TargetPanel.Pf.radioTopLeft:SetPoint("CENTER", TRP3_TargetPanel.Pf, "TOPLEFT", 0, 0)
-TRP3_TargetPanel.Pf.radioTop:SetPoint("CENTER", TRP3_TargetPanel.Pf, "TOP", 0, 0)
-TRP3_TargetPanel.Pf.radioTopRight:SetPoint("CENTER", TRP3_TargetPanel.Pf, "TOPRIGHT", 0, 0)
-TRP3_TargetPanel.Pf.radioLeft:SetPoint("CENTER", TRP3_TargetPanel.Pf, "LEFT", 0, 0)
-TRP3_TargetPanel.Pf.radioCenter:SetPoint("CENTER", TRP3_TargetPanel.Pf, "CENTER", 0, 0)
-TRP3_TargetPanel.Pf.radioRight:SetPoint("CENTER", TRP3_TargetPanel.Pf, "RIGHT", 0, 0)
-TRP3_TargetPanel.Pf.radioBottomLeft:SetPoint("CENTER", TRP3_TargetPanel.Pf, "BOTTOMLEFT", 0, 0)
-TRP3_TargetPanel.Pf.radioBottom:SetPoint("CENTER", TRP3_TargetPanel.Pf, "BOTTOM", 0, 0)
-TRP3_TargetPanel.Pf.radioBottomRight:SetPoint("CENTER", TRP3_TargetPanel.Pf, "BOTTOMRIGHT", 0, 0)
+TRP3_UFPanel.Pf.radioTopLeft:SetPoint("CENTER", TRP3_UFPanel.Pf, "TOPLEFT", 0, 0)
+TRP3_UFPanel.Pf.radioTop:SetPoint("CENTER", TRP3_UFPanel.Pf, "TOP", 0, 0)
+TRP3_UFPanel.Pf.radioTopRight:SetPoint("CENTER", TRP3_UFPanel.Pf, "TOPRIGHT", 0, 0)
+TRP3_UFPanel.Pf.radioLeft:SetPoint("CENTER", TRP3_UFPanel.Pf, "LEFT", 0, 0)
+TRP3_UFPanel.Pf.radioCenter:SetPoint("CENTER", TRP3_UFPanel.Pf, "CENTER", 0, 0)
+TRP3_UFPanel.Pf.radioRight:SetPoint("CENTER", TRP3_UFPanel.Pf, "RIGHT", 0, 0)
+TRP3_UFPanel.Pf.radioBottomLeft:SetPoint("CENTER", TRP3_UFPanel.Pf, "BOTTOMLEFT", 0, 0)
+TRP3_UFPanel.Pf.radioBottom:SetPoint("CENTER", TRP3_UFPanel.Pf, "BOTTOM", 0, 0)
+TRP3_UFPanel.Pf.radioBottomRight:SetPoint("CENTER", TRP3_UFPanel.Pf, "BOTTOMRIGHT", 0, 0)
 
-TRP3_TargetPanel.Pf.TitleText = TRP3_TargetPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
-TRP3_TargetPanel.Pf.TitleText:SetFont(TRP3_TargetPanel.Pf.TitleText:GetFont(), 12);
-TRP3_TargetPanel.Pf.TitleText:SetTextColor(1,1,1,1);
-TRP3_TargetPanel.Pf.TitleText:ClearAllPoints();
-TRP3_TargetPanel.Pf.TitleText:SetPoint("BOTTOM", TRP3_TargetPanel.Pf, "TOP",0,10);
-TRP3_TargetPanel.Pf.TitleText:SetText(PLAYER);
+TRP3_UFPanel.Pf.TitleText = TRP3_UFPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+TRP3_UFPanel.Pf.TitleText:SetFont(TRP3_UFPanel.Pf.TitleText:GetFont(), 12);
+TRP3_UFPanel.Pf.TitleText:SetTextColor(1,1,1,1);
+TRP3_UFPanel.Pf.TitleText:ClearAllPoints();
+TRP3_UFPanel.Pf.TitleText:SetPoint("BOTTOM", TRP3_UFPanel.Pf, "TOP",0,10);
+TRP3_UFPanel.Pf.TitleText:SetText(PLAYER);
 
-TRP3_TargetPanel.Pf.allRadios = {
-	TRP3_TargetPanel.Pf.radioTopLeft,
-	TRP3_TargetPanel.Pf.radioTop,
-	TRP3_TargetPanel.Pf.radioTopRight,
-	TRP3_TargetPanel.Pf.radioLeft,
-	TRP3_TargetPanel.Pf.radioCenter,
-	TRP3_TargetPanel.Pf.radioRight,
-	TRP3_TargetPanel.Pf.radioBottomLeft,
-	TRP3_TargetPanel.Pf.radioBottom,
-	TRP3_TargetPanel.Pf.radioBottomRight
-}
+TRP3_UFPanel.Pf.allRadios = {
+	TRP3_UFPanel.Pf.radioTopLeft,
+	TRP3_UFPanel.Pf.radioTop,
+	TRP3_UFPanel.Pf.radioTopRight,
+	TRP3_UFPanel.Pf.radioLeft,
+	TRP3_UFPanel.Pf.radioCenter,
+	TRP3_UFPanel.Pf.radioRight,
+	TRP3_UFPanel.Pf.radioBottomLeft,
+	TRP3_UFPanel.Pf.radioBottom,
+	TRP3_UFPanel.Pf.radioBottomRight
+};
 
-function TRP3_TargetPanel.Pf.createOnRadioClicked (location)
+function TRP3_UFPanel.Pf.createOnRadioClicked (location)
 	local function onRadioClicked (self, a, b, c)
 		local checked = self:GetChecked()
 		PlaySound(PlaySoundKitID and "igMainMenuOptionCheckBoxOn" or SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
-		TRP3_TargetDB.Player.relativePoint = location
+		TRP3_UF_DB.Player.relativePoint = location
 
 		local anyChecked = false
-		for _, radio in ipairs(TRP3_TargetPanel.Pf.allRadios) do
+		for _, radio in ipairs(TRP3_UFPanel.Pf.allRadios) do
 			if radio ~= self then
 				anyChecked = radio:GetChecked() or anyChecked
 				radio:SetChecked(false)
@@ -172,88 +252,96 @@ function TRP3_TargetPanel.Pf.createOnRadioClicked (location)
 		if not anyChecked then
 			self:SetChecked(true)
 		end
+		trpPlayer.SetPos()
 	end
 	return onRadioClicked
 end
 
-TRP3_TargetPanel.Pf.radioTopLeft:SetScript("OnClick", TRP3_TargetPanel.Pf.createOnRadioClicked("TOPLEFT"))
-TRP3_TargetPanel.Pf.radioTop:SetScript("OnClick", TRP3_TargetPanel.Pf.createOnRadioClicked("TOP"))
-TRP3_TargetPanel.Pf.radioTopRight:SetScript("OnClick", TRP3_TargetPanel.Pf.createOnRadioClicked("TOPRIGHT"))
-TRP3_TargetPanel.Pf.radioLeft:SetScript("OnClick", TRP3_TargetPanel.Pf.createOnRadioClicked("LEFT"))
-TRP3_TargetPanel.Pf.radioCenter:SetScript("OnClick", TRP3_TargetPanel.Pf.createOnRadioClicked("CENTER"))
-TRP3_TargetPanel.Pf.radioRight:SetScript("OnClick", TRP3_TargetPanel.Pf.createOnRadioClicked("RIGHT"))
-TRP3_TargetPanel.Pf.radioBottomLeft:SetScript("OnClick", TRP3_TargetPanel.Pf.createOnRadioClicked("BOTTOMLEFT"))
-TRP3_TargetPanel.Pf.radioBottom:SetScript("OnClick", TRP3_TargetPanel.Pf.createOnRadioClicked("BOTTOM"))
-TRP3_TargetPanel.Pf.radioBottomRight:SetScript("OnClick", TRP3_TargetPanel.Pf.createOnRadioClicked("BOTTOMRIGHT"))
+TRP3_UFPanel.Pf.radioTopLeft:SetScript("OnClick", TRP3_UFPanel.Pf.createOnRadioClicked("TOPLEFT"))
+TRP3_UFPanel.Pf.radioTop:SetScript("OnClick", TRP3_UFPanel.Pf.createOnRadioClicked("TOP"))
+TRP3_UFPanel.Pf.radioTopRight:SetScript("OnClick", TRP3_UFPanel.Pf.createOnRadioClicked("TOPRIGHT"))
+TRP3_UFPanel.Pf.radioLeft:SetScript("OnClick", TRP3_UFPanel.Pf.createOnRadioClicked("LEFT"))
+TRP3_UFPanel.Pf.radioCenter:SetScript("OnClick", TRP3_UFPanel.Pf.createOnRadioClicked("CENTER"))
+TRP3_UFPanel.Pf.radioRight:SetScript("OnClick", TRP3_UFPanel.Pf.createOnRadioClicked("RIGHT"))
+TRP3_UFPanel.Pf.radioBottomLeft:SetScript("OnClick", TRP3_UFPanel.Pf.createOnRadioClicked("BOTTOMLEFT"))
+TRP3_UFPanel.Pf.radioBottom:SetScript("OnClick", TRP3_UFPanel.Pf.createOnRadioClicked("BOTTOM"))
+TRP3_UFPanel.Pf.radioBottomRight:SetScript("OnClick", TRP3_UFPanel.Pf.createOnRadioClicked("BOTTOMRIGHT"))
 
 
 
-TRP3_TargetPanel.Tf = CreateFrame("Frame", nil, TRP3_TargetPanel)
-TRP3_TargetPanel.Tf:ClearAllPoints();
-TRP3_TargetPanel.Tf:SetPoint("TOPLEFT", TRP3_TargetPanel, "TOPLEFT", 170*3, -53*2);
-TRP3_TargetPanel.Tf:SetSize(64, 64)
+TRP3_UFPanel.Tf = CreateFrame("Frame", nil, TRP3_UFPanel)
+TRP3_UFPanel.Tf:ClearAllPoints();
+TRP3_UFPanel.Tf:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT", 170*3, -53*2);
+TRP3_UFPanel.Tf:SetSize(64, 64)
 
-TRP3_TargetPanel.Tf.tex = TRP3_TargetPanel.Tf:CreateTexture()
-TRP3_TargetPanel.Tf.tex:SetAllPoints(TRP3_TargetPanel.Tf)
-SetPortraitTexture(TRP3_TargetPanel.Tf.tex, "player")
+TRP3_UFPanel.Tf.tex = TRP3_UFPanel.Tf:CreateTexture()
+TRP3_UFPanel.Tf.tex:SetAllPoints(TRP3_UFPanel.Tf)
+SetPortraitTexture(TRP3_UFPanel.Tf.tex, "player")
 
-TRP3_TargetPanel.Tf.radioTopLeft = CreateFrame("CheckButton", nil, TRP3_TargetPanel.Tf, "UIRadioButtonTemplate")
-TRP3_TargetPanel.Tf.radioTop = CreateFrame("CheckButton", nil, TRP3_TargetPanel.Tf, "UIRadioButtonTemplate")
-TRP3_TargetPanel.Tf.radioTopRight = CreateFrame("CheckButton", nil, TRP3_TargetPanel.Tf, "UIRadioButtonTemplate")
-TRP3_TargetPanel.Tf.radioLeft = CreateFrame("CheckButton", nil, TRP3_TargetPanel.Tf, "UIRadioButtonTemplate")
-TRP3_TargetPanel.Tf.radioCenter = CreateFrame("CheckButton", nil, TRP3_TargetPanel.Tf, "UIRadioButtonTemplate")
-TRP3_TargetPanel.Tf.radioRight = CreateFrame("CheckButton", nil, TRP3_TargetPanel.Tf, "UIRadioButtonTemplate")
-TRP3_TargetPanel.Tf.radioBottomLeft = CreateFrame("CheckButton", nil, TRP3_TargetPanel.Tf, "UIRadioButtonTemplate")
-TRP3_TargetPanel.Tf.radioBottom = CreateFrame("CheckButton", nil, TRP3_TargetPanel.Tf, "UIRadioButtonTemplate")
-TRP3_TargetPanel.Tf.radioBottomRight = CreateFrame("CheckButton", nil, TRP3_TargetPanel.Tf, "UIRadioButtonTemplate")
+function TRP3_UFPanel.OnShow()
+	SetPortraitTexture(TRP3_UFPanel.Pf.tex, "player")
+	SetPortraitTexture(TRP3_UFPanel.Tf.tex, "player")
+end
 
-TRP3_TargetPanel.Tf.radioTopLeft:SetChecked(false)
-TRP3_TargetPanel.Tf.radioTop:SetChecked(false)
-TRP3_TargetPanel.Tf.radioTopRight:SetChecked(false)
-TRP3_TargetPanel.Tf.radioLeft:SetChecked(false)
-TRP3_TargetPanel.Tf.radioCenter:SetChecked(false)
-TRP3_TargetPanel.Tf.radioRight:SetChecked(false)
-TRP3_TargetPanel.Tf.radioBottomLeft:SetChecked(true)
-TRP3_TargetPanel.Tf.radioBottom:SetChecked(false)
-TRP3_TargetPanel.Tf.radioBottomRight:SetChecked(false)
+TRP3_UFPanel:SetScript("OnShow",TRP3_UFPanel.OnShow);
 
-TRP3_TargetPanel.Tf.radioTopLeft:SetPoint("CENTER", TRP3_TargetPanel.Tf, "TOPLEFT", 0, 0)
-TRP3_TargetPanel.Tf.radioTop:SetPoint("CENTER", TRP3_TargetPanel.Tf, "TOP", 0, 0)
-TRP3_TargetPanel.Tf.radioTopRight:SetPoint("CENTER", TRP3_TargetPanel.Tf, "TOPRIGHT", 0, 0)
-TRP3_TargetPanel.Tf.radioLeft:SetPoint("CENTER", TRP3_TargetPanel.Tf, "LEFT", 0, 0)
-TRP3_TargetPanel.Tf.radioCenter:SetPoint("CENTER", TRP3_TargetPanel.Tf, "CENTER", 0, 0)
-TRP3_TargetPanel.Tf.radioRight:SetPoint("CENTER", TRP3_TargetPanel.Tf, "RIGHT", 0, 0)
-TRP3_TargetPanel.Tf.radioBottomLeft:SetPoint("CENTER", TRP3_TargetPanel.Tf, "BOTTOMLEFT", 0, 0)
-TRP3_TargetPanel.Tf.radioBottom:SetPoint("CENTER", TRP3_TargetPanel.Tf, "BOTTOM", 0, 0)
-TRP3_TargetPanel.Tf.radioBottomRight:SetPoint("CENTER", TRP3_TargetPanel.Tf, "BOTTOMRIGHT", 0, 0)
+TRP3_UFPanel.Tf.radioTopLeft = CreateFrame("CheckButton", nil, TRP3_UFPanel.Tf, "UIRadioButtonTemplate")
+TRP3_UFPanel.Tf.radioTop = CreateFrame("CheckButton", nil, TRP3_UFPanel.Tf, "UIRadioButtonTemplate")
+TRP3_UFPanel.Tf.radioTopRight = CreateFrame("CheckButton", nil, TRP3_UFPanel.Tf, "UIRadioButtonTemplate")
+TRP3_UFPanel.Tf.radioLeft = CreateFrame("CheckButton", nil, TRP3_UFPanel.Tf, "UIRadioButtonTemplate")
+TRP3_UFPanel.Tf.radioCenter = CreateFrame("CheckButton", nil, TRP3_UFPanel.Tf, "UIRadioButtonTemplate")
+TRP3_UFPanel.Tf.radioRight = CreateFrame("CheckButton", nil, TRP3_UFPanel.Tf, "UIRadioButtonTemplate")
+TRP3_UFPanel.Tf.radioBottomLeft = CreateFrame("CheckButton", nil, TRP3_UFPanel.Tf, "UIRadioButtonTemplate")
+TRP3_UFPanel.Tf.radioBottom = CreateFrame("CheckButton", nil, TRP3_UFPanel.Tf, "UIRadioButtonTemplate")
+TRP3_UFPanel.Tf.radioBottomRight = CreateFrame("CheckButton", nil, TRP3_UFPanel.Tf, "UIRadioButtonTemplate")
 
-TRP3_TargetPanel.Tf.TitleText = TRP3_TargetPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
-TRP3_TargetPanel.Tf.TitleText:SetFont(TRP3_TargetPanel.Tf.TitleText:GetFont(), 12);
-TRP3_TargetPanel.Tf.TitleText:SetTextColor(1,1,1,1);
-TRP3_TargetPanel.Tf.TitleText:ClearAllPoints();
-TRP3_TargetPanel.Tf.TitleText:SetPoint("BOTTOM", TRP3_TargetPanel.Tf, "TOP",0,10);
-TRP3_TargetPanel.Tf.TitleText:SetText(TARGET);
+TRP3_UFPanel.Tf.radioTopLeft:SetChecked(false)
+TRP3_UFPanel.Tf.radioTop:SetChecked(false)
+TRP3_UFPanel.Tf.radioTopRight:SetChecked(false)
+TRP3_UFPanel.Tf.radioLeft:SetChecked(false)
+TRP3_UFPanel.Tf.radioCenter:SetChecked(false)
+TRP3_UFPanel.Tf.radioRight:SetChecked(false)
+TRP3_UFPanel.Tf.radioBottomLeft:SetChecked(true)
+TRP3_UFPanel.Tf.radioBottom:SetChecked(false)
+TRP3_UFPanel.Tf.radioBottomRight:SetChecked(false)
 
-TRP3_TargetPanel.Tf.allRadios = {
-	TRP3_TargetPanel.Tf.radioTopLeft,
-	TRP3_TargetPanel.Tf.radioTop,
-	TRP3_TargetPanel.Tf.radioTopRight,
-	TRP3_TargetPanel.Tf.radioLeft,
-	TRP3_TargetPanel.Tf.radioCenter,
-	TRP3_TargetPanel.Tf.radioRight,
-	TRP3_TargetPanel.Tf.radioBottomLeft,
-	TRP3_TargetPanel.Tf.radioBottom,
-	TRP3_TargetPanel.Tf.radioBottomRight
+TRP3_UFPanel.Tf.radioTopLeft:SetPoint("CENTER", TRP3_UFPanel.Tf, "TOPLEFT", 0, 0)
+TRP3_UFPanel.Tf.radioTop:SetPoint("CENTER", TRP3_UFPanel.Tf, "TOP", 0, 0)
+TRP3_UFPanel.Tf.radioTopRight:SetPoint("CENTER", TRP3_UFPanel.Tf, "TOPRIGHT", 0, 0)
+TRP3_UFPanel.Tf.radioLeft:SetPoint("CENTER", TRP3_UFPanel.Tf, "LEFT", 0, 0)
+TRP3_UFPanel.Tf.radioCenter:SetPoint("CENTER", TRP3_UFPanel.Tf, "CENTER", 0, 0)
+TRP3_UFPanel.Tf.radioRight:SetPoint("CENTER", TRP3_UFPanel.Tf, "RIGHT", 0, 0)
+TRP3_UFPanel.Tf.radioBottomLeft:SetPoint("CENTER", TRP3_UFPanel.Tf, "BOTTOMLEFT", 0, 0)
+TRP3_UFPanel.Tf.radioBottom:SetPoint("CENTER", TRP3_UFPanel.Tf, "BOTTOM", 0, 0)
+TRP3_UFPanel.Tf.radioBottomRight:SetPoint("CENTER", TRP3_UFPanel.Tf, "BOTTOMRIGHT", 0, 0)
+
+TRP3_UFPanel.Tf.TitleText = TRP3_UFPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+TRP3_UFPanel.Tf.TitleText:SetFont(TRP3_UFPanel.Tf.TitleText:GetFont(), 12);
+TRP3_UFPanel.Tf.TitleText:SetTextColor(1,1,1,1);
+TRP3_UFPanel.Tf.TitleText:ClearAllPoints();
+TRP3_UFPanel.Tf.TitleText:SetPoint("BOTTOM", TRP3_UFPanel.Tf, "TOP",0,10);
+TRP3_UFPanel.Tf.TitleText:SetText(TARGET);
+
+TRP3_UFPanel.Tf.allRadios = {
+	TRP3_UFPanel.Tf.radioTopLeft,
+	TRP3_UFPanel.Tf.radioTop,
+	TRP3_UFPanel.Tf.radioTopRight,
+	TRP3_UFPanel.Tf.radioLeft,
+	TRP3_UFPanel.Tf.radioCenter,
+	TRP3_UFPanel.Tf.radioRight,
+	TRP3_UFPanel.Tf.radioBottomLeft,
+	TRP3_UFPanel.Tf.radioBottom,
+	TRP3_UFPanel.Tf.radioBottomRight
 }
 
-function TRP3_TargetPanel.Tf.createOnRadioClicked (location)
+function TRP3_UFPanel.Tf.createOnRadioClicked (location)
 	local function onRadioClicked (self, a, b, c)
 		local checked = self:GetChecked()
 		PlaySound(PlaySoundKitID and "igMainMenuOptionCheckBoxOn" or SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
-		TRP3_TargetDB.Target.relativePoint = location
+		TRP3_UF_DB.Target.relativePoint = location
 
 		local anyChecked = false
-		for _, radio in ipairs(TRP3_TargetPanel.Tf.allRadios) do
+		for _, radio in ipairs(TRP3_UFPanel.Tf.allRadios) do
 			if radio ~= self then
 				anyChecked = radio:GetChecked() or anyChecked
 				radio:SetChecked(false)
@@ -267,123 +355,302 @@ function TRP3_TargetPanel.Tf.createOnRadioClicked (location)
 	return onRadioClicked
 end
 
-TRP3_TargetPanel.Tf.radioTopLeft:SetScript("OnClick", TRP3_TargetPanel.Tf.createOnRadioClicked("TOPLEFT"))
-TRP3_TargetPanel.Tf.radioTop:SetScript("OnClick", TRP3_TargetPanel.Tf.createOnRadioClicked("TOP"))
-TRP3_TargetPanel.Tf.radioTopRight:SetScript("OnClick", TRP3_TargetPanel.Tf.createOnRadioClicked("TOPRIGHT"))
-TRP3_TargetPanel.Tf.radioLeft:SetScript("OnClick", TRP3_TargetPanel.Tf.createOnRadioClicked("LEFT"))
-TRP3_TargetPanel.Tf.radioCenter:SetScript("OnClick", TRP3_TargetPanel.Tf.createOnRadioClicked("CENTER"))
-TRP3_TargetPanel.Tf.radioRight:SetScript("OnClick", TRP3_TargetPanel.Tf.createOnRadioClicked("RIGHT"))
-TRP3_TargetPanel.Tf.radioBottomLeft:SetScript("OnClick", TRP3_TargetPanel.Tf.createOnRadioClicked("BOTTOMLEFT"))
-TRP3_TargetPanel.Tf.radioBottom:SetScript("OnClick", TRP3_TargetPanel.Tf.createOnRadioClicked("BOTTOM"))
-TRP3_TargetPanel.Tf.radioBottomRight:SetScript("OnClick", TRP3_TargetPanel.Tf.createOnRadioClicked("BOTTOMRIGHT"))
+TRP3_UFPanel.Tf.radioTopLeft:SetScript("OnClick", TRP3_UFPanel.Tf.createOnRadioClicked("TOPLEFT"))
+TRP3_UFPanel.Tf.radioTop:SetScript("OnClick", TRP3_UFPanel.Tf.createOnRadioClicked("TOP"))
+TRP3_UFPanel.Tf.radioTopRight:SetScript("OnClick", TRP3_UFPanel.Tf.createOnRadioClicked("TOPRIGHT"))
+TRP3_UFPanel.Tf.radioLeft:SetScript("OnClick", TRP3_UFPanel.Tf.createOnRadioClicked("LEFT"))
+TRP3_UFPanel.Tf.radioCenter:SetScript("OnClick", TRP3_UFPanel.Tf.createOnRadioClicked("CENTER"))
+TRP3_UFPanel.Tf.radioRight:SetScript("OnClick", TRP3_UFPanel.Tf.createOnRadioClicked("RIGHT"))
+TRP3_UFPanel.Tf.radioBottomLeft:SetScript("OnClick", TRP3_UFPanel.Tf.createOnRadioClicked("BOTTOMLEFT"))
+TRP3_UFPanel.Tf.radioBottom:SetScript("OnClick", TRP3_UFPanel.Tf.createOnRadioClicked("BOTTOM"))
+TRP3_UFPanel.Tf.radioBottomRight:SetScript("OnClick", TRP3_UFPanel.Tf.createOnRadioClicked("BOTTOMRIGHT"))
 
 ------------------------------------------------------------------------------------------------------------------
 
 --UI-HUD-UnitFrame-Target-PortraitOn-Type
-TRP3_TargetPanel.PColor = CreateFrame("Button", nil, TRP3_TargetPanel)
-TRP3_TargetPanel.PColor:SetPoint("TOPLEFT", TRP3_TargetPanel, "TOPLEFT", 100, -53*2)
-TRP3_TargetPanel.PColor:SetWidth(135)
-TRP3_TargetPanel.PColor:SetHeight(18)
-TRP3_TargetPanel.PColor.tex = TRP3_TargetPanel.PColor:CreateTexture(nil, "ARTWORK", nil, 1)
-TRP3_TargetPanel.PColor.tex:SetAllPoints(TRP3_TargetPanel.PColor)
-TRP3_TargetPanel.PColor.tex:SetAtlas("UI-HUD-UnitFrame-Target-PortraitOn-Type")
-TRP3_TargetPanel.PColor.tex:SetTexCoord(1, 0, 0, 1)
+TRP3_UFPanel.PColor = CreateFrame("Button", nil, TRP3_UFPanel)
+TRP3_UFPanel.PColor:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT", 100, -53*2)
+TRP3_UFPanel.PColor:SetWidth(135)
+TRP3_UFPanel.PColor:SetHeight(18)
+TRP3_UFPanel.PColor.tex = TRP3_UFPanel.PColor:CreateTexture(nil, "ARTWORK", nil, 1)
+TRP3_UFPanel.PColor.tex:SetAllPoints(TRP3_UFPanel.PColor)
+TRP3_UFPanel.PColor.tex:SetAtlas("UI-HUD-UnitFrame-Target-PortraitOn-Type")
+TRP3_UFPanel.PColor.tex:SetTexCoord(1, 0, 0, 1)
 
-TRP3_TargetPanel.PColor.Name = TRP3_TargetPanel.PColor:CreateFontString(nil, "OVERLAY", "GameFontNormal");
-TRP3_TargetPanel.PColor.Name:SetFont(TRP3_TargetPanel.PColor.Name:GetFont(), 12);
-TRP3_TargetPanel.PColor.Name:SetTextColor(1,1,1,1);
-TRP3_TargetPanel.PColor.Name:ClearAllPoints();
-TRP3_TargetPanel.PColor.Name:SetPoint("TOP", TRP3_TargetPanel.PColor, "TOP",0,0);
-TRP3_TargetPanel.PColor.Name:SetText(PLAYER);
-
-TRP3_TargetPanel.PColor:SetScript("OnMouseDown", function()
-	TRP3_TargetPanel.PColor.tex:SetTexCoord(.99, .01, .1, .99)
-end)
-TRP3_TargetPanel.PColor:SetScript("OnMouseUp", function()
-	print("debug you clicked me!")
-	TRP3_TargetPanel.PColor.tex:SetTexCoord(1, 0, 0, 1)
-end)
+TRP3_UFPanel.PColor.Name = TRP3_UFPanel.PColor:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+TRP3_UFPanel.PColor.Name:SetFont(TRP3_UFPanel.PColor.Name:GetFont(), 12);
+TRP3_UFPanel.PColor.Name:SetTextColor(1,1,1,1);
+TRP3_UFPanel.PColor.Name:ClearAllPoints();
+TRP3_UFPanel.PColor.Name:SetPoint("TOP", TRP3_UFPanel.PColor, "TOP",0,0);
+TRP3_UFPanel.PColor.Name:SetText(PLAYER);
 
 
+TRP3_UFPanel.TColor = CreateFrame("Button", nil, TRP3_UFPanel)
+TRP3_UFPanel.TColor:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT", 170*2, -53*2)
+TRP3_UFPanel.TColor:SetWidth(135)
+TRP3_UFPanel.TColor:SetHeight(18)
+TRP3_UFPanel.TColor.tex = TRP3_UFPanel.TColor:CreateTexture(nil, "ARTWORK", nil, 1)
+TRP3_UFPanel.TColor.tex:SetAllPoints(TRP3_UFPanel.TColor)
+TRP3_UFPanel.TColor.tex:SetAtlas("UI-HUD-UnitFrame-Target-PortraitOn-Type")
 
-TRP3_TargetPanel.TColor = CreateFrame("Button", nil, TRP3_TargetPanel)
-TRP3_TargetPanel.TColor:SetPoint("TOPLEFT", TRP3_TargetPanel, "TOPLEFT", 170*2, -53*2)
-TRP3_TargetPanel.TColor:SetWidth(135)
-TRP3_TargetPanel.TColor:SetHeight(18)
-TRP3_TargetPanel.TColor.tex = TRP3_TargetPanel.TColor:CreateTexture(nil, "ARTWORK", nil, 1)
-TRP3_TargetPanel.TColor.tex:SetAllPoints(TRP3_TargetPanel.TColor)
-TRP3_TargetPanel.TColor.tex:SetAtlas("UI-HUD-UnitFrame-Target-PortraitOn-Type")
+TRP3_UFPanel.TColor.Name = TRP3_UFPanel.TColor:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+TRP3_UFPanel.TColor.Name:SetFont(TRP3_UFPanel.TColor.Name:GetFont(), 12);
+TRP3_UFPanel.TColor.Name:SetTextColor(1,1,1,1);
+TRP3_UFPanel.TColor.Name:ClearAllPoints();
+TRP3_UFPanel.TColor.Name:SetPoint("TOP", TRP3_UFPanel.TColor, "TOP",0,0);
+TRP3_UFPanel.TColor.Name:SetText(TARGET);
 
-TRP3_TargetPanel.TColor.Name = TRP3_TargetPanel.TColor:CreateFontString(nil, "OVERLAY", "GameFontNormal");
-TRP3_TargetPanel.TColor.Name:SetFont(TRP3_TargetPanel.TColor.Name:GetFont(), 12);
-TRP3_TargetPanel.TColor.Name:SetTextColor(1,1,1,1);
-TRP3_TargetPanel.TColor.Name:ClearAllPoints();
-TRP3_TargetPanel.TColor.Name:SetPoint("TOP", TRP3_TargetPanel.TColor, "TOP",0,0);
-TRP3_TargetPanel.TColor.Name:SetText(TARGET);
-
-
-TRP3_TargetPanel.TColor:SetScript("OnMouseDown", function()
-	TRP3_TargetPanel.TColor.tex:SetTexCoord(.01, .99, .1, .99)
-end)
-TRP3_TargetPanel.TColor:SetScript("OnMouseUp", function()
-	print("debug you clicked me!")
-	TRP3_TargetPanel.TColor.tex:SetTexCoord(0, 1, 0, 1)
-end)
 
 --PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:SetVertexColor(0,1,1) -- the glowy highlight texture when rested
 --PlayerFrame.PlayerFrameContainer.FrameTexture:SetVertexColor(0,1,1) -- player border colors
---TRP3_TargetPanel.TColor.tex:SetTexCoord(-.08, 1.08, -.08, 1.08)
---TRP3_TargetPanel.TColor:SetNormalAtlas("chatframe-button-up")
---TRP3_TargetPanel.TColor:SetPushedAtlas("chatframe-button-down")
---TRP3_TargetPanel.TColor:SetHighlightAtlas("chatframe-button-highlight")
+--TRP3_UFPanel.TColor.tex:SetTexCoord(-.08, 1.08, -.08, 1.08)
+--TRP3_UFPanel.TColor:SetNormalAtlas("chatframe-button-up")
+--TRP3_UFPanel.TColor:SetPushedAtlas("chatframe-button-down")
+--TRP3_UFPanel.TColor:SetHighlightAtlas("chatframe-button-highlight")
 
 
 ------------------------------------------------------------------------------------------------------------------
 
-local PlayerRepFrame = CreateFrame("Frame", nil, PlayerFrame)
-PlayerRepFrame:SetPoint("TOPRIGHT", PlayerFrame, "TOPRIGHT", -22, -26)
-PlayerRepFrame:SetWidth(135)
-PlayerRepFrame:SetHeight(18)
-PlayerRepFrame.tex = PlayerRepFrame:CreateTexture(nil, "BACKGROUND", nil, 0)
-PlayerRepFrame.tex:SetAllPoints(PlayerRepFrame)
-PlayerRepFrame.tex:SetAtlas("UI-HUD-UnitFrame-Target-PortraitOn-Type")
-PlayerRepFrame.tex:SetTexCoord(1, 0, 0, 1)
-PlayerRepFrame.tex:SetVertexColor(0,1,1)
+TRP3_UFPanel.VisibilityText = TRP3_UFPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+TRP3_UFPanel.VisibilityText:SetFont(TRP3_UFPanel.VisibilityText:GetFont(), 15);
+TRP3_UFPanel.VisibilityText:SetTextColor(1,1,1,1);
+TRP3_UFPanel.VisibilityText:ClearAllPoints();
+TRP3_UFPanel.VisibilityText:SetPoint("TOPLEFT", 5, -53*3.7);
+TRP3_UFPanel.VisibilityText:SetText("Visibility");
 
 
-local PlayerDragonFrame = CreateFrame("Frame", nil, PlayerFrame)
-PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
-PlayerDragonFrame:SetSize(99, 81);
-PlayerDragonFrame.tex = PlayerDragonFrame:CreateTexture(nil, "ARTWORK", nil, 0)
-PlayerDragonFrame.tex:SetAllPoints(PlayerDragonFrame)
-PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_Target\\tex\\uiunitframeboss2x")
-PlayerDragonFrame.tex:SetTexCoord(1, 0, 0, 1)
-PlayerDragonFrame.tex:SetVertexColor(1,1,1)
+TRP3_UFPanel.PShowCheckbox = CreateFrame("CheckButton", "TRP3_UFPShowCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
+TRP3_UFPanel.PShowCheckbox:ClearAllPoints();
+TRP3_UFPanel.PShowCheckbox:SetPoint("TOPLEFT", 5, -53*4);
+getglobal(TRP3_UFPanel.PShowCheckbox:GetName().."Text"):SetText("Show Player Button");
 
-PlayerDragonFrame.texlist = {
-"rare",
-"rare-elite",
-"elite",
-"boss",
-};
+TRP3_UFPanel.PShowCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.PShowCheckbox:GetChecked() then
+		TRP3_UF_DB.Player.show = true;
+		trpPlayer.SetVisible()
+	else
+		TRP3_UF_DB.Player.show = false;
+		trpPlayer.SetVisible()
+	end
+end);
 
+
+TRP3_UFPanel.TShowCheckbox = CreateFrame("CheckButton", "TRP3_UFTShowCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
+TRP3_UFPanel.TShowCheckbox:ClearAllPoints();
+TRP3_UFPanel.TShowCheckbox:SetPoint("TOPLEFT", 5, -53*4.5);
+getglobal(TRP3_UFPanel.TShowCheckbox:GetName().."Text"):SetText("Show Target Button");
+
+TRP3_UFPanel.TShowCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.TShowCheckbox:GetChecked() then
+		TRP3_UF_DB.Target.show = true;
+		trpPlayer.SetVisible()
+	else
+		TRP3_UF_DB.Target.show = false;
+		trpPlayer.SetVisible()
+	end
+end);
+
+
+TRP3_UFPanel.PortShowCheckbox = CreateFrame("CheckButton", "TRP3_UFPortShowCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
+TRP3_UFPanel.PortShowCheckbox:ClearAllPoints();
+TRP3_UFPanel.PortShowCheckbox:SetPoint("TOPLEFT", 5, -53*5);
+getglobal(TRP3_UFPanel.PortShowCheckbox:GetName().."Text"):SetText("Show Border Frame");
+
+TRP3_UFPanel.PortShowCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.PortShowCheckbox:GetChecked() then
+		TRP3_UF_DB.Border.show = true;
+		TRP3_UFPanel.PortraitButton:SetEnabled(TRP3_UF_DB.Border.show);
+		PlayerDragonFrame:Show();
+	else
+		TRP3_UF_DB.Border.show = false;
+		TRP3_UFPanel.PortraitButton:SetEnabled(TRP3_UF_DB.Border.show);
+		PlayerDragonFrame:Hide();
+	end
+end);
+
+
+TRP3_UFPanel.StatusHideCheckbox = CreateFrame("CheckButton", "TRP3_UFStatusHideCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
+TRP3_UFPanel.StatusHideCheckbox:ClearAllPoints();
+TRP3_UFPanel.StatusHideCheckbox:SetPoint("TOPLEFT", 5, -53*5.5);
+getglobal(TRP3_UFPanel.StatusHideCheckbox:GetName().."Text"):SetText("Hide Rested Glow - incomplete");
+
+TRP3_UFPanel.StatusHideCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.StatusHideCheckbox:GetChecked() then
+		TRP3_UF_DB.Border.status = true;
+		PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:Hide()
+	else
+		TRP3_UF_DB.Border.status = false;
+		PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:Show()
+	end
+end);
+
+------------------------------------------------------------------------------------------------------------------
+
+TRP3_UFPanel.ColorsText = TRP3_UFPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+TRP3_UFPanel.ColorsText:SetFont(TRP3_UFPanel.ColorsText:GetFont(), 15);
+TRP3_UFPanel.ColorsText:SetTextColor(1,1,1,1);
+TRP3_UFPanel.ColorsText:ClearAllPoints();
+TRP3_UFPanel.ColorsText:SetPoint("TOPLEFT", 300, -53*3.7);
+TRP3_UFPanel.ColorsText:SetText("Colors");
+
+TRP3_UFPanel.ColorsTarText = TRP3_UFPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+TRP3_UFPanel.ColorsTarText:SetFont(TRP3_UFPanel.ColorsTarText:GetFont(), 12);
+TRP3_UFPanel.ColorsTarText:SetTextColor(1,1,1,1);
+TRP3_UFPanel.ColorsTarText:ClearAllPoints();
+TRP3_UFPanel.ColorsTarText:SetPoint("TOPLEFT", 300, -53*4.2);
+TRP3_UFPanel.ColorsTarText:SetText("Target Frame");
+
+TRP3_UFPanel.ColorsPlayerText = TRP3_UFPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+TRP3_UFPanel.ColorsPlayerText:SetFont(TRP3_UFPanel.ColorsPlayerText:GetFont(), 12);
+TRP3_UFPanel.ColorsPlayerText:SetTextColor(1,1,1,1);
+TRP3_UFPanel.ColorsPlayerText:ClearAllPoints();
+TRP3_UFPanel.ColorsPlayerText:SetPoint("TOPLEFT", 300, -53*6.7);
+TRP3_UFPanel.ColorsPlayerText:SetText("Player Frame");
+
+
+TRP3_UFPanel.TargetTextColorCheckbox = CreateFrame("CheckButton", "TRP3_UFTargetTextColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
+TRP3_UFPanel.TargetTextColorCheckbox:ClearAllPoints();
+TRP3_UFPanel.TargetTextColorCheckbox:SetPoint("TOPLEFT", 300, -53*4.5);
+getglobal(TRP3_UFPanel.TargetTextColorCheckbox:GetName().."Text"):SetText("Overwrite Text Color");
+
+TRP3_UFPanel.TargetTextColorCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.TargetTextColorCheckbox:GetChecked() then
+		TRP3_UF_DB.Target.show = true;
+	else
+		TRP3_UF_DB.Target.show = false;
+	end
+end);
+
+
+TRP3_UFPanel.TargetBackColorCheckbox = CreateFrame("CheckButton", "TRP3_UFTargetBackColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
+TRP3_UFPanel.TargetBackColorCheckbox:ClearAllPoints();
+TRP3_UFPanel.TargetBackColorCheckbox:SetPoint("TOPLEFT", 300, -53*5);
+getglobal(TRP3_UFPanel.TargetBackColorCheckbox:GetName().."Text"):SetText("Overwrite Backdrop Color");
+
+TRP3_UFPanel.TargetBackColorCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.TargetBackColorCheckbox:GetChecked() then
+		TRP3_UF_DB.Target.show = true;
+	else
+		TRP3_UF_DB.Target.show = false;
+	end
+end);
+
+
+TRP3_UFPanel.TargetClassTextColorCheckbox = CreateFrame("CheckButton", "TRP3_UFTargetClassTextColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
+TRP3_UFPanel.TargetClassTextColorCheckbox:ClearAllPoints();
+TRP3_UFPanel.TargetClassTextColorCheckbox:SetPoint("TOPLEFT", 300, -53*5.5);
+getglobal(TRP3_UFPanel.TargetClassTextColorCheckbox:GetName().."Text"):SetText("Use Blizzard Class Color - Text");
+
+TRP3_UFPanel.TargetClassTextColorCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.TargetClassTextColorCheckbox:GetChecked() then
+		TRP3_UF_DB.Target.show = true;
+	else
+		TRP3_UF_DB.Target.show = false;
+	end
+end);
+
+
+TRP3_UFPanel.TargetClassBackColorCheckbox = CreateFrame("CheckButton", "TRP3_UFTargetClassBackColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
+TRP3_UFPanel.TargetClassBackColorCheckbox:ClearAllPoints();
+TRP3_UFPanel.TargetClassBackColorCheckbox:SetPoint("TOPLEFT", 300, -53*6);
+getglobal(TRP3_UFPanel.TargetClassBackColorCheckbox:GetName().."Text"):SetText("Use Blizzard Class Color - Backdrop");
+
+TRP3_UFPanel.TargetClassBackColorCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.TargetClassBackColorCheckbox:GetChecked() then
+		TRP3_UF_DB.Target.show = true;
+	else
+		TRP3_UF_DB.Target.show = false;
+	end
+end);
+
+
+--player
+TRP3_UFPanel.PlayerTextColorCheckbox = CreateFrame("CheckButton", "TRP3_UFPlayerTextColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
+TRP3_UFPanel.PlayerTextColorCheckbox:ClearAllPoints();
+TRP3_UFPanel.PlayerTextColorCheckbox:SetPoint("TOPLEFT", 300, -53*7);
+getglobal(TRP3_UFPanel.PlayerTextColorCheckbox:GetName().."Text"):SetText("Overwrite Text Color");
+
+TRP3_UFPanel.PlayerTextColorCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.PlayerTextColorCheckbox:GetChecked() then
+		TRP3_UF_DB.Target.show = true;
+	else
+		TRP3_UF_DB.Target.show = false;
+	end
+end);
+
+
+TRP3_UFPanel.PlayerBackColorCheckbox = CreateFrame("CheckButton", "TRP3_UFPlayerBackColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
+TRP3_UFPanel.PlayerBackColorCheckbox:ClearAllPoints();
+TRP3_UFPanel.PlayerBackColorCheckbox:SetPoint("TOPLEFT", 300, -53*7.5);
+getglobal(TRP3_UFPanel.PlayerBackColorCheckbox:GetName().."Text"):SetText("Overwrite Backdrop Color");
+
+TRP3_UFPanel.PlayerBackColorCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.PlayerBackColorCheckbox:GetChecked() then
+		TRP3_UF_DB.Target.show = true;
+	else
+		TRP3_UF_DB.Target.show = false;
+	end
+end);
+
+
+TRP3_UFPanel.PlayerClassTextColorCheckbox = CreateFrame("CheckButton", "TRP3_UFPlayerClassTextColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
+TRP3_UFPanel.PlayerClassTextColorCheckbox:ClearAllPoints();
+TRP3_UFPanel.PlayerClassTextColorCheckbox:SetPoint("TOPLEFT", 300, -53*8);
+getglobal(TRP3_UFPanel.PlayerClassTextColorCheckbox:GetName().."Text"):SetText("Use Blizzard Class Color - Text");
+
+TRP3_UFPanel.PlayerClassTextColorCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.PlayerClassTextColorCheckbox:GetChecked() then
+		TRP3_UF_DB.Target.show = true;
+	else
+		TRP3_UF_DB.Target.show = false;
+	end
+end);
+
+
+TRP3_UFPanel.PlayerClassBackColorCheckbox = CreateFrame("CheckButton", "TRP3_UFPlayerClassBackColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
+TRP3_UFPanel.PlayerClassBackColorCheckbox:ClearAllPoints();
+TRP3_UFPanel.PlayerClassBackColorCheckbox:SetPoint("TOPLEFT", 300, -53*8.5);
+getglobal(TRP3_UFPanel.PlayerClassBackColorCheckbox:GetName().."Text"):SetText("Use Blizzard Class Color - Backdrop");
+
+TRP3_UFPanel.PlayerClassBackColorCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.PlayerClassBackColorCheckbox:GetChecked() then
+		TRP3_UF_DB.Target.show = true;
+	else
+		TRP3_UF_DB.Target.show = false;
+	end
+end);
+
+
+
+------------------------------------------------------------------------------------------------------------------
+
+
+--setting up our "atlas member" list
 function PlayerDragonFrame.TextureStuff()
-	if TRP3_TargetDB.Border.style == "rare" then
+	if TRP3_UF_DB.Border.show ~= true then
+		PlayerDragonFrame:Hide()
+		return
+	end
+	if TRP3_UF_DB.Border.style == "rare" then
+		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\uiunitframeboss2x")
 		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", 8, -10)
 		PlayerDragonFrame:SetSize(80, 79);
 		PlayerDragonFrame.tex:SetTexCoord(0.314453125, 0.001953125, 0.322265625, 0.630859375) -- rare
 	end
-	if TRP3_TargetDB.Border.style == "rare-elite" then
+	if TRP3_UF_DB.Border.style == "rare-elite" then
+		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\uiunitframeboss2x")
 		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
 		PlayerDragonFrame:SetSize(99, 81);
 		PlayerDragonFrame.tex:SetTexCoord(0.77734375, 0.390625, 0.001953125, 0.318359375) -- rare-elite
 	end
-	if TRP3_TargetDB.Border.style == "elite" then
+	if TRP3_UF_DB.Border.style == "elite" then
+		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\uiunitframeboss2x")
 		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", 8, -10)
 		PlayerDragonFrame:SetSize(80, 79);
 		PlayerDragonFrame.tex:SetTexCoord(0.3125, 0.001953125, 0.634765625, 0.947265625) -- elite
 	end
-	if TRP3_TargetDB.Border.style == "boss" then
+	if TRP3_UF_DB.Border.style == "boss" then
+		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\uiunitframeboss2x")
 		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
 		PlayerDragonFrame:SetSize(99, 81);
 		PlayerDragonFrame.tex:SetTexCoord(0.388671875, 0.001953125, 0.001953125, 0.318359375) -- boss
@@ -410,10 +677,64 @@ PlayerDragonFrame.tex:SetTexCoord(0.77734375, 0.390625, 0.001953125, 0.318359375
 
 --UI-HUD-UnitFrame-Target-PortraitOn-Type -- texture
 
-InterfaceOptions_AddCategory(TRP3_TargetPanel);
+
+------------------------------------------------------------------------------------------------------------------
+
+
+
+TRP3_UFPanel.menu = {
+	{ text = "Select an Option", isTitle = true},
+	{ text = "Dragons", hasArrow = true,
+		menuList = {
+			{ text = ITEM_QUALITY3_DESC, func = function() TRP3_UF_DB.Border.style = "rare"; PlayerDragonFrame.TextureStuff(); end },
+			{ text = ELITE, func = function() TRP3_UF_DB.Border.style = "elite"; PlayerDragonFrame.TextureStuff(); end },
+			{ text = ITEM_QUALITY3_DESC .. " " .. ELITE, func = function() TRP3_UF_DB.Border.style = "rare-elite"; PlayerDragonFrame.TextureStuff(); end },
+			{ text = BOSS, func = function() TRP3_UF_DB.Border.style = "boss"; PlayerDragonFrame.TextureStuff(); end },
+		},
+	},
+	{ text = "Hearthstone", hasArrow = true,
+		menuList = {
+			{ text = "Coming Soon!", isTitle = true},
+			--{ text = "Option 3", func = function() print("You've chosen option 3"); end },
+		},
+	},
+	{ text = "Narcissus", hasArrow = true,
+		menuList = {
+			{ text = "Coming Soon!", isTitle = true},
+			--{ text = "Option 3", func = function() print("You've chosen option 3"); end },
+		},
+	},
+	{ text = "PH Option 4", func = function() print("You've chosen option 4"); end },
+	{ text = "PH Option 5", func = function() print("You've chosen option 5"); end },
+};
+TRP3_UFPanel.menuFrame = CreateFrame("Frame", "TRP3PlayerPortraitMenuFrame", TRP3_UFPanel, "UIDropDownMenuTemplate")
+
+TRP3_UFPanel.PortraitButton = CreateFrame("Button", nil, TRP3_UFPanel, "GameMenuButtonTemplate")
+TRP3_UFPanel.PortraitButton:SetPoint("TOPLEFT", 150, -53*5);
+--TRP3_UFPanel.PortraitButton:SetSize(99, 81);
+TRP3_UFPanel.PortraitButton:SetText("Player Portrait")
+TRP3_UFPanel.PortraitButton:SetScript("OnClick", function() EasyMenu(TRP3_UFPanel.menu, TRP3_UFPanel.menuFrame, "cursor", 0 , 0, "MENU", 10) end)
+
+------------------------------------------------------------------------------------------------------------------
+
+local PlayerRepFrame = CreateFrame("Frame", nil, PlayerFrame)
+PlayerRepFrame:SetPoint("TOPRIGHT", PlayerFrame, "TOPRIGHT", -22, -26)
+PlayerRepFrame:SetWidth(135)
+PlayerRepFrame:SetHeight(18)
+PlayerRepFrame.tex = PlayerRepFrame:CreateTexture("PlayerFrameReputationColor", "BACKGROUND", nil, 0)
+PlayerRepFrame.tex:SetAllPoints(PlayerRepFrame)
+PlayerRepFrame.tex:SetAtlas("UI-HUD-UnitFrame-Target-PortraitOn-Type")
+PlayerRepFrame.tex:SetTexCoord(1, 0, 0, 1)
+PlayerRepFrame.tex:SetVertexColor(0,1,1)
+
+
+
+
+InterfaceOptions_AddCategory(TRP3_UFPanel);
 
 ------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------
+
 trpTarget.portraitClick = CreateFrame("Button")
 trpTarget.portraitClick:SetParent(TargetFrame)
 trpTarget.portraitClick:SetAllPoints(TargetFrame.TargetFrameContainer.Portrait)
@@ -438,12 +759,8 @@ trpTarget.portraitClick:SetScript("OnMouseUp", function()
 end)
 
 
-
-
-
-
 function trpTarget.SetAsPortrait()
-	if TRP3_TargetDB.Target.relativePoint == "CENTER" and UnitIsPlayer("target") == true and AddOn_TotalRP3.Player.CreateFromUnit("target"):GetProfileID() ~= nil then
+	if TRP3_UF_DB.Target.relativePoint == "CENTER" and UnitIsPlayer("target") == true and AddOn_TotalRP3.Player.CreateFromUnit("target"):GetProfileID() ~= nil then
 		trpTarget.button:Hide()
 		--trpTarget.button:SetAllPoints(TargetFrame.TargetFrameContainer.Portrait)
 		--trpTarget.button.ring:Hide()
@@ -454,6 +771,7 @@ function trpTarget.SetAsPortrait()
 		end
 		SetPortraitToTexture(TargetFrame.TargetFrameContainer.Portrait, "Interface/icons/" .. icon)
 		trpTarget.portraitClick:Show()
+		trpPlayer.SetVisible()
 	else
 		SetPortraitTexture(TargetFrame.TargetFrameContainer.Portrait, "target")
 		trpTarget.portraitClick:Hide()
@@ -465,50 +783,175 @@ end
 function trpTarget.SetPos()
 	local xPos = 0
 	local yPos = 0
-	if TRP3_TargetDB.Target.relativePoint == "CENTER" then
+	if TRP3_UF_DB.Target.relativePoint == "CENTER" then
 		trpTarget.SetAsPortrait()
 		return
 	end
-	trpTarget.button:Show()
-	if TRP3_TargetDB.Target.relativePoint == "TOPLEFT" then
+	trpPlayer.SetVisible()
+	if TRP3_UF_DB.Target.relativePoint == "TOPLEFT" then
 		yPos = -5
 		xPos = 5
 	end
-	if TRP3_TargetDB.Target.relativePoint == "LEFT" then
+	if TRP3_UF_DB.Target.relativePoint == "LEFT" then
 		yPos = 0
 		xPos = 0
 	end
-	if TRP3_TargetDB.Target.relativePoint == "BOTTOMLEFT" then
+	if TRP3_UF_DB.Target.relativePoint == "BOTTOMLEFT" then
 		yPos = 5
 		xPos = 5
 	end
-	if TRP3_TargetDB.Target.relativePoint == "TOP" then
+	if TRP3_UF_DB.Target.relativePoint == "TOP" then
 		yPos = 0
 		xPos = 0
 	end
-	if TRP3_TargetDB.Target.relativePoint == "BOTTOM" then
+	if TRP3_UF_DB.Target.relativePoint == "BOTTOM" then
 		yPos = 0
 		xPos = 0
 	end
-	if TRP3_TargetDB.Target.relativePoint == "TOPRIGHT" then
+	if TRP3_UF_DB.Target.relativePoint == "TOPRIGHT" then
 		yPos = -5
 		xPos = -5
 	end
-	if TRP3_TargetDB.Target.relativePoint == "RIGHT" then
+	if TRP3_UF_DB.Target.relativePoint == "RIGHT" then
 		yPos = 0
 		xPos = 0
 	end
-	if TRP3_TargetDB.Target.relativePoint == "BOTTOMRIGHT" then
+	if TRP3_UF_DB.Target.relativePoint == "BOTTOMRIGHT" then
 		yPos = 5
 		xPos = -5
 	end
+	trpTarget.SetAsPortrait()
 	trpTarget.button:ClearAllPoints()
-	trpTarget.button:SetPoint("CENTER", TargetFrame.TargetFrameContainer.Portrait, TRP3_TargetDB.Target.relativePoint, xPos, yPos)
+	trpTarget.button:SetPoint("CENTER", TargetFrame.TargetFrameContainer.Portrait, TRP3_UF_DB.Target.relativePoint, xPos, yPos)
 end
+
+------------------------------------------------------------------------------------------------------------------
+
+trpPlayer.portraitClick = CreateFrame("Button")
+trpPlayer.portraitClick:SetParent(PlayerFrame)
+trpPlayer.portraitClick:SetAllPoints(PlayerFrame.PlayerFrameContainer.PlayerPortrait)
+trpPlayer.portraitClick:SetFrameLevel(trpPlayer.portraitClick:GetParent():GetFrameLevel()+5)
+trpPlayer.portraitClick:Hide()
+trpPlayer.portraitClick:SetScript("OnEnter", function()
+	GameTooltip_SetDefaultAnchor(GameTooltip, trpPlayer)
+	GameTooltip:ClearAllPoints()
+	GameTooltip:AddLine(TRP3_API.loc.TF_OPEN_CHARACTER, 1, 1, 1, 1);
+	GameTooltip:SetPoint("BOTTOMLEFT", trpPlayer.portraitClick, "TOPRIGHT", 0, 0);
+	GameTooltip:Show()
+end)
+trpPlayer.portraitClick:SetScript("OnLeave", function()
+	GameTooltip:Hide()
+end)
+trpPlayer.portraitClick:SetScript("OnMouseDown", function()
+	PlayerFrame.PlayerFrameContainer.PlayerPortrait:SetTexCoord(-0.02, 1.02, -0.02, 1.02)
+end)
+trpPlayer.portraitClick:SetScript("OnMouseUp", function()
+	TRP3_API.slash.openProfile("player")
+	PlayerFrame.PlayerFrameContainer.PlayerPortrait:SetTexCoord(0, 1, 0, 1)
+end)
+
+
+function trpPlayer.SetAsPortrait()
+	if TRP3_UF_DB.Player.relativePoint == "CENTER" then
+		trpPlayer.button:Hide()
+		--trpPlayer.button:SetAllPoints(TargetFrame.TargetFrameContainer.Portrait)
+		--trpPlayer.button.ring:Hide()
+		local player = AddOn_TotalRP3.Player.CreateFromUnit("player")
+		local icon = player:GetCustomIcon()
+		if icon == nil then
+			icon = "inv_inscription_scroll"
+		end
+		SetPortraitToTexture(PlayerFrame.PlayerFrameContainer.PlayerPortrait, "Interface/icons/" .. icon)
+		trpPlayer.portraitClick:Show()
+		trpPlayer.SetVisible()
+	else
+		SetPortraitTexture(PlayerFrame.PlayerFrameContainer.PlayerPortrait, "player")
+		trpPlayer.portraitClick:Hide()
+		return
+	end
+	trpPlayer.SetVisible()
+end
+--SetPortraitToTexture(TargetFrame.TargetFrameContainer.Portrait, "Interface/icons/inv_inscription_scroll")
+
+function trpPlayer.SetPos()
+	local xPos = 0
+	local yPos = 0
+	if TRP3_UF_DB.Player.relativePoint == "CENTER" then
+		trpPlayer.SetAsPortrait()
+		return
+	end
+	trpPlayer.SetVisible()
+	if TRP3_UF_DB.Player.relativePoint == "TOPLEFT" then
+		yPos = -5
+		xPos = 5
+	end
+	if TRP3_UF_DB.Player.relativePoint == "LEFT" then
+		yPos = 0
+		xPos = 0
+	end
+	if TRP3_UF_DB.Player.relativePoint == "BOTTOMLEFT" then
+		yPos = 5
+		xPos = 5
+	end
+	if TRP3_UF_DB.Player.relativePoint == "TOP" then
+		yPos = 0
+		xPos = 0
+	end
+	if TRP3_UF_DB.Player.relativePoint == "BOTTOM" then
+		yPos = 0
+		xPos = 0
+	end
+	if TRP3_UF_DB.Player.relativePoint == "TOPRIGHT" then
+		yPos = -5
+		xPos = -5
+	end
+	if TRP3_UF_DB.Player.relativePoint == "RIGHT" then
+		yPos = 0
+		xPos = 0
+	end
+	if TRP3_UF_DB.Player.relativePoint == "BOTTOMRIGHT" then
+		yPos = 5
+		xPos = -5
+	end
+	trpPlayer.SetAsPortrait()
+	trpPlayer.button:ClearAllPoints()
+	trpPlayer.button:SetPoint("CENTER", PlayerFrame.PlayerFrameContainer.PlayerPortrait, TRP3_UF_DB.Player.relativePoint, xPos, yPos)
+end
+
+------------------------------------------------------------------------------------------------------------------
+
+function trpPlayer.SetVisible()
+	if TRP3_UF_DB.Target.show == true then
+		trpTarget.button:Show();
+		trpTarget.portraitClick:Show();
+	else
+		trpTarget.button:Hide();
+		trpTarget.portraitClick:Hide();
+		SetPortraitTexture(TargetFrame.TargetFrameContainer.Portrait, "target")
+	end
+	if TRP3_UF_DB.Player.show == true then
+		trpPlayer.button:Show();
+		trpPlayer.portraitClick:Show();
+	else
+		trpPlayer.button:Hide();
+		trpPlayer.portraitClick:Hide();
+		SetPortraitTexture(PlayerFrame.PlayerFrameContainer.PlayerPortrait, "player")
+	end
+	if TRP3_UF_DB.Player.relativePoint == "CENTER" then
+		trpPlayer.button:Hide()
+	elseif TRP3_UF_DB.Player.relativePoint ~= "CENTER" then
+		trpPlayer.portraitClick:Hide();
+	end
+	if TRP3_UF_DB.Target.relativePoint == "CENTER" then
+		trpTarget.button:Hide()
+	elseif TRP3_UF_DB.Target.relativePoint ~= "CENTER" then
+		trpTarget.portraitClick:Hide();
+	end
+end
+
 
 function trpPlayer.fadeout()
 	UIFrameFadeOut(trpPlayer.button, .5, trpPlayer.button:GetAlpha(), 0)
-	print(trpPlayer.button:GetAlpha())
 end
 function trpPlayer.hide()
 	trpPlayer.button:Hide()
@@ -518,7 +961,7 @@ function trpPlayer.fadein()
 	UIFrameFadeIn(trpPlayer.button, .5, trpPlayer.button:GetAlpha(), 1)
 end
 function trpPlayer.show()
-	trpPlayer.button:Show()
+	trpPlayer.SetVisible()
 end
 
 function trpTarget.nameChecker()
@@ -527,7 +970,8 @@ function trpTarget.nameChecker()
 		local icon = player1:GetCustomIcon()
 		--trpTarget.button:SetNormalTexture("Interface/icons/" .. icon)
 		SetPortraitToTexture(trpPlayer.button.tex, "Interface/icons/" .. icon)
-		trpPlayer.button:Show()
+		trpPlayer.SetVisible()
+		trpPlayer.SetAsPortrait()
 	else
 		trpPlayer.button:Hide()
 	end
@@ -539,7 +983,7 @@ function trpTarget.nameChecker()
 		else
 			textColorStuff = "FFFFD100"
 		end
-		TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(TRP3_TargetDB.Target.colorBack.r, TRP3_TargetDB.Target.colorBack.g, TRP3_TargetDB.Target.colorBack.b, TRP3_TargetDB.Target.colorBack.a)
+		TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a)
 		TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText("|c" .. textColorStuff .. TRP3_API.r.name("target") .. "|r")
 		PlayerName:SetText(TRP3_API.r.name("player"))
 		local player = AddOn_TotalRP3.Player.CreateFromUnit("target")
@@ -549,7 +993,7 @@ function trpTarget.nameChecker()
 		end
 		--trpTarget.button:SetNormalTexture("Interface/icons/" .. icon)
 		SetPortraitToTexture(trpTarget.button.tex, "Interface/icons/" .. icon)
-		trpTarget.button:Show()
+		trpPlayer.SetVisible()
 		trpTarget.SetAsPortrait()
 	else
 		trpTarget.button:Hide()
@@ -558,8 +1002,8 @@ function trpTarget.nameChecker()
 end
 
 local function onStart()
-	if not TRP3_TargetDB then
-		TRP3_TargetDB = defaultsTable
+	if not TRP3_UF_DB then
+		TRP3_UF_DB = defaultsTable
 	end
 
 	trpTarget:RegisterEvent("CHAT_MSG_ADDON")
@@ -568,7 +1012,7 @@ local function onStart()
 
 	local TarWidth = TargetFrame.TargetFrameContainer.Portrait:GetWidth()
 	local TarHeight = TargetFrame.TargetFrameContainer.Portrait:GetHeight()
-	trpTarget.button = CreateFrame("Button", "Bingus")
+	trpTarget.button = CreateFrame("Button")
 	trpTarget.button:SetPoint("CENTER", TargetFrame.TargetFrameContainer.Portrait, "BOTTOMLEFT", TarWidth/12, TarHeight/12)
 	trpTarget.button:SetParent(TargetFrame)
 	trpTarget.button:SetSize(14.3,14.3)
@@ -601,6 +1045,7 @@ local function onStart()
 	trpPlayer:RegisterEvent("UNIT_TARGET")
 	trpPlayer:RegisterEvent("PLAYER_REGEN_DISABLED")
 	trpPlayer:RegisterEvent("PLAYER_REGEN_ENABLED")
+	trpPlayer:RegisterEvent("PLAYER_LOGOUT")
 
 	local PlayWidth = PlayerFrame.PlayerFrameContainer.PlayerPortrait:GetWidth()
 	local PlayHeight = PlayerFrame.PlayerFrameContainer.PlayerPortrait:GetHeight()
@@ -630,15 +1075,17 @@ local function onStart()
 	--trpPlayer.button.ring:SetAtlas("communities-ring-gold")
 	
 	trpPlayer:SetScript("OnEvent", function(self, event)
-		--print("firing function")
 		if event == "PLAYER_REGEN_DISABLED" then
-			print("entering combat")
 			trpPlayer.fadeout()
 			C_Timer.After(.5, trpPlayer.hide)
 		elseif event == "PLAYER_REGEN_ENABLED" then
-			print("exiting combat")
 			trpPlayer.fadein()
 			C_Timer.After(.5, trpPlayer.show)
+		end
+
+		if event == "PLAYER_LOGOUT" then
+			SetPortraitTexture(TargetFrame.TargetFrameContainer.Portrait, "target")
+			SetPortraitTexture(PlayerFrame.PlayerFrameContainer.PlayerPortrait, "player")
 		end
 	end);
 
@@ -665,17 +1112,45 @@ local function onStart()
 		GameTooltip:Hide()
 	end)
 
+
+	--set out stuff here
 	trpTarget.SetPos()
+	trpPlayer.SetPos()
+
+	--show buttons
+	TRP3_UFPanel.PShowCheckbox:SetChecked(TRP3_UF_DB.Target.show);
+	TRP3_UFPanel.TShowCheckbox:SetChecked(TRP3_UF_DB.Target.show);
+	trpPlayer.SetVisible()
+
+	--player border portrait
+	PlayerDragonFrame.TextureStuff()
+	TRP3_UFPanel.PortShowCheckbox:SetChecked(TRP3_UF_DB.Border.show);
+	TRP3_UFPanel.PortraitButton:SetEnabled(TRP3_UF_DB.Border.show);
+	if TRP3_UF_DB.Border.show == true then
+		PlayerDragonFrame:Show();
+	else
+		PlayerDragonFrame:Hide();
+	end
+
+	--status / rested texture visibility
+
+	TRP3_UFPanel.StatusHideCheckbox:SetChecked(TRP3_UF_DB.Border.status)
+	if TRP3_UF_DB.Border.status == false then
+		PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:Show()
+	else
+		PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:Hide()
+	end
+
 end
 
 
-local totalRP3_Target = {
-    ["name"] = "Total RP 3: Target",
+local totalRP3_UnitFrames = {
+    ["name"] = "Total RP 3: Unit Frames",
     ["description"] = "Modifies the target frame to have some additional profile info.",
     ["version"] = 0.1, -- Your version number
-    ["id"] = "trp3_target", -- Your module ID
+    ["id"] = "trp3_unitframes", -- Your module ID
     ["onStart"] = onStart, -- Your starting function
     ["minVersion"] = 108, -- Whatever TRP3 minimum build you require, 108 is the current one
 };
 
-TRP3_API.module.registerModule(totalRP3_Target);
+TRP3_API.module.registerModule(totalRP3_UnitFrames);

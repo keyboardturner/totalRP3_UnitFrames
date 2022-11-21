@@ -16,12 +16,12 @@
 --TRP3_UF_DB
 
 local defaultsTable = {
-	Target = {show = true, x = 5, y = 5, point = "CENTER", relativePoint = "BOTTOMLEFT", scale = 1.5,
-		colorText = {r = 1, g = 1, b = 1, custom = false, class = false,},
+	Target = {show = true, position = 5, point = "CENTER", relativePoint = "BOTTOMLEFT", scale = 1.5,
+		colorText = {r = 1, g = 1, b = 1, custom = false, class = true,},
 		colorBack = {r = 0, g = 0, b = 0, a = 1, custom = false, class = false,},
 	},
-	Player = {show = true, x = 5, y = 5, point = "CENTER", relativePoint = "BOTTOMRIGHT", scale = 1.5,
-		colorText = {r = 1, g = 1, b = 1, custom = false, class = false,},
+	Player = {show = true, position = 5, point = "CENTER", relativePoint = "BOTTOMRIGHT", scale = 1.5,
+		colorText = {r = 1, g = 1, b = 1, custom = false, class = true,},
 		colorBack = {r = 0, g = 0, b = 0, a = 1, custom = false, class = false,},
 	},
 
@@ -30,46 +30,28 @@ local defaultsTable = {
 		status = false,
 	},
 
-	Setting = {locked = true, charSpecific = false,},
+	Setting = {locked = true, charSpecific = false, NPCs = false},
 };
 
 --if TRP3_UF_DB.Setting.charSpecific == true then
---	TRP3_CharDB stuff
+--TRP3_CharDB stuff
 --
 
 ------------------------------------------------------------------------------------------------------------------
 
 local function ShowColorPicker(r, g, b, a, changedCallback)
-	ColorPickerFrame:SetColorRGB(r,g,b);
 	ColorPickerFrame.hasOpacity, ColorPickerFrame.opacity = (a ~= nil), a;
 	ColorPickerFrame.previousValues = {r,g,b,a};
 	ColorPickerFrame.func, ColorPickerFrame.opacityFunc, ColorPickerFrame.cancelFunc = changedCallback, changedCallback, changedCallback;
+	ColorPickerFrame:SetColorRGB(r,g,b);
 	ColorPickerFrame:Hide(); -- Need to run the OnShow handler.
 	ColorPickerFrame:Show();
 end
 
+local r, g, b, a = 1, 1, 1, 1
+
 local function round(number, decimals)
 	return (("%%.%df"):format(decimals)):format(number)
-end
-
-local function TargetBackdropColor(restore)
-	local newR, newG, newB, newA; -- I forgot what to do with the alpha value but it's needed to not swap RGB values
-	if restore then
-	 -- The user bailed, we extract the old color from the table created by ShowColorPicker.
-	newR, newG, newB, newA = unpack(restore);
-	else
-	 -- Something changed
-		newA, newR, newG, newB = OpacitySliderFrame:GetValue(), ColorPickerFrame:GetColorRGB();
-	end
-	 -- Update our internal storage.
-	TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a = newR, newG, newB, newA;
-	 -- And update any UI elements that use this color...
-	TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a)
-end
-SLASH_TARGETBCOLOR1 = "/targetbcolor"
-SlashCmdList["TARGETBCOLOR"] = function(msg)
-	ShowColorPicker(TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a, TargetBackdropColor);
-	print("Target Backdrop Current values: " .. "\nRGB(0-1) - |cffff7f7f" .. round(TRP3_UF_DB.Target.colorBack.r,2) .. "|r, |cff7fff7f" .. round(TRP3_UF_DB.Target.colorBack.g,2) .. "|r, |cff7f7fff" .. round(TRP3_UF_DB.Target.colorBack.b,2) .. "|r\nRGB(0-255) - |cffff7f7f" .. round(TRP3_UF_DB.Target.colorBack.r*255) .. "|r, |cff7fff7f" .. round(TRP3_UF_DB.Target.colorBack.g*255) .. "|r, |cff7f7fff" .. round(TRP3_UF_DB.Target.colorBack.b*255) .. "|r")
 end
 
 
@@ -77,41 +59,34 @@ local function TargetTextColor(restore)
 	local newR, newG, newB, newA; -- I forgot what to do with the alpha value but it's needed to not swap RGB values
 	if restore then
 	 -- The user bailed, we extract the old color from the table created by ShowColorPicker.
-	newR, newG, newB, newA = unpack(restore);
+		newR, newG, newB, newA = unpack(restore);
 	else
 	 -- Something changed
 		newA, newR, newG, newB = OpacitySliderFrame:GetValue(), ColorPickerFrame:GetColorRGB();
 	end
 	 -- Update our internal storage.
-	TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b = newR, newG, newB;
+	r, g, b, a = newR, newG, newB, newA
 	 -- And update any UI elements that use this color...
+	TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b = newR, newG, newB;
 	TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetTextColor(TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b)
 end
-SLASH_TARGETTCOLOR1 = "/targettcolor"
-SlashCmdList["TARGETTCOLOR"] = function(msg)
-	ShowColorPicker(TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b, nil, TargetTextColor);
-	print("Target Text Current values: " .. "\nRGB(0-1) - |cffff7f7f" .. round(TRP3_UF_DB.Target.colorText.r,2) .. "|r, |cff7fff7f" .. round(TRP3_UF_DB.Target.colorText.g,2) .. "|r, |cff7f7fff" .. round(TRP3_UF_DB.Target.colorText.b,2) .. "|r\nRGB(0-255) - |cffff7f7f" .. round(TRP3_UF_DB.Target.colorText.r*255) .. "|r, |cff7fff7f" .. round(TRP3_UF_DB.Target.colorText.g*255) .. "|r, |cff7f7fff" .. round(TRP3_UF_DB.Target.colorText.b*255) .. "|r")
-end
 
 
-local function PlayerBackdropColor(restore)
+local function TargetBackdropColor(restore)
 	local newR, newG, newB, newA; -- I forgot what to do with the alpha value but it's needed to not swap RGB values
 	if restore then
 	 -- The user bailed, we extract the old color from the table created by ShowColorPicker.
-	newR, newG, newB, newA = unpack(restore);
+		newR, newG, newB, newA = unpack(restore);
 	else
 	 -- Something changed
 		newA, newR, newG, newB = OpacitySliderFrame:GetValue(), ColorPickerFrame:GetColorRGB();
 	end
 	 -- Update our internal storage.
-	TRP3_UF_DB.Player.colorBack.r, TRP3_UF_DB.Player.colorBack.g, TRP3_UF_DB.Player.colorBack.b, TRP3_UF_DB.Player.colorBack.a = newR, newG, newB, newA;
+	r, g, b, a = newR, newG, newB, newA
 	 -- And update any UI elements that use this color...
-	PlayerFrameReputationColor:SetVertexColor(TRP3_UF_DB.Player.colorBack.r, TRP3_UF_DB.Player.colorBack.g, TRP3_UF_DB.Player.colorBack.b, TRP3_UF_DB.Player.colorBack.a)
-end
-SLASH_PLAYERBCOLOR1 = "/playerbcolor"
-SlashCmdList["PLAYERBCOLOR"] = function(msg)
-	ShowColorPicker(TRP3_UF_DB.Player.colorBack.r, TRP3_UF_DB.Player.colorBack.g, TRP3_UF_DB.Player.colorBack.b, TRP3_UF_DB.Player.colorBack.a, PlayerBackdropColor);
-	print("Target Backdrop Current values: " .. "\nRGB(0-1) - |cffff7f7f" .. round(TRP3_UF_DB.Player.colorBack.r,2) .. "|r, |cff7fff7f" .. round(TRP3_UF_DB.Player.colorBack.g,2) .. "|r, |cff7f7fff" .. round(TRP3_UF_DB.Player.colorBack.b,2) .. "|r\nRGB(0-255) - |cffff7f7f" .. round(TRP3_UF_DB.Player.colorBack.r*255) .. "|r, |cff7fff7f" .. round(TRP3_UF_DB.Player.colorBack.g*255) .. "|r, |cff7f7fff" .. round(TRP3_UF_DB.Player.colorBack.b*255) .. "|r")
+	TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a = newR, newG, newB, newA;
+	TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a)
+
 end
 
 
@@ -119,20 +94,34 @@ local function PlayerTextColor(restore)
 	local newR, newG, newB, newA; -- I forgot what to do with the alpha value but it's needed to not swap RGB values
 	if restore then
 	 -- The user bailed, we extract the old color from the table created by ShowColorPicker.
-	newR, newG, newB, newA = unpack(restore);
+		newR, newG, newB, newA = unpack(restore);
 	else
 	 -- Something changed
 		newA, newR, newG, newB = OpacitySliderFrame:GetValue(), ColorPickerFrame:GetColorRGB();
 	end
 	 -- Update our internal storage.
-	TRP3_UF_DB.Player.colorText.r, TRP3_UF_DB.Player.colorText.g, TRP3_UF_DB.Player.colorText.b = newR, newG, newB;
+	r, g, b, a = newR, newG, newB, newA
 	 -- And update any UI elements that use this color...
+	TRP3_UF_DB.Player.colorText.r, TRP3_UF_DB.Player.colorText.g, TRP3_UF_DB.Player.colorText.b = newR, newG, newB;
 	PlayerName:SetTextColor(TRP3_UF_DB.Player.colorText.r, TRP3_UF_DB.Player.colorText.g, TRP3_UF_DB.Player.colorText.b)
 end
-SLASH_PLAYERTCOLOR1 = "/playertcolor"
-SlashCmdList["PLAYERTCOLOR"] = function(msg)
-	ShowColorPicker(TRP3_UF_DB.Player.colorText.r, TRP3_UF_DB.Player.colorText.g, TRP3_UF_DB.Player.colorText.b, nil, PlayerTextColor);
-	print("Target Text Current values: " .. "\nRGB(0-1) - |cffff7f7f" .. round(TRP3_UF_DB.Player.colorText.r,2) .. "|r, |cff7fff7f" .. round(TRP3_UF_DB.Player.colorText.g,2) .. "|r, |cff7f7fff" .. round(TRP3_UF_DB.Player.colorText.b,2) .. "|r\nRGB(0-255) - |cffff7f7f" .. round(TRP3_UF_DB.Player.colorText.r*255) .. "|r, |cff7fff7f" .. round(TRP3_UF_DB.Player.colorText.g*255) .. "|r, |cff7f7fff" .. round(TRP3_UF_DB.Player.colorText.b*255) .. "|r")
+
+
+local function PlayerBackdropColor(restore)
+	local newR, newG, newB, newA; -- I forgot what to do with the alpha value but it's needed to not swap RGB values
+	
+	if restore then
+	 -- The user bailed, we extract the old color from the table created by ShowColorPicker.
+		newR, newG, newB, newA = unpack(restore);
+	else
+	 -- Something changed
+		newA, newR, newG, newB = OpacitySliderFrame:GetValue(), ColorPickerFrame:GetColorRGB();
+	end
+	 -- Update our internal storage.
+	r, g, b, a = newR, newG, newB, newA
+	 -- And update any UI elements that use this color...
+	TRP3_UF_DB.Player.colorBack.r, TRP3_UF_DB.Player.colorBack.g, TRP3_UF_DB.Player.colorBack.b, TRP3_UF_DB.Player.colorBack.a = newR, newG, newB, newA;
+	PlayerFrameReputationColor:SetVertexColor(TRP3_UF_DB.Player.colorBack.r, TRP3_UF_DB.Player.colorBack.g, TRP3_UF_DB.Player.colorBack.b, TRP3_UF_DB.Player.colorBack.a)
 end
 
 --PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:Hide() -- make this into an option to hide the "rested glow" or even change color
@@ -183,7 +172,7 @@ TRP3_UFPanel.Pf:ClearAllPoints();
 TRP3_UFPanel.Pf:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT", 12, -53*2);
 TRP3_UFPanel.Pf:SetSize(64, 64)
 
-TRP3_UFPanel.Pf.tex = TRP3_UFPanel.Pf:CreateTexture("badabingus")
+TRP3_UFPanel.Pf.tex = TRP3_UFPanel.Pf:CreateTexture()
 TRP3_UFPanel.Pf.tex:SetAllPoints(TRP3_UFPanel.Pf)
 SetPortraitTexture(TRP3_UFPanel.Pf.tex, "player")
 
@@ -486,6 +475,71 @@ end);
 
 ------------------------------------------------------------------------------------------------------------------
 
+TRP3_UFPanel.TargetSizeSlider = CreateFrame("Slider", "TRP3_UFTargetSizeSlider", TRP3_UFPanel, "OptionsSliderTemplate");
+TRP3_UFPanel.TargetSizeSlider:SetWidth(250);
+TRP3_UFPanel.TargetSizeSlider:SetHeight(15);
+TRP3_UFPanel.TargetSizeSlider:SetMinMaxValues(0.1,15);
+TRP3_UFPanel.TargetSizeSlider:SetValueStep(1);
+TRP3_UFPanel.TargetSizeSlider:ClearAllPoints();
+TRP3_UFPanel.TargetSizeSlider:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT", 5, -53*6.75);
+getglobal(TRP3_UFPanel.TargetSizeSlider:GetName() .. 'Low'):SetText('0.1');
+getglobal(TRP3_UFPanel.TargetSizeSlider:GetName() .. 'High'):SetText('15');
+getglobal(TRP3_UFPanel.TargetSizeSlider:GetName() .. 'Text'):SetText('Target Button Size');
+TRP3_UFPanel.TargetSizeSlider:SetScript("OnValueChanged", function()
+	local scaleValue = getglobal(TRP3_UFPanel.TargetSizeSlider:GetName()):GetValue();
+	TRP3_UF_DB.Target.scale = scaleValue;
+end)
+
+
+TRP3_UFPanel.TargetPosSlider = CreateFrame("Slider", "TRP3_UFTargetPosSlider", TRP3_UFPanel, "OptionsSliderTemplate");
+TRP3_UFPanel.TargetPosSlider:SetWidth(250);
+TRP3_UFPanel.TargetPosSlider:SetHeight(15);
+TRP3_UFPanel.TargetPosSlider:SetMinMaxValues(0,15);
+TRP3_UFPanel.TargetPosSlider:SetValueStep(1);
+TRP3_UFPanel.TargetPosSlider:ClearAllPoints();
+TRP3_UFPanel.TargetPosSlider:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT", 5, -53*7.5);
+getglobal(TRP3_UFPanel.TargetPosSlider:GetName() .. 'Low'):SetText('0');
+getglobal(TRP3_UFPanel.TargetPosSlider:GetName() .. 'High'):SetText('15');
+getglobal(TRP3_UFPanel.TargetPosSlider:GetName() .. 'Text'):SetText('Target Button Position');
+TRP3_UFPanel.TargetPosSlider:SetScript("OnValueChanged", function()
+	local scaleValue = getglobal(TRP3_UFPanel.TargetPosSlider:GetName()):GetValue();
+	TRP3_UF_DB.Target.position = scaleValue;
+end)
+
+
+TRP3_UFPanel.PlayerSizeSlider = CreateFrame("Slider", "TRP3_UFPlayerSizeSlider", TRP3_UFPanel, "OptionsSliderTemplate");
+TRP3_UFPanel.PlayerSizeSlider:SetWidth(250);
+TRP3_UFPanel.PlayerSizeSlider:SetHeight(15);
+TRP3_UFPanel.PlayerSizeSlider:SetMinMaxValues(0.1,15);
+TRP3_UFPanel.PlayerSizeSlider:SetValueStep(1);
+TRP3_UFPanel.PlayerSizeSlider:ClearAllPoints();
+TRP3_UFPanel.PlayerSizeSlider:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT", 5, -53*8.25);
+getglobal(TRP3_UFPanel.PlayerSizeSlider:GetName() .. 'Low'):SetText('0.1');
+getglobal(TRP3_UFPanel.PlayerSizeSlider:GetName() .. 'High'):SetText('15');
+getglobal(TRP3_UFPanel.PlayerSizeSlider:GetName() .. 'Text'):SetText('Player Button Size');
+TRP3_UFPanel.PlayerSizeSlider:SetScript("OnValueChanged", function()
+	local scaleValue = getglobal(TRP3_UFPanel.PlayerSizeSlider:GetName()):GetValue();
+	TRP3_UF_DB.Player.scale = scaleValue;
+end)
+
+
+TRP3_UFPanel.PlayerPosSlider = CreateFrame("Slider", "TRP3_UFPlayerPosSlider", TRP3_UFPanel, "OptionsSliderTemplate");
+TRP3_UFPanel.PlayerPosSlider:SetWidth(250);
+TRP3_UFPanel.PlayerPosSlider:SetHeight(15);
+TRP3_UFPanel.PlayerPosSlider:SetMinMaxValues(0,15);
+TRP3_UFPanel.PlayerPosSlider:SetValueStep(1);
+TRP3_UFPanel.PlayerPosSlider:ClearAllPoints();
+TRP3_UFPanel.PlayerPosSlider:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT", 5, -53*9);
+getglobal(TRP3_UFPanel.PlayerPosSlider:GetName() .. 'Low'):SetText('0');
+getglobal(TRP3_UFPanel.PlayerPosSlider:GetName() .. 'High'):SetText('15');
+getglobal(TRP3_UFPanel.PlayerPosSlider:GetName() .. 'Text'):SetText('Player Button Position');
+TRP3_UFPanel.PlayerPosSlider:SetScript("OnValueChanged", function()
+	local scaleValue = getglobal(TRP3_UFPanel.PlayerPosSlider:GetName()):GetValue();
+	TRP3_UF_DB.Player.position = scaleValue;
+end)
+
+------------------------------------------------------------------------------------------------------------------
+
 TRP3_UFPanel.ColorsText = TRP3_UFPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
 TRP3_UFPanel.ColorsText:SetFont(TRP3_UFPanel.ColorsText:GetFont(), 15);
 TRP3_UFPanel.ColorsText:SetTextColor(1,1,1,1);
@@ -507,6 +561,13 @@ TRP3_UFPanel.ColorsPlayerText:ClearAllPoints();
 TRP3_UFPanel.ColorsPlayerText:SetPoint("TOPLEFT", 300, -53*6.7);
 TRP3_UFPanel.ColorsPlayerText:SetText("Player Frame");
 
+TRP3_UFPanel.NPCOptions = TRP3_UFPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+TRP3_UFPanel.NPCOptions:SetFont(TRP3_UFPanel.NPCOptions:GetFont(), 12);
+TRP3_UFPanel.NPCOptions:SetTextColor(1,1,1,1);
+TRP3_UFPanel.NPCOptions:ClearAllPoints();
+TRP3_UFPanel.NPCOptions:SetPoint("TOPLEFT", 300, -53*9.2);
+TRP3_UFPanel.NPCOptions:SetText("Non-RP / NPCs");
+
 
 TRP3_UFPanel.TargetTextColorCheckbox = CreateFrame("CheckButton", "TRP3_UFTargetTextColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
 TRP3_UFPanel.TargetTextColorCheckbox:ClearAllPoints();
@@ -515,10 +576,12 @@ getglobal(TRP3_UFPanel.TargetTextColorCheckbox:GetName().."Text"):SetText("Overw
 
 TRP3_UFPanel.TargetTextColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.TargetTextColorCheckbox:GetChecked() then
-		TRP3_UF_DB.Target.show = true;
+		TRP3_UF_DB.Target.colorText.custom = true;
 	else
-		TRP3_UF_DB.Target.show = false;
+		TRP3_UF_DB.Target.colorText.custom = false;
 	end
+	TRP3_UFPanel.TarCustomTextColButton:SetEnabled(TRP3_UF_DB.Target.colorText.custom);
+	trpPlayer.UpdateInfo()
 end);
 
 
@@ -529,10 +592,12 @@ getglobal(TRP3_UFPanel.TargetBackColorCheckbox:GetName().."Text"):SetText("Overw
 
 TRP3_UFPanel.TargetBackColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.TargetBackColorCheckbox:GetChecked() then
-		TRP3_UF_DB.Target.show = true;
+		TRP3_UF_DB.Target.colorBack.custom = true;
 	else
-		TRP3_UF_DB.Target.show = false;
+		TRP3_UF_DB.Target.colorBack.custom = false;
 	end
+	TRP3_UFPanel.TarCustomBackColButton:SetEnabled(TRP3_UF_DB.Target.colorBack.custom);
+	trpPlayer.UpdateInfo()
 end);
 
 
@@ -543,10 +608,11 @@ getglobal(TRP3_UFPanel.TargetClassTextColorCheckbox:GetName().."Text"):SetText("
 
 TRP3_UFPanel.TargetClassTextColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.TargetClassTextColorCheckbox:GetChecked() then
-		TRP3_UF_DB.Target.show = true;
+		TRP3_UF_DB.Target.colorText.class = true;
 	else
-		TRP3_UF_DB.Target.show = false;
+		TRP3_UF_DB.Target.colorText.class = false;
 	end
+	trpPlayer.UpdateInfo()
 end);
 
 
@@ -557,10 +623,11 @@ getglobal(TRP3_UFPanel.TargetClassBackColorCheckbox:GetName().."Text"):SetText("
 
 TRP3_UFPanel.TargetClassBackColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.TargetClassBackColorCheckbox:GetChecked() then
-		TRP3_UF_DB.Target.show = true;
+		TRP3_UF_DB.Target.colorBack.class = true;
 	else
-		TRP3_UF_DB.Target.show = false;
+		TRP3_UF_DB.Target.colorBack.class = false;
 	end
+	trpPlayer.UpdateInfo()
 end);
 
 
@@ -572,10 +639,12 @@ getglobal(TRP3_UFPanel.PlayerTextColorCheckbox:GetName().."Text"):SetText("Overw
 
 TRP3_UFPanel.PlayerTextColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.PlayerTextColorCheckbox:GetChecked() then
-		TRP3_UF_DB.Target.show = true;
+		TRP3_UF_DB.Player.colorText.custom = true;
 	else
-		TRP3_UF_DB.Target.show = false;
+		TRP3_UF_DB.Player.colorText.custom = false;
 	end
+	TRP3_UFPanel.PlayerCustomTextColButton:SetEnabled(TRP3_UF_DB.Player.colorText.custom);
+	trpPlayer.UpdateInfo()
 end);
 
 
@@ -586,10 +655,12 @@ getglobal(TRP3_UFPanel.PlayerBackColorCheckbox:GetName().."Text"):SetText("Overw
 
 TRP3_UFPanel.PlayerBackColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.PlayerBackColorCheckbox:GetChecked() then
-		TRP3_UF_DB.Target.show = true;
+		TRP3_UF_DB.Player.colorBack.custom = true;
 	else
-		TRP3_UF_DB.Target.show = false;
+		TRP3_UF_DB.Player.colorBack.custom = false;
 	end
+	TRP3_UFPanel.PlayerCustomBackColButton:SetEnabled(TRP3_UF_DB.Player.colorBack.custom);
+	trpPlayer.UpdateInfo()
 end);
 
 
@@ -600,10 +671,11 @@ getglobal(TRP3_UFPanel.PlayerClassTextColorCheckbox:GetName().."Text"):SetText("
 
 TRP3_UFPanel.PlayerClassTextColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.PlayerClassTextColorCheckbox:GetChecked() then
-		TRP3_UF_DB.Target.show = true;
+		TRP3_UF_DB.Player.colorText.class = true;
 	else
-		TRP3_UF_DB.Target.show = false;
+		TRP3_UF_DB.Player.colorText.class = false;
 	end
+	trpPlayer.UpdateInfo()
 end);
 
 
@@ -614,9 +686,25 @@ getglobal(TRP3_UFPanel.PlayerClassBackColorCheckbox:GetName().."Text"):SetText("
 
 TRP3_UFPanel.PlayerClassBackColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.PlayerClassBackColorCheckbox:GetChecked() then
-		TRP3_UF_DB.Target.show = true;
+		TRP3_UF_DB.Player.colorBack.class = true;
 	else
-		TRP3_UF_DB.Target.show = false;
+		TRP3_UF_DB.Player.colorBack.class = false;
+	end
+	trpPlayer.UpdateInfo()
+end);
+
+
+--other
+TRP3_UFPanel.NPCOptionsCheckbox = CreateFrame("CheckButton", "TRP3_UFNPCOptionsCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
+TRP3_UFPanel.NPCOptionsCheckbox:ClearAllPoints();
+TRP3_UFPanel.NPCOptionsCheckbox:SetPoint("TOPLEFT", 300, -53*9.5);
+getglobal(TRP3_UFPanel.NPCOptionsCheckbox:GetName().."Text"):SetText("Apply to NPCs & Non-RPers");
+
+TRP3_UFPanel.NPCOptionsCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.NPCOptionsCheckbox:GetChecked() then
+		TRP3_UF_DB.Setting.NPCs = true;
+	else
+		TRP3_UF_DB.Setting.NPCs = false;
 	end
 end);
 
@@ -704,16 +792,42 @@ TRP3_UFPanel.menu = {
 			--{ text = "Option 3", func = function() print("You've chosen option 3"); end },
 		},
 	},
-	{ text = "PH Option 4", func = function() print("You've chosen option 4"); end },
-	{ text = "PH Option 5", func = function() print("You've chosen option 5"); end },
+	--{ text = "PH Option 4", func = function() print("You've chosen option 4"); end },
+	--{ text = "PH Option 5", func = function() print("You've chosen option 5"); end },
 };
 TRP3_UFPanel.menuFrame = CreateFrame("Frame", "TRP3PlayerPortraitMenuFrame", TRP3_UFPanel, "UIDropDownMenuTemplate")
 
 TRP3_UFPanel.PortraitButton = CreateFrame("Button", nil, TRP3_UFPanel, "GameMenuButtonTemplate")
-TRP3_UFPanel.PortraitButton:SetPoint("TOPLEFT", 150, -53*5);
+TRP3_UFPanel.PortraitButton:SetPoint("TOPLEFT", 150, -53*5.1);
 --TRP3_UFPanel.PortraitButton:SetSize(99, 81);
 TRP3_UFPanel.PortraitButton:SetText("Player Portrait")
 TRP3_UFPanel.PortraitButton:SetScript("OnClick", function() EasyMenu(TRP3_UFPanel.menu, TRP3_UFPanel.menuFrame, "cursor", 0 , 0, "MENU", 10) end)
+
+------------------------------------------------------------------------------------------------------------------
+
+TRP3_UFPanel.TarCustomTextColButton = CreateFrame("Button", nil, TRP3_UFPanel, "GameMenuButtonTemplate")
+TRP3_UFPanel.TarCustomTextColButton:SetPoint("TOPLEFT", 150*3.3, -53*4.6);
+--TRP3_UFPanel.TarCustomTextColButton:SetSize(99, 81);
+TRP3_UFPanel.TarCustomTextColButton:SetText("Color Picker")
+TRP3_UFPanel.TarCustomTextColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b, nil, TargetTextColor); end)
+
+TRP3_UFPanel.TarCustomBackColButton = CreateFrame("Button", nil, TRP3_UFPanel, "GameMenuButtonTemplate")
+TRP3_UFPanel.TarCustomBackColButton:SetPoint("TOPLEFT", 150*3.3, -53*5.1);
+--TRP3_UFPanel.TarCustomBackColButton:SetSize(99, 81);
+TRP3_UFPanel.TarCustomBackColButton:SetText("Color Picker")
+TRP3_UFPanel.TarCustomBackColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a, TargetBackdropColor); end)
+
+TRP3_UFPanel.PlayerCustomTextColButton = CreateFrame("Button", nil, TRP3_UFPanel, "GameMenuButtonTemplate")
+TRP3_UFPanel.PlayerCustomTextColButton:SetPoint("TOPLEFT", 150*3.3, -53*7.1);
+--TRP3_UFPanel.PlayerCustomTextColButton:SetSize(99, 81);
+TRP3_UFPanel.PlayerCustomTextColButton:SetText("Color Picker")
+TRP3_UFPanel.PlayerCustomTextColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Player.colorText.r, TRP3_UF_DB.Player.colorText.g, TRP3_UF_DB.Player.colorText.b, nil, PlayerTextColor); end)
+
+TRP3_UFPanel.PlayerCustomBackColButton = CreateFrame("Button", nil, TRP3_UFPanel, "GameMenuButtonTemplate")
+TRP3_UFPanel.PlayerCustomBackColButton:SetPoint("TOPLEFT", 150*3.3, -53*7.6);
+--TRP3_UFPanel.PlayerCustomBackColButton:SetSize(99, 81);
+TRP3_UFPanel.PlayerCustomBackColButton:SetText("Color Picker")
+TRP3_UFPanel.PlayerCustomBackColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Player.colorBack.r, TRP3_UF_DB.Player.colorBack.g, TRP3_UF_DB.Player.colorBack.b, TRP3_UF_DB.Player.colorBack.a, PlayerBackdropColor); end)
 
 ------------------------------------------------------------------------------------------------------------------
 
@@ -725,7 +839,7 @@ PlayerRepFrame.tex = PlayerRepFrame:CreateTexture("PlayerFrameReputationColor", 
 PlayerRepFrame.tex:SetAllPoints(PlayerRepFrame)
 PlayerRepFrame.tex:SetAtlas("UI-HUD-UnitFrame-Target-PortraitOn-Type")
 PlayerRepFrame.tex:SetTexCoord(1, 0, 0, 1)
-PlayerRepFrame.tex:SetVertexColor(0,1,1)
+PlayerRepFrame.tex:SetVertexColor(0,0,0,1)
 
 
 
@@ -949,6 +1063,9 @@ function trpPlayer.SetVisible()
 	end
 end
 
+function trpTarget.UpdateInfo()
+	print("Hello, friend.")
+end
 
 function trpPlayer.fadeout()
 	UIFrameFadeOut(trpPlayer.button, .5, trpPlayer.button:GetAlpha(), 0)
@@ -964,17 +1081,19 @@ function trpPlayer.show()
 	trpPlayer.SetVisible()
 end
 
-function trpTarget.nameChecker()
-	if AddOn_TotalRP3.Player.CreateFromUnit("player"):GetProfileID() ~= nil then
-		local player1 = AddOn_TotalRP3.Player.CreateFromUnit("player")
-		local icon = player1:GetCustomIcon()
-		--trpTarget.button:SetNormalTexture("Interface/icons/" .. icon)
-		SetPortraitToTexture(trpPlayer.button.tex, "Interface/icons/" .. icon)
-		trpPlayer.SetVisible()
-		trpPlayer.SetAsPortrait()
-	else
-		trpPlayer.button:Hide()
+function trpTarget.SetColor()
+	--local r, g, b, a = TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:GetVertexColor()
+	if TRP3_UF_DB.Target.colorBack.custom == true then
+		TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a)
 	end
+	if TRP3_UF_DB.Target.colorText.custom == true then
+		TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(TRP3_API.r.name("target"))
+		TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetTextColor(TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b)
+	end
+end
+
+function trpTarget.nameChecker()
+	trpPlayer.UpdateInfo()
 
 	if UnitIsPlayer("target") == true and AddOn_TotalRP3.Player.CreateFromUnit("target"):GetProfileID() ~= nil then
 		local textColorQ = AddOn_TotalRP3.Player.CreateFromUnit("target"):GetCustomColorForDisplay()
@@ -983,9 +1102,10 @@ function trpTarget.nameChecker()
 		else
 			textColorStuff = "FFFFD100"
 		end
-		TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a)
+		--TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a)
 		TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText("|c" .. textColorStuff .. TRP3_API.r.name("target") .. "|r")
-		PlayerName:SetText(TRP3_API.r.name("player"))
+		--PlayerName:SetText(TRP3_API.r.name("player"))
+		trpTarget.SetColor()
 		local player = AddOn_TotalRP3.Player.CreateFromUnit("target")
 		local icon = player:GetCustomIcon()
 		if icon == nil then
@@ -1006,7 +1126,7 @@ local function onStart()
 		TRP3_UF_DB = defaultsTable
 	end
 
-	trpTarget:RegisterEvent("CHAT_MSG_ADDON")
+	--trpTarget:RegisterEvent("CHAT_MSG_ADDON")
 	trpTarget:RegisterEvent("PLAYER_TARGET_CHANGED")
 	trpTarget:RegisterEvent("UNIT_TARGET")
 
@@ -1040,12 +1160,13 @@ local function onStart()
 	--PlayerName
 	--C_ClassColor.GetClassColor(UnitClass("target")):GenerateHexColor() -- generates default class color
 
-	trpPlayer:RegisterEvent("CHAT_MSG_ADDON")
+	--trpPlayer:RegisterEvent("CHAT_MSG_ADDON")
 	trpPlayer:RegisterEvent("PLAYER_TARGET_CHANGED")
 	trpPlayer:RegisterEvent("UNIT_TARGET")
 	trpPlayer:RegisterEvent("PLAYER_REGEN_DISABLED")
 	trpPlayer:RegisterEvent("PLAYER_REGEN_ENABLED")
 	trpPlayer:RegisterEvent("PLAYER_LOGOUT")
+	trpPlayer:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 	local PlayWidth = PlayerFrame.PlayerFrameContainer.PlayerPortrait:GetWidth()
 	local PlayHeight = PlayerFrame.PlayerFrameContainer.PlayerPortrait:GetHeight()
@@ -1074,7 +1195,7 @@ local function onStart()
 	trpPlayer.button.ring:SetAtlas("bag-border")
 	--trpPlayer.button.ring:SetAtlas("communities-ring-gold")
 	
-	trpPlayer:SetScript("OnEvent", function(self, event)
+	trpPlayer:SetScript("OnEvent", function(self, event, arg1)
 		if event == "PLAYER_REGEN_DISABLED" then
 			trpPlayer.fadeout()
 			C_Timer.After(.5, trpPlayer.hide)
@@ -1086,6 +1207,10 @@ local function onStart()
 		if event == "PLAYER_LOGOUT" then
 			SetPortraitTexture(TargetFrame.TargetFrameContainer.Portrait, "target")
 			SetPortraitTexture(PlayerFrame.PlayerFrameContainer.PlayerPortrait, "player")
+		end
+
+		if event == "PLAYER_ENTERING_WORLD" then
+			trpPlayer.UpdateInfo()
 		end
 	end);
 
@@ -1132,6 +1257,26 @@ local function onStart()
 		PlayerDragonFrame:Hide();
 	end
 
+	--color checkboxes
+	TRP3_UFPanel.TargetTextColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorText.custom);
+	TRP3_UFPanel.TargetBackColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorBack.custom);
+	TRP3_UFPanel.TargetClassTextColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorText.class);
+	TRP3_UFPanel.TargetClassBackColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorBack.class);
+
+	TRP3_UFPanel.TarCustomTextColButton:SetEnabled(TRP3_UF_DB.Target.colorText.custom);
+	TRP3_UFPanel.TarCustomBackColButton:SetEnabled(TRP3_UF_DB.Target.colorBack.custom);
+
+
+	TRP3_UFPanel.PlayerTextColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorText.custom);
+	TRP3_UFPanel.PlayerBackColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorBack.custom);
+	TRP3_UFPanel.PlayerClassTextColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorText.class);
+	TRP3_UFPanel.PlayerClassBackColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorBack.class);
+	TRP3_UFPanel.NPCOptionsCheckbox:SetChecked(TRP3_UF_DB.Setting.NPCs);
+
+	TRP3_UFPanel.PlayerCustomTextColButton:SetEnabled(TRP3_UF_DB.Player.colorText.custom);
+	TRP3_UFPanel.PlayerCustomBackColButton:SetEnabled(TRP3_UF_DB.Player.colorBack.custom);
+	
+
 	--status / rested texture visibility
 
 	TRP3_UFPanel.StatusHideCheckbox:SetChecked(TRP3_UF_DB.Border.status)
@@ -1140,13 +1285,70 @@ local function onStart()
 	else
 		PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:Hide()
 	end
+	function trpTarget.OnShow()
+		if TRP3_UF_DB.Border.status == false then
+			return
+		else
+			PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:Hide()
+		end
+	end
 
+	PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:SetScript("OnShow",trpTarget.OnShow);
+
+	--set info on frames
+
+	function trpPlayer.UpdateInfo()
+		PlayerName:SetText(TRP3_API.r.name("player"))
+		PlayerName:SetTextColor(1,0.8960791349411,0,1)
+		if TRP3_UF_DB.Player.colorText.class == true then
+			local classR, classG, classB = C_ClassColor.GetClassColor(UnitClass("player")).r, C_ClassColor.GetClassColor(UnitClass("player")).g, C_ClassColor.GetClassColor(UnitClass("player")).b
+			PlayerName:SetTextColor(classR, classG, classB)
+		end
+		if AddOn_TotalRP3.Player.CreateFromUnit("player"):GetCustomColorForDisplay() ~= nil then
+			PlayerName:SetTextColor(AddOn_TotalRP3.Player.CreateFromUnit("player"):GetCustomColorForDisplay():GetRGB())
+		end
+
+		if TRP3_UF_DB.Player.colorText.custom == true then
+			PlayerName:SetTextColor(TRP3_UF_DB.Player.colorText.r, TRP3_UF_DB.Player.colorText.g, TRP3_UF_DB.Player.colorText.b)
+		end
+		if TRP3_UF_DB.Player.colorBack.custom == true then
+			PlayerFrameReputationColor:SetVertexColor(TRP3_UF_DB.Player.colorBack.r, TRP3_UF_DB.Player.colorBack.g, TRP3_UF_DB.Player.colorBack.b, TRP3_UF_DB.Player.colorBack.a)
+		end
+
+		if AddOn_TotalRP3.Player.CreateFromUnit("player"):GetProfileID() ~= nil then
+			local player1 = AddOn_TotalRP3.Player.CreateFromUnit("player")
+			local icon = player1:GetCustomIcon()
+			--trpTarget.button:SetNormalTexture("Interface/icons/" .. icon)
+			SetPortraitToTexture(trpPlayer.button.tex, "Interface/icons/" .. icon)
+			trpPlayer.SetVisible()
+			trpPlayer.SetAsPortrait()
+		else
+			trpPlayer.button:Hide()
+		end
+	end
+
+	function trpTarget.UpdateInfo()
+		--PlayerName:SetText(TRP3_API.r.name("player"))
+		if AddOn_TotalRP3.Player.CreateFromUnit("player"):GetProfileID() ~= nil then
+			local player1 = AddOn_TotalRP3.Player.CreateFromUnit("player")
+			local icon = player1:GetCustomIcon()
+			--trpTarget.button:SetNormalTexture("Interface/icons/" .. icon)
+			SetPortraitToTexture(trpPlayer.button.tex, "Interface/icons/" .. icon)
+			trpPlayer.SetVisible()
+			trpPlayer.SetAsPortrait()
+		else
+			trpPlayer.button:Hide()
+		end
+	end
+
+	TRP3_API.events.registerCallback("REGISTER_DATA_UPDATED", trpPlayer.UpdateInfo)
+	--TRP3_API.events.registerCallback("REGISTER_DATA_UPDATED", trpTarget.UpdateInfo)
 end
 
 
 local totalRP3_UnitFrames = {
     ["name"] = "Total RP 3: Unit Frames",
-    ["description"] = "Modifies the target frame to have some additional profile info.",
+    ["description"] = "Modifies the target and player frames to have some additional profile info.",
     ["version"] = 0.1, -- Your version number
     ["id"] = "trp3_unitframes", -- Your module ID
     ["onStart"] = onStart, -- Your starting function

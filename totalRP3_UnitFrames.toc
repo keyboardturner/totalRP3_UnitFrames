@@ -5,6 +5,5 @@
 ## Notes: Modifies the target and player frames to have some additional profile info.
 ## Dependencies: totalRP3
 ## SavedVariables: TRP3_UF_DB
-## SavedVariablesPerCharacter: TRP3_UFChar_DB
 
 core.lua

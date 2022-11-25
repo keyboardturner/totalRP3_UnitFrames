@@ -1,28 +1,30 @@
 ## Interface: 100002
 ## Author: Keyboardturner
-## Version: 0.0.4
+## Version: 0.0.5
 ## Title: Total RP 3: Unit Frames
 ## Notes: Modifies the target and player frames to have some additional profile info.
 ## Title-enUS: Total RP 3: Unit Frames
 ## Notes-enUS: Modifies the target and player frames to have some additional profile info.
-## Title-frFR: Title
-## Notes-frFR: Notes
-## Title-esES: Title
-## Notes-esES: Notes
-## Title-esMX: Title
-## Notes-esMX: Notes
-## Title-deDE: Title
-## Notes-deDE: Notes
-## Title-ptBR: Title
-## Notes-ptBR: Notes
-## Title-ruRU: Title
-## Notes-ruRU: Notes
-## Title-koKR: Title
-## Notes-koKR: Notes
-## Title-zhCN: Title
-## Notes-zhCN: Notes
-## Title-zhTW: Title
-## Notes-zhTW: Notes
+## Title-frFR: Total RP 3: Cadres unitaires
+## Notes-frFR: Modifie les cadres cible et joueur pour avoir des informations de profil supplémentaires.
+## Title-esES: Total RP 3: Marcos de unidad
+## Notes-esES: Modifica los marcos del objetivo y del jugador para tener información de perfil adicional.
+## Title-esMX: Total RP 3: Marcos de unidad
+## Notes-esMX: Modifica los marcos del objetivo y del jugador para tener información de perfil adicional.
+## Title-deDE: Total RP 3: Einheitsrahmen
+## Notes-deDE: Ändert die Ziel- und Spielerrahmen, um einige zusätzliche Profilinformationen zu erhalten.
+## Title-itIT: Total RP 3: Cornici unità
+## Notes-itIT: Modifica i frame target e player per avere alcune informazioni aggiuntive sul profilo.
+## Title-ptBR: Total RP 3: Molduras da unidade
+## Notes-ptBR: Modifica os frames do alvo e do jogador para ter algumas informações de perfil adicionais.
+## Title-ruRU: Total RP 3: Рамки блока
+## Notes-ruRU: Изменяет кадры цели и игрока, чтобы иметь дополнительную информацию о профиле.
+## Title-koKR: Total RP 3: 단위 프레임
+## Notes-koKR: 일부 추가 프로필 정보를 포함하도록 대상 및 플레이어 프레임을 수정합니다.
+## Title-zhCN: Total RP 3: 单位框架
+## Notes-zhCN: 修改目标和玩家框架以具有一些额外的个人资料信息。
+## Title-zhTW: Total RP 3: 單位框架
+## Notes-zhTW: 修改目標和玩家框架以具有一些額外的個人資料信息。
 
 ## Dependencies: totalRP3
 ## SavedVariables: TRP3_UF_DB

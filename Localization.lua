@@ -13,56 +13,212 @@ local LOCALE = GetLocale()
 if LOCALE == "enUS" then
 	-- The EU English game client also
 	-- uses the US English locale code.
-	L["Hello!"] = "Hello friend! The SlowFaller addon is now enabled on a class with a slow fall ability. Double-jump to activate slow fall, flap, or levitate. Does not work in combat or while mounted."
-	L["Oh no!"] = "Hello friend! This message is here to let you know that the SlowFaller addon is enabled on a class without a slow fall ability, and therefore will not be running any code."
+	L["Title"] = "Total RP 3: Unit Frames"
+	L["TitleColored"] = "|cffF5038BTotal RP 3|r|cffffffff: Unit Frames|r"
+	L["Visibility"] = "Visibility"
+	L["ShowButtonPlayer"] = "Show Player Button"
+	L["ShowButtonTarget"] = "Show Target Button"
+	L["ShowBorderFrame"] = "Show Border Frame"
+	L["HideRestedGlow"] = "Hide Rested Glow"
+	L["ButtonSizeTarget"] = 'Target Button Size'
+	L["ButtonPosTarget"] = 'Target Button Position'
+	L["ButtonSizePlayer"] = 'Player Button Size'
+	L["ButtonPosPlayer"] = 'Player Button Position'
+	L["OverwriteTextCol"] = "Overwrite Text Color"
+	L["OverwriteBackCol"] = "Overwrite Backdrop Color"
+	L["BlizzTextCol"] = "Use Blizzard Class Color - Text"
+	L["BlizzBackCol"] = "Use Blizzard Class Color - Backdrop"
+	L["ApplyToNPCs"] = "Apply to NPCs"
+	L["PlayerPortrait"] = "Player Portrait"
 return end
 
-if LOCALE == "esES" or LOCALE == "esMX" then --officially translated
+if LOCALE == "esES" or LOCALE == "esMX" then
 	-- Spanish translations go here
-	L["Hello!"] = "¡Hola amigo! El complemento SlowFaller ahora está habilitado en una clase con una habilidad de caída lenta. Salta dos veces para activar la caída lenta, el aleteo o la levitación. No funciona en combate ni con montura."
-	L["Oh no!"] = "¡Hola amigo! Este mensaje está aquí para informarte que el complemento SlowFaller está habilitado en una clase sin una habilidad de caída lenta, por lo tanto, no ejecutará ningún código."
+	L["Title"] = "Total RP 3: Marcos de unidad"
+	L["TitleColored"] = "|cffF5038BTotal RP 3|r|cffffffff: Marcos de unidad|r"
+	L["Visibility"] = "Visibilidad"
+	L["ShowButtonPlayer"] = "Mostrar botón de jugador"
+	L["ShowButtonTarget"] = "Mostrar botón de destino"
+	L["ShowBorderFrame"] = "Mostrar marco de borde"
+	L["HideRestedGlow"] = "Ocultar resplandor descansado"
+	L["ButtonSizeTarget"] = 'Tamaño del botón de destino'
+	L["ButtonPosTarget"] = 'Posición del botón de destino'
+	L["ButtonSizePlayer"] = 'Tamaño del botón del reproductor'
+	L["ButtonPosPlayer"] = 'Posición del botón del jugador'
+	L["OverwriteTextCol"] = "Sobrescribir color de texto"
+	L["OverwriteBackCol"] = "Sobrescribir color de fondo"
+	L["BlizzTextCol"] = "Usar color de clase de Blizzard - Texto"
+	L["BlizzBackCol"] = "Usar color de clase de Blizzard - Telón de fondo"
+	L["ApplyToNPCs"] = "Aplicar a los NPC"
+	L["PlayerPortrait"] = "Retrato del jugador"
 return end
 
 if LOCALE == "deDE" then
 	-- German translations go here
-	L["Hello!"] = "Hallo Freund! Das SlowFaller-Addon ist jetzt für eine Klasse mit der Fähigkeit „Slow Fall“ aktiviert. Doppelsprung, um langsames Fallen, Flattern oder Schweben zu aktivieren. Funktioniert nicht im Kampf oder auf einem Pferd."
-	L["Oh no!"] = "Hallo Freund! Diese Nachricht soll Sie darüber informieren, dass das SlowFaller-Addon für eine Klasse ohne Slow-Fall-Fähigkeit aktiviert ist und daher keinen Code ausführt."
+	L["Title"] = "Total RP 3: Einheitsrahmen"
+	L["TitleColored"] = "|cffF5038BTotal RP 3|r|cffffffff: Einheitsrahmen|r"
+	L["Visibility"] = "Sichtweite"
+	L["ShowButtonPlayer"] = "Player-Button anzeigen"
+	L["ShowButtonTarget"] = "Zielschaltfläche anzeigen"
+	L["ShowBorderFrame"] = "Rahmen anzeigen"
+	L["HideRestedGlow"] = "Ausgeruhtes Leuchten ausblenden"
+	L["ButtonSizeTarget"] = 'Größe der Zielschaltfläche'
+	L["ButtonPosTarget"] = 'Position der Zielschaltfläche'
+	L["ButtonSizePlayer"] = 'Player-Tastengröße'
+	L["ButtonPosPlayer"] = 'Position der Player-Schaltfläche'
+	L["OverwriteTextCol"] = "Textfarbe überschreiben"
+	L["OverwriteBackCol"] = "Hintergrundfarbe überschreiben"
+	L["BlizzTextCol"] = "Verwenden Sie die Blizzard-Klassenfarbe - Text"
+	L["BlizzBackCol"] = "Verwenden Sie die Blizzard-Klassenfarbe - Hintergrund"
+	L["ApplyToNPCs"] = "Bewerben Sie sich bei NPCs"
+	L["PlayerPortrait"] = "Spielerportrait"
 return end
 
-if LOCALE == "frFR" then --officially translated
+if LOCALE == "frFR" then
 	-- French translations go here
-	L["Hello!"] = "Salut l'ami! L'addon SlowFaller est maintenant activé sur une classe avec une capacité de chute lente. Faites un double saut pour activer la chute lente, le battement d'ailes ou la lévitation. Ne fonctionne pas en combat ou à cheval."
-	L["Oh no!"] = "Salut l'ami! Ce message est là pour vous informer que l'addon SlowFaller est activé sur une classe sans capacité de chute lente, et n'exécutera donc aucun code."
+	L["Title"] = "Total RP 3: Cadres unitaires"
+	L["TitleColored"] = "|cffF5038BTotal RP 3|r|cffffffff: Cadres unitaires|r"
+	L["Visibility"] = "Visibilité"
+	L["ShowButtonPlayer"] = "Afficher le bouton du lecteur"
+	L["ShowButtonTarget"] = "Afficher le bouton cible"
+	L["ShowBorderFrame"] = "Afficher le cadre de bordure"
+	L["HideRestedGlow"] = "Masquer l'éclat reposé"
+	L["ButtonSizeTarget"] = 'Taille cible du bouton'
+	L["ButtonPosTarget"] = 'Position du bouton cible'
+	L["ButtonSizePlayer"] = 'Taille du bouton du lecteur'
+	L["ButtonPosPlayer"] = 'Position du bouton du joueur'
+	L["OverwriteTextCol"] = "Remplacer la couleur du texte"
+	L["OverwriteBackCol"] = "Remplacer la couleur de fond"
+	L["BlizzTextCol"] = "Utiliser la couleur de la classe Blizzard - Texte"
+	L["BlizzBackCol"] = "Utiliser la couleur de la classe Blizzard - Toile de fond"
+	L["ApplyToNPCs"] = "Appliquer aux PNJ"
+	L["PlayerPortrait"] = "Portrait du joueur"
+return end
+
+if LOCALE == "itIT" then
+	-- Italian translations go here
+	L["Title"] = "Total RP 3: Cornici unità"
+	L["TitleColored"] = "|cffF5038BTotal RP 3|r|cffffffff: Cornici unità|r"
+	L["Visibility"] = "Visibilità"
+	L["ShowButtonPlayer"] = "Mostra pulsante giocatore"
+	L["ShowButtonTarget"] = "Mostra pulsante di destinazione"
+	L["ShowBorderFrame"] = "Mostra cornice bordo"
+	L["HideRestedGlow"] = "Nascondi bagliore riposato"
+	L["ButtonSizeTarget"] = 'Dimensioni del pulsante di destinazione'
+	L["ButtonPosTarget"] = 'Posizione del pulsante di destinazione'
+	L["ButtonSizePlayer"] = 'Dimensione del pulsante del giocatore'
+	L["ButtonPosPlayer"] = 'Posizione del pulsante del giocatore'
+	L["OverwriteTextCol"] = "Sovrascrivi il colore del testo"
+	L["OverwriteBackCol"] = "Sovrascrivi colore di sfondo"
+	L["BlizzTextCol"] = "Usa il colore della classe Blizzard - Testo"
+	L["BlizzBackCol"] = "Usa il colore della classe Blizzard - Sfondo"
+	L["ApplyToNPCs"] = "Applica agli NPC"
+	L["PlayerPortrait"] = "Ritratto del giocatore"
 return end
 
 if LOCALE == "ptBR" then
 	-- Brazilian Portuguese translations go here
-	L["Hello!"] = "Olá amiga! O complemento SlowFaller agora está habilitado em uma classe com uma habilidade de queda lenta. Dê um salto duplo para ativar a queda lenta, abanar ou levitar. Não funciona em combate ou montado."
-	L["Oh no!"] = "Olá amiga! Esta mensagem está aqui para informar que o addon SlowFaller está ativado em uma classe sem uma capacidade de queda lenta e, portanto, não executará nenhum código."
+	L["Title"] = "Total RP 3: Molduras da unidade"
+	L["TitleColored"] = "|cffF5038BTotal RP 3|r|cffffffff: Molduras da unidade|r"
+	L["Visibility"] = "Visibilidade"
+	L["ShowButtonPlayer"] = "Mostrar Botão do Jogador"
+	L["ShowButtonTarget"] = "Mostrar Botão Alvo"
+	L["ShowBorderFrame"] = "Mostrar Moldura da Borda"
+	L["HideRestedGlow"] = "Ocultar brilho descansado"
+	L["ButtonSizeTarget"] = 'Tamanho do botão de destino'
+	L["ButtonPosTarget"] = 'Posição do Botão Alvo'
+	L["ButtonSizePlayer"] = 'Tamanho do botão do jogador'
+	L["ButtonPosPlayer"] = 'Posição do botão do jogador'
+	L["OverwriteTextCol"] = "Sobrescrever a Cor do Texto"
+	L["OverwriteBackCol"] = "Sobrescrever a cor do pano de fundo"
+	L["BlizzTextCol"] = "Use a cor da classe Blizzard - texto"
+	L["BlizzBackCol"] = "Use a cor da classe Blizzard - Pano de fundo"
+	L["ApplyToNPCs"] = "Aplicar para NPCs"
+	L["PlayerPortrait"] = "Retrato do jogador"
 	-- Note that the EU Portuguese WoW client also
 	-- uses the Brazilian Portuguese locale code.
 return end
 
 if LOCALE == "ruRU" then
 	-- Russian translations go here
-	L["Hello!"] = "Привет друг! Надстройка двойной-прыжок-замедленное-падение теперь включена для класса со способностью медленного падения. Сделайте двойной прыжок, чтобы активировать медленное падение, взмах или левитацию. Не работает в бою или верхом."
-	L["Oh no!"] = "Привет друг! Это сообщение здесь, чтобы сообщить вам, что надстройка двойной-прыжок-замедленное-падение включена для класса без возможности медленного падения, и поэтому не будет запускать какой-либо код."
+	L["Title"] = "Total RP 3: Рамки блока"
+	L["TitleColored"] = "|cffF5038BTotal RP 3|r|cffffffff: Рамки блока|r"
+	L["Visibility"] = "Видимость"
+	L["ShowButtonPlayer"] = "Показать кнопку проигрывателя"
+	L["ShowButtonTarget"] = "Показать целевую кнопку"
+	L["ShowBorderFrame"] = "Показать рамку границы"
+	L["HideRestedGlow"] = "Скрыть отдохнувшее сияние"
+	L["ButtonSizeTarget"] = 'Целевой размер кнопки'
+	L["ButtonPosTarget"] = 'Положение целевой кнопки'
+	L["ButtonSizePlayer"] = 'Размер кнопки игрока'
+	L["ButtonPosPlayer"] = 'Положение кнопки игрока'
+	L["OverwriteTextCol"] = "Перезаписать цвет текста"
+	L["OverwriteBackCol"] = "Перезаписать цвет фона"
+	L["BlizzTextCol"] = "Использовать цвет класса Blizzard — текст"
+	L["BlizzBackCol"] = "Использовать цвет класса Blizzard — фон"
+	L["ApplyToNPCs"] = "Применить к NPC"
+	L["PlayerPortrait"] = "Портрет игрока"
 return end
 
 if LOCALE == "koKR" then
 	-- Korean translations go here
-	L["Hello!"] = "안녕 친구! 이중-도약저속-낙하 애드온은 이제 느린 낙하 능력이 있는 클래스에서 활성화됩니다. 느린 낙하, 플랩 또는 공중 부양을 활성화하려면 두 번 점프하십시오. 전투 중이나 탈것에 탄 상태에서는 작동하지 않습니다."
-	L["Oh no!"] = "안녕 친구! 이 메시지는 느린 낙하 기능이 없는 클래스에서 이중-도약저속-낙하 애드온이 활성화되어 있으므로 어떤 코드도 실행하지 않을 것임을 알려드리기 위해 여기에 있습니다."
+	L["Title"] = "Total RP 3: 단위 프레임"
+	L["TitleColored"] = "|cffF5038BTotal RP 3|r|cffffffff: 단위 프레임|r"
+	L["Visibility"] = "시계"
+	L["ShowButtonPlayer"] = "플레이어 버튼 표시"
+	L["ShowButtonTarget"] = "대상 버튼 표시"
+	L["ShowBorderFrame"] = "테두리 프레임 표시"
+	L["HideRestedGlow"] = "휴식된 빛 숨기기"
+	L["ButtonSizeTarget"] = '대상 버튼 크기'
+	L["ButtonPosTarget"] = '대상 버튼 위치'
+	L["ButtonSizePlayer"] = '플레이어 버튼 크기'
+	L["ButtonPosPlayer"] = '플레이어 버튼 위치'
+	L["OverwriteTextCol"] = "텍스트 색상 덮어쓰기"
+	L["OverwriteBackCol"] = "배경색 덮어쓰기"
+	L["BlizzTextCol"] = "블리자드 클래스 색상 사용 - 텍스트"
+	L["BlizzBackCol"] = "블리자드 클래스 색상 사용 - 배경"
+	L["ApplyToNPCs"] = "NPC에 적용"
+	L["PlayerPortrait"] = "플레이어 초상화"
 return end
 
 if LOCALE == "zhCN" then
 	-- Simplified Chinese translations go here
-	L["Hello!"] = "你好朋友！ 二段跳缓落术 插件现在在具有缓慢下降能力的类上启用。 双跳以激活慢速下降、拍打或漂浮。 在战斗或骑乘时不起作用。"
-	L["Oh no!"] = "你好朋友！ 这条消息是为了让您知道 二段跳缓落术 插件在没有缓慢下降能力的类上启用，因此不会运行任何代码。"
+	L["Title"] = "Total RP 3: 单位框架"
+	L["TitleColored"] = "|cffF5038BTotal RP 3|r|cffffffff: 单位框架|r"
+	L["Visibility"] = "能见度"
+	L["ShowButtonPlayer"] = "显示播放器按钮"
+	L["ShowButtonTarget"] = "显示目标按钮"
+	L["ShowBorderFrame"] = "显示边框"
+	L["HideRestedGlow"] = "隐藏休息的光芒"
+	L["ButtonSizeTarget"] = '目标按钮尺寸'
+	L["ButtonPosTarget"] = '目标按钮位置'
+	L["ButtonSizePlayer"] = '播放器按钮大小'
+	L["ButtonPosPlayer"] = '播放器按钮位置'
+	L["OverwriteTextCol"] = "覆盖文字颜色"
+	L["OverwriteBackCol"] = "覆盖背景颜色"
+	L["BlizzTextCol"] = "使用暴雪类颜色 - 文本"
+	L["BlizzBackCol"] = "使用暴雪类颜色 - 背景"
+	L["ApplyToNPCs"] = "适用于 NPC"
+	L["PlayerPortrait"] = "玩家头像"
 return end
 
 if LOCALE == "zhTW" then
 	-- Traditional Chinese translations go here
-	L["Hello!"] = "你好朋友！ 二段跳缓落术 插件現在在具有緩慢下降能力的類上啟用。 雙跳以激活慢速下降、拍打或漂浮。 在戰鬥或騎乘時不起作用。"
-	L["Oh no!"] = "你好朋友！ 這條消息是為了讓您知道 二段跳缓落术 插件在沒有緩慢下降能力的類上啟用，因此不會運行任何代碼。"
+	L["Title"] = "Total RP 3: 單位框架"
+	L["TitleColored"] = "|cffF5038BTotal RP 3|r|cffffffff: 單位框架|r"
+	L["Visibility"] = "能見度"
+	L["ShowButtonPlayer"] = "顯示播放器按鈕"
+	L["ShowButtonTarget"] = "顯示目標按鈕"
+	L["ShowBorderFrame"] = "顯示邊框"
+	L["HideRestedGlow"] = "隱藏休息的光芒"
+	L["ButtonSizeTarget"] = '目標按鈕尺寸'
+	L["ButtonPosTarget"] = '目標按鈕位置'
+	L["ButtonSizePlayer"] = '播放器按鈕大小'
+	L["ButtonPosPlayer"] = '播放器按鈕位置'
+	L["OverwriteTextCol"] = "覆蓋文字顏色"
+	L["OverwriteBackCol"] = "覆蓋背景顏色"
+	L["BlizzTextCol"] = "覆蓋背景顏色"
+	L["BlizzBackCol"] = "使用暴雪類顏色 - 背景"
+	L["ApplyToNPCs"] = "適用於 NPC"
+	L["PlayerPortrait"] = "玩家頭像"
 return end

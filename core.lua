@@ -152,14 +152,14 @@ trpPlayer = CreateFrame("Frame")
 
 local VERSION_TEXT = string.format(TRP3_API.loc.CREDITS_VERSION_TEXT, GetAddOnMetadata("totalRP3_UnitFrames", "Version"));
 local TRP3_UFPanel = CreateFrame("Frame");
-TRP3_UFPanel.name = "Total RP 3: Unit Frames";
+
+TRP3_UFPanel.name = GetAddOnMetadata("totalRP3_UnitFrames", "Title")
 
 TRP3_UFPanel.Headline = TRP3_UFPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
 TRP3_UFPanel.Headline:SetFont(TRP3_UFPanel.Headline:GetFont(), 23);
 TRP3_UFPanel.Headline:SetTextColor(1,.73,0,1);
 TRP3_UFPanel.Headline:ClearAllPoints();
 TRP3_UFPanel.Headline:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT",12,-12);
-TRP3_UFPanel.Headline:SetText("|cffF5038BTotal RP 3|r|cffffffff: Unit Frames|r");
 
 TRP3_UFPanel.Version = TRP3_UFPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
 TRP3_UFPanel.Version:SetFont(TRP3_UFPanel.Version:GetFont(), 12);
@@ -409,13 +409,11 @@ TRP3_UFPanel.VisibilityText:SetFont(TRP3_UFPanel.VisibilityText:GetFont(), 15);
 TRP3_UFPanel.VisibilityText:SetTextColor(1,1,1,1);
 TRP3_UFPanel.VisibilityText:ClearAllPoints();
 TRP3_UFPanel.VisibilityText:SetPoint("TOPLEFT", 5, -53*3.7);
-TRP3_UFPanel.VisibilityText:SetText("Visibility");
 
 
 TRP3_UFPanel.PShowCheckbox = CreateFrame("CheckButton", "TRP3_UFPShowCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
 TRP3_UFPanel.PShowCheckbox:ClearAllPoints();
 TRP3_UFPanel.PShowCheckbox:SetPoint("TOPLEFT", 5, -53*4);
-getglobal(TRP3_UFPanel.PShowCheckbox:GetName().."Text"):SetText("Show Player Button");
 
 TRP3_UFPanel.PShowCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.PShowCheckbox:GetChecked() then
@@ -431,7 +429,6 @@ end);
 TRP3_UFPanel.TShowCheckbox = CreateFrame("CheckButton", "TRP3_UFTShowCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
 TRP3_UFPanel.TShowCheckbox:ClearAllPoints();
 TRP3_UFPanel.TShowCheckbox:SetPoint("TOPLEFT", 5, -53*4.5);
-getglobal(TRP3_UFPanel.TShowCheckbox:GetName().."Text"):SetText("Show Target Button");
 
 TRP3_UFPanel.TShowCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.TShowCheckbox:GetChecked() then
@@ -447,7 +444,6 @@ end);
 TRP3_UFPanel.PortShowCheckbox = CreateFrame("CheckButton", "TRP3_UFPortShowCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
 TRP3_UFPanel.PortShowCheckbox:ClearAllPoints();
 TRP3_UFPanel.PortShowCheckbox:SetPoint("TOPLEFT", 5, -53*5);
-getglobal(TRP3_UFPanel.PortShowCheckbox:GetName().."Text"):SetText("Show Border Frame");
 
 TRP3_UFPanel.PortShowCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.PortShowCheckbox:GetChecked() then
@@ -465,7 +461,6 @@ end);
 TRP3_UFPanel.StatusHideCheckbox = CreateFrame("CheckButton", "TRP3_UFStatusHideCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
 TRP3_UFPanel.StatusHideCheckbox:ClearAllPoints();
 TRP3_UFPanel.StatusHideCheckbox:SetPoint("TOPLEFT", 5, -53*5.5);
-getglobal(TRP3_UFPanel.StatusHideCheckbox:GetName().."Text"):SetText("Hide Rested Glow");
 
 TRP3_UFPanel.StatusHideCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.StatusHideCheckbox:GetChecked() then
@@ -489,7 +484,6 @@ TRP3_UFPanel.TargetSizeSlider:ClearAllPoints();
 TRP3_UFPanel.TargetSizeSlider:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT", 5, -53*6.75);
 getglobal(TRP3_UFPanel.TargetSizeSlider:GetName() .. 'Low'):SetText('0.1');
 getglobal(TRP3_UFPanel.TargetSizeSlider:GetName() .. 'High'):SetText('15');
-getglobal(TRP3_UFPanel.TargetSizeSlider:GetName() .. 'Text'):SetText('Target Button Size');
 TRP3_UFPanel.TargetSizeSlider:SetScript("OnValueChanged", function()
 	local scaleValue = getglobal(TRP3_UFPanel.TargetSizeSlider:GetName()):GetValue();
 	TRP3_UF_DB.Target.scale = scaleValue;
@@ -507,7 +501,6 @@ TRP3_UFPanel.TargetPosSlider:ClearAllPoints();
 TRP3_UFPanel.TargetPosSlider:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT", 5, -53*7.5);
 getglobal(TRP3_UFPanel.TargetPosSlider:GetName() .. 'Low'):SetText('0');
 getglobal(TRP3_UFPanel.TargetPosSlider:GetName() .. 'High'):SetText('15');
-getglobal(TRP3_UFPanel.TargetPosSlider:GetName() .. 'Text'):SetText('Target Button Position');
 TRP3_UFPanel.TargetPosSlider:SetScript("OnValueChanged", function()
 	local scaleValue = getglobal(TRP3_UFPanel.TargetPosSlider:GetName()):GetValue();
 	TRP3_UF_DB.Target.position = scaleValue;
@@ -525,7 +518,6 @@ TRP3_UFPanel.PlayerSizeSlider:ClearAllPoints();
 TRP3_UFPanel.PlayerSizeSlider:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT", 5, -53*8.25);
 getglobal(TRP3_UFPanel.PlayerSizeSlider:GetName() .. 'Low'):SetText('0.1');
 getglobal(TRP3_UFPanel.PlayerSizeSlider:GetName() .. 'High'):SetText('15');
-getglobal(TRP3_UFPanel.PlayerSizeSlider:GetName() .. 'Text'):SetText('Player Button Size');
 TRP3_UFPanel.PlayerSizeSlider:SetScript("OnValueChanged", function()
 	local scaleValue = getglobal(TRP3_UFPanel.PlayerSizeSlider:GetName()):GetValue();
 	TRP3_UF_DB.Player.scale = scaleValue;
@@ -543,7 +535,6 @@ TRP3_UFPanel.PlayerPosSlider:ClearAllPoints();
 TRP3_UFPanel.PlayerPosSlider:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT", 5, -53*9);
 getglobal(TRP3_UFPanel.PlayerPosSlider:GetName() .. 'Low'):SetText('0');
 getglobal(TRP3_UFPanel.PlayerPosSlider:GetName() .. 'High'):SetText('15');
-getglobal(TRP3_UFPanel.PlayerPosSlider:GetName() .. 'Text'):SetText('Player Button Position');
 TRP3_UFPanel.PlayerPosSlider:SetScript("OnValueChanged", function()
 	local scaleValue = getglobal(TRP3_UFPanel.PlayerPosSlider:GetName()):GetValue();
 	TRP3_UF_DB.Player.position = scaleValue;
@@ -557,34 +548,33 @@ TRP3_UFPanel.ColorsText:SetFont(TRP3_UFPanel.ColorsText:GetFont(), 15);
 TRP3_UFPanel.ColorsText:SetTextColor(1,1,1,1);
 TRP3_UFPanel.ColorsText:ClearAllPoints();
 TRP3_UFPanel.ColorsText:SetPoint("TOPLEFT", 300, -53*3.7);
-TRP3_UFPanel.ColorsText:SetText("Colors");
+TRP3_UFPanel.ColorsText:SetText(COLORS);
 
 TRP3_UFPanel.ColorsTarText = TRP3_UFPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
 TRP3_UFPanel.ColorsTarText:SetFont(TRP3_UFPanel.ColorsTarText:GetFont(), 12);
 TRP3_UFPanel.ColorsTarText:SetTextColor(1,1,1,1);
 TRP3_UFPanel.ColorsTarText:ClearAllPoints();
 TRP3_UFPanel.ColorsTarText:SetPoint("TOPLEFT", 300, -53*4.2);
-TRP3_UFPanel.ColorsTarText:SetText("Target Frame");
+TRP3_UFPanel.ColorsTarText:SetText(HUD_EDIT_MODE_TARGET_FRAME_LABEL);
 
 TRP3_UFPanel.ColorsPlayerText = TRP3_UFPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
 TRP3_UFPanel.ColorsPlayerText:SetFont(TRP3_UFPanel.ColorsPlayerText:GetFont(), 12);
 TRP3_UFPanel.ColorsPlayerText:SetTextColor(1,1,1,1);
 TRP3_UFPanel.ColorsPlayerText:ClearAllPoints();
 TRP3_UFPanel.ColorsPlayerText:SetPoint("TOPLEFT", 300, -53*6.7);
-TRP3_UFPanel.ColorsPlayerText:SetText("Player Frame");
+TRP3_UFPanel.ColorsPlayerText:SetText(HUD_EDIT_MODE_PLAYER_FRAME_LABEL);
 
 TRP3_UFPanel.NPCOptions = TRP3_UFPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
 TRP3_UFPanel.NPCOptions:SetFont(TRP3_UFPanel.NPCOptions:GetFont(), 12);
 TRP3_UFPanel.NPCOptions:SetTextColor(1,1,1,1);
 TRP3_UFPanel.NPCOptions:ClearAllPoints();
 TRP3_UFPanel.NPCOptions:SetPoint("TOPLEFT", 300, -53*9.2);
-TRP3_UFPanel.NPCOptions:SetText("Non-RP / NPCs");
+TRP3_UFPanel.NPCOptions:SetText(UNIT_NAME_NPC);
 
 
 TRP3_UFPanel.TargetTextColorCheckbox = CreateFrame("CheckButton", "TRP3_UFTargetTextColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
 TRP3_UFPanel.TargetTextColorCheckbox:ClearAllPoints();
 TRP3_UFPanel.TargetTextColorCheckbox:SetPoint("TOPLEFT", 300, -53*4.5);
-getglobal(TRP3_UFPanel.TargetTextColorCheckbox:GetName().."Text"):SetText("Overwrite Text Color");
 
 TRP3_UFPanel.TargetTextColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.TargetTextColorCheckbox:GetChecked() then
@@ -601,7 +591,6 @@ end);
 TRP3_UFPanel.TargetBackColorCheckbox = CreateFrame("CheckButton", "TRP3_UFTargetBackColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
 TRP3_UFPanel.TargetBackColorCheckbox:ClearAllPoints();
 TRP3_UFPanel.TargetBackColorCheckbox:SetPoint("TOPLEFT", 300, -53*5);
-getglobal(TRP3_UFPanel.TargetBackColorCheckbox:GetName().."Text"):SetText("Overwrite Backdrop Color");
 
 TRP3_UFPanel.TargetBackColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.TargetBackColorCheckbox:GetChecked() then
@@ -618,7 +607,6 @@ end);
 TRP3_UFPanel.TargetClassTextColorCheckbox = CreateFrame("CheckButton", "TRP3_UFTargetClassTextColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
 TRP3_UFPanel.TargetClassTextColorCheckbox:ClearAllPoints();
 TRP3_UFPanel.TargetClassTextColorCheckbox:SetPoint("TOPLEFT", 300, -53*5.5);
-getglobal(TRP3_UFPanel.TargetClassTextColorCheckbox:GetName().."Text"):SetText("Use Blizzard Class Color - Text");
 
 TRP3_UFPanel.TargetClassTextColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.TargetClassTextColorCheckbox:GetChecked() then
@@ -634,7 +622,6 @@ end);
 TRP3_UFPanel.TargetClassBackColorCheckbox = CreateFrame("CheckButton", "TRP3_UFTargetClassBackColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
 TRP3_UFPanel.TargetClassBackColorCheckbox:ClearAllPoints();
 TRP3_UFPanel.TargetClassBackColorCheckbox:SetPoint("TOPLEFT", 300, -53*6);
-getglobal(TRP3_UFPanel.TargetClassBackColorCheckbox:GetName().."Text"):SetText("Use Blizzard Class Color - Backdrop");
 
 TRP3_UFPanel.TargetClassBackColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.TargetClassBackColorCheckbox:GetChecked() then
@@ -651,7 +638,6 @@ end);
 TRP3_UFPanel.PlayerTextColorCheckbox = CreateFrame("CheckButton", "TRP3_UFPlayerTextColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
 TRP3_UFPanel.PlayerTextColorCheckbox:ClearAllPoints();
 TRP3_UFPanel.PlayerTextColorCheckbox:SetPoint("TOPLEFT", 300, -53*7);
-getglobal(TRP3_UFPanel.PlayerTextColorCheckbox:GetName().."Text"):SetText("Overwrite Text Color");
 
 TRP3_UFPanel.PlayerTextColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.PlayerTextColorCheckbox:GetChecked() then
@@ -668,7 +654,6 @@ end);
 TRP3_UFPanel.PlayerBackColorCheckbox = CreateFrame("CheckButton", "TRP3_UFPlayerBackColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
 TRP3_UFPanel.PlayerBackColorCheckbox:ClearAllPoints();
 TRP3_UFPanel.PlayerBackColorCheckbox:SetPoint("TOPLEFT", 300, -53*7.5);
-getglobal(TRP3_UFPanel.PlayerBackColorCheckbox:GetName().."Text"):SetText("Overwrite Backdrop Color");
 
 TRP3_UFPanel.PlayerBackColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.PlayerBackColorCheckbox:GetChecked() then
@@ -685,7 +670,6 @@ end);
 TRP3_UFPanel.PlayerClassTextColorCheckbox = CreateFrame("CheckButton", "TRP3_UFPlayerClassTextColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
 TRP3_UFPanel.PlayerClassTextColorCheckbox:ClearAllPoints();
 TRP3_UFPanel.PlayerClassTextColorCheckbox:SetPoint("TOPLEFT", 300, -53*8);
-getglobal(TRP3_UFPanel.PlayerClassTextColorCheckbox:GetName().."Text"):SetText("Use Blizzard Class Color - Text");
 
 TRP3_UFPanel.PlayerClassTextColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.PlayerClassTextColorCheckbox:GetChecked() then
@@ -701,7 +685,6 @@ end);
 TRP3_UFPanel.PlayerClassBackColorCheckbox = CreateFrame("CheckButton", "TRP3_UFPlayerClassBackColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
 TRP3_UFPanel.PlayerClassBackColorCheckbox:ClearAllPoints();
 TRP3_UFPanel.PlayerClassBackColorCheckbox:SetPoint("TOPLEFT", 300, -53*8.5);
-getglobal(TRP3_UFPanel.PlayerClassBackColorCheckbox:GetName().."Text"):SetText("Use Blizzard Class Color - Backdrop");
 
 TRP3_UFPanel.PlayerClassBackColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.PlayerClassBackColorCheckbox:GetChecked() then
@@ -718,7 +701,6 @@ end);
 TRP3_UFPanel.NPCOptionsCheckbox = CreateFrame("CheckButton", "TRP3_UFNPCOptionsCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
 TRP3_UFPanel.NPCOptionsCheckbox:ClearAllPoints();
 TRP3_UFPanel.NPCOptionsCheckbox:SetPoint("TOPLEFT", 300, -53*9.5);
-getglobal(TRP3_UFPanel.NPCOptionsCheckbox:GetName().."Text"):SetText("Apply to NPCs & Non-RPers");
 
 TRP3_UFPanel.NPCOptionsCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.NPCOptionsCheckbox:GetChecked() then
@@ -821,7 +803,6 @@ TRP3_UFPanel.menuFrame = CreateFrame("Frame", "TRP3PlayerPortraitMenuFrame", TRP
 TRP3_UFPanel.PortraitButton = CreateFrame("Button", nil, TRP3_UFPanel, "GameMenuButtonTemplate")
 TRP3_UFPanel.PortraitButton:SetPoint("TOPLEFT", 150, -53*5.1);
 --TRP3_UFPanel.PortraitButton:SetSize(99, 81);
-TRP3_UFPanel.PortraitButton:SetText("Player Portrait")
 TRP3_UFPanel.PortraitButton:SetScript("OnClick", function() EasyMenu(TRP3_UFPanel.menu, TRP3_UFPanel.menuFrame, "cursor", 0 , 0, "MENU", 10) end)
 
 ------------------------------------------------------------------------------------------------------------------
@@ -829,25 +810,25 @@ TRP3_UFPanel.PortraitButton:SetScript("OnClick", function() EasyMenu(TRP3_UFPane
 TRP3_UFPanel.TarCustomTextColButton = CreateFrame("Button", nil, TRP3_UFPanel, "GameMenuButtonTemplate")
 TRP3_UFPanel.TarCustomTextColButton:SetPoint("TOPLEFT", 150*3.3, -53*4.6);
 --TRP3_UFPanel.TarCustomTextColButton:SetSize(99, 81);
-TRP3_UFPanel.TarCustomTextColButton:SetText("Color Picker")
+TRP3_UFPanel.TarCustomTextColButton:SetText(COLOR_PICKER)
 TRP3_UFPanel.TarCustomTextColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b, nil, TargetTextColor); end)
 
 TRP3_UFPanel.TarCustomBackColButton = CreateFrame("Button", nil, TRP3_UFPanel, "GameMenuButtonTemplate")
 TRP3_UFPanel.TarCustomBackColButton:SetPoint("TOPLEFT", 150*3.3, -53*5.1);
 --TRP3_UFPanel.TarCustomBackColButton:SetSize(99, 81);
-TRP3_UFPanel.TarCustomBackColButton:SetText("Color Picker")
+TRP3_UFPanel.TarCustomBackColButton:SetText(COLOR_PICKER)
 TRP3_UFPanel.TarCustomBackColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a, TargetBackdropColor); end)
 
 TRP3_UFPanel.PlayerCustomTextColButton = CreateFrame("Button", nil, TRP3_UFPanel, "GameMenuButtonTemplate")
 TRP3_UFPanel.PlayerCustomTextColButton:SetPoint("TOPLEFT", 150*3.3, -53*7.1);
 --TRP3_UFPanel.PlayerCustomTextColButton:SetSize(99, 81);
-TRP3_UFPanel.PlayerCustomTextColButton:SetText("Color Picker")
+TRP3_UFPanel.PlayerCustomTextColButton:SetText(COLOR_PICKER)
 TRP3_UFPanel.PlayerCustomTextColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Player.colorText.r, TRP3_UF_DB.Player.colorText.g, TRP3_UF_DB.Player.colorText.b, nil, PlayerTextColor); end)
 
 TRP3_UFPanel.PlayerCustomBackColButton = CreateFrame("Button", nil, TRP3_UFPanel, "GameMenuButtonTemplate")
 TRP3_UFPanel.PlayerCustomBackColButton:SetPoint("TOPLEFT", 150*3.3, -53*7.6);
 --TRP3_UFPanel.PlayerCustomBackColButton:SetSize(99, 81);
-TRP3_UFPanel.PlayerCustomBackColButton:SetText("Color Picker")
+TRP3_UFPanel.PlayerCustomBackColButton:SetText(COLOR_PICKER)
 TRP3_UFPanel.PlayerCustomBackColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Player.colorBack.r, TRP3_UF_DB.Player.colorBack.g, TRP3_UF_DB.Player.colorBack.b, TRP3_UF_DB.Player.colorBack.a, PlayerBackdropColor); end)
 
 ------------------------------------------------------------------------------------------------------------------
@@ -1138,6 +1119,8 @@ function trpTarget.nameChecker()
 		trpTarget.portraitClick:Hide()
 	end
 end
+
+--[[ --hello this is a secret upcoming features pls no look :^)
 trpTarget.Bingus = ""
 trpTarget.Bongus = ""
 trpTarget.UnitName1 = ""
@@ -1183,12 +1166,13 @@ function trpTarget.CurrentlyChecker()
 	end
 	C_Timer.After(10, trpTarget.ChangedCurrently)
 end
+]]
 
 local function onStart()
 	if not TRP3_UF_DB then
 		TRP3_UF_DB = defaultsTable
 	end
-	trpTarget.CurrentlyChecker()
+	--trpTarget.CurrentlyChecker() --(don't forget to enable this, future me)
 
 	--trpTarget:RegisterEvent("CHAT_MSG_ADDON")
 	trpTarget:RegisterEvent("PLAYER_TARGET_CHANGED")
@@ -1367,6 +1351,29 @@ local function onStart()
 
 	trpPlayer.button:SetScale(TRP3_UF_DB.Player.scale)
 	trpTarget.button:SetScale(TRP3_UF_DB.Target.scale)
+
+    --localized
+    TRP3_UFPanel.PortraitButton:SetText(L["PlayerPortrait"])
+    getglobal(TRP3_UFPanel.NPCOptionsCheckbox:GetName().."Text"):SetText(L["ApplyToNPCs"]);
+    getglobal(TRP3_UFPanel.PlayerClassBackColorCheckbox:GetName().."Text"):SetText(L["BlizzBackCol"]);
+    getglobal(TRP3_UFPanel.PlayerClassTextColorCheckbox:GetName().."Text"):SetText(L["BlizzTextCol"]);
+    getglobal(TRP3_UFPanel.PlayerBackColorCheckbox:GetName().."Text"):SetText(L["OverwriteBackCol"]);
+    getglobal(TRP3_UFPanel.PlayerTextColorCheckbox:GetName().."Text"):SetText(L["OverwriteTextCol"]);
+    getglobal(TRP3_UFPanel.TargetClassBackColorCheckbox:GetName().."Text"):SetText(L["BlizzBackCol"]);
+    getglobal(TRP3_UFPanel.TargetClassTextColorCheckbox:GetName().."Text"):SetText(L["BlizzTextCol"]);
+    getglobal(TRP3_UFPanel.TargetBackColorCheckbox:GetName().."Text"):SetText(L["OverwriteBackCol"]);
+    getglobal(TRP3_UFPanel.TargetTextColorCheckbox:GetName().."Text"):SetText(L["OverwriteTextCol"]);
+    getglobal(TRP3_UFPanel.PlayerPosSlider:GetName() .. 'Text'):SetText(L["ButtonPosPlayer"]);
+    getglobal(TRP3_UFPanel.PlayerSizeSlider:GetName() .. 'Text'):SetText(L["ButtonSizePlayer"]);
+    getglobal(TRP3_UFPanel.TargetPosSlider:GetName() .. 'Text'):SetText(L["ButtonPosTarget"]);
+    getglobal(TRP3_UFPanel.TargetSizeSlider:GetName() .. 'Text'):SetText(L["ButtonSizeTarget"]);
+    getglobal(TRP3_UFPanel.StatusHideCheckbox:GetName().."Text"):SetText(L["HideRestedGlow"]);
+    getglobal(TRP3_UFPanel.PortShowCheckbox:GetName().."Text"):SetText(L["ShowBorderFrame"]);
+    getglobal(TRP3_UFPanel.TShowCheckbox:GetName().."Text"):SetText(L["ShowButtonTarget"]);
+    getglobal(TRP3_UFPanel.PShowCheckbox:GetName().."Text"):SetText(L["ShowButtonPlayer"]);
+    TRP3_UFPanel.VisibilityText:SetText(L["Visibility"]);
+    TRP3_UFPanel.Headline:SetText(L["TitleColored"]);
+    --TRP3_UFPanel.name = L["Title"];
 	
 
 	--handle dummy frames

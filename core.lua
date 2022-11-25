@@ -1,3 +1,4 @@
+local _, L = ...
 --CHAT_MSG_ADDON
 --PLAYER_TARGET_CHANGED
 --UNIT_TARGET -- probably not this one
@@ -464,7 +465,7 @@ end);
 TRP3_UFPanel.StatusHideCheckbox = CreateFrame("CheckButton", "TRP3_UFStatusHideCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
 TRP3_UFPanel.StatusHideCheckbox:ClearAllPoints();
 TRP3_UFPanel.StatusHideCheckbox:SetPoint("TOPLEFT", 5, -53*5.5);
-getglobal(TRP3_UFPanel.StatusHideCheckbox:GetName().."Text"):SetText("Hide Rested Glow - incomplete");
+getglobal(TRP3_UFPanel.StatusHideCheckbox:GetName().."Text"):SetText("Hide Rested Glow");
 
 TRP3_UFPanel.StatusHideCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.StatusHideCheckbox:GetChecked() then
@@ -1055,7 +1056,7 @@ end
 ------------------------------------------------------------------------------------------------------------------
 
 function trpPlayer.SetVisible()
-	if TRP3_UF_DB.Target.show == true then
+	if TRP3_UF_DB.Target.show == true and UnitIsPlayer("target") == true and AddOn_TotalRP3.Player.CreateFromUnit("target"):GetProfileID() ~= nil then
 		trpTarget.button:Show();
 		trpTarget.portraitClick:Show();
 	else
@@ -1137,11 +1138,57 @@ function trpTarget.nameChecker()
 		trpTarget.portraitClick:Hide()
 	end
 end
+trpTarget.Bingus = ""
+trpTarget.Bongus = ""
+trpTarget.UnitName1 = ""
+trpTarget.UnitName2 = ""
+
+
+
+function trpTarget.ChangedCurrently()
+	if UnitIsPlayer("target") == true and AddOn_TotalRP3.Player.CreateFromUnit("target"):GetProfileID() ~= nil then
+		trpTarget.Bongus = AddOn_TotalRP3.Player.CreateFromUnit("target"):GetCurrentlyText()
+		if (trpTarget.Bingus == nil) or (trpTarget.Bongus == nil) then
+			print("nil!")
+			trpTarget.Bingus = ""
+			trpTarget.Bongus = ""
+		end
+		trpTarget.UnitName2 = UnitName("target")
+		trpTarget.Bongus = trpTarget.Bongus:gsub("%s+", " ")
+		if trpTarget.Bingus ~= trpTarget.Bongus and trpTarget.UnitName1 == trpTarget.UnitName2 then
+			if trpTarget.Bingus == ("" or " " or nil) then
+				print("nothing before!")
+			end
+			print("Currently change detected! Previously: " .. trpTarget.Bingus .. "\nAfter: " .. trpTarget.Bongus)
+
+			if trpTarget.Bongus == ("" or " " or nil) then
+				print("nothing after!")
+			end
+
+			--trpTarget.CurrentlyChecker()
+		end
+	end
+	trpTarget.CurrentlyChecker()
+end
+
+function trpTarget.CurrentlyChecker()
+	if UnitIsPlayer("target") == true and AddOn_TotalRP3.Player.CreateFromUnit("target"):GetProfileID() ~= nil then
+		trpTarget.Bingus = AddOn_TotalRP3.Player.CreateFromUnit("target"):GetCurrentlyText()
+		if (trpTarget.Bingus == nil) or (trpTarget.Bongus == nil) then
+			trpTarget.Bingus = ""
+			trpTarget.Bongus = ""
+		end
+		trpTarget.UnitName1 = UnitName("target")
+		trpTarget.Bingus = trpTarget.Bingus:gsub("%s+", " ")
+	end
+	C_Timer.After(10, trpTarget.ChangedCurrently)
+end
 
 local function onStart()
 	if not TRP3_UF_DB then
 		TRP3_UF_DB = defaultsTable
 	end
+	trpTarget.CurrentlyChecker()
 
 	--trpTarget:RegisterEvent("CHAT_MSG_ADDON")
 	trpTarget:RegisterEvent("PLAYER_TARGET_CHANGED")
@@ -1184,6 +1231,13 @@ local function onStart()
 	trpPlayer:RegisterEvent("PLAYER_REGEN_ENABLED")
 	trpPlayer:RegisterEvent("PLAYER_LOGOUT")
 	trpPlayer:RegisterEvent("PLAYER_ENTERING_WORLD")
+	trpPlayer:RegisterEvent("UNIT_FACTION")
+	trpPlayer:RegisterEvent("GROUP_ROSTER_UPDATE")
+	trpPlayer:RegisterEvent("PLAYER_ROLES_ASSIGNED")
+	trpPlayer:RegisterEvent("GUILD_PARTY_STATE_UPDATED")
+	trpPlayer:RegisterEvent("UNIT_AREA_CHANGED")
+	trpPlayer:RegisterEvent("UNIT_PHASE")
+
 
 	local PlayWidth = PlayerFrame.PlayerFrameContainer.PlayerPortrait:GetWidth()
 	local PlayHeight = PlayerFrame.PlayerFrameContainer.PlayerPortrait:GetHeight()
@@ -1229,6 +1283,11 @@ local function onStart()
 		if event == "PLAYER_ENTERING_WORLD" then
 			trpPlayer.UpdateInfo()
 			trpTarget.DummyColors()
+		end
+
+		if event ~= "PLAYER_ENTERING_WORLD" then
+			trpTarget.UpdateInfo()
+			trpPlayer.UpdateInfo()
 		end
 	end);
 
@@ -1339,7 +1398,7 @@ local function onStart()
 	--set info on frames
 
 	function trpPlayer.UpdateInfo()
-		local classR, classG, classB = C_ClassColor.GetClassColor(UnitClass("player")).r, C_ClassColor.GetClassColor(UnitClass("player")).g, C_ClassColor.GetClassColor(UnitClass("player")).b
+		local classR, classG, classB = C_ClassColor.GetClassColor(UnitClassBase("player")).r, C_ClassColor.GetClassColor(UnitClassBase("player")).g, C_ClassColor.GetClassColor(UnitClassBase("player")).b
 		PlayerName:SetText(TRP3_API.r.name("player"))
 		PlayerName:SetTextColor(1,0.8960791349411,0,1)
 		PlayerFrameReputationColor:SetVertexColor(0, 0, 0, 0)
@@ -1433,7 +1492,7 @@ end
 local totalRP3_UnitFrames = {
     ["name"] = "Total RP 3: Unit Frames",
     ["description"] = "Modifies the target and player frames to have some additional profile info.",
-    ["version"] = 0.1, -- Your version number
+    ["version"] = 0.4, -- Your version number
     ["id"] = "trp3_unitframes", -- Your module ID
     ["onStart"] = onStart, -- Your starting function
     ["minVersion"] = 108, -- Whatever TRP3 minimum build you require, 108 is the current one

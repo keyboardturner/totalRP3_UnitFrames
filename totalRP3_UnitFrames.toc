@@ -1,9 +1,31 @@
 ## Interface: 100002
 ## Author: Keyboardturner
-## Version: 0.0.1
+## Version: 0.0.4
 ## Title: Total RP 3: Unit Frames
 ## Notes: Modifies the target and player frames to have some additional profile info.
+## Title-enUS: Total RP 3: Unit Frames
+## Notes-enUS: Modifies the target and player frames to have some additional profile info.
+## Title-frFR: Title
+## Notes-frFR: Notes
+## Title-esES: Title
+## Notes-esES: Notes
+## Title-esMX: Title
+## Notes-esMX: Notes
+## Title-deDE: Title
+## Notes-deDE: Notes
+## Title-ptBR: Title
+## Notes-ptBR: Notes
+## Title-ruRU: Title
+## Notes-ruRU: Notes
+## Title-koKR: Title
+## Notes-koKR: Notes
+## Title-zhCN: Title
+## Notes-zhCN: Notes
+## Title-zhTW: Title
+## Notes-zhTW: Notes
+
 ## Dependencies: totalRP3
 ## SavedVariables: TRP3_UF_DB
 
 core.lua
+Localization.lua

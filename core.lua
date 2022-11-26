@@ -31,7 +31,14 @@ local defaultsTable = {
 		status = false,
 	},
 
-	Setting = {locked = true, charSpecific = false, NPCs = false},
+	Setting = {locked = true, charSpecific = false, NPCs = false,},
+
+	CurrNotifier = {show = true,
+		Border = {r = 1, g = 1, b = 1, a = 1, custom = true, class = false, style = "Interface\\Tooltips\\UI-Tooltip-Background", size = 8,},
+		Backdrop = {r = 0, g = 0, b = 0, a = .7, custom = true, class = false, style = "Interface\\Tooltips\\UI-Tooltip-Border", size = 8, tile = false, inset = 3,},
+		Text = {r = 1, g = 1, b = 1, custom = false, class = false,},
+		Position = {x = 0, y = 0, width = 300, height = 100, scale = 1,},
+	},
 };
 
 --if TRP3_UF_DB.Setting.charSpecific == true then
@@ -1120,11 +1127,69 @@ function trpTarget.nameChecker()
 	end
 end
 
---[[ --hello this is a secret upcoming features pls no look :^)
+
 trpTarget.Bingus = ""
 trpTarget.Bongus = ""
 trpTarget.UnitName1 = ""
 trpTarget.UnitName2 = ""
+
+--trpTarget.CurrentlyNotifier = CreateFrame("Frame", nil, UIParent)
+--trpTarget.CurrentlyNotifier:SetPoint("CENTER")
+--trpTarget.CurrentlyNotifier:SetSize(300,100)
+
+trpTarget.CurrentlyNotifier = CreateFrame("Frame", "FizzleTestSomeFrameName", TargetFrame, "BackdropTemplate")
+trpTarget.CurrentlyNotifier:SetFrameLevel(trpTarget.CurrentlyNotifier:GetParent():GetFrameLevel()+15)
+trpTarget.CurrentlyNotifier:SetClampedToScreen(true)
+-- Simple backdrop so you can see it but style the frame how you like
+trpTarget.CurrentlyNotifier:SetSize(300,100)
+trpTarget.CurrentlyNotifier:SetPoint("BOTTOMLEFT", TargetFrame, "TOPLEFT",0,0) -- or wherever you want the default anchor to be
+trpTarget.CurrentlyNotifier:SetBackdrop({
+	bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+ 	tile = true,
+	tileEdge = true,
+	tileSize = 8,
+	edgeSize = 8,
+	insets = {
+		left = 3,
+		right = 3,
+		top = 3,
+		bottom = 3,
+	},
+})
+trpTarget.CurrentlyNotifier:SetAlpha(1)
+trpTarget.CurrentlyNotifier:SetBackdropColor(0,0,0,.7)
+trpTarget.CurrentlyNotifier:SetBackdropBorderColor(1,1,1,0)
+
+--trpTarget.CurrentlyNotifier.tex = trpTarget.CurrentlyNotifier:CreateTexture(nil, "BACKGROUND")
+--trpTarget.CurrentlyNotifier.tex:SetAllPoints(trpTarget.CurrentlyNotifier)
+--trpTarget.CurrentlyNotifier.tex:SetColorTexture(0, 0, 0, 0.5)
+--trpTarget.CurrentlyNotifier.tex:SetTexture("interface/garrison/adventuremissionbackgroundshadow")
+
+trpTarget.CurrentlyNotifier.title = trpTarget.CurrentlyNotifier:CreateFontString(nil, "OVERLAY", "GameTooltipText")
+trpTarget.CurrentlyNotifier.title:SetPoint("TOPLEFT", trpTarget.CurrentlyNotifier, "TOPLEFT", 5, -5)
+trpTarget.CurrentlyNotifier.title:SetText(TRP3_API.loc.REG_PLAYER_CURRENT)
+
+trpTarget.CurrentlyNotifier.font = trpTarget.CurrentlyNotifier:CreateFontString("bingusfont", "OVERLAY", "GameTooltipText")
+trpTarget.CurrentlyNotifier.font:SetPoint("TOPLEFT", trpTarget.CurrentlyNotifier, "TOPLEFT", 15, -25)
+trpTarget.CurrentlyNotifier.font:SetText("Hello, friend.")
+trpTarget.CurrentlyNotifier.font:SetWordWrap(true)
+trpTarget.CurrentlyNotifier.font:SetSize(285,70)
+
+trpTarget.CurrentlyNotifier:Hide()
+trpTarget.CurrentlyNotifier:SetAlpha(0)
+
+function trpTarget.CurrentlyNotifier.FadeOut()
+	UIFrameFadeOut(trpTarget.CurrentlyNotifier, 2, trpTarget.CurrentlyNotifier:GetAlpha(), 0)
+	C_Timer.After(2, function() trpTarget.CurrentlyNotifier:Hide() end)
+end
+
+function trpTarget.CurrentlyNotifier.FadeIn()
+	trpTarget.CurrentlyNotifier:Show()
+	UIFrameFadeIn(trpTarget.CurrentlyNotifier, .5, trpTarget.CurrentlyNotifier:GetAlpha(), 1)
+	C_Timer.After(5, function() trpTarget.CurrentlyNotifier.FadeOut() end)
+end
+
 
 
 
@@ -1132,20 +1197,24 @@ function trpTarget.ChangedCurrently()
 	if UnitIsPlayer("target") == true and AddOn_TotalRP3.Player.CreateFromUnit("target"):GetProfileID() ~= nil then
 		trpTarget.Bongus = AddOn_TotalRP3.Player.CreateFromUnit("target"):GetCurrentlyText()
 		if (trpTarget.Bingus == nil) or (trpTarget.Bongus == nil) then
-			print("nil!")
 			trpTarget.Bingus = ""
 			trpTarget.Bongus = ""
 		end
 		trpTarget.UnitName2 = UnitName("target")
-		trpTarget.Bongus = trpTarget.Bongus:gsub("%s+", " ")
+		--trpTarget.Bongus = trpTarget.Bongus:gsub("%s+", " ")
 		if trpTarget.Bingus ~= trpTarget.Bongus and trpTarget.UnitName1 == trpTarget.UnitName2 then
 			if trpTarget.Bingus == ("" or " " or nil) then
-				print("nothing before!")
-			end
-			print("Currently change detected! Previously: " .. trpTarget.Bingus .. "\nAfter: " .. trpTarget.Bongus)
-
-			if trpTarget.Bongus == ("" or " " or nil) then
-				print("nothing after!")
+				--print("nothing before!")
+				trpTarget.CurrentlyNotifier.font:SetText(trpTarget.Bongus)
+				trpTarget.CurrentlyNotifier.title:SetText(TRP3_API.loc.REG_PLAYER_CURRENT)
+				trpTarget.CurrentlyNotifier.FadeIn()
+			elseif trpTarget.Bongus == ("" or " " or nil) then
+				--print("nothing after!")
+				--return
+			else
+				--print("Currently change detected! Previously: " .. trpTarget.Bingus .. "\nAfter: " .. trpTarget.Bongus)
+				trpTarget.CurrentlyNotifier.font:SetText(trpTarget.Bongus)
+				trpTarget.CurrentlyNotifier.FadeIn()
 			end
 
 			--trpTarget.CurrentlyChecker()
@@ -1162,17 +1231,24 @@ function trpTarget.CurrentlyChecker()
 			trpTarget.Bongus = ""
 		end
 		trpTarget.UnitName1 = UnitName("target")
-		trpTarget.Bingus = trpTarget.Bingus:gsub("%s+", " ")
+		--trpTarget.Bingus = trpTarget.Bingus:gsub("%s+", " ")
 	end
 	C_Timer.After(10, trpTarget.ChangedCurrently)
 end
-]]
+
 
 local function onStart()
 	if not TRP3_UF_DB then
 		TRP3_UF_DB = defaultsTable
 	end
-	--trpTarget.CurrentlyChecker() --(don't forget to enable this, future me)
+	--[[ --so that old users now have the new settings put in
+	if not TRP3_UF_DB.CurrNotifier then
+		TRP3_UF_DB.CurrNotifier = defaultsTable.CurrNotifier
+	end
+	]]
+
+
+	trpTarget.CurrentlyChecker() --(don't forget to enable this, future me)
 
 	--trpTarget:RegisterEvent("CHAT_MSG_ADDON")
 	trpTarget:RegisterEvent("PLAYER_TARGET_CHANGED")

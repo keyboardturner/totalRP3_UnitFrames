@@ -26,6 +26,7 @@
 ## Title-zhTW: Total RP 3: 單位框架
 ## Notes-zhTW: 修改目標和玩家框架以具有一些額外的個人資料信息。
 
+## OptionalDeps: KBT_UIAssets
 ## Dependencies: totalRP3
 ## SavedVariables: TRP3_UF_DB
 

@@ -1491,8 +1491,8 @@ local function onStart()
 		end
 	end
 
-	TRP3_API.events.registerCallback("REGISTER_DATA_UPDATED", trpPlayer.UpdateInfo)
-	TRP3_API.events.registerCallback("REGISTER_DATA_UPDATED", trpTarget.UpdateInfo)
+	TRP3_API.RegisterCallback(TRP3_Addon, "REGISTER_DATA_UPDATED", trpPlayer.UpdateInfo)
+	TRP3_API.RegisterCallback(TRP3_Addon, "REGISTER_DATA_UPDATED", trpTarget.UpdateInfo)
 end
 
 

@@ -1,8 +1,9 @@
-## Interface: 100007
+## Interface: 100100
 ## Author: Keyboardturner
-## Version: 0.0.7
+## Version: 0.0.8
 ## Title: Total RP 3: Unit Frames
 ## Notes: Modifies the target and player frames to have some additional profile info.
+## IconTexture: Interface/Addons/totalRP3_UnitFrames/totalRP3_UnitFrames.blp
 ## Title-enUS: Total RP 3: Unit Frames
 ## Notes-enUS: Modifies the target and player frames to have some additional profile info.
 ## Title-frFR: Total RP 3: Cadres unitaires

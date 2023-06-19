@@ -1,6 +1,6 @@
 ## Interface: 100100
 ## Author: Keyboardturner
-## Version: 0.0.8
+## Version: 0.0.9
 ## Title: Total RP 3: Unit Frames
 ## Notes: Modifies the target and player frames to have some additional profile info.
 ## IconTexture: Interface/Addons/totalRP3_UnitFrames/totalRP3_UnitFrames.blp
@@ -28,7 +28,8 @@
 ## Notes-zhTW: 修改目標和玩家框架以具有一些額外的個人資料信息。
 
 ## Dependencies: totalRP3
+## OptionalDeps: Narcissus
 ## SavedVariables: TRP3_UF_DB
 
-core.lua
 Localization.lua
+core.lua

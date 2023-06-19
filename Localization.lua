@@ -30,6 +30,23 @@ if LOCALE == "enUS" then
 	L["BlizzBackCol"] = "Use Blizzard Class Color - Backdrop"
 	L["ApplyToNPCs"] = "Apply to NPCs"
 	L["PlayerPortrait"] = "Player Portrait"
+	L["Dragons"] = "Dragons"
+	L["Hearthstone"] = "Hearthstone"
+	L["Narcissus"] = "Narcissus"
+	L["LGBQT+"] = "LGBQT+"
+	L["ComingSoon"] = "Coming Soon!"
+	L["SelectOption"] = "Select an Option"
+	L["NotDetected"] = "Not detected"
+
+	L["Agender"] = "Agender"
+	L["Aromantic Asexual"] = "Aromantic Asexual"
+	L["Bisexual"] = "Bisexual"
+	L["Non-Binary"] = "Non-Binary"
+	L["Gay Male"] = "Gay Male"
+	L["Genderfluid"] = "Genderfluid"
+	L["Genderqueer"] = "Genderqueer"
+	L["Lesbian"] = "Lesbian"
+	L["Transgender"] = "Transgender"
 return end
 
 if LOCALE == "esES" or LOCALE == "esMX" then
@@ -51,6 +68,23 @@ if LOCALE == "esES" or LOCALE == "esMX" then
 	L["BlizzBackCol"] = "Usar color de clase de Blizzard - Telón de fondo"
 	L["ApplyToNPCs"] = "Aplicar a los NPC"
 	L["PlayerPortrait"] = "Retrato del jugador"
+	L["Dragons"] = "Dragones"
+	L["Hearthstone"] = "Hearthstone"
+	L["Narcissus"] = "Narcissus"
+	L["LGBQT+"] = "LGBQT+"
+	L["ComingSoon"] = "¡Muy pronto!"
+	L["SelectOption"] = "Seleccione una opción"
+	L["NotDetected"] = "No detectado"
+
+	L["Agender"] = "Agénero"
+	L["Aromantic Asexual"] = "Aromantic Asexual"
+	L["Bisexual"] = "Bisexualidad"
+	L["Non-Binary"] = "Nichtbinäre Geschlechtsidentität"
+	L["Gay Male"] = "Hombre Homosexual"
+	L["Genderfluid"] = "Género Fluido"
+	L["Genderqueer"] = "Genderqueer"
+	L["Lesbian"] = "Lesbiana"
+	L["Transgender"] = "Transgénero"
 return end
 
 if LOCALE == "deDE" then
@@ -72,6 +106,23 @@ if LOCALE == "deDE" then
 	L["BlizzBackCol"] = "Verwenden Sie die Blizzard-Klassenfarbe - Hintergrund"
 	L["ApplyToNPCs"] = "Bewerben Sie sich bei NPCs"
 	L["PlayerPortrait"] = "Spielerportrait"
+	L["Dragons"] = "Drachen"
+	L["Hearthstone"] = "Hearthstone"
+	L["Narcissus"] = "Narcissus"
+	L["LGBQT+"] = "LGBQT+"
+	L["ComingSoon"] = "Demnächst!"
+	L["SelectOption"] = "Wähle eine Option"
+	L["NotDetected"] = "Nicht erkannt"
+
+	L["Agender"] = "Agender"
+	L["Aromantic Asexual"] = "Aromantic Asexual"
+	L["Bisexual"] = "Bisexualität"
+	L["Non-Binary"] = "Nichtbinäre Geschlechtsidentität"
+	L["Gay Male"] = "Schwuler Mann"
+	L["Genderfluid"] = "Genderfluid"
+	L["Genderqueer"] = "Genderqueer"
+	L["Lesbian"] = "Lesbisch"
+	L["Transgender"] = "Transgender"
 return end
 
 if LOCALE == "frFR" then
@@ -93,6 +144,23 @@ if LOCALE == "frFR" then
 	L["BlizzBackCol"] = "Utiliser la couleur de la classe Blizzard - Toile de fond"
 	L["ApplyToNPCs"] = "Appliquer aux PNJ"
 	L["PlayerPortrait"] = "Portrait du joueur"
+	L["Dragons"] = "Dragons"
+	L["Hearthstone"] = "Hearthstone"
+	L["Narcissus"] = "Narcissus"
+	L["LGBQT+"] = "LGBQT+"
+	L["ComingSoon"] = "À venir!"
+	L["SelectOption"] = "Choisir une option"
+	L["NotDetected"] = "Non-détecté"
+
+	L["Agender"] = "Agenre"
+	L["Aromantic Asexual"] = "Asexué Aromantique"
+	L["Bisexual"] = "Bisexualité"
+	L["Non-Binary"] = "Non-Binarité"
+	L["Gay Male"] = "Gay Homme"
+	L["Genderfluid"] = "Genre Fluide"
+	L["Genderqueer"] = "Genre Queer"
+	L["Lesbian"] = "Lesbienne"
+	L["Transgender"] = "Transgenres"
 return end
 
 if LOCALE == "itIT" then
@@ -114,6 +182,23 @@ if LOCALE == "itIT" then
 	L["BlizzBackCol"] = "Usa il colore della classe Blizzard - Sfondo"
 	L["ApplyToNPCs"] = "Applica agli NPC"
 	L["PlayerPortrait"] = "Ritratto del giocatore"
+	L["Dragons"] = "Draghi"
+	L["Hearthstone"] = "Hearthstone"
+	L["Narcissus"] = "Narcissus"
+	L["LGBQT+"] = "LGBQT+"
+	L["ComingSoon"] = "Prossimamente!"
+	L["SelectOption"] = "Seleziona un'opzione"
+	L["NotDetected"] = "Non rilevata"
+
+	L["Agender"] = "Agenda"
+	L["Aromantic Asexual"] = "Asessuale Aromatico"
+	L["Bisexual"] = "Bisessualità"
+	L["Non-Binary"] = "Non Binario"
+	L["Gay Male"] = "Maschio Gay"
+	L["Genderfluid"] = "Fluido di genere"
+	L["Genderqueer"] = "Genderqueer"
+	L["Lesbian"] = "Lesbica"
+	L["Transgender"] = "Transgender"
 return end
 
 if LOCALE == "ptBR" then
@@ -135,6 +220,23 @@ if LOCALE == "ptBR" then
 	L["BlizzBackCol"] = "Use a cor da classe Blizzard - Pano de fundo"
 	L["ApplyToNPCs"] = "Aplicar para NPCs"
 	L["PlayerPortrait"] = "Retrato do jogador"
+	L["Dragons"] = "Dragões"
+	L["Hearthstone"] = "Hearthstone"
+	L["Narcissus"] = "Narcissus"
+	L["LGBQT+"] = "LGBQT+"
+	L["ComingSoon"] = "Em breve!"
+	L["SelectOption"] = "Selecione uma opção"
+	L["NotDetected"] = "Não detectado"
+
+	L["Agender"] = "Ageneridade"
+	L["Aromantic Asexual"] = "Assexual Aromântico"
+	L["Bisexual"] = "Bissexualidade"
+	L["Non-Binary"] = "Não-binário"
+	L["Gay Male"] = "Homem Gay"
+	L["Genderfluid"] = "Gênero Fluido"
+	L["Genderqueer"] = "Genderqueer"
+	L["Lesbian"] = "Lésbica"
+	L["Transgender"] = "Transgénero"
 	-- Note that the EU Portuguese WoW client also
 	-- uses the Brazilian Portuguese locale code.
 return end
@@ -158,6 +260,23 @@ if LOCALE == "ruRU" then
 	L["BlizzBackCol"] = "Использовать цвет класса Blizzard — фон"
 	L["ApplyToNPCs"] = "Применить к NPC"
 	L["PlayerPortrait"] = "Портрет игрока"
+	L["Dragons"] = "Драконы"
+	L["Hearthstone"] = "Hearthstone"
+	L["Narcissus"] = "Narcissus"
+	L["LGBQT+"] = "ЛГБТК+"
+	L["ComingSoon"] = "Вскоре!"
+	L["SelectOption"] = "Выберите вариант"
+	L["NotDetected"] = "Не обнаружен"
+
+	L["Agender"] = "Агендер"
+	L["Aromantic Asexual"] = "аромантичный асексуал"
+	L["Bisexual"] = "Бисексуальность"
+	L["Non-Binary"] = "Небинарный"
+	L["Gay Male"] = "Гей Мужчина"
+	L["Genderfluid"] = "Гендерфлюид"
+	L["Genderqueer"] = "Гендерквир"
+	L["Lesbian"] = "Лесби"
+	L["Transgender"] = "Трансгендерность"
 return end
 
 if LOCALE == "koKR" then
@@ -179,6 +298,23 @@ if LOCALE == "koKR" then
 	L["BlizzBackCol"] = "블리자드 클래스 색상 사용 - 배경"
 	L["ApplyToNPCs"] = "NPC에 적용"
 	L["PlayerPortrait"] = "플레이어 초상화"
+	L["Dragons"] = "용"
+	L["Hearthstone"] = "하스스톤"
+	L["Narcissus"] = "Narcissus"
+	L["LGBQT+"] = "LGBQT+"
+	L["ComingSoon"] = "곧 출시됩니다!"
+	L["SelectOption"] = "옵션을 선택하세요"
+	L["NotDetected"] = "감지되지 않음"
+
+	L["Agender"] = "에이젠더"
+	L["Aromantic Asexual"] = "무로맨틱 무성애자"
+	L["Bisexual"] = "양성애"
+	L["Non-Binary"] = "논바이너리"
+	L["Gay Male"] = "게이 남성"
+	L["Genderfluid"] = "젠더플루이드"
+	L["Genderqueer"] = "젠더퀴어"
+	L["Lesbian"] = "레즈비언"
+	L["Transgender"] = "트랜스젠더"
 return end
 
 if LOCALE == "zhCN" then
@@ -200,6 +336,23 @@ if LOCALE == "zhCN" then
 	L["BlizzBackCol"] = "使用暴雪类颜色 - 背景"
 	L["ApplyToNPCs"] = "适用于 NPC"
 	L["PlayerPortrait"] = "玩家头像"
+	L["Dragons"] = "龙"
+	L["Hearthstone"] = "炉石传说"
+	L["Narcissus"] = "Narcissus"
+	L["LGBQT+"] = "LGBQT+"
+	L["ComingSoon"] = "即将推出！"
+	L["SelectOption"] = "选择一个选项"
+	L["NotDetected"] = "没有检测到"
+
+	L["Agender"] = "无性别"
+	L["Aromantic Asexual"] = "芳香无性"
+	L["Bisexual"] = "双性恋"
+	L["Non-Binary"] = "非二进制"
+	L["Gay Male"] = "男同性恋"
+	L["Genderfluid"] = "性别流动"
+	L["Genderqueer"] = "性别酷儿"
+	L["Lesbian"] = "女同性恋"
+	L["Transgender"] = "跨性别"
 return end
 
 if LOCALE == "zhTW" then
@@ -221,4 +374,21 @@ if LOCALE == "zhTW" then
 	L["BlizzBackCol"] = "使用暴雪類顏色 - 背景"
 	L["ApplyToNPCs"] = "適用於 NPC"
 	L["PlayerPortrait"] = "玩家頭像"
+	L["Dragons"] = "龍"
+	L["Hearthstone"] = "炉石传说"
+	L["Narcissus"] = "Narcissus"
+	L["LGBQT+"] = "LGBQT+"
+	L["ComingSoon"] = "即將推出！"
+	L["SelectOption"] = "選擇一個選項"
+	L["NotDetected"] = "沒有檢測到"
+
+	L["Agender"] = "无性别"
+	L["Aromantic Asexual"] = "芳香无性"
+	L["Bisexual"] = "双性恋"
+	L["Non-Binary"] = "非二进制"
+	L["Gay Male"] = "男同性恋"
+	L["Genderfluid"] = "性别流动"
+	L["Genderqueer"] = "性别酷儿"
+	L["Lesbian"] = "女同性恋"
+	L["Transgender"] = "跨性别"
 return end

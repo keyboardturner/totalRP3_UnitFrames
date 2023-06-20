@@ -31,7 +31,7 @@ local defaultsTable = {
 		status = false,
 	},
 
-	Setting = {locked = true, charSpecific = false, NPCs = false, FullNamePlayer = true, FullNameTarget = true,},
+	Setting = {locked = true, charSpecific = false, NPCs = false, FullNamePlayer = true, FullNameTarget = true, UseTRPName = true},
 
 	CurrNotifier = {show = true,
 		Border = {r = 1, g = 1, b = 1, a = 1, custom = true, class = false, style = "Interface\\Tooltips\\UI-Tooltip-Background", size = 8,},
@@ -731,6 +731,50 @@ TRP3_UFPanel.scrollChild.NPCOptionsCheckbox:SetScript("OnClick", function(self)
 	trpTarget.UpdateInfo()
 end);
 
+--toggle full names
+
+TRP3_UFPanel.scrollChild.UseTRP3NameCheckbox = CreateFrame("CheckButton", "TRP3_UFTRP3NameCheckbox", TRP3_UFPanel.scrollChild, "UICheckButtonTemplate");
+TRP3_UFPanel.scrollChild.UseTRP3NameCheckbox:ClearAllPoints();
+TRP3_UFPanel.scrollChild.UseTRP3NameCheckbox:SetPoint("TOPLEFT", 300, -53*10);
+
+TRP3_UFPanel.scrollChild.UseTRP3NameCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.scrollChild.UseTRP3NameCheckbox:GetChecked() then
+		TRP3_UF_DB.Setting.UseTRPName = true;
+
+	else
+		TRP3_UF_DB.Setting.UseTRPName = false;
+	end
+	TRP3_UFPanel.scrollChild.FullNamePCheckbox:SetEnabled(TRP3_UF_DB.Setting.UseTRPName)
+	TRP3_UFPanel.scrollChild.FullNameTCheckbox:SetEnabled(TRP3_UF_DB.Setting.UseTRPName)
+	trpTarget.UpdateInfo()
+end);
+
+TRP3_UFPanel.scrollChild.FullNamePCheckbox = CreateFrame("CheckButton", "TRP3_UFFullNamePlayerOptionsCheckbox", TRP3_UFPanel.scrollChild, "UICheckButtonTemplate");
+TRP3_UFPanel.scrollChild.FullNamePCheckbox:ClearAllPoints();
+TRP3_UFPanel.scrollChild.FullNamePCheckbox:SetPoint("TOPLEFT", 300, -53*10.5);
+
+TRP3_UFPanel.scrollChild.FullNamePCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.scrollChild.FullNamePCheckbox:GetChecked() then
+		TRP3_UF_DB.Setting.FullNamePlayer = true;
+	else
+		TRP3_UF_DB.Setting.FullNamePlayer = false;
+	end
+	trpTarget.UpdateInfo()
+end);
+
+TRP3_UFPanel.scrollChild.FullNameTCheckbox = CreateFrame("CheckButton", "TRP3_UFFullNameTargetOptionsCheckbox", TRP3_UFPanel.scrollChild, "UICheckButtonTemplate");
+TRP3_UFPanel.scrollChild.FullNameTCheckbox:ClearAllPoints();
+TRP3_UFPanel.scrollChild.FullNameTCheckbox:SetPoint("TOPLEFT", 300, -53*11);
+
+TRP3_UFPanel.scrollChild.FullNameTCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.scrollChild.FullNameTCheckbox:GetChecked() then
+		TRP3_UF_DB.Setting.FullNameTarget = true;
+	else
+		TRP3_UF_DB.Setting.FullNameTarget = false;
+	end
+	trpTarget.UpdateInfo()
+end);
+
 
 
 ------------------------------------------------------------------------------------------------------------------
@@ -1407,7 +1451,13 @@ function trpTarget.SetColor()
 		TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a)
 	end
 	if TRP3_UF_DB.Target.colorText.custom == true then
-		TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(TRP3_API.r.name("target"))
+		if TRP3_UF_DB.Setting.FullNameTarget == true and TRP3_UF_DB.Setting.UseTRPName == true then
+			TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(TRP3_API.r.name("target"))
+		elseif TRP3_UF_DB.Setting.FullNameTarget == false and TRP3_UF_DB.Setting.UseTRPName == true then
+			TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("target")):GetFirstName())
+		else
+			TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(UnitName("target"))
+		end
 		TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetTextColor(TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b)
 	end
 end
@@ -1569,6 +1619,9 @@ local function onStart()
 	end
 	if not TRP3_UF_DB.Setting.FullNameTarget then
 		TRP3_UF_DB.Setting.FullNameTarget = defaultsTable.Setting.FullNameTarget
+	end
+	if not TRP3_UF_DB.Setting.UseTRPName then
+		TRP3_UF_DB.Setting.UseTRPName = defaultsTable.Setting.UseTRPName
 	end
 
 
@@ -1797,6 +1850,15 @@ local function onStart()
 	TRP3_UFPanel.scrollChild.PlayerCustomBackColButton:SetEnabled(TRP3_UF_DB.Player.colorBack.custom);
 
 	TRP3_UFPanel.scrollChild.NPCOptionsCheckbox:SetChecked(TRP3_UF_DB.Setting.NPCs);
+	TRP3_UFPanel.scrollChild.UseTRP3NameCheckbox:SetChecked(TRP3_UF_DB.Setting.FullNamePlayer);
+	TRP3_UFPanel.scrollChild.FullNamePCheckbox:SetChecked(TRP3_UF_DB.Setting.FullNamePlayer);
+	TRP3_UFPanel.scrollChild.FullNameTCheckbox:SetChecked(TRP3_UF_DB.Setting.FullNamePlayer);
+
+
+	TRP3_UFPanel.scrollChild.FullNamePCheckbox:SetEnabled(TRP3_UF_DB.Setting.UseTRPName);
+	TRP3_UFPanel.scrollChild.FullNameTCheckbox:SetEnabled(TRP3_UF_DB.Setting.UseTRPName);
+
+
 
 	--color names
 
@@ -1815,6 +1877,9 @@ local function onStart()
     --localized
     TRP3_UFPanel.scrollChild.PortraitButton:SetText(L["PlayerPortrait"])
     getglobal(TRP3_UFPanel.scrollChild.NPCOptionsCheckbox:GetName().."Text"):SetText(L["ApplyToNPCs"]);
+    getglobal(TRP3_UFPanel.scrollChild.UseTRP3NameCheckbox:GetName().."Text"):SetText(L["TRP3CustomName"]);
+    getglobal(TRP3_UFPanel.scrollChild.FullNamePCheckbox:GetName().."Text"):SetText(L["FullNamePlayer"]);
+    getglobal(TRP3_UFPanel.scrollChild.FullNameTCheckbox:GetName().."Text"):SetText(L["FullNameTarget"]);
     getglobal(TRP3_UFPanel.scrollChild.PlayerClassBackColorCheckbox:GetName().."Text"):SetText(L["BlizzBackCol"]);
     getglobal(TRP3_UFPanel.scrollChild.PlayerClassTextColorCheckbox:GetName().."Text"):SetText(L["BlizzTextCol"]);
     getglobal(TRP3_UFPanel.scrollChild.PlayerBackColorCheckbox:GetName().."Text"):SetText(L["OverwriteBackCol"]);
@@ -1866,7 +1931,13 @@ local function onStart()
 
 	function trpPlayer.UpdateInfo()
 		local classR, classG, classB = C_ClassColor.GetClassColor(UnitClassBase("player")).r, C_ClassColor.GetClassColor(UnitClassBase("player")).g, C_ClassColor.GetClassColor(UnitClassBase("player")).b
-		PlayerName:SetText(TRP3_API.r.name("player"))
+		if TRP3_UF_DB.Setting.FullNamePlayer == true and TRP3_UF_DB.Setting.UseTRPName == true then
+			PlayerName:SetText(TRP3_API.r.name("player"))
+		elseif TRP3_UF_DB.Setting.FullNamePlayer == false and TRP3_UF_DB.Setting.UseTRPName == true then
+			PlayerName:SetText(AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("player")):GetFirstName())
+		else
+			PlayerName:SetText(UnitName("player"))
+		end
 		PlayerName:SetTextColor(1,0.8960791349411,0,1)
 		PlayerFrameReputationColor:SetVertexColor(0, 0, 0, 0)
 		if TRP3_UF_DB.Player.colorText.class == true then
@@ -1912,7 +1983,14 @@ local function onStart()
 				if classR == nil or classG == nil or classB == nil then
 					classR, classG, classB = 1, 1, 1
 				end
-				TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(TRP3_API.r.name("target"))
+				if TRP3_UF_DB.Setting.FullNameTarget == true and TRP3_UF_DB.Setting.UseTRPName == true then
+					TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(TRP3_API.r.name("target"))
+				elseif TRP3_UF_DB.Setting.FullNameTarget == false and TRP3_UF_DB.Setting.UseTRPName == true then
+					TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("target")):GetFirstName())
+				else
+					TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(UnitName("target"))
+				end
+
 				TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetTextColor(classR, classG, classB)
 			end
 

@@ -31,7 +31,7 @@ local defaultsTable = {
 		status = false,
 	},
 
-	Setting = {locked = true, charSpecific = false, NPCs = false,},
+	Setting = {locked = true, charSpecific = false, NPCs = false, FullNamePlayer = true, FullNameTarget = true,},
 
 	CurrNotifier = {show = true,
 		Border = {r = 1, g = 1, b = 1, a = 1, custom = true, class = false, style = "Interface\\Tooltips\\UI-Tooltip-Background", size = 8,},
@@ -179,74 +179,84 @@ TRP3_UFPanel.Version:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT",400,-21);
 TRP3_UFPanel.Version:SetText(VERSION_TEXT);
 
 
+local TRP3_UFScrollFrame = CreateFrame("ScrollFrame", nil, TRP3_UFPanel, "UIPanelScrollFrameTemplate")
+TRP3_UFScrollFrame:SetPoint("TOPLEFT", 3, -4)
+TRP3_UFScrollFrame:SetPoint("BOTTOMRIGHT", -27, 4)
+
+TRP3_UFPanel.scrollChild = CreateFrame("Frame")
+TRP3_UFScrollFrame:SetScrollChild(TRP3_UFPanel.scrollChild)
+TRP3_UFPanel.scrollChild:SetWidth(SettingsPanel:GetWidth()-18)
+TRP3_UFPanel.scrollChild:SetHeight(1)
+
+
 ------------------------------------------------------------------------------------------------------------------
 --position presets
-TRP3_UFPanel.Pf = CreateFrame("Frame", nil, TRP3_UFPanel)
-TRP3_UFPanel.Pf:ClearAllPoints();
-TRP3_UFPanel.Pf:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT", 12, -53*2);
-TRP3_UFPanel.Pf:SetSize(64, 64)
+TRP3_UFPanel.scrollChild.Pf = CreateFrame("Frame", nil, TRP3_UFPanel.scrollChild)
+TRP3_UFPanel.scrollChild.Pf:ClearAllPoints();
+TRP3_UFPanel.scrollChild.Pf:SetPoint("TOPLEFT", TRP3_UFPanel.scrollChild, "TOPLEFT", 12, -53*2);
+TRP3_UFPanel.scrollChild.Pf:SetSize(64, 64)
 
-TRP3_UFPanel.Pf.tex = TRP3_UFPanel.Pf:CreateTexture()
-TRP3_UFPanel.Pf.tex:SetAllPoints(TRP3_UFPanel.Pf)
-SetPortraitTexture(TRP3_UFPanel.Pf.tex, "player")
+TRP3_UFPanel.scrollChild.Pf.tex = TRP3_UFPanel.scrollChild.Pf:CreateTexture()
+TRP3_UFPanel.scrollChild.Pf.tex:SetAllPoints(TRP3_UFPanel.scrollChild.Pf)
+SetPortraitTexture(TRP3_UFPanel.scrollChild.Pf.tex, "player")
 
-TRP3_UFPanel.Pf.radioTopLeft = CreateFrame("CheckButton", nil, TRP3_UFPanel.Pf, "UIRadioButtonTemplate")
-TRP3_UFPanel.Pf.radioTop = CreateFrame("CheckButton", nil, TRP3_UFPanel.Pf, "UIRadioButtonTemplate")
-TRP3_UFPanel.Pf.radioTopRight = CreateFrame("CheckButton", nil, TRP3_UFPanel.Pf, "UIRadioButtonTemplate")
-TRP3_UFPanel.Pf.radioLeft = CreateFrame("CheckButton", nil, TRP3_UFPanel.Pf, "UIRadioButtonTemplate")
-TRP3_UFPanel.Pf.radioCenter = CreateFrame("CheckButton", nil, TRP3_UFPanel.Pf, "UIRadioButtonTemplate")
-TRP3_UFPanel.Pf.radioRight = CreateFrame("CheckButton", nil, TRP3_UFPanel.Pf, "UIRadioButtonTemplate")
-TRP3_UFPanel.Pf.radioBottomLeft = CreateFrame("CheckButton", nil, TRP3_UFPanel.Pf, "UIRadioButtonTemplate")
-TRP3_UFPanel.Pf.radioBottom = CreateFrame("CheckButton", nil, TRP3_UFPanel.Pf, "UIRadioButtonTemplate")
-TRP3_UFPanel.Pf.radioBottomRight = CreateFrame("CheckButton", nil, TRP3_UFPanel.Pf, "UIRadioButtonTemplate")
+TRP3_UFPanel.scrollChild.Pf.radioTopLeft = CreateFrame("CheckButton", nil, TRP3_UFPanel.scrollChild.Pf, "UIRadioButtonTemplate")
+TRP3_UFPanel.scrollChild.Pf.radioTop = CreateFrame("CheckButton", nil, TRP3_UFPanel.scrollChild.Pf, "UIRadioButtonTemplate")
+TRP3_UFPanel.scrollChild.Pf.radioTopRight = CreateFrame("CheckButton", nil, TRP3_UFPanel.scrollChild.Pf, "UIRadioButtonTemplate")
+TRP3_UFPanel.scrollChild.Pf.radioLeft = CreateFrame("CheckButton", nil, TRP3_UFPanel.scrollChild.Pf, "UIRadioButtonTemplate")
+TRP3_UFPanel.scrollChild.Pf.radioCenter = CreateFrame("CheckButton", nil, TRP3_UFPanel.scrollChild.Pf, "UIRadioButtonTemplate")
+TRP3_UFPanel.scrollChild.Pf.radioRight = CreateFrame("CheckButton", nil, TRP3_UFPanel.scrollChild.Pf, "UIRadioButtonTemplate")
+TRP3_UFPanel.scrollChild.Pf.radioBottomLeft = CreateFrame("CheckButton", nil, TRP3_UFPanel.scrollChild.Pf, "UIRadioButtonTemplate")
+TRP3_UFPanel.scrollChild.Pf.radioBottom = CreateFrame("CheckButton", nil, TRP3_UFPanel.scrollChild.Pf, "UIRadioButtonTemplate")
+TRP3_UFPanel.scrollChild.Pf.radioBottomRight = CreateFrame("CheckButton", nil, TRP3_UFPanel.scrollChild.Pf, "UIRadioButtonTemplate")
 
-TRP3_UFPanel.Pf.radioTopLeft:SetChecked(false)
-TRP3_UFPanel.Pf.radioTop:SetChecked(false)
-TRP3_UFPanel.Pf.radioTopRight:SetChecked(false)
-TRP3_UFPanel.Pf.radioLeft:SetChecked(false)
-TRP3_UFPanel.Pf.radioCenter:SetChecked(false)
-TRP3_UFPanel.Pf.radioRight:SetChecked(false)
-TRP3_UFPanel.Pf.radioBottomLeft:SetChecked(false)
-TRP3_UFPanel.Pf.radioBottom:SetChecked(false)
-TRP3_UFPanel.Pf.radioBottomRight:SetChecked(true)
+TRP3_UFPanel.scrollChild.Pf.radioTopLeft:SetChecked(false)
+TRP3_UFPanel.scrollChild.Pf.radioTop:SetChecked(false)
+TRP3_UFPanel.scrollChild.Pf.radioTopRight:SetChecked(false)
+TRP3_UFPanel.scrollChild.Pf.radioLeft:SetChecked(false)
+TRP3_UFPanel.scrollChild.Pf.radioCenter:SetChecked(false)
+TRP3_UFPanel.scrollChild.Pf.radioRight:SetChecked(false)
+TRP3_UFPanel.scrollChild.Pf.radioBottomLeft:SetChecked(false)
+TRP3_UFPanel.scrollChild.Pf.radioBottom:SetChecked(false)
+TRP3_UFPanel.scrollChild.Pf.radioBottomRight:SetChecked(true)
 
-TRP3_UFPanel.Pf.radioTopLeft:SetPoint("CENTER", TRP3_UFPanel.Pf, "TOPLEFT", 0, 0)
-TRP3_UFPanel.Pf.radioTop:SetPoint("CENTER", TRP3_UFPanel.Pf, "TOP", 0, 0)
-TRP3_UFPanel.Pf.radioTopRight:SetPoint("CENTER", TRP3_UFPanel.Pf, "TOPRIGHT", 0, 0)
-TRP3_UFPanel.Pf.radioLeft:SetPoint("CENTER", TRP3_UFPanel.Pf, "LEFT", 0, 0)
-TRP3_UFPanel.Pf.radioCenter:SetPoint("CENTER", TRP3_UFPanel.Pf, "CENTER", 0, 0)
-TRP3_UFPanel.Pf.radioRight:SetPoint("CENTER", TRP3_UFPanel.Pf, "RIGHT", 0, 0)
-TRP3_UFPanel.Pf.radioBottomLeft:SetPoint("CENTER", TRP3_UFPanel.Pf, "BOTTOMLEFT", 0, 0)
-TRP3_UFPanel.Pf.radioBottom:SetPoint("CENTER", TRP3_UFPanel.Pf, "BOTTOM", 0, 0)
-TRP3_UFPanel.Pf.radioBottomRight:SetPoint("CENTER", TRP3_UFPanel.Pf, "BOTTOMRIGHT", 0, 0)
+TRP3_UFPanel.scrollChild.Pf.radioTopLeft:SetPoint("CENTER", TRP3_UFPanel.scrollChild.Pf, "TOPLEFT", 0, 0)
+TRP3_UFPanel.scrollChild.Pf.radioTop:SetPoint("CENTER", TRP3_UFPanel.scrollChild.Pf, "TOP", 0, 0)
+TRP3_UFPanel.scrollChild.Pf.radioTopRight:SetPoint("CENTER", TRP3_UFPanel.scrollChild.Pf, "TOPRIGHT", 0, 0)
+TRP3_UFPanel.scrollChild.Pf.radioLeft:SetPoint("CENTER", TRP3_UFPanel.scrollChild.Pf, "LEFT", 0, 0)
+TRP3_UFPanel.scrollChild.Pf.radioCenter:SetPoint("CENTER", TRP3_UFPanel.scrollChild.Pf, "CENTER", 0, 0)
+TRP3_UFPanel.scrollChild.Pf.radioRight:SetPoint("CENTER", TRP3_UFPanel.scrollChild.Pf, "RIGHT", 0, 0)
+TRP3_UFPanel.scrollChild.Pf.radioBottomLeft:SetPoint("CENTER", TRP3_UFPanel.scrollChild.Pf, "BOTTOMLEFT", 0, 0)
+TRP3_UFPanel.scrollChild.Pf.radioBottom:SetPoint("CENTER", TRP3_UFPanel.scrollChild.Pf, "BOTTOM", 0, 0)
+TRP3_UFPanel.scrollChild.Pf.radioBottomRight:SetPoint("CENTER", TRP3_UFPanel.scrollChild.Pf, "BOTTOMRIGHT", 0, 0)
 
-TRP3_UFPanel.Pf.TitleText = TRP3_UFPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
-TRP3_UFPanel.Pf.TitleText:SetFont(TRP3_UFPanel.Pf.TitleText:GetFont(), 12);
-TRP3_UFPanel.Pf.TitleText:SetTextColor(1,1,1,1);
-TRP3_UFPanel.Pf.TitleText:ClearAllPoints();
-TRP3_UFPanel.Pf.TitleText:SetPoint("BOTTOM", TRP3_UFPanel.Pf, "TOP",0,10);
-TRP3_UFPanel.Pf.TitleText:SetText(PLAYER);
+TRP3_UFPanel.scrollChild.Pf.TitleText = TRP3_UFPanel.scrollChild.Pf:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+TRP3_UFPanel.scrollChild.Pf.TitleText:SetFont(TRP3_UFPanel.scrollChild.Pf.TitleText:GetFont(), 12);
+TRP3_UFPanel.scrollChild.Pf.TitleText:SetTextColor(1,1,1,1);
+TRP3_UFPanel.scrollChild.Pf.TitleText:ClearAllPoints();
+TRP3_UFPanel.scrollChild.Pf.TitleText:SetPoint("BOTTOM", TRP3_UFPanel.scrollChild.Pf, "TOP",0,10);
+TRP3_UFPanel.scrollChild.Pf.TitleText:SetText(PLAYER);
 
-TRP3_UFPanel.Pf.allRadios = {
-	TRP3_UFPanel.Pf.radioTopLeft,
-	TRP3_UFPanel.Pf.radioTop,
-	TRP3_UFPanel.Pf.radioTopRight,
-	TRP3_UFPanel.Pf.radioLeft,
-	TRP3_UFPanel.Pf.radioCenter,
-	TRP3_UFPanel.Pf.radioRight,
-	TRP3_UFPanel.Pf.radioBottomLeft,
-	TRP3_UFPanel.Pf.radioBottom,
-	TRP3_UFPanel.Pf.radioBottomRight
+TRP3_UFPanel.scrollChild.Pf.allRadios = {
+	TRP3_UFPanel.scrollChild.Pf.radioTopLeft,
+	TRP3_UFPanel.scrollChild.Pf.radioTop,
+	TRP3_UFPanel.scrollChild.Pf.radioTopRight,
+	TRP3_UFPanel.scrollChild.Pf.radioLeft,
+	TRP3_UFPanel.scrollChild.Pf.radioCenter,
+	TRP3_UFPanel.scrollChild.Pf.radioRight,
+	TRP3_UFPanel.scrollChild.Pf.radioBottomLeft,
+	TRP3_UFPanel.scrollChild.Pf.radioBottom,
+	TRP3_UFPanel.scrollChild.Pf.radioBottomRight
 };
 
-function TRP3_UFPanel.Pf.createOnRadioClicked (location)
+function TRP3_UFPanel.scrollChild.Pf.createOnRadioClicked (location)
 	local function onRadioClicked (self, a, b, c)
 		local checked = self:GetChecked()
 		PlaySound(PlaySoundKitID and "igMainMenuOptionCheckBoxOn" or SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
 		TRP3_UF_DB.Player.relativePoint = location
 
 		local anyChecked = false
-		for _, radio in ipairs(TRP3_UFPanel.Pf.allRadios) do
+		for _, radio in ipairs(TRP3_UFPanel.scrollChild.Pf.allRadios) do
 			if radio ~= self then
 				anyChecked = radio:GetChecked() or anyChecked
 				radio:SetChecked(false)
@@ -260,91 +270,91 @@ function TRP3_UFPanel.Pf.createOnRadioClicked (location)
 	return onRadioClicked
 end
 
-TRP3_UFPanel.Pf.radioTopLeft:SetScript("OnClick", TRP3_UFPanel.Pf.createOnRadioClicked("TOPLEFT"))
-TRP3_UFPanel.Pf.radioTop:SetScript("OnClick", TRP3_UFPanel.Pf.createOnRadioClicked("TOP"))
-TRP3_UFPanel.Pf.radioTopRight:SetScript("OnClick", TRP3_UFPanel.Pf.createOnRadioClicked("TOPRIGHT"))
-TRP3_UFPanel.Pf.radioLeft:SetScript("OnClick", TRP3_UFPanel.Pf.createOnRadioClicked("LEFT"))
-TRP3_UFPanel.Pf.radioCenter:SetScript("OnClick", TRP3_UFPanel.Pf.createOnRadioClicked("CENTER"))
-TRP3_UFPanel.Pf.radioRight:SetScript("OnClick", TRP3_UFPanel.Pf.createOnRadioClicked("RIGHT"))
-TRP3_UFPanel.Pf.radioBottomLeft:SetScript("OnClick", TRP3_UFPanel.Pf.createOnRadioClicked("BOTTOMLEFT"))
-TRP3_UFPanel.Pf.radioBottom:SetScript("OnClick", TRP3_UFPanel.Pf.createOnRadioClicked("BOTTOM"))
-TRP3_UFPanel.Pf.radioBottomRight:SetScript("OnClick", TRP3_UFPanel.Pf.createOnRadioClicked("BOTTOMRIGHT"))
+TRP3_UFPanel.scrollChild.Pf.radioTopLeft:SetScript("OnClick", TRP3_UFPanel.scrollChild.Pf.createOnRadioClicked("TOPLEFT"))
+TRP3_UFPanel.scrollChild.Pf.radioTop:SetScript("OnClick", TRP3_UFPanel.scrollChild.Pf.createOnRadioClicked("TOP"))
+TRP3_UFPanel.scrollChild.Pf.radioTopRight:SetScript("OnClick", TRP3_UFPanel.scrollChild.Pf.createOnRadioClicked("TOPRIGHT"))
+TRP3_UFPanel.scrollChild.Pf.radioLeft:SetScript("OnClick", TRP3_UFPanel.scrollChild.Pf.createOnRadioClicked("LEFT"))
+TRP3_UFPanel.scrollChild.Pf.radioCenter:SetScript("OnClick", TRP3_UFPanel.scrollChild.Pf.createOnRadioClicked("CENTER"))
+TRP3_UFPanel.scrollChild.Pf.radioRight:SetScript("OnClick", TRP3_UFPanel.scrollChild.Pf.createOnRadioClicked("RIGHT"))
+TRP3_UFPanel.scrollChild.Pf.radioBottomLeft:SetScript("OnClick", TRP3_UFPanel.scrollChild.Pf.createOnRadioClicked("BOTTOMLEFT"))
+TRP3_UFPanel.scrollChild.Pf.radioBottom:SetScript("OnClick", TRP3_UFPanel.scrollChild.Pf.createOnRadioClicked("BOTTOM"))
+TRP3_UFPanel.scrollChild.Pf.radioBottomRight:SetScript("OnClick", TRP3_UFPanel.scrollChild.Pf.createOnRadioClicked("BOTTOMRIGHT"))
 
 
 
-TRP3_UFPanel.Tf = CreateFrame("Frame", nil, TRP3_UFPanel)
-TRP3_UFPanel.Tf:ClearAllPoints();
-TRP3_UFPanel.Tf:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT", 170*3, -53*2);
-TRP3_UFPanel.Tf:SetSize(64, 64)
+TRP3_UFPanel.scrollChild.Tf = CreateFrame("Frame", nil, TRP3_UFPanel.scrollChild)
+TRP3_UFPanel.scrollChild.Tf:ClearAllPoints();
+TRP3_UFPanel.scrollChild.Tf:SetPoint("TOPLEFT", TRP3_UFPanel.scrollChild, "TOPLEFT", 170*3, -53*2);
+TRP3_UFPanel.scrollChild.Tf:SetSize(64, 64)
 
-TRP3_UFPanel.Tf.tex = TRP3_UFPanel.Tf:CreateTexture()
-TRP3_UFPanel.Tf.tex:SetAllPoints(TRP3_UFPanel.Tf)
-SetPortraitTexture(TRP3_UFPanel.Tf.tex, "player")
+TRP3_UFPanel.scrollChild.Tf.tex = TRP3_UFPanel.scrollChild.Tf:CreateTexture()
+TRP3_UFPanel.scrollChild.Tf.tex:SetAllPoints(TRP3_UFPanel.scrollChild.Tf)
+SetPortraitTexture(TRP3_UFPanel.scrollChild.Tf.tex, "player")
 
 function TRP3_UFPanel.OnShow()
-	SetPortraitTexture(TRP3_UFPanel.Pf.tex, "player")
-	SetPortraitTexture(TRP3_UFPanel.Tf.tex, "player")
+	SetPortraitTexture(TRP3_UFPanel.scrollChild.Pf.tex, "player")
+	SetPortraitTexture(TRP3_UFPanel.scrollChild.Tf.tex, "player")
 end
 
 TRP3_UFPanel:SetScript("OnShow",TRP3_UFPanel.OnShow);
 
-TRP3_UFPanel.Tf.radioTopLeft = CreateFrame("CheckButton", nil, TRP3_UFPanel.Tf, "UIRadioButtonTemplate")
-TRP3_UFPanel.Tf.radioTop = CreateFrame("CheckButton", nil, TRP3_UFPanel.Tf, "UIRadioButtonTemplate")
-TRP3_UFPanel.Tf.radioTopRight = CreateFrame("CheckButton", nil, TRP3_UFPanel.Tf, "UIRadioButtonTemplate")
-TRP3_UFPanel.Tf.radioLeft = CreateFrame("CheckButton", nil, TRP3_UFPanel.Tf, "UIRadioButtonTemplate")
-TRP3_UFPanel.Tf.radioCenter = CreateFrame("CheckButton", nil, TRP3_UFPanel.Tf, "UIRadioButtonTemplate")
-TRP3_UFPanel.Tf.radioRight = CreateFrame("CheckButton", nil, TRP3_UFPanel.Tf, "UIRadioButtonTemplate")
-TRP3_UFPanel.Tf.radioBottomLeft = CreateFrame("CheckButton", nil, TRP3_UFPanel.Tf, "UIRadioButtonTemplate")
-TRP3_UFPanel.Tf.radioBottom = CreateFrame("CheckButton", nil, TRP3_UFPanel.Tf, "UIRadioButtonTemplate")
-TRP3_UFPanel.Tf.radioBottomRight = CreateFrame("CheckButton", nil, TRP3_UFPanel.Tf, "UIRadioButtonTemplate")
+TRP3_UFPanel.scrollChild.Tf.radioTopLeft = CreateFrame("CheckButton", nil, TRP3_UFPanel.scrollChild.Tf, "UIRadioButtonTemplate")
+TRP3_UFPanel.scrollChild.Tf.radioTop = CreateFrame("CheckButton", nil, TRP3_UFPanel.scrollChild.Tf, "UIRadioButtonTemplate")
+TRP3_UFPanel.scrollChild.Tf.radioTopRight = CreateFrame("CheckButton", nil, TRP3_UFPanel.scrollChild.Tf, "UIRadioButtonTemplate")
+TRP3_UFPanel.scrollChild.Tf.radioLeft = CreateFrame("CheckButton", nil, TRP3_UFPanel.scrollChild.Tf, "UIRadioButtonTemplate")
+TRP3_UFPanel.scrollChild.Tf.radioCenter = CreateFrame("CheckButton", nil, TRP3_UFPanel.scrollChild.Tf, "UIRadioButtonTemplate")
+TRP3_UFPanel.scrollChild.Tf.radioRight = CreateFrame("CheckButton", nil, TRP3_UFPanel.scrollChild.Tf, "UIRadioButtonTemplate")
+TRP3_UFPanel.scrollChild.Tf.radioBottomLeft = CreateFrame("CheckButton", nil, TRP3_UFPanel.scrollChild.Tf, "UIRadioButtonTemplate")
+TRP3_UFPanel.scrollChild.Tf.radioBottom = CreateFrame("CheckButton", nil, TRP3_UFPanel.scrollChild.Tf, "UIRadioButtonTemplate")
+TRP3_UFPanel.scrollChild.Tf.radioBottomRight = CreateFrame("CheckButton", nil, TRP3_UFPanel.scrollChild.Tf, "UIRadioButtonTemplate")
 
-TRP3_UFPanel.Tf.radioTopLeft:SetChecked(false)
-TRP3_UFPanel.Tf.radioTop:SetChecked(false)
-TRP3_UFPanel.Tf.radioTopRight:SetChecked(false)
-TRP3_UFPanel.Tf.radioLeft:SetChecked(false)
-TRP3_UFPanel.Tf.radioCenter:SetChecked(false)
-TRP3_UFPanel.Tf.radioRight:SetChecked(false)
-TRP3_UFPanel.Tf.radioBottomLeft:SetChecked(true)
-TRP3_UFPanel.Tf.radioBottom:SetChecked(false)
-TRP3_UFPanel.Tf.radioBottomRight:SetChecked(false)
+TRP3_UFPanel.scrollChild.Tf.radioTopLeft:SetChecked(false)
+TRP3_UFPanel.scrollChild.Tf.radioTop:SetChecked(false)
+TRP3_UFPanel.scrollChild.Tf.radioTopRight:SetChecked(false)
+TRP3_UFPanel.scrollChild.Tf.radioLeft:SetChecked(false)
+TRP3_UFPanel.scrollChild.Tf.radioCenter:SetChecked(false)
+TRP3_UFPanel.scrollChild.Tf.radioRight:SetChecked(false)
+TRP3_UFPanel.scrollChild.Tf.radioBottomLeft:SetChecked(true)
+TRP3_UFPanel.scrollChild.Tf.radioBottom:SetChecked(false)
+TRP3_UFPanel.scrollChild.Tf.radioBottomRight:SetChecked(false)
 
-TRP3_UFPanel.Tf.radioTopLeft:SetPoint("CENTER", TRP3_UFPanel.Tf, "TOPLEFT", 0, 0)
-TRP3_UFPanel.Tf.radioTop:SetPoint("CENTER", TRP3_UFPanel.Tf, "TOP", 0, 0)
-TRP3_UFPanel.Tf.radioTopRight:SetPoint("CENTER", TRP3_UFPanel.Tf, "TOPRIGHT", 0, 0)
-TRP3_UFPanel.Tf.radioLeft:SetPoint("CENTER", TRP3_UFPanel.Tf, "LEFT", 0, 0)
-TRP3_UFPanel.Tf.radioCenter:SetPoint("CENTER", TRP3_UFPanel.Tf, "CENTER", 0, 0)
-TRP3_UFPanel.Tf.radioRight:SetPoint("CENTER", TRP3_UFPanel.Tf, "RIGHT", 0, 0)
-TRP3_UFPanel.Tf.radioBottomLeft:SetPoint("CENTER", TRP3_UFPanel.Tf, "BOTTOMLEFT", 0, 0)
-TRP3_UFPanel.Tf.radioBottom:SetPoint("CENTER", TRP3_UFPanel.Tf, "BOTTOM", 0, 0)
-TRP3_UFPanel.Tf.radioBottomRight:SetPoint("CENTER", TRP3_UFPanel.Tf, "BOTTOMRIGHT", 0, 0)
+TRP3_UFPanel.scrollChild.Tf.radioTopLeft:SetPoint("CENTER", TRP3_UFPanel.scrollChild.Tf, "TOPLEFT", 0, 0)
+TRP3_UFPanel.scrollChild.Tf.radioTop:SetPoint("CENTER", TRP3_UFPanel.scrollChild.Tf, "TOP", 0, 0)
+TRP3_UFPanel.scrollChild.Tf.radioTopRight:SetPoint("CENTER", TRP3_UFPanel.scrollChild.Tf, "TOPRIGHT", 0, 0)
+TRP3_UFPanel.scrollChild.Tf.radioLeft:SetPoint("CENTER", TRP3_UFPanel.scrollChild.Tf, "LEFT", 0, 0)
+TRP3_UFPanel.scrollChild.Tf.radioCenter:SetPoint("CENTER", TRP3_UFPanel.scrollChild.Tf, "CENTER", 0, 0)
+TRP3_UFPanel.scrollChild.Tf.radioRight:SetPoint("CENTER", TRP3_UFPanel.scrollChild.Tf, "RIGHT", 0, 0)
+TRP3_UFPanel.scrollChild.Tf.radioBottomLeft:SetPoint("CENTER", TRP3_UFPanel.scrollChild.Tf, "BOTTOMLEFT", 0, 0)
+TRP3_UFPanel.scrollChild.Tf.radioBottom:SetPoint("CENTER", TRP3_UFPanel.scrollChild.Tf, "BOTTOM", 0, 0)
+TRP3_UFPanel.scrollChild.Tf.radioBottomRight:SetPoint("CENTER", TRP3_UFPanel.scrollChild.Tf, "BOTTOMRIGHT", 0, 0)
 
-TRP3_UFPanel.Tf.TitleText = TRP3_UFPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
-TRP3_UFPanel.Tf.TitleText:SetFont(TRP3_UFPanel.Tf.TitleText:GetFont(), 12);
-TRP3_UFPanel.Tf.TitleText:SetTextColor(1,1,1,1);
-TRP3_UFPanel.Tf.TitleText:ClearAllPoints();
-TRP3_UFPanel.Tf.TitleText:SetPoint("BOTTOM", TRP3_UFPanel.Tf, "TOP",0,10);
-TRP3_UFPanel.Tf.TitleText:SetText(TARGET);
+TRP3_UFPanel.scrollChild.Tf.TitleText = TRP3_UFPanel.scrollChild.Tf:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+TRP3_UFPanel.scrollChild.Tf.TitleText:SetFont(TRP3_UFPanel.scrollChild.Tf.TitleText:GetFont(), 12);
+TRP3_UFPanel.scrollChild.Tf.TitleText:SetTextColor(1,1,1,1);
+TRP3_UFPanel.scrollChild.Tf.TitleText:ClearAllPoints();
+TRP3_UFPanel.scrollChild.Tf.TitleText:SetPoint("BOTTOM", TRP3_UFPanel.scrollChild.Tf, "TOP",0,10);
+TRP3_UFPanel.scrollChild.Tf.TitleText:SetText(TARGET);
 
-TRP3_UFPanel.Tf.allRadios = {
-	TRP3_UFPanel.Tf.radioTopLeft,
-	TRP3_UFPanel.Tf.radioTop,
-	TRP3_UFPanel.Tf.radioTopRight,
-	TRP3_UFPanel.Tf.radioLeft,
-	TRP3_UFPanel.Tf.radioCenter,
-	TRP3_UFPanel.Tf.radioRight,
-	TRP3_UFPanel.Tf.radioBottomLeft,
-	TRP3_UFPanel.Tf.radioBottom,
-	TRP3_UFPanel.Tf.radioBottomRight
+TRP3_UFPanel.scrollChild.Tf.allRadios = {
+	TRP3_UFPanel.scrollChild.Tf.radioTopLeft,
+	TRP3_UFPanel.scrollChild.Tf.radioTop,
+	TRP3_UFPanel.scrollChild.Tf.radioTopRight,
+	TRP3_UFPanel.scrollChild.Tf.radioLeft,
+	TRP3_UFPanel.scrollChild.Tf.radioCenter,
+	TRP3_UFPanel.scrollChild.Tf.radioRight,
+	TRP3_UFPanel.scrollChild.Tf.radioBottomLeft,
+	TRP3_UFPanel.scrollChild.Tf.radioBottom,
+	TRP3_UFPanel.scrollChild.Tf.radioBottomRight
 }
 
-function TRP3_UFPanel.Tf.createOnRadioClicked (location)
+function TRP3_UFPanel.scrollChild.Tf.createOnRadioClicked (location)
 	local function onRadioClicked (self, a, b, c)
 		local checked = self:GetChecked()
 		PlaySound(PlaySoundKitID and "igMainMenuOptionCheckBoxOn" or SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
 		TRP3_UF_DB.Target.relativePoint = location
 
 		local anyChecked = false
-		for _, radio in ipairs(TRP3_UFPanel.Tf.allRadios) do
+		for _, radio in ipairs(TRP3_UFPanel.scrollChild.Tf.allRadios) do
 			if radio ~= self then
 				anyChecked = radio:GetChecked() or anyChecked
 				radio:SetChecked(false)
@@ -358,75 +368,75 @@ function TRP3_UFPanel.Tf.createOnRadioClicked (location)
 	return onRadioClicked
 end
 
-TRP3_UFPanel.Tf.radioTopLeft:SetScript("OnClick", TRP3_UFPanel.Tf.createOnRadioClicked("TOPLEFT"))
-TRP3_UFPanel.Tf.radioTop:SetScript("OnClick", TRP3_UFPanel.Tf.createOnRadioClicked("TOP"))
-TRP3_UFPanel.Tf.radioTopRight:SetScript("OnClick", TRP3_UFPanel.Tf.createOnRadioClicked("TOPRIGHT"))
-TRP3_UFPanel.Tf.radioLeft:SetScript("OnClick", TRP3_UFPanel.Tf.createOnRadioClicked("LEFT"))
-TRP3_UFPanel.Tf.radioCenter:SetScript("OnClick", TRP3_UFPanel.Tf.createOnRadioClicked("CENTER"))
-TRP3_UFPanel.Tf.radioRight:SetScript("OnClick", TRP3_UFPanel.Tf.createOnRadioClicked("RIGHT"))
-TRP3_UFPanel.Tf.radioBottomLeft:SetScript("OnClick", TRP3_UFPanel.Tf.createOnRadioClicked("BOTTOMLEFT"))
-TRP3_UFPanel.Tf.radioBottom:SetScript("OnClick", TRP3_UFPanel.Tf.createOnRadioClicked("BOTTOM"))
-TRP3_UFPanel.Tf.radioBottomRight:SetScript("OnClick", TRP3_UFPanel.Tf.createOnRadioClicked("BOTTOMRIGHT"))
+TRP3_UFPanel.scrollChild.Tf.radioTopLeft:SetScript("OnClick", TRP3_UFPanel.scrollChild.Tf.createOnRadioClicked("TOPLEFT"))
+TRP3_UFPanel.scrollChild.Tf.radioTop:SetScript("OnClick", TRP3_UFPanel.scrollChild.Tf.createOnRadioClicked("TOP"))
+TRP3_UFPanel.scrollChild.Tf.radioTopRight:SetScript("OnClick", TRP3_UFPanel.scrollChild.Tf.createOnRadioClicked("TOPRIGHT"))
+TRP3_UFPanel.scrollChild.Tf.radioLeft:SetScript("OnClick", TRP3_UFPanel.scrollChild.Tf.createOnRadioClicked("LEFT"))
+TRP3_UFPanel.scrollChild.Tf.radioCenter:SetScript("OnClick", TRP3_UFPanel.scrollChild.Tf.createOnRadioClicked("CENTER"))
+TRP3_UFPanel.scrollChild.Tf.radioRight:SetScript("OnClick", TRP3_UFPanel.scrollChild.Tf.createOnRadioClicked("RIGHT"))
+TRP3_UFPanel.scrollChild.Tf.radioBottomLeft:SetScript("OnClick", TRP3_UFPanel.scrollChild.Tf.createOnRadioClicked("BOTTOMLEFT"))
+TRP3_UFPanel.scrollChild.Tf.radioBottom:SetScript("OnClick", TRP3_UFPanel.scrollChild.Tf.createOnRadioClicked("BOTTOM"))
+TRP3_UFPanel.scrollChild.Tf.radioBottomRight:SetScript("OnClick", TRP3_UFPanel.scrollChild.Tf.createOnRadioClicked("BOTTOMRIGHT"))
 
 ------------------------------------------------------------------------------------------------------------------
 
 --UI-HUD-UnitFrame-Target-PortraitOn-Type
-TRP3_UFPanel.PColor = CreateFrame("Button", nil, TRP3_UFPanel)
-TRP3_UFPanel.PColor:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT", 100, -53*2)
-TRP3_UFPanel.PColor:SetWidth(135)
-TRP3_UFPanel.PColor:SetHeight(18)
-TRP3_UFPanel.PColor.tex = TRP3_UFPanel.PColor:CreateTexture("TRP3_UFRepDummyPlayer", "ARTWORK", nil, 1)
-TRP3_UFPanel.PColor.tex:SetAllPoints(TRP3_UFPanel.PColor)
-TRP3_UFPanel.PColor.tex:SetAtlas("UI-HUD-UnitFrame-Target-PortraitOn-Type")
-TRP3_UFPanel.PColor.tex:SetTexCoord(1, 0, 0, 1)
+TRP3_UFPanel.scrollChild.PColor = CreateFrame("Button", nil, TRP3_UFPanel.scrollChild)
+TRP3_UFPanel.scrollChild.PColor:SetPoint("TOPLEFT", TRP3_UFPanel.scrollChild, "TOPLEFT", 100, -53*2)
+TRP3_UFPanel.scrollChild.PColor:SetWidth(135)
+TRP3_UFPanel.scrollChild.PColor:SetHeight(18)
+TRP3_UFPanel.scrollChild.PColor.tex = TRP3_UFPanel.scrollChild.PColor:CreateTexture("TRP3_UFRepDummyPlayer", "ARTWORK", nil, 1)
+TRP3_UFPanel.scrollChild.PColor.tex:SetAllPoints(TRP3_UFPanel.scrollChild.PColor)
+TRP3_UFPanel.scrollChild.PColor.tex:SetAtlas("UI-HUD-UnitFrame-Target-PortraitOn-Type")
+TRP3_UFPanel.scrollChild.PColor.tex:SetTexCoord(1, 0, 0, 1)
 
-TRP3_UFPanel.PColor.Name = TRP3_UFPanel.PColor:CreateFontString("TRP3_UFRepTextDummyPlayer", "OVERLAY", "GameFontNormal");
-TRP3_UFPanel.PColor.Name:SetFont(TRP3_UFPanel.PColor.Name:GetFont(), 12);
-TRP3_UFPanel.PColor.Name:SetTextColor(1,1,1,1);
-TRP3_UFPanel.PColor.Name:ClearAllPoints();
-TRP3_UFPanel.PColor.Name:SetPoint("TOP", TRP3_UFPanel.PColor, "TOP",0,0);
-TRP3_UFPanel.PColor.Name:SetText(PLAYER);
+TRP3_UFPanel.scrollChild.PColor.Name = TRP3_UFPanel.scrollChild.PColor:CreateFontString("TRP3_UFRepTextDummyPlayer", "OVERLAY", "GameFontNormal");
+TRP3_UFPanel.scrollChild.PColor.Name:SetFont(TRP3_UFPanel.scrollChild.PColor.Name:GetFont(), 12);
+TRP3_UFPanel.scrollChild.PColor.Name:SetTextColor(1,1,1,1);
+TRP3_UFPanel.scrollChild.PColor.Name:ClearAllPoints();
+TRP3_UFPanel.scrollChild.PColor.Name:SetPoint("TOP", TRP3_UFPanel.scrollChild.PColor, "TOP",0,0);
+TRP3_UFPanel.scrollChild.PColor.Name:SetText(PLAYER);
 
 
-TRP3_UFPanel.TColor = CreateFrame("Button", nil, TRP3_UFPanel)
-TRP3_UFPanel.TColor:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT", 170*2, -53*2)
-TRP3_UFPanel.TColor:SetWidth(135)
-TRP3_UFPanel.TColor:SetHeight(18)
-TRP3_UFPanel.TColor.tex = TRP3_UFPanel.TColor:CreateTexture("TRP3_UFRepDummyTarget", "ARTWORK", nil, 1)
-TRP3_UFPanel.TColor.tex:SetAllPoints(TRP3_UFPanel.TColor)
-TRP3_UFPanel.TColor.tex:SetAtlas("UI-HUD-UnitFrame-Target-PortraitOn-Type")
+TRP3_UFPanel.scrollChild.TColor = CreateFrame("Button", nil, TRP3_UFPanel.scrollChild)
+TRP3_UFPanel.scrollChild.TColor:SetPoint("TOPLEFT", TRP3_UFPanel.scrollChild, "TOPLEFT", 170*2, -53*2)
+TRP3_UFPanel.scrollChild.TColor:SetWidth(135)
+TRP3_UFPanel.scrollChild.TColor:SetHeight(18)
+TRP3_UFPanel.scrollChild.TColor.tex = TRP3_UFPanel.scrollChild.TColor:CreateTexture("TRP3_UFRepDummyTarget", "ARTWORK", nil, 1)
+TRP3_UFPanel.scrollChild.TColor.tex:SetAllPoints(TRP3_UFPanel.scrollChild.TColor)
+TRP3_UFPanel.scrollChild.TColor.tex:SetAtlas("UI-HUD-UnitFrame-Target-PortraitOn-Type")
 
-TRP3_UFPanel.TColor.Name = TRP3_UFPanel.TColor:CreateFontString("TRP3_UFRepTextDummyTarget", "OVERLAY", "GameFontNormal");
-TRP3_UFPanel.TColor.Name:SetFont(TRP3_UFPanel.TColor.Name:GetFont(), 12);
-TRP3_UFPanel.TColor.Name:SetTextColor(1,1,1,1);
-TRP3_UFPanel.TColor.Name:ClearAllPoints();
-TRP3_UFPanel.TColor.Name:SetPoint("TOP", TRP3_UFPanel.TColor, "TOP",0,0);
-TRP3_UFPanel.TColor.Name:SetText(TARGET);
+TRP3_UFPanel.scrollChild.TColor.Name = TRP3_UFPanel.scrollChild.TColor:CreateFontString("TRP3_UFRepTextDummyTarget", "OVERLAY", "GameFontNormal");
+TRP3_UFPanel.scrollChild.TColor.Name:SetFont(TRP3_UFPanel.scrollChild.TColor.Name:GetFont(), 12);
+TRP3_UFPanel.scrollChild.TColor.Name:SetTextColor(1,1,1,1);
+TRP3_UFPanel.scrollChild.TColor.Name:ClearAllPoints();
+TRP3_UFPanel.scrollChild.TColor.Name:SetPoint("TOP", TRP3_UFPanel.scrollChild.TColor, "TOP",0,0);
+TRP3_UFPanel.scrollChild.TColor.Name:SetText(TARGET);
 
 
 --PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:SetVertexColor(0,1,1) -- the glowy highlight texture when rested
 --PlayerFrame.PlayerFrameContainer.FrameTexture:SetVertexColor(0,1,1) -- player border colors
---TRP3_UFPanel.TColor.tex:SetTexCoord(-.08, 1.08, -.08, 1.08)
---TRP3_UFPanel.TColor:SetNormalAtlas("chatframe-button-up")
---TRP3_UFPanel.TColor:SetPushedAtlas("chatframe-button-down")
---TRP3_UFPanel.TColor:SetHighlightAtlas("chatframe-button-highlight")
+--TRP3_UFPanel.scrollChild.TColor.tex:SetTexCoord(-.08, 1.08, -.08, 1.08)
+--TRP3_UFPanel.scrollChild.TColor:SetNormalAtlas("chatframe-button-up")
+--TRP3_UFPanel.scrollChild.TColor:SetPushedAtlas("chatframe-button-down")
+--TRP3_UFPanel.scrollChild.TColor:SetHighlightAtlas("chatframe-button-highlight")
 
 
 ------------------------------------------------------------------------------------------------------------------
 
-TRP3_UFPanel.VisibilityText = TRP3_UFPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
-TRP3_UFPanel.VisibilityText:SetFont(TRP3_UFPanel.VisibilityText:GetFont(), 15);
-TRP3_UFPanel.VisibilityText:SetTextColor(1,1,1,1);
-TRP3_UFPanel.VisibilityText:ClearAllPoints();
-TRP3_UFPanel.VisibilityText:SetPoint("TOPLEFT", 5, -53*3.7);
+TRP3_UFPanel.scrollChild.VisibilityText = TRP3_UFPanel.scrollChild:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+TRP3_UFPanel.scrollChild.VisibilityText:SetFont(TRP3_UFPanel.scrollChild.VisibilityText:GetFont(), 15);
+TRP3_UFPanel.scrollChild.VisibilityText:SetTextColor(1,1,1,1);
+TRP3_UFPanel.scrollChild.VisibilityText:ClearAllPoints();
+TRP3_UFPanel.scrollChild.VisibilityText:SetPoint("TOPLEFT", 5, -53*3.7);
 
 
-TRP3_UFPanel.PShowCheckbox = CreateFrame("CheckButton", "TRP3_UFPShowCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
-TRP3_UFPanel.PShowCheckbox:ClearAllPoints();
-TRP3_UFPanel.PShowCheckbox:SetPoint("TOPLEFT", 5, -53*4);
+TRP3_UFPanel.scrollChild.PShowCheckbox = CreateFrame("CheckButton", "TRP3_UFPShowCheckbox", TRP3_UFPanel.scrollChild, "UICheckButtonTemplate");
+TRP3_UFPanel.scrollChild.PShowCheckbox:ClearAllPoints();
+TRP3_UFPanel.scrollChild.PShowCheckbox:SetPoint("TOPLEFT", 5, -53*4);
 
-TRP3_UFPanel.PShowCheckbox:SetScript("OnClick", function(self)
-	if TRP3_UFPanel.PShowCheckbox:GetChecked() then
+TRP3_UFPanel.scrollChild.PShowCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.scrollChild.PShowCheckbox:GetChecked() then
 		TRP3_UF_DB.Player.show = true;
 		trpPlayer.SetVisible()
 	else
@@ -436,12 +446,12 @@ TRP3_UFPanel.PShowCheckbox:SetScript("OnClick", function(self)
 end);
 
 
-TRP3_UFPanel.TShowCheckbox = CreateFrame("CheckButton", "TRP3_UFTShowCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
-TRP3_UFPanel.TShowCheckbox:ClearAllPoints();
-TRP3_UFPanel.TShowCheckbox:SetPoint("TOPLEFT", 5, -53*4.5);
+TRP3_UFPanel.scrollChild.TShowCheckbox = CreateFrame("CheckButton", "TRP3_UFTShowCheckbox", TRP3_UFPanel.scrollChild, "UICheckButtonTemplate");
+TRP3_UFPanel.scrollChild.TShowCheckbox:ClearAllPoints();
+TRP3_UFPanel.scrollChild.TShowCheckbox:SetPoint("TOPLEFT", 5, -53*4.5);
 
-TRP3_UFPanel.TShowCheckbox:SetScript("OnClick", function(self)
-	if TRP3_UFPanel.TShowCheckbox:GetChecked() then
+TRP3_UFPanel.scrollChild.TShowCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.scrollChild.TShowCheckbox:GetChecked() then
 		TRP3_UF_DB.Target.show = true;
 		trpPlayer.SetVisible()
 	else
@@ -451,29 +461,29 @@ TRP3_UFPanel.TShowCheckbox:SetScript("OnClick", function(self)
 end);
 
 
-TRP3_UFPanel.PortShowCheckbox = CreateFrame("CheckButton", "TRP3_UFPortShowCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
-TRP3_UFPanel.PortShowCheckbox:ClearAllPoints();
-TRP3_UFPanel.PortShowCheckbox:SetPoint("TOPLEFT", 5, -53*5);
+TRP3_UFPanel.scrollChild.PortShowCheckbox = CreateFrame("CheckButton", "TRP3_UFPortShowCheckbox", TRP3_UFPanel.scrollChild, "UICheckButtonTemplate");
+TRP3_UFPanel.scrollChild.PortShowCheckbox:ClearAllPoints();
+TRP3_UFPanel.scrollChild.PortShowCheckbox:SetPoint("TOPLEFT", 5, -53*5);
 
-TRP3_UFPanel.PortShowCheckbox:SetScript("OnClick", function(self)
-	if TRP3_UFPanel.PortShowCheckbox:GetChecked() then
+TRP3_UFPanel.scrollChild.PortShowCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.scrollChild.PortShowCheckbox:GetChecked() then
 		TRP3_UF_DB.Border.show = true;
-		TRP3_UFPanel.PortraitButton:SetEnabled(TRP3_UF_DB.Border.show);
+		TRP3_UFPanel.scrollChild.PortraitButton:SetEnabled(TRP3_UF_DB.Border.show);
 		PlayerDragonFrame:Show();
 	else
 		TRP3_UF_DB.Border.show = false;
-		TRP3_UFPanel.PortraitButton:SetEnabled(TRP3_UF_DB.Border.show);
+		TRP3_UFPanel.scrollChild.PortraitButton:SetEnabled(TRP3_UF_DB.Border.show);
 		PlayerDragonFrame:Hide();
 	end
 end);
 
 
-TRP3_UFPanel.StatusHideCheckbox = CreateFrame("CheckButton", "TRP3_UFStatusHideCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
-TRP3_UFPanel.StatusHideCheckbox:ClearAllPoints();
-TRP3_UFPanel.StatusHideCheckbox:SetPoint("TOPLEFT", 5, -53*5.5);
+TRP3_UFPanel.scrollChild.StatusHideCheckbox = CreateFrame("CheckButton", "TRP3_UFStatusHideCheckbox", TRP3_UFPanel.scrollChild, "UICheckButtonTemplate");
+TRP3_UFPanel.scrollChild.StatusHideCheckbox:ClearAllPoints();
+TRP3_UFPanel.scrollChild.StatusHideCheckbox:SetPoint("TOPLEFT", 5, -53*5.5);
 
-TRP3_UFPanel.StatusHideCheckbox:SetScript("OnClick", function(self)
-	if TRP3_UFPanel.StatusHideCheckbox:GetChecked() then
+TRP3_UFPanel.scrollChild.StatusHideCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.scrollChild.StatusHideCheckbox:GetChecked() then
 		TRP3_UF_DB.Border.status = true;
 		PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:Hide()
 	else
@@ -484,142 +494,142 @@ end);
 
 ------------------------------------------------------------------------------------------------------------------
 
-TRP3_UFPanel.TargetSizeSlider = CreateFrame("Slider", "TRP3_UFTargetSizeSlider", TRP3_UFPanel, "OptionsSliderTemplate");
-TRP3_UFPanel.TargetSizeSlider:SetWidth(250);
-TRP3_UFPanel.TargetSizeSlider:SetHeight(15);
-TRP3_UFPanel.TargetSizeSlider:SetMinMaxValues(0.1,15);
-TRP3_UFPanel.TargetSizeSlider:SetValueStep(.5);
-TRP3_UFPanel.TargetSizeSlider:SetObeyStepOnDrag(true)
-TRP3_UFPanel.TargetSizeSlider:ClearAllPoints();
-TRP3_UFPanel.TargetSizeSlider:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT", 5, -53*6.75);
-getglobal(TRP3_UFPanel.TargetSizeSlider:GetName() .. 'Low'):SetText('0.1');
-getglobal(TRP3_UFPanel.TargetSizeSlider:GetName() .. 'High'):SetText('15');
-TRP3_UFPanel.TargetSizeSlider:SetScript("OnValueChanged", function()
-	local scaleValue = getglobal(TRP3_UFPanel.TargetSizeSlider:GetName()):GetValue();
+TRP3_UFPanel.scrollChild.TargetSizeSlider = CreateFrame("Slider", "TRP3_UFTargetSizeSlider", TRP3_UFPanel.scrollChild, "OptionsSliderTemplate");
+TRP3_UFPanel.scrollChild.TargetSizeSlider:SetWidth(250);
+TRP3_UFPanel.scrollChild.TargetSizeSlider:SetHeight(15);
+TRP3_UFPanel.scrollChild.TargetSizeSlider:SetMinMaxValues(0.1,15);
+TRP3_UFPanel.scrollChild.TargetSizeSlider:SetValueStep(.5);
+TRP3_UFPanel.scrollChild.TargetSizeSlider:SetObeyStepOnDrag(true)
+TRP3_UFPanel.scrollChild.TargetSizeSlider:ClearAllPoints();
+TRP3_UFPanel.scrollChild.TargetSizeSlider:SetPoint("TOPLEFT", TRP3_UFPanel.scrollChild, "TOPLEFT", 5, -53*6.75);
+getglobal(TRP3_UFPanel.scrollChild.TargetSizeSlider:GetName() .. 'Low'):SetText('0.1');
+getglobal(TRP3_UFPanel.scrollChild.TargetSizeSlider:GetName() .. 'High'):SetText('15');
+TRP3_UFPanel.scrollChild.TargetSizeSlider:SetScript("OnValueChanged", function()
+	local scaleValue = getglobal(TRP3_UFPanel.scrollChild.TargetSizeSlider:GetName()):GetValue();
 	TRP3_UF_DB.Target.scale = scaleValue;
 	trpTarget.button:SetScale(TRP3_UF_DB.Target.scale)
 end)
 
 
-TRP3_UFPanel.TargetPosSlider = CreateFrame("Slider", "TRP3_UFTargetPosSlider", TRP3_UFPanel, "OptionsSliderTemplate");
-TRP3_UFPanel.TargetPosSlider:SetWidth(250);
-TRP3_UFPanel.TargetPosSlider:SetHeight(15);
-TRP3_UFPanel.TargetPosSlider:SetMinMaxValues(0,15);
-TRP3_UFPanel.TargetPosSlider:SetValueStep(.5);
-TRP3_UFPanel.TargetPosSlider:SetObeyStepOnDrag(true)
-TRP3_UFPanel.TargetPosSlider:ClearAllPoints();
-TRP3_UFPanel.TargetPosSlider:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT", 5, -53*7.5);
-getglobal(TRP3_UFPanel.TargetPosSlider:GetName() .. 'Low'):SetText('0');
-getglobal(TRP3_UFPanel.TargetPosSlider:GetName() .. 'High'):SetText('15');
-TRP3_UFPanel.TargetPosSlider:SetScript("OnValueChanged", function()
-	local scaleValue = getglobal(TRP3_UFPanel.TargetPosSlider:GetName()):GetValue();
+TRP3_UFPanel.scrollChild.TargetPosSlider = CreateFrame("Slider", "TRP3_UFTargetPosSlider", TRP3_UFPanel.scrollChild, "OptionsSliderTemplate");
+TRP3_UFPanel.scrollChild.TargetPosSlider:SetWidth(250);
+TRP3_UFPanel.scrollChild.TargetPosSlider:SetHeight(15);
+TRP3_UFPanel.scrollChild.TargetPosSlider:SetMinMaxValues(0,15);
+TRP3_UFPanel.scrollChild.TargetPosSlider:SetValueStep(.5);
+TRP3_UFPanel.scrollChild.TargetPosSlider:SetObeyStepOnDrag(true)
+TRP3_UFPanel.scrollChild.TargetPosSlider:ClearAllPoints();
+TRP3_UFPanel.scrollChild.TargetPosSlider:SetPoint("TOPLEFT", TRP3_UFPanel.scrollChild, "TOPLEFT", 5, -53*7.5);
+getglobal(TRP3_UFPanel.scrollChild.TargetPosSlider:GetName() .. 'Low'):SetText('0');
+getglobal(TRP3_UFPanel.scrollChild.TargetPosSlider:GetName() .. 'High'):SetText('15');
+TRP3_UFPanel.scrollChild.TargetPosSlider:SetScript("OnValueChanged", function()
+	local scaleValue = getglobal(TRP3_UFPanel.scrollChild.TargetPosSlider:GetName()):GetValue();
 	TRP3_UF_DB.Target.position = scaleValue;
 	trpTarget.SetPos()
 end)
 
 
-TRP3_UFPanel.PlayerSizeSlider = CreateFrame("Slider", "TRP3_UFPlayerSizeSlider", TRP3_UFPanel, "OptionsSliderTemplate");
-TRP3_UFPanel.PlayerSizeSlider:SetWidth(250);
-TRP3_UFPanel.PlayerSizeSlider:SetHeight(15);
-TRP3_UFPanel.PlayerSizeSlider:SetMinMaxValues(0.1,15);
-TRP3_UFPanel.PlayerSizeSlider:SetValueStep(.5);
-TRP3_UFPanel.PlayerSizeSlider:SetObeyStepOnDrag(true)
-TRP3_UFPanel.PlayerSizeSlider:ClearAllPoints();
-TRP3_UFPanel.PlayerSizeSlider:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT", 5, -53*8.25);
-getglobal(TRP3_UFPanel.PlayerSizeSlider:GetName() .. 'Low'):SetText('0.1');
-getglobal(TRP3_UFPanel.PlayerSizeSlider:GetName() .. 'High'):SetText('15');
-TRP3_UFPanel.PlayerSizeSlider:SetScript("OnValueChanged", function()
-	local scaleValue = getglobal(TRP3_UFPanel.PlayerSizeSlider:GetName()):GetValue();
+TRP3_UFPanel.scrollChild.PlayerSizeSlider = CreateFrame("Slider", "TRP3_UFPlayerSizeSlider", TRP3_UFPanel.scrollChild, "OptionsSliderTemplate");
+TRP3_UFPanel.scrollChild.PlayerSizeSlider:SetWidth(250);
+TRP3_UFPanel.scrollChild.PlayerSizeSlider:SetHeight(15);
+TRP3_UFPanel.scrollChild.PlayerSizeSlider:SetMinMaxValues(0.1,15);
+TRP3_UFPanel.scrollChild.PlayerSizeSlider:SetValueStep(.5);
+TRP3_UFPanel.scrollChild.PlayerSizeSlider:SetObeyStepOnDrag(true)
+TRP3_UFPanel.scrollChild.PlayerSizeSlider:ClearAllPoints();
+TRP3_UFPanel.scrollChild.PlayerSizeSlider:SetPoint("TOPLEFT", TRP3_UFPanel.scrollChild, "TOPLEFT", 5, -53*8.25);
+getglobal(TRP3_UFPanel.scrollChild.PlayerSizeSlider:GetName() .. 'Low'):SetText('0.1');
+getglobal(TRP3_UFPanel.scrollChild.PlayerSizeSlider:GetName() .. 'High'):SetText('15');
+TRP3_UFPanel.scrollChild.PlayerSizeSlider:SetScript("OnValueChanged", function()
+	local scaleValue = getglobal(TRP3_UFPanel.scrollChild.PlayerSizeSlider:GetName()):GetValue();
 	TRP3_UF_DB.Player.scale = scaleValue;
 	trpPlayer.button:SetScale(TRP3_UF_DB.Player.scale)
 end)
 
 
-TRP3_UFPanel.PlayerPosSlider = CreateFrame("Slider", "TRP3_UFPlayerPosSlider", TRP3_UFPanel, "OptionsSliderTemplate");
-TRP3_UFPanel.PlayerPosSlider:SetWidth(250);
-TRP3_UFPanel.PlayerPosSlider:SetHeight(15);
-TRP3_UFPanel.PlayerPosSlider:SetMinMaxValues(0,15);
-TRP3_UFPanel.PlayerPosSlider:SetValueStep(.5);
-TRP3_UFPanel.PlayerPosSlider:SetObeyStepOnDrag(true)
-TRP3_UFPanel.PlayerPosSlider:ClearAllPoints();
-TRP3_UFPanel.PlayerPosSlider:SetPoint("TOPLEFT", TRP3_UFPanel, "TOPLEFT", 5, -53*9);
-getglobal(TRP3_UFPanel.PlayerPosSlider:GetName() .. 'Low'):SetText('0');
-getglobal(TRP3_UFPanel.PlayerPosSlider:GetName() .. 'High'):SetText('15');
-TRP3_UFPanel.PlayerPosSlider:SetScript("OnValueChanged", function()
-	local scaleValue = getglobal(TRP3_UFPanel.PlayerPosSlider:GetName()):GetValue();
+TRP3_UFPanel.scrollChild.PlayerPosSlider = CreateFrame("Slider", "TRP3_UFPlayerPosSlider", TRP3_UFPanel.scrollChild, "OptionsSliderTemplate");
+TRP3_UFPanel.scrollChild.PlayerPosSlider:SetWidth(250);
+TRP3_UFPanel.scrollChild.PlayerPosSlider:SetHeight(15);
+TRP3_UFPanel.scrollChild.PlayerPosSlider:SetMinMaxValues(0,15);
+TRP3_UFPanel.scrollChild.PlayerPosSlider:SetValueStep(.5);
+TRP3_UFPanel.scrollChild.PlayerPosSlider:SetObeyStepOnDrag(true)
+TRP3_UFPanel.scrollChild.PlayerPosSlider:ClearAllPoints();
+TRP3_UFPanel.scrollChild.PlayerPosSlider:SetPoint("TOPLEFT", TRP3_UFPanel.scrollChild, "TOPLEFT", 5, -53*9);
+getglobal(TRP3_UFPanel.scrollChild.PlayerPosSlider:GetName() .. 'Low'):SetText('0');
+getglobal(TRP3_UFPanel.scrollChild.PlayerPosSlider:GetName() .. 'High'):SetText('15');
+TRP3_UFPanel.scrollChild.PlayerPosSlider:SetScript("OnValueChanged", function()
+	local scaleValue = getglobal(TRP3_UFPanel.scrollChild.PlayerPosSlider:GetName()):GetValue();
 	TRP3_UF_DB.Player.position = scaleValue;
 	trpPlayer.SetPos()
 end)
 
 ------------------------------------------------------------------------------------------------------------------
 
-TRP3_UFPanel.ColorsText = TRP3_UFPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
-TRP3_UFPanel.ColorsText:SetFont(TRP3_UFPanel.ColorsText:GetFont(), 15);
-TRP3_UFPanel.ColorsText:SetTextColor(1,1,1,1);
-TRP3_UFPanel.ColorsText:ClearAllPoints();
-TRP3_UFPanel.ColorsText:SetPoint("TOPLEFT", 300, -53*3.7);
-TRP3_UFPanel.ColorsText:SetText(COLORS);
+TRP3_UFPanel.scrollChild.ColorsText = TRP3_UFPanel.scrollChild:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+TRP3_UFPanel.scrollChild.ColorsText:SetFont(TRP3_UFPanel.scrollChild.ColorsText:GetFont(), 15);
+TRP3_UFPanel.scrollChild.ColorsText:SetTextColor(1,1,1,1);
+TRP3_UFPanel.scrollChild.ColorsText:ClearAllPoints();
+TRP3_UFPanel.scrollChild.ColorsText:SetPoint("TOPLEFT", 300, -53*3.7);
+TRP3_UFPanel.scrollChild.ColorsText:SetText(COLORS);
 
-TRP3_UFPanel.ColorsTarText = TRP3_UFPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
-TRP3_UFPanel.ColorsTarText:SetFont(TRP3_UFPanel.ColorsTarText:GetFont(), 12);
-TRP3_UFPanel.ColorsTarText:SetTextColor(1,1,1,1);
-TRP3_UFPanel.ColorsTarText:ClearAllPoints();
-TRP3_UFPanel.ColorsTarText:SetPoint("TOPLEFT", 300, -53*4.2);
-TRP3_UFPanel.ColorsTarText:SetText(HUD_EDIT_MODE_TARGET_FRAME_LABEL);
+TRP3_UFPanel.scrollChild.ColorsTarText = TRP3_UFPanel.scrollChild:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+TRP3_UFPanel.scrollChild.ColorsTarText:SetFont(TRP3_UFPanel.scrollChild.ColorsTarText:GetFont(), 12);
+TRP3_UFPanel.scrollChild.ColorsTarText:SetTextColor(1,1,1,1);
+TRP3_UFPanel.scrollChild.ColorsTarText:ClearAllPoints();
+TRP3_UFPanel.scrollChild.ColorsTarText:SetPoint("TOPLEFT", 300, -53*4.2);
+TRP3_UFPanel.scrollChild.ColorsTarText:SetText(HUD_EDIT_MODE_TARGET_FRAME_LABEL);
 
-TRP3_UFPanel.ColorsPlayerText = TRP3_UFPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
-TRP3_UFPanel.ColorsPlayerText:SetFont(TRP3_UFPanel.ColorsPlayerText:GetFont(), 12);
-TRP3_UFPanel.ColorsPlayerText:SetTextColor(1,1,1,1);
-TRP3_UFPanel.ColorsPlayerText:ClearAllPoints();
-TRP3_UFPanel.ColorsPlayerText:SetPoint("TOPLEFT", 300, -53*6.7);
-TRP3_UFPanel.ColorsPlayerText:SetText(HUD_EDIT_MODE_PLAYER_FRAME_LABEL);
+TRP3_UFPanel.scrollChild.ColorsPlayerText = TRP3_UFPanel.scrollChild:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+TRP3_UFPanel.scrollChild.ColorsPlayerText:SetFont(TRP3_UFPanel.scrollChild.ColorsPlayerText:GetFont(), 12);
+TRP3_UFPanel.scrollChild.ColorsPlayerText:SetTextColor(1,1,1,1);
+TRP3_UFPanel.scrollChild.ColorsPlayerText:ClearAllPoints();
+TRP3_UFPanel.scrollChild.ColorsPlayerText:SetPoint("TOPLEFT", 300, -53*6.7);
+TRP3_UFPanel.scrollChild.ColorsPlayerText:SetText(HUD_EDIT_MODE_PLAYER_FRAME_LABEL);
 
-TRP3_UFPanel.NPCOptions = TRP3_UFPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
-TRP3_UFPanel.NPCOptions:SetFont(TRP3_UFPanel.NPCOptions:GetFont(), 12);
-TRP3_UFPanel.NPCOptions:SetTextColor(1,1,1,1);
-TRP3_UFPanel.NPCOptions:ClearAllPoints();
-TRP3_UFPanel.NPCOptions:SetPoint("TOPLEFT", 300, -53*9.2);
-TRP3_UFPanel.NPCOptions:SetText(UNIT_NAME_NPC);
+TRP3_UFPanel.scrollChild.NPCOptions = TRP3_UFPanel.scrollChild:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+TRP3_UFPanel.scrollChild.NPCOptions:SetFont(TRP3_UFPanel.scrollChild.NPCOptions:GetFont(), 12);
+TRP3_UFPanel.scrollChild.NPCOptions:SetTextColor(1,1,1,1);
+TRP3_UFPanel.scrollChild.NPCOptions:ClearAllPoints();
+TRP3_UFPanel.scrollChild.NPCOptions:SetPoint("TOPLEFT", 300, -53*9.2);
+TRP3_UFPanel.scrollChild.NPCOptions:SetText(UNIT_NAME_NPC);
 
 
-TRP3_UFPanel.TargetTextColorCheckbox = CreateFrame("CheckButton", "TRP3_UFTargetTextColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
-TRP3_UFPanel.TargetTextColorCheckbox:ClearAllPoints();
-TRP3_UFPanel.TargetTextColorCheckbox:SetPoint("TOPLEFT", 300, -53*4.5);
+TRP3_UFPanel.scrollChild.TargetTextColorCheckbox = CreateFrame("CheckButton", "TRP3_UFTargetTextColorCheckbox", TRP3_UFPanel.scrollChild, "UICheckButtonTemplate");
+TRP3_UFPanel.scrollChild.TargetTextColorCheckbox:ClearAllPoints();
+TRP3_UFPanel.scrollChild.TargetTextColorCheckbox:SetPoint("TOPLEFT", 300, -53*4.5);
 
-TRP3_UFPanel.TargetTextColorCheckbox:SetScript("OnClick", function(self)
-	if TRP3_UFPanel.TargetTextColorCheckbox:GetChecked() then
+TRP3_UFPanel.scrollChild.TargetTextColorCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.scrollChild.TargetTextColorCheckbox:GetChecked() then
 		TRP3_UF_DB.Target.colorText.custom = true;
 	else
 		TRP3_UF_DB.Target.colorText.custom = false;
 	end
-	TRP3_UFPanel.TarCustomTextColButton:SetEnabled(TRP3_UF_DB.Target.colorText.custom);
+	TRP3_UFPanel.scrollChild.TarCustomTextColButton:SetEnabled(TRP3_UF_DB.Target.colorText.custom);
 	trpPlayer.UpdateInfo()
 	trpTarget.UpdateInfo()
 end);
 
 
-TRP3_UFPanel.TargetBackColorCheckbox = CreateFrame("CheckButton", "TRP3_UFTargetBackColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
-TRP3_UFPanel.TargetBackColorCheckbox:ClearAllPoints();
-TRP3_UFPanel.TargetBackColorCheckbox:SetPoint("TOPLEFT", 300, -53*5);
+TRP3_UFPanel.scrollChild.TargetBackColorCheckbox = CreateFrame("CheckButton", "TRP3_UFTargetBackColorCheckbox", TRP3_UFPanel.scrollChild, "UICheckButtonTemplate");
+TRP3_UFPanel.scrollChild.TargetBackColorCheckbox:ClearAllPoints();
+TRP3_UFPanel.scrollChild.TargetBackColorCheckbox:SetPoint("TOPLEFT", 300, -53*5);
 
-TRP3_UFPanel.TargetBackColorCheckbox:SetScript("OnClick", function(self)
-	if TRP3_UFPanel.TargetBackColorCheckbox:GetChecked() then
+TRP3_UFPanel.scrollChild.TargetBackColorCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.scrollChild.TargetBackColorCheckbox:GetChecked() then
 		TRP3_UF_DB.Target.colorBack.custom = true;
 	else
 		TRP3_UF_DB.Target.colorBack.custom = false;
 	end
-	TRP3_UFPanel.TarCustomBackColButton:SetEnabled(TRP3_UF_DB.Target.colorBack.custom);
+	TRP3_UFPanel.scrollChild.TarCustomBackColButton:SetEnabled(TRP3_UF_DB.Target.colorBack.custom);
 	trpPlayer.UpdateInfo()
 	trpTarget.UpdateInfo()
 end);
 
 
-TRP3_UFPanel.TargetClassTextColorCheckbox = CreateFrame("CheckButton", "TRP3_UFTargetClassTextColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
-TRP3_UFPanel.TargetClassTextColorCheckbox:ClearAllPoints();
-TRP3_UFPanel.TargetClassTextColorCheckbox:SetPoint("TOPLEFT", 300, -53*5.5);
+TRP3_UFPanel.scrollChild.TargetClassTextColorCheckbox = CreateFrame("CheckButton", "TRP3_UFTargetClassTextColorCheckbox", TRP3_UFPanel.scrollChild, "UICheckButtonTemplate");
+TRP3_UFPanel.scrollChild.TargetClassTextColorCheckbox:ClearAllPoints();
+TRP3_UFPanel.scrollChild.TargetClassTextColorCheckbox:SetPoint("TOPLEFT", 300, -53*5.5);
 
-TRP3_UFPanel.TargetClassTextColorCheckbox:SetScript("OnClick", function(self)
-	if TRP3_UFPanel.TargetClassTextColorCheckbox:GetChecked() then
+TRP3_UFPanel.scrollChild.TargetClassTextColorCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.scrollChild.TargetClassTextColorCheckbox:GetChecked() then
 		TRP3_UF_DB.Target.colorText.class = true;
 	else
 		TRP3_UF_DB.Target.colorText.class = false;
@@ -629,12 +639,12 @@ TRP3_UFPanel.TargetClassTextColorCheckbox:SetScript("OnClick", function(self)
 end);
 
 
-TRP3_UFPanel.TargetClassBackColorCheckbox = CreateFrame("CheckButton", "TRP3_UFTargetClassBackColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
-TRP3_UFPanel.TargetClassBackColorCheckbox:ClearAllPoints();
-TRP3_UFPanel.TargetClassBackColorCheckbox:SetPoint("TOPLEFT", 300, -53*6);
+TRP3_UFPanel.scrollChild.TargetClassBackColorCheckbox = CreateFrame("CheckButton", "TRP3_UFTargetClassBackColorCheckbox", TRP3_UFPanel.scrollChild, "UICheckButtonTemplate");
+TRP3_UFPanel.scrollChild.TargetClassBackColorCheckbox:ClearAllPoints();
+TRP3_UFPanel.scrollChild.TargetClassBackColorCheckbox:SetPoint("TOPLEFT", 300, -53*6);
 
-TRP3_UFPanel.TargetClassBackColorCheckbox:SetScript("OnClick", function(self)
-	if TRP3_UFPanel.TargetClassBackColorCheckbox:GetChecked() then
+TRP3_UFPanel.scrollChild.TargetClassBackColorCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.scrollChild.TargetClassBackColorCheckbox:GetChecked() then
 		TRP3_UF_DB.Target.colorBack.class = true;
 	else
 		TRP3_UF_DB.Target.colorBack.class = false;
@@ -645,44 +655,44 @@ end);
 
 
 --player
-TRP3_UFPanel.PlayerTextColorCheckbox = CreateFrame("CheckButton", "TRP3_UFPlayerTextColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
-TRP3_UFPanel.PlayerTextColorCheckbox:ClearAllPoints();
-TRP3_UFPanel.PlayerTextColorCheckbox:SetPoint("TOPLEFT", 300, -53*7);
+TRP3_UFPanel.scrollChild.PlayerTextColorCheckbox = CreateFrame("CheckButton", "TRP3_UFPlayerTextColorCheckbox", TRP3_UFPanel.scrollChild, "UICheckButtonTemplate");
+TRP3_UFPanel.scrollChild.PlayerTextColorCheckbox:ClearAllPoints();
+TRP3_UFPanel.scrollChild.PlayerTextColorCheckbox:SetPoint("TOPLEFT", 300, -53*7);
 
-TRP3_UFPanel.PlayerTextColorCheckbox:SetScript("OnClick", function(self)
-	if TRP3_UFPanel.PlayerTextColorCheckbox:GetChecked() then
+TRP3_UFPanel.scrollChild.PlayerTextColorCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.scrollChild.PlayerTextColorCheckbox:GetChecked() then
 		TRP3_UF_DB.Player.colorText.custom = true;
 	else
 		TRP3_UF_DB.Player.colorText.custom = false;
 	end
-	TRP3_UFPanel.PlayerCustomTextColButton:SetEnabled(TRP3_UF_DB.Player.colorText.custom);
+	TRP3_UFPanel.scrollChild.PlayerCustomTextColButton:SetEnabled(TRP3_UF_DB.Player.colorText.custom);
 	trpPlayer.UpdateInfo()
 	trpTarget.UpdateInfo()
 end);
 
 
-TRP3_UFPanel.PlayerBackColorCheckbox = CreateFrame("CheckButton", "TRP3_UFPlayerBackColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
-TRP3_UFPanel.PlayerBackColorCheckbox:ClearAllPoints();
-TRP3_UFPanel.PlayerBackColorCheckbox:SetPoint("TOPLEFT", 300, -53*7.5);
+TRP3_UFPanel.scrollChild.PlayerBackColorCheckbox = CreateFrame("CheckButton", "TRP3_UFPlayerBackColorCheckbox", TRP3_UFPanel.scrollChild, "UICheckButtonTemplate");
+TRP3_UFPanel.scrollChild.PlayerBackColorCheckbox:ClearAllPoints();
+TRP3_UFPanel.scrollChild.PlayerBackColorCheckbox:SetPoint("TOPLEFT", 300, -53*7.5);
 
-TRP3_UFPanel.PlayerBackColorCheckbox:SetScript("OnClick", function(self)
-	if TRP3_UFPanel.PlayerBackColorCheckbox:GetChecked() then
+TRP3_UFPanel.scrollChild.PlayerBackColorCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.scrollChild.PlayerBackColorCheckbox:GetChecked() then
 		TRP3_UF_DB.Player.colorBack.custom = true;
 	else
 		TRP3_UF_DB.Player.colorBack.custom = false;
 	end
-	TRP3_UFPanel.PlayerCustomBackColButton:SetEnabled(TRP3_UF_DB.Player.colorBack.custom);
+	TRP3_UFPanel.scrollChild.PlayerCustomBackColButton:SetEnabled(TRP3_UF_DB.Player.colorBack.custom);
 	trpPlayer.UpdateInfo()
 	trpTarget.UpdateInfo()
 end);
 
 
-TRP3_UFPanel.PlayerClassTextColorCheckbox = CreateFrame("CheckButton", "TRP3_UFPlayerClassTextColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
-TRP3_UFPanel.PlayerClassTextColorCheckbox:ClearAllPoints();
-TRP3_UFPanel.PlayerClassTextColorCheckbox:SetPoint("TOPLEFT", 300, -53*8);
+TRP3_UFPanel.scrollChild.PlayerClassTextColorCheckbox = CreateFrame("CheckButton", "TRP3_UFPlayerClassTextColorCheckbox", TRP3_UFPanel.scrollChild, "UICheckButtonTemplate");
+TRP3_UFPanel.scrollChild.PlayerClassTextColorCheckbox:ClearAllPoints();
+TRP3_UFPanel.scrollChild.PlayerClassTextColorCheckbox:SetPoint("TOPLEFT", 300, -53*8);
 
-TRP3_UFPanel.PlayerClassTextColorCheckbox:SetScript("OnClick", function(self)
-	if TRP3_UFPanel.PlayerClassTextColorCheckbox:GetChecked() then
+TRP3_UFPanel.scrollChild.PlayerClassTextColorCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.scrollChild.PlayerClassTextColorCheckbox:GetChecked() then
 		TRP3_UF_DB.Player.colorText.class = true;
 	else
 		TRP3_UF_DB.Player.colorText.class = false;
@@ -692,12 +702,12 @@ TRP3_UFPanel.PlayerClassTextColorCheckbox:SetScript("OnClick", function(self)
 end);
 
 
-TRP3_UFPanel.PlayerClassBackColorCheckbox = CreateFrame("CheckButton", "TRP3_UFPlayerClassBackColorCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
-TRP3_UFPanel.PlayerClassBackColorCheckbox:ClearAllPoints();
-TRP3_UFPanel.PlayerClassBackColorCheckbox:SetPoint("TOPLEFT", 300, -53*8.5);
+TRP3_UFPanel.scrollChild.PlayerClassBackColorCheckbox = CreateFrame("CheckButton", "TRP3_UFPlayerClassBackColorCheckbox", TRP3_UFPanel.scrollChild, "UICheckButtonTemplate");
+TRP3_UFPanel.scrollChild.PlayerClassBackColorCheckbox:ClearAllPoints();
+TRP3_UFPanel.scrollChild.PlayerClassBackColorCheckbox:SetPoint("TOPLEFT", 300, -53*8.5);
 
-TRP3_UFPanel.PlayerClassBackColorCheckbox:SetScript("OnClick", function(self)
-	if TRP3_UFPanel.PlayerClassBackColorCheckbox:GetChecked() then
+TRP3_UFPanel.scrollChild.PlayerClassBackColorCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.scrollChild.PlayerClassBackColorCheckbox:GetChecked() then
 		TRP3_UF_DB.Player.colorBack.class = true;
 	else
 		TRP3_UF_DB.Player.colorBack.class = false;
@@ -708,12 +718,12 @@ end);
 
 
 --other
-TRP3_UFPanel.NPCOptionsCheckbox = CreateFrame("CheckButton", "TRP3_UFNPCOptionsCheckbox", TRP3_UFPanel, "UICheckButtonTemplate");
-TRP3_UFPanel.NPCOptionsCheckbox:ClearAllPoints();
-TRP3_UFPanel.NPCOptionsCheckbox:SetPoint("TOPLEFT", 300, -53*9.5);
+TRP3_UFPanel.scrollChild.NPCOptionsCheckbox = CreateFrame("CheckButton", "TRP3_UFNPCOptionsCheckbox", TRP3_UFPanel.scrollChild, "UICheckButtonTemplate");
+TRP3_UFPanel.scrollChild.NPCOptionsCheckbox:ClearAllPoints();
+TRP3_UFPanel.scrollChild.NPCOptionsCheckbox:SetPoint("TOPLEFT", 300, -53*9.5);
 
-TRP3_UFPanel.NPCOptionsCheckbox:SetScript("OnClick", function(self)
-	if TRP3_UFPanel.NPCOptionsCheckbox:GetChecked() then
+TRP3_UFPanel.scrollChild.NPCOptionsCheckbox:SetScript("OnClick", function(self)
+	if TRP3_UFPanel.scrollChild.NPCOptionsCheckbox:GetChecked() then
 		TRP3_UF_DB.Setting.NPCs = true;
 	else
 		TRP3_UF_DB.Setting.NPCs = false;
@@ -1107,66 +1117,40 @@ TRP3_UFPanel.menu = {
 	--{ text = "PH Option 5", func = function() print("You've chosen option 5"); end },
 };
 
---[[
---/dump TRP3_UFPanel.menu[3] = {
-	text = "Hearthstone",
-	menuList = {
-		[1] = {
-		isTitle = true,
-		text = "Coming Soon!"
-		}
-	},
-	hasArrow = true
-}
-
---/dump TRP3_UFPanel.menu[4] = {
-	text = "Narcissus",
-	menuList = {
-		[1] = {
-		isTitle = true,
-		text = "Coming Soon!"
-		}
-	},
-	hasArrow = true
-}
 
 
-]]
+TRP3_UFPanel.scrollChild.menuFrame = CreateFrame("Frame", "TRP3PlayerPortraitMenuFrame", TRP3_UFPanel.scrollChild, "UIDropDownMenuTemplate")
 
-
-
-TRP3_UFPanel.menuFrame = CreateFrame("Frame", "TRP3PlayerPortraitMenuFrame", TRP3_UFPanel, "UIDropDownMenuTemplate")
-
-TRP3_UFPanel.PortraitButton = CreateFrame("Button", nil, TRP3_UFPanel, "GameMenuButtonTemplate")
-TRP3_UFPanel.PortraitButton:SetPoint("TOPLEFT", 150, -53*5.1);
---TRP3_UFPanel.PortraitButton:SetSize(99, 81);
-TRP3_UFPanel.PortraitButton:SetScript("OnClick", function() EasyMenu(TRP3_UFPanel.menu, TRP3_UFPanel.menuFrame, "cursor", 0 , 0, "MENU", 10) end)
+TRP3_UFPanel.scrollChild.PortraitButton = CreateFrame("Button", nil, TRP3_UFPanel.scrollChild, "GameMenuButtonTemplate")
+TRP3_UFPanel.scrollChild.PortraitButton:SetPoint("TOPLEFT", 150, -53*5.1);
+--TRP3_UFPanel.scrollChild.PortraitButton:SetSize(99, 81);
+TRP3_UFPanel.scrollChild.PortraitButton:SetScript("OnClick", function() EasyMenu(TRP3_UFPanel.menu, TRP3_UFPanel.scrollChild.menuFrame, TRP3_UFPanel.scrollChild.PortraitButton, 0 , 0, "MENU", 10) end)
 
 ------------------------------------------------------------------------------------------------------------------
 
-TRP3_UFPanel.TarCustomTextColButton = CreateFrame("Button", nil, TRP3_UFPanel, "GameMenuButtonTemplate")
-TRP3_UFPanel.TarCustomTextColButton:SetPoint("TOPLEFT", 150*3.3, -53*4.6);
---TRP3_UFPanel.TarCustomTextColButton:SetSize(99, 81);
-TRP3_UFPanel.TarCustomTextColButton:SetText(COLOR_PICKER)
-TRP3_UFPanel.TarCustomTextColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b, nil, TargetTextColor); end)
+TRP3_UFPanel.scrollChild.TarCustomTextColButton = CreateFrame("Button", nil, TRP3_UFPanel.scrollChild, "GameMenuButtonTemplate")
+TRP3_UFPanel.scrollChild.TarCustomTextColButton:SetPoint("TOPLEFT", 150*3.3, -53*4.6);
+--TRP3_UFPanel.scrollChild.TarCustomTextColButton:SetSize(99, 81);
+TRP3_UFPanel.scrollChild.TarCustomTextColButton:SetText(COLOR_PICKER)
+TRP3_UFPanel.scrollChild.TarCustomTextColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b, nil, TargetTextColor); end)
 
-TRP3_UFPanel.TarCustomBackColButton = CreateFrame("Button", nil, TRP3_UFPanel, "GameMenuButtonTemplate")
-TRP3_UFPanel.TarCustomBackColButton:SetPoint("TOPLEFT", 150*3.3, -53*5.1);
---TRP3_UFPanel.TarCustomBackColButton:SetSize(99, 81);
-TRP3_UFPanel.TarCustomBackColButton:SetText(COLOR_PICKER)
-TRP3_UFPanel.TarCustomBackColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a, TargetBackdropColor); end)
+TRP3_UFPanel.scrollChild.TarCustomBackColButton = CreateFrame("Button", nil, TRP3_UFPanel.scrollChild, "GameMenuButtonTemplate")
+TRP3_UFPanel.scrollChild.TarCustomBackColButton:SetPoint("TOPLEFT", 150*3.3, -53*5.1);
+--TRP3_UFPanel.scrollChild.TarCustomBackColButton:SetSize(99, 81);
+TRP3_UFPanel.scrollChild.TarCustomBackColButton:SetText(COLOR_PICKER)
+TRP3_UFPanel.scrollChild.TarCustomBackColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a, TargetBackdropColor); end)
 
-TRP3_UFPanel.PlayerCustomTextColButton = CreateFrame("Button", nil, TRP3_UFPanel, "GameMenuButtonTemplate")
-TRP3_UFPanel.PlayerCustomTextColButton:SetPoint("TOPLEFT", 150*3.3, -53*7.1);
---TRP3_UFPanel.PlayerCustomTextColButton:SetSize(99, 81);
-TRP3_UFPanel.PlayerCustomTextColButton:SetText(COLOR_PICKER)
-TRP3_UFPanel.PlayerCustomTextColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Player.colorText.r, TRP3_UF_DB.Player.colorText.g, TRP3_UF_DB.Player.colorText.b, nil, PlayerTextColor); end)
+TRP3_UFPanel.scrollChild.PlayerCustomTextColButton = CreateFrame("Button", nil, TRP3_UFPanel.scrollChild, "GameMenuButtonTemplate")
+TRP3_UFPanel.scrollChild.PlayerCustomTextColButton:SetPoint("TOPLEFT", 150*3.3, -53*7.1);
+--TRP3_UFPanel.scrollChild.PlayerCustomTextColButton:SetSize(99, 81);
+TRP3_UFPanel.scrollChild.PlayerCustomTextColButton:SetText(COLOR_PICKER)
+TRP3_UFPanel.scrollChild.PlayerCustomTextColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Player.colorText.r, TRP3_UF_DB.Player.colorText.g, TRP3_UF_DB.Player.colorText.b, nil, PlayerTextColor); end)
 
-TRP3_UFPanel.PlayerCustomBackColButton = CreateFrame("Button", nil, TRP3_UFPanel, "GameMenuButtonTemplate")
-TRP3_UFPanel.PlayerCustomBackColButton:SetPoint("TOPLEFT", 150*3.3, -53*7.6);
---TRP3_UFPanel.PlayerCustomBackColButton:SetSize(99, 81);
-TRP3_UFPanel.PlayerCustomBackColButton:SetText(COLOR_PICKER)
-TRP3_UFPanel.PlayerCustomBackColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Player.colorBack.r, TRP3_UF_DB.Player.colorBack.g, TRP3_UF_DB.Player.colorBack.b, TRP3_UF_DB.Player.colorBack.a, PlayerBackdropColor); end)
+TRP3_UFPanel.scrollChild.PlayerCustomBackColButton = CreateFrame("Button", nil, TRP3_UFPanel.scrollChild, "GameMenuButtonTemplate")
+TRP3_UFPanel.scrollChild.PlayerCustomBackColButton:SetPoint("TOPLEFT", 150*3.3, -53*7.6);
+--TRP3_UFPanel.scrollChild.PlayerCustomBackColButton:SetSize(99, 81);
+TRP3_UFPanel.scrollChild.PlayerCustomBackColButton:SetText(COLOR_PICKER)
+TRP3_UFPanel.scrollChild.PlayerCustomBackColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Player.colorBack.r, TRP3_UF_DB.Player.colorBack.g, TRP3_UF_DB.Player.colorBack.b, TRP3_UF_DB.Player.colorBack.a, PlayerBackdropColor); end)
 
 ------------------------------------------------------------------------------------------------------------------
 
@@ -1580,6 +1564,13 @@ local function onStart()
 	end
 	]]
 
+	if not TRP3_UF_DB.Setting.FullNamePlayer then
+		TRP3_UF_DB.Setting.FullNamePlayer = defaultsTable.Setting.FullNamePlayer
+	end
+	if not TRP3_UF_DB.Setting.FullNameTarget then
+		TRP3_UF_DB.Setting.FullNameTarget = defaultsTable.Setting.FullNameTarget
+	end
+
 
 	--trpTarget.CurrentlyChecker() --(don't forget to enable this, future me), Currently Frame Tester - NYI
 
@@ -1659,7 +1650,6 @@ local function onStart()
 				{ text = "NarciHexagonBorder-Special", func = function() TRP3_UF_DB.Border.style = "NarciHexagonBorder-Special"; PlayerDragonFrame.TextureStuff(); end },
 				{ text = "NarciHexagonBorder-Uncommon", func = function() TRP3_UF_DB.Border.style = "NarciHexagonBorder-Uncommon"; PlayerDragonFrame.TextureStuff(); end },
 				{ text = "NarciHexagonBorder-Void", func = function() TRP3_UF_DB.Border.style = "NarciHexagonBorder-Void"; PlayerDragonFrame.TextureStuff(); end },
-
 				{ text = "NarciHexagonDarkBorder-Artifact", func = function() TRP3_UF_DB.Border.style = "NarciHexagonDarkBorder-Artifact"; PlayerDragonFrame.TextureStuff(); end },
 				{ text = "NarciHexagonDarkBorder-Azerite", func = function() TRP3_UF_DB.Border.style = "NarciHexagonDarkBorder-Azerite"; PlayerDragonFrame.TextureStuff(); end },
 				{ text = "NarciHexagonDarkBorder-Black", func = function() TRP3_UF_DB.Border.style = "NarciHexagonDarkBorder-Black"; PlayerDragonFrame.TextureStuff(); end },
@@ -1774,14 +1764,14 @@ local function onStart()
 	trpPlayer.SetPos()
 
 	--show buttons
-	TRP3_UFPanel.PShowCheckbox:SetChecked(TRP3_UF_DB.Player.show);
-	TRP3_UFPanel.TShowCheckbox:SetChecked(TRP3_UF_DB.Target.show);
+	TRP3_UFPanel.scrollChild.PShowCheckbox:SetChecked(TRP3_UF_DB.Player.show);
+	TRP3_UFPanel.scrollChild.TShowCheckbox:SetChecked(TRP3_UF_DB.Target.show);
 	trpPlayer.SetVisible()
 
 	--player border portrait
 	PlayerDragonFrame.TextureStuff()
-	TRP3_UFPanel.PortShowCheckbox:SetChecked(TRP3_UF_DB.Border.show);
-	TRP3_UFPanel.PortraitButton:SetEnabled(TRP3_UF_DB.Border.show);
+	TRP3_UFPanel.scrollChild.PortShowCheckbox:SetChecked(TRP3_UF_DB.Border.show);
+	TRP3_UFPanel.scrollChild.PortraitButton:SetEnabled(TRP3_UF_DB.Border.show);
 	if TRP3_UF_DB.Border.show == true then
 		PlayerDragonFrame:Show();
 	else
@@ -1789,59 +1779,59 @@ local function onStart()
 	end
 
 	--color checkboxes
-	TRP3_UFPanel.TargetTextColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorText.custom);
-	TRP3_UFPanel.TargetBackColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorBack.custom);
-	TRP3_UFPanel.TargetClassTextColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorText.class);
-	TRP3_UFPanel.TargetClassBackColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorBack.class);
+	TRP3_UFPanel.scrollChild.TargetTextColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorText.custom);
+	TRP3_UFPanel.scrollChild.TargetBackColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorBack.custom);
+	TRP3_UFPanel.scrollChild.TargetClassTextColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorText.class);
+	TRP3_UFPanel.scrollChild.TargetClassBackColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorBack.class);
 
-	TRP3_UFPanel.TarCustomTextColButton:SetEnabled(TRP3_UF_DB.Target.colorText.custom);
-	TRP3_UFPanel.TarCustomBackColButton:SetEnabled(TRP3_UF_DB.Target.colorBack.custom);
+	TRP3_UFPanel.scrollChild.TarCustomTextColButton:SetEnabled(TRP3_UF_DB.Target.colorText.custom);
+	TRP3_UFPanel.scrollChild.TarCustomBackColButton:SetEnabled(TRP3_UF_DB.Target.colorBack.custom);
 
 
-	TRP3_UFPanel.PlayerTextColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorText.custom);
-	TRP3_UFPanel.PlayerBackColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorBack.custom);
-	TRP3_UFPanel.PlayerClassTextColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorText.class);
-	TRP3_UFPanel.PlayerClassBackColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorBack.class);
+	TRP3_UFPanel.scrollChild.PlayerTextColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorText.custom);
+	TRP3_UFPanel.scrollChild.PlayerBackColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorBack.custom);
+	TRP3_UFPanel.scrollChild.PlayerClassTextColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorText.class);
+	TRP3_UFPanel.scrollChild.PlayerClassBackColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorBack.class);
 
-	TRP3_UFPanel.PlayerCustomTextColButton:SetEnabled(TRP3_UF_DB.Player.colorText.custom);
-	TRP3_UFPanel.PlayerCustomBackColButton:SetEnabled(TRP3_UF_DB.Player.colorBack.custom);
+	TRP3_UFPanel.scrollChild.PlayerCustomTextColButton:SetEnabled(TRP3_UF_DB.Player.colorText.custom);
+	TRP3_UFPanel.scrollChild.PlayerCustomBackColButton:SetEnabled(TRP3_UF_DB.Player.colorBack.custom);
 
-	TRP3_UFPanel.NPCOptionsCheckbox:SetChecked(TRP3_UF_DB.Setting.NPCs);
+	TRP3_UFPanel.scrollChild.NPCOptionsCheckbox:SetChecked(TRP3_UF_DB.Setting.NPCs);
 
 	--color names
 
 
 	--sliders
 	--TRP3_UF_DB.Player.position
-	TRP3_UFPanel.PlayerPosSlider:SetValue(TRP3_UF_DB.Player.position)
-	TRP3_UFPanel.TargetPosSlider:SetValue(TRP3_UF_DB.Target.position)
+	TRP3_UFPanel.scrollChild.PlayerPosSlider:SetValue(TRP3_UF_DB.Player.position)
+	TRP3_UFPanel.scrollChild.TargetPosSlider:SetValue(TRP3_UF_DB.Target.position)
 
-	TRP3_UFPanel.PlayerSizeSlider:SetValue(TRP3_UF_DB.Player.scale)
-	TRP3_UFPanel.TargetSizeSlider:SetValue(TRP3_UF_DB.Target.scale)
+	TRP3_UFPanel.scrollChild.PlayerSizeSlider:SetValue(TRP3_UF_DB.Player.scale)
+	TRP3_UFPanel.scrollChild.TargetSizeSlider:SetValue(TRP3_UF_DB.Target.scale)
 
 	trpPlayer.button:SetScale(TRP3_UF_DB.Player.scale)
 	trpTarget.button:SetScale(TRP3_UF_DB.Target.scale)
 
     --localized
-    TRP3_UFPanel.PortraitButton:SetText(L["PlayerPortrait"])
-    getglobal(TRP3_UFPanel.NPCOptionsCheckbox:GetName().."Text"):SetText(L["ApplyToNPCs"]);
-    getglobal(TRP3_UFPanel.PlayerClassBackColorCheckbox:GetName().."Text"):SetText(L["BlizzBackCol"]);
-    getglobal(TRP3_UFPanel.PlayerClassTextColorCheckbox:GetName().."Text"):SetText(L["BlizzTextCol"]);
-    getglobal(TRP3_UFPanel.PlayerBackColorCheckbox:GetName().."Text"):SetText(L["OverwriteBackCol"]);
-    getglobal(TRP3_UFPanel.PlayerTextColorCheckbox:GetName().."Text"):SetText(L["OverwriteTextCol"]);
-    getglobal(TRP3_UFPanel.TargetClassBackColorCheckbox:GetName().."Text"):SetText(L["BlizzBackCol"]);
-    getglobal(TRP3_UFPanel.TargetClassTextColorCheckbox:GetName().."Text"):SetText(L["BlizzTextCol"]);
-    getglobal(TRP3_UFPanel.TargetBackColorCheckbox:GetName().."Text"):SetText(L["OverwriteBackCol"]);
-    getglobal(TRP3_UFPanel.TargetTextColorCheckbox:GetName().."Text"):SetText(L["OverwriteTextCol"]);
-    getglobal(TRP3_UFPanel.PlayerPosSlider:GetName() .. 'Text'):SetText(L["ButtonPosPlayer"]);
-    getglobal(TRP3_UFPanel.PlayerSizeSlider:GetName() .. 'Text'):SetText(L["ButtonSizePlayer"]);
-    getglobal(TRP3_UFPanel.TargetPosSlider:GetName() .. 'Text'):SetText(L["ButtonPosTarget"]);
-    getglobal(TRP3_UFPanel.TargetSizeSlider:GetName() .. 'Text'):SetText(L["ButtonSizeTarget"]);
-    getglobal(TRP3_UFPanel.StatusHideCheckbox:GetName().."Text"):SetText(L["HideRestedGlow"]);
-    getglobal(TRP3_UFPanel.PortShowCheckbox:GetName().."Text"):SetText(L["ShowBorderFrame"]);
-    getglobal(TRP3_UFPanel.TShowCheckbox:GetName().."Text"):SetText(L["ShowButtonTarget"]);
-    getglobal(TRP3_UFPanel.PShowCheckbox:GetName().."Text"):SetText(L["ShowButtonPlayer"]);
-    TRP3_UFPanel.VisibilityText:SetText(L["Visibility"]);
+    TRP3_UFPanel.scrollChild.PortraitButton:SetText(L["PlayerPortrait"])
+    getglobal(TRP3_UFPanel.scrollChild.NPCOptionsCheckbox:GetName().."Text"):SetText(L["ApplyToNPCs"]);
+    getglobal(TRP3_UFPanel.scrollChild.PlayerClassBackColorCheckbox:GetName().."Text"):SetText(L["BlizzBackCol"]);
+    getglobal(TRP3_UFPanel.scrollChild.PlayerClassTextColorCheckbox:GetName().."Text"):SetText(L["BlizzTextCol"]);
+    getglobal(TRP3_UFPanel.scrollChild.PlayerBackColorCheckbox:GetName().."Text"):SetText(L["OverwriteBackCol"]);
+    getglobal(TRP3_UFPanel.scrollChild.PlayerTextColorCheckbox:GetName().."Text"):SetText(L["OverwriteTextCol"]);
+    getglobal(TRP3_UFPanel.scrollChild.TargetClassBackColorCheckbox:GetName().."Text"):SetText(L["BlizzBackCol"]);
+    getglobal(TRP3_UFPanel.scrollChild.TargetClassTextColorCheckbox:GetName().."Text"):SetText(L["BlizzTextCol"]);
+    getglobal(TRP3_UFPanel.scrollChild.TargetBackColorCheckbox:GetName().."Text"):SetText(L["OverwriteBackCol"]);
+    getglobal(TRP3_UFPanel.scrollChild.TargetTextColorCheckbox:GetName().."Text"):SetText(L["OverwriteTextCol"]);
+    getglobal(TRP3_UFPanel.scrollChild.PlayerPosSlider:GetName() .. 'Text'):SetText(L["ButtonPosPlayer"]);
+    getglobal(TRP3_UFPanel.scrollChild.PlayerSizeSlider:GetName() .. 'Text'):SetText(L["ButtonSizePlayer"]);
+    getglobal(TRP3_UFPanel.scrollChild.TargetPosSlider:GetName() .. 'Text'):SetText(L["ButtonPosTarget"]);
+    getglobal(TRP3_UFPanel.scrollChild.TargetSizeSlider:GetName() .. 'Text'):SetText(L["ButtonSizeTarget"]);
+    getglobal(TRP3_UFPanel.scrollChild.StatusHideCheckbox:GetName().."Text"):SetText(L["HideRestedGlow"]);
+    getglobal(TRP3_UFPanel.scrollChild.PortShowCheckbox:GetName().."Text"):SetText(L["ShowBorderFrame"]);
+    getglobal(TRP3_UFPanel.scrollChild.TShowCheckbox:GetName().."Text"):SetText(L["ShowButtonTarget"]);
+    getglobal(TRP3_UFPanel.scrollChild.PShowCheckbox:GetName().."Text"):SetText(L["ShowButtonPlayer"]);
+    TRP3_UFPanel.scrollChild.VisibilityText:SetText(L["Visibility"]);
     TRP3_UFPanel.Headline:SetText(L["TitleColored"]);
     --TRP3_UFPanel.name = L["Title"];
 	
@@ -1856,7 +1846,7 @@ local function onStart()
 
 	--status / rested texture visibility
 
-	TRP3_UFPanel.StatusHideCheckbox:SetChecked(TRP3_UF_DB.Border.status)
+	TRP3_UFPanel.scrollChild.StatusHideCheckbox:SetChecked(TRP3_UF_DB.Border.status)
 	if TRP3_UF_DB.Border.status == false then
 		PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:Show()
 	else
@@ -1969,10 +1959,10 @@ end
 local totalRP3_UnitFrames = {
     ["name"] = "Total RP 3: Unit Frames",
     ["description"] = "Modifies the target and player frames to have some additional profile info.",
-    ["version"] = 0.4, -- Your version number
+    ["version"] = 0.9, -- Your version number
     ["id"] = "trp3_unitframes", -- Your module ID
     ["onStart"] = onStart, -- Your starting function
-    ["minVersion"] = 108, -- Whatever TRP3 minimum build you require, 108 is the current one
+    ["minVersion"] = 108, -- Whatever TRP3 minimum build you require, 108 was the current one
 };
 
 TRP3_API.module.registerModule(totalRP3_UnitFrames);

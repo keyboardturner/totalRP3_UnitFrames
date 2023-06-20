@@ -1454,7 +1454,12 @@ function trpTarget.SetColor()
 		if TRP3_UF_DB.Setting.FullNameTarget == true and TRP3_UF_DB.Setting.UseTRPName == true then
 			TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(TRP3_API.r.name("target"))
 		elseif TRP3_UF_DB.Setting.FullNameTarget == false and TRP3_UF_DB.Setting.UseTRPName == true then
-			TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("target")):GetFirstName())
+			if AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("target")):GetFirstName() == nil then
+				local nameBingus, realmBingus = UnitName("target")
+				TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(nameBingus)
+			else
+				TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("target")):GetFirstName())
+			end
 		else
 			TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(UnitName("target"))
 		end
@@ -1986,7 +1991,12 @@ local function onStart()
 				if TRP3_UF_DB.Setting.FullNameTarget == true and TRP3_UF_DB.Setting.UseTRPName == true then
 					TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(TRP3_API.r.name("target"))
 				elseif TRP3_UF_DB.Setting.FullNameTarget == false and TRP3_UF_DB.Setting.UseTRPName == true then
-					TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("target")):GetFirstName())
+					if AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("target")):GetFirstName() == nil then
+						local nameBingus, realmBingus = UnitName("target")
+						TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(nameBingus)
+					else
+						TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("target")):GetFirstName())
+					end
 				else
 					TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(UnitName("target"))
 				end

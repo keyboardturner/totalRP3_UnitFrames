@@ -50,6 +50,11 @@ if LOCALE == "enUS" then
 	L["Genderqueer"] = "Genderqueer"
 	L["Lesbian"] = "Lesbian"
 	L["Transgender"] = "Transgender"
+	L["Pansexual"] = "Pansexual"
+	L["Rainbow"] = "Rainbow"
+	L["RainbowPhilly"] = "Rainbow (Philadelphia)"
+	L["RainbowGilBaker"] = "Rainbow (Gilbert Baker)"
+	L["RainbowProgress"] = "Rainbow (Progress)"
 return end
 
 if LOCALE == "esES" or LOCALE == "esMX" then
@@ -91,6 +96,11 @@ if LOCALE == "esES" or LOCALE == "esMX" then
 	L["Genderqueer"] = "Genderqueer"
 	L["Lesbian"] = "Lesbiana"
 	L["Transgender"] = "Transgénero"
+	L["Pansexual"] = "Pansexual"
+	L["Rainbow"] = "Arcoíris"
+	L["RainbowPhilly"] = "Arcoíris (Filadelfia)"
+	L["RainbowGilBaker"] = "Arcoíris (Gilbert Baker)"
+	L["RainbowProgress"] = "Arcoíris (Progreso)"
 return end
 
 if LOCALE == "deDE" then
@@ -132,6 +142,11 @@ if LOCALE == "deDE" then
 	L["Genderqueer"] = "Genderqueer"
 	L["Lesbian"] = "Lesbisch"
 	L["Transgender"] = "Transgender"
+	L["Pansexual"] = "Pansexuell"
+	L["Rainbow"] = "Regenbogen"
+	L["RainbowPhilly"] = "Regenbogen (Philadelphia)"
+	L["RainbowGilBaker"] = "Regenbogen (Gilbert Baker)"
+	L["RainbowProgress"] = "Regenbogen (Fortschritt)"
 return end
 
 if LOCALE == "frFR" then
@@ -173,6 +188,11 @@ if LOCALE == "frFR" then
 	L["Genderqueer"] = "Genre Queer"
 	L["Lesbian"] = "Lesbienne"
 	L["Transgender"] = "Transgenres"
+	L["Pansexual"] = "Pansexuel"
+	L["Rainbow"] = "Arc-en-ciel"
+	L["RainbowPhilly"] = "Arc-en-ciel (Philadelphia)"
+	L["RainbowGilBaker"] = "Arc-en-ciel (Gilbert Baker)"
+	L["RainbowProgress"] = "Arc-en-ciel (Progrès)"
 return end
 
 if LOCALE == "itIT" then
@@ -214,6 +234,11 @@ if LOCALE == "itIT" then
 	L["Genderqueer"] = "Genderqueer"
 	L["Lesbian"] = "Lesbica"
 	L["Transgender"] = "Transgender"
+	L["Pansexual"] = "Pansessuale"
+	L["Rainbow"] = "Arcobaleno"
+	L["RainbowPhilly"] = "Arcobaleno (Filadelfia)"
+	L["RainbowGilBaker"] = "Arcobaleno (Gilbert Baker)"
+	L["RainbowProgress"] = "Arcobaleno (Progresso)"
 return end
 
 if LOCALE == "ptBR" then
@@ -255,6 +280,11 @@ if LOCALE == "ptBR" then
 	L["Genderqueer"] = "Genderqueer"
 	L["Lesbian"] = "Lésbica"
 	L["Transgender"] = "Transgénero"
+	L["Pansexual"] = "Pansexual"
+	L["Rainbow"] = "Arco-íris"
+	L["RainbowPhilly"] = "Arco-íris (Filadélfia)"
+	L["RainbowGilBaker"] = "Arco-íris (Gilbert Baker)"
+	L["RainbowProgress"] = "Arco-íris (Progresso)"
 	-- Note that the EU Portuguese WoW client also
 	-- uses the Brazilian Portuguese locale code.
 return end
@@ -298,6 +328,11 @@ if LOCALE == "ruRU" then
 	L["Genderqueer"] = "Гендерквир"
 	L["Lesbian"] = "Лесби"
 	L["Transgender"] = "Трансгендерность"
+	L["Pansexual"] = "Пансексуал"
+	L["Rainbow"] = "Радуга"
+	L["RainbowPhilly"] = "Радуга (Филадельфия)"
+	L["RainbowGilBaker"] = "Радуга (Гилберт Бейкер)"
+	L["RainbowProgress"] = "Радуга (Прогресс)"
 return end
 
 if LOCALE == "koKR" then
@@ -339,6 +374,11 @@ if LOCALE == "koKR" then
 	L["Genderqueer"] = "젠더퀴어"
 	L["Lesbian"] = "레즈비언"
 	L["Transgender"] = "트랜스젠더"
+	L["Pansexual"] = "범성애자"
+	L["Rainbow"] = "무지개"
+	L["RainbowPhilly"] = "무지개 (필라델피아)"
+	L["RainbowGilBaker"] = "무지개 (길버트 베이커)"
+	L["RainbowProgress"] = "무지개 (진전)"
 return end
 
 if LOCALE == "zhCN" then
@@ -380,6 +420,11 @@ if LOCALE == "zhCN" then
 	L["Genderqueer"] = "性别酷儿"
 	L["Lesbian"] = "女同性恋"
 	L["Transgender"] = "跨性别"
+	L["Pansexual"] = "泛性恋"
+	L["Rainbow"] = "彩虹"
+	L["RainbowPhilly"] = "彩虹 (费城)"
+	L["RainbowGilBaker"] = "彩虹 (吉尔伯特·贝克)"
+	L["RainbowProgress"] = "彩虹 (进步)"
 return end
 
 if LOCALE == "zhTW" then
@@ -421,4 +466,9 @@ if LOCALE == "zhTW" then
 	L["Genderqueer"] = "性别酷儿"
 	L["Lesbian"] = "女同性恋"
 	L["Transgender"] = "跨性别"
+	L["Pansexual"] = "泛性戀"
+	L["Rainbow"] = "彩虹"
+	L["RainbowPhilly"] = "彩虹 (費城)"
+	L["RainbowGilBaker"] = "彩虹 (吉爾伯特·貝克)"
+	L["RainbowProgress"] = "彩虹 (進步)"
 return end

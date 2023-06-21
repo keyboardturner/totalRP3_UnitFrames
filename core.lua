@@ -820,63 +820,98 @@ function PlayerDragonFrame.TextureStuff()
 		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_agender")
 		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
 		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(.05, .44, .2, .85) -- lgbtq+
+		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
 		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
 	end
 	if TRP3_UF_DB.Border.style == "aroace" then
 		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_aroace")
 		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
 		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(.05, .44, .2, .85) -- lgbtq+
+		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
 		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
 	end
 	if TRP3_UF_DB.Border.style == "bisexual" then
 		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_BiS")
 		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
 		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(.05, .44, .2, .85) -- lgbtq+
+		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
 		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
 	end
 	if TRP3_UF_DB.Border.style == "enby" then
 		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_enby")
 		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
 		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(.05, .44, .2, .85) -- lgbtq+
+		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
 		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
 	end
 	if TRP3_UF_DB.Border.style == "gaym" then
 		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_gayM")
 		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
 		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(.05, .44, .2, .85) -- lgbtq+
+		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
 		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
 	end
 	if TRP3_UF_DB.Border.style == "genderfluid" then
 		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_genderfluid")
 		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
 		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(.05, .44, .2, .85) -- lgbtq+
+		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
 		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
 	end
 	if TRP3_UF_DB.Border.style == "genderqueer" then
 		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_genderqueer")
 		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
 		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(.05, .44, .2, .85) -- lgbtq+
+		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
 		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
 	end
 	if TRP3_UF_DB.Border.style == "lesbian" then
 		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_lesbian")
 		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
 		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(.05, .44, .2, .85) -- lgbtq+
+		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
 		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
 	end
 	if TRP3_UF_DB.Border.style == "transgender" then
 		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_trans")
 		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
 		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(.05, .44, .2, .85) -- lgbtq+
+		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
+		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
+	end
+	if TRP3_UF_DB.Border.style == "pansexual" then
+		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_pansexual")
+		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
+		PlayerDragonFrame:SetSize(99, 81);
+		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
+		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
+	end
+	if TRP3_UF_DB.Border.style == "rainbow" then
+		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_rainbow")
+		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
+		PlayerDragonFrame:SetSize(99, 81);
+		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
+		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
+	end
+	if TRP3_UF_DB.Border.style == "rainbowphilly" then
+		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_philly")
+		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
+		PlayerDragonFrame:SetSize(99, 81);
+		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
+		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
+	end
+	if TRP3_UF_DB.Border.style == "rainbowgilbaker" then
+		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_gilbertbaker")
+		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
+		PlayerDragonFrame:SetSize(99, 81);
+		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
+		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
+	end
+	if TRP3_UF_DB.Border.style == "rainbowprogress" then
+		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_progress")
+		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
+		PlayerDragonFrame:SetSize(99, 81);
+		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
 		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
 	end
 
@@ -1155,6 +1190,11 @@ TRP3_UFPanel.menu = {
 			{ text = L["Genderqueer"], func = function() TRP3_UF_DB.Border.style = "genderqueer"; PlayerDragonFrame.TextureStuff(); end },
 			{ text = L["Lesbian"], func = function() TRP3_UF_DB.Border.style = "lesbian"; PlayerDragonFrame.TextureStuff(); end },
 			{ text = L["Transgender"], func = function() TRP3_UF_DB.Border.style = "transgender"; PlayerDragonFrame.TextureStuff(); end },
+			{ text = L["Pansexual"], func = function() TRP3_UF_DB.Border.style = "pansexual"; PlayerDragonFrame.TextureStuff(); end },
+			{ text = L["Rainbow"], func = function() TRP3_UF_DB.Border.style = "rainbow"; PlayerDragonFrame.TextureStuff(); end },
+			{ text = L["RainbowPhilly"], func = function() TRP3_UF_DB.Border.style = "rainbowphilly"; PlayerDragonFrame.TextureStuff(); end },
+			{ text = L["RainbowGilBaker"], func = function() TRP3_UF_DB.Border.style = "rainbowgilbaker"; PlayerDragonFrame.TextureStuff(); end },
+			{ text = L["RainbowProgress"], func = function() TRP3_UF_DB.Border.style = "rainbowprogress"; PlayerDragonFrame.TextureStuff(); end },
 		},
 	},
 	--{ text = "PH Option 4", func = function() print("You've chosen option 4"); end },

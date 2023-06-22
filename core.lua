@@ -740,12 +740,12 @@ TRP3_UFPanel.scrollChild.UseTRP3NameCheckbox:SetPoint("TOPLEFT", 300, -53*10);
 TRP3_UFPanel.scrollChild.UseTRP3NameCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.scrollChild.UseTRP3NameCheckbox:GetChecked() then
 		TRP3_UF_DB.Setting.UseTRPName = true;
-
 	else
 		TRP3_UF_DB.Setting.UseTRPName = false;
 	end
 	TRP3_UFPanel.scrollChild.FullNamePCheckbox:SetEnabled(TRP3_UF_DB.Setting.UseTRPName)
 	TRP3_UFPanel.scrollChild.FullNameTCheckbox:SetEnabled(TRP3_UF_DB.Setting.UseTRPName)
+	trpPlayer.UpdateInfo()
 	trpTarget.UpdateInfo()
 end);
 
@@ -759,6 +759,7 @@ TRP3_UFPanel.scrollChild.FullNamePCheckbox:SetScript("OnClick", function(self)
 	else
 		TRP3_UF_DB.Setting.FullNamePlayer = false;
 	end
+	trpPlayer.UpdateInfo()
 	trpTarget.UpdateInfo()
 end);
 
@@ -772,6 +773,7 @@ TRP3_UFPanel.scrollChild.FullNameTCheckbox:SetScript("OnClick", function(self)
 	else
 		TRP3_UF_DB.Setting.FullNameTarget = false;
 	end
+	trpPlayer.UpdateInfo()
 	trpTarget.UpdateInfo()
 end);
 
@@ -1650,7 +1652,7 @@ end
 
 
 local function onStart()
-	if not TRP3_UF_DB then
+	if TRP3_UF_DB == nil then
 		TRP3_UF_DB = defaultsTable
 	end
 	--[[ --so that old users now have the new settings put in
@@ -1659,13 +1661,13 @@ local function onStart()
 	end
 	]]
 
-	if not TRP3_UF_DB.Setting.FullNamePlayer then
+	if TRP3_UF_DB.Setting.FullNamePlayer == nil then
 		TRP3_UF_DB.Setting.FullNamePlayer = defaultsTable.Setting.FullNamePlayer
 	end
-	if not TRP3_UF_DB.Setting.FullNameTarget then
+	if TRP3_UF_DB.Setting.FullNameTarget == nil then
 		TRP3_UF_DB.Setting.FullNameTarget = defaultsTable.Setting.FullNameTarget
 	end
-	if not TRP3_UF_DB.Setting.UseTRPName then
+	if TRP3_UF_DB.Setting.UseTRPName == nil then
 		TRP3_UF_DB.Setting.UseTRPName = defaultsTable.Setting.UseTRPName
 	end
 
@@ -1895,9 +1897,9 @@ local function onStart()
 	TRP3_UFPanel.scrollChild.PlayerCustomBackColButton:SetEnabled(TRP3_UF_DB.Player.colorBack.custom);
 
 	TRP3_UFPanel.scrollChild.NPCOptionsCheckbox:SetChecked(TRP3_UF_DB.Setting.NPCs);
-	TRP3_UFPanel.scrollChild.UseTRP3NameCheckbox:SetChecked(TRP3_UF_DB.Setting.FullNamePlayer);
+	TRP3_UFPanel.scrollChild.UseTRP3NameCheckbox:SetChecked(TRP3_UF_DB.Setting.UseTRPName);
 	TRP3_UFPanel.scrollChild.FullNamePCheckbox:SetChecked(TRP3_UF_DB.Setting.FullNamePlayer);
-	TRP3_UFPanel.scrollChild.FullNameTCheckbox:SetChecked(TRP3_UF_DB.Setting.FullNamePlayer);
+	TRP3_UFPanel.scrollChild.FullNameTCheckbox:SetChecked(TRP3_UF_DB.Setting.FullNameTarget);
 
 
 	TRP3_UFPanel.scrollChild.FullNamePCheckbox:SetEnabled(TRP3_UF_DB.Setting.UseTRPName);

@@ -15,6 +15,7 @@ if LOCALE == "enUS" then
 	-- uses the US English locale code.
 	L["Title"] = "Total RP 3: Unit Frames"
 	L["TitleColored"] = "|cffF5038BTotal RP 3|r|cffffffff: Unit Frames|r"
+	L["PluginColored"] = "Unit Frames"
 	L["Visibility"] = "Visibility"
 	L["ShowButtonPlayer"] = "Show Player Button"
 	L["ShowButtonTarget"] = "Show Target Button"
@@ -61,6 +62,7 @@ if LOCALE == "esES" or LOCALE == "esMX" then
 	-- Spanish translations go here
 	L["Title"] = "Total RP 3: Marcos de unidad"
 	L["TitleColored"] = "|cffF5038BTotal RP 3|r|cffffffff: Marcos de unidad|r"
+	L["PluginColored"] = "Marcos de unidad"
 	L["Visibility"] = "Visibilidad"
 	L["ShowButtonPlayer"] = "Mostrar botón de jugador"
 	L["ShowButtonTarget"] = "Mostrar botón de destino"
@@ -107,6 +109,7 @@ if LOCALE == "deDE" then
 	-- German translations go here
 	L["Title"] = "Total RP 3: Einheitsrahmen"
 	L["TitleColored"] = "|cffF5038BTotal RP 3|r|cffffffff: Einheitsrahmen|r"
+	L["PluginColored"] = "Einheitsrahmen"
 	L["Visibility"] = "Sichtweite"
 	L["ShowButtonPlayer"] = "Player-Button anzeigen"
 	L["ShowButtonTarget"] = "Zielschaltfläche anzeigen"
@@ -153,6 +156,7 @@ if LOCALE == "frFR" then
 	-- French translations go here
 	L["Title"] = "Total RP 3: Cadres unitaires"
 	L["TitleColored"] = "|cffF5038BTotal RP 3|r|cffffffff: Cadres unitaires|r"
+	L["PluginColored"] = "Cadres unitaires"
 	L["Visibility"] = "Visibilité"
 	L["ShowButtonPlayer"] = "Afficher le bouton du lecteur"
 	L["ShowButtonTarget"] = "Afficher le bouton cible"
@@ -199,6 +203,7 @@ if LOCALE == "itIT" then
 	-- Italian translations go here
 	L["Title"] = "Total RP 3: Cornici unità"
 	L["TitleColored"] = "|cffF5038BTotal RP 3|r|cffffffff: Cornici unità|r"
+	L["PluginColored"] = "Cornici unità"
 	L["Visibility"] = "Visibilità"
 	L["ShowButtonPlayer"] = "Mostra pulsante giocatore"
 	L["ShowButtonTarget"] = "Mostra pulsante di destinazione"
@@ -245,6 +250,7 @@ if LOCALE == "ptBR" then
 	-- Brazilian Portuguese translations go here
 	L["Title"] = "Total RP 3: Molduras da unidade"
 	L["TitleColored"] = "|cffF5038BTotal RP 3|r|cffffffff: Molduras da unidade|r"
+	L["PluginColored"] = "Molduras da unidade"
 	L["Visibility"] = "Visibilidade"
 	L["ShowButtonPlayer"] = "Mostrar Botão do Jogador"
 	L["ShowButtonTarget"] = "Mostrar Botão Alvo"
@@ -293,6 +299,7 @@ if LOCALE == "ruRU" then
 	-- Russian translations go here
 	L["Title"] = "Total RP 3: Рамки блока"
 	L["TitleColored"] = "|cffF5038BTotal RP 3|r|cffffffff: Рамки блока|r"
+	L["PluginColored"] = "Рамки блока"
 	L["Visibility"] = "Видимость"
 	L["ShowButtonPlayer"] = "Показать кнопку проигрывателя"
 	L["ShowButtonTarget"] = "Показать целевую кнопку"
@@ -339,6 +346,7 @@ if LOCALE == "koKR" then
 	-- Korean translations go here
 	L["Title"] = "Total RP 3: 단위 프레임"
 	L["TitleColored"] = "|cffF5038BTotal RP 3|r|cffffffff: 단위 프레임|r"
+	L["PluginColored"] = "단위 프레임"
 	L["Visibility"] = "시계"
 	L["ShowButtonPlayer"] = "플레이어 버튼 표시"
 	L["ShowButtonTarget"] = "대상 버튼 표시"
@@ -385,6 +393,7 @@ if LOCALE == "zhCN" then
 	-- Simplified Chinese translations go here
 	L["Title"] = "Total RP 3: 单位框架"
 	L["TitleColored"] = "|cffF5038BTotal RP 3|r|cffffffff: 单位框架|r"
+	L["PluginColored"] = "单位框架"
 	L["Visibility"] = "能见度"
 	L["ShowButtonPlayer"] = "显示播放器按钮"
 	L["ShowButtonTarget"] = "显示目标按钮"
@@ -431,6 +440,7 @@ if LOCALE == "zhTW" then
 	-- Traditional Chinese translations go here
 	L["Title"] = "Total RP 3: 單位框架"
 	L["TitleColored"] = "|cffF5038BTotal RP 3|r|cffffffff: 單位框架|r"
+	L["PluginColored"] = "單位框架"
 	L["Visibility"] = "能見度"
 	L["ShowButtonPlayer"] = "顯示播放器按鈕"
 	L["ShowButtonTarget"] = "顯示目標按鈕"

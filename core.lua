@@ -3283,7 +3283,7 @@ end
 local totalRP3_UnitFrames = {
     ["name"] = "Total RP 3: Unit Frames",
     ["description"] = "Modifies the target and player frames to have some additional profile info.",
-    ["version"] = 0.9, -- Your version number
+    ["version"] = 1.3, -- Your version number
     ["id"] = "trp3_unitframes", -- Your module ID
     ["onStart"] = onStart, -- Your starting function
     ["minVersion"] = 108, -- Whatever TRP3 minimum build you require, 108 was the current one

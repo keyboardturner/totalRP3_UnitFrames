@@ -1,4 +1,4 @@
-## Interface: 100100
+## Interface: 100105
 ## Author: Keyboardturner
 ## Version: 0.1.3
 ## Title: Total RP 3: Unit Frames

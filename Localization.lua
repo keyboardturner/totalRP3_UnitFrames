@@ -43,6 +43,7 @@ if LOCALE == "enUS" then
 	L["NotDetected"] = "Not detected"
 
 	L["Agender"] = "Agender"
+	L["Asexual"] = "Asexual"
 	L["Aromantic Asexual"] = "Aromantic Asexual"
 	L["Bisexual"] = "Bisexual"
 	L["Non-Binary"] = "Non-Binary"
@@ -90,6 +91,7 @@ if LOCALE == "esES" or LOCALE == "esMX" then
 	L["NotDetected"] = "No detectado"
 
 	L["Agender"] = "Agénero"
+	L["Asexual"] = "Asexual"
 	L["Aromantic Asexual"] = "Aromantic Asexual"
 	L["Bisexual"] = "Bisexualidad"
 	L["Non-Binary"] = "Nichtbinäre Geschlechtsidentität"
@@ -137,6 +139,7 @@ if LOCALE == "deDE" then
 	L["NotDetected"] = "Nicht erkannt"
 
 	L["Agender"] = "Agender"
+	L["Asexual"] = "Asexual"
 	L["Aromantic Asexual"] = "Aromantic Asexual"
 	L["Bisexual"] = "Bisexualität"
 	L["Non-Binary"] = "Nichtbinäre Geschlechtsidentität"
@@ -184,6 +187,7 @@ if LOCALE == "frFR" then
 	L["NotDetected"] = "Non-détecté"
 
 	L["Agender"] = "Agenre"
+	L["Asexual"] = "Asexué"
 	L["Aromantic Asexual"] = "Asexué Aromantique"
 	L["Bisexual"] = "Bisexualité"
 	L["Non-Binary"] = "Non-Binarité"
@@ -231,6 +235,7 @@ if LOCALE == "itIT" then
 	L["NotDetected"] = "Non rilevata"
 
 	L["Agender"] = "Agenda"
+	L["Asexual"] = "Asessuale"
 	L["Aromantic Asexual"] = "Asessuale Aromatico"
 	L["Bisexual"] = "Bisessualità"
 	L["Non-Binary"] = "Non Binario"
@@ -278,6 +283,7 @@ if LOCALE == "ptBR" then
 	L["NotDetected"] = "Não detectado"
 
 	L["Agender"] = "Ageneridade"
+	L["Asexual"] = "Assexual"
 	L["Aromantic Asexual"] = "Assexual Aromântico"
 	L["Bisexual"] = "Bissexualidade"
 	L["Non-Binary"] = "Não-binário"
@@ -327,6 +333,7 @@ if LOCALE == "ruRU" then
 	L["NotDetected"] = "Не обнаружен"
 
 	L["Agender"] = "Агендер"
+	L["Asexual"] = "асексуал"
 	L["Aromantic Asexual"] = "аромантичный асексуал"
 	L["Bisexual"] = "Бисексуальность"
 	L["Non-Binary"] = "Небинарный"
@@ -374,6 +381,7 @@ if LOCALE == "koKR" then
 	L["NotDetected"] = "감지되지 않음"
 
 	L["Agender"] = "에이젠더"
+	L["Asexual"] = "무성애자"
 	L["Aromantic Asexual"] = "무로맨틱 무성애자"
 	L["Bisexual"] = "양성애"
 	L["Non-Binary"] = "논바이너리"
@@ -421,6 +429,7 @@ if LOCALE == "zhCN" then
 	L["NotDetected"] = "没有检测到"
 
 	L["Agender"] = "无性别"
+	L["Asexual"] = "无性的"
 	L["Aromantic Asexual"] = "芳香无性"
 	L["Bisexual"] = "双性恋"
 	L["Non-Binary"] = "非二进制"
@@ -468,6 +477,7 @@ if LOCALE == "zhTW" then
 	L["NotDetected"] = "沒有檢測到"
 
 	L["Agender"] = "无性别"
+	L["Asexual"] = "無性戀"
 	L["Aromantic Asexual"] = "芳香无性"
 	L["Bisexual"] = "双性恋"
 	L["Non-Binary"] = "非二进制"

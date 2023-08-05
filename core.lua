@@ -2678,48 +2678,40 @@ end
 ------------------------------------------------------------------------------------------------------------------
 
 function trpPlayer.SetVisible()
-	if TRP3_UF_DB.Target.show == true and UnitIsPlayer("target") == true and AddOn_TotalRP3.Player.CreateFromUnit("target"):GetProfileID() ~= nil then
-		trpTarget.button:Show();
-		trpTarget.portraitClick:Show();
+	if UnitAffectingCombat("player") == true then
+		return
 	else
-		trpTarget.button:Hide();
-		trpTarget.portraitClick:Hide();
-		SetPortraitTexture(TargetFrame.TargetFrameContainer.Portrait, "target")
-	end
-	if TRP3_UF_DB.Player.show == true then
-		trpPlayer.button:Show();
-		trpPlayer.portraitClick:Show();
-	else
-		trpPlayer.button:Hide();
-		trpPlayer.portraitClick:Hide();
-		SetPortraitTexture(PlayerFrame.PlayerFrameContainer.PlayerPortrait, "player")
-	end
-	if TRP3_UF_DB.Player.relativePoint == "CENTER" then
-		trpPlayer.button:Hide()
-	elseif TRP3_UF_DB.Player.relativePoint ~= "CENTER" then
-		trpPlayer.portraitClick:Hide();
-	end
-	if TRP3_UF_DB.Target.relativePoint == "CENTER" then
-		trpTarget.button:Hide()
-	elseif TRP3_UF_DB.Target.relativePoint ~= "CENTER" then
-		trpTarget.portraitClick:Hide();
+		if TRP3_UF_DB.Target.show == true and UnitIsPlayer("target") == true and AddOn_TotalRP3.Player.CreateFromUnit("target"):GetProfileID() ~= nil then
+			trpTarget.button:Show();
+			trpTarget.portraitClick:Show();
+		else
+			trpTarget.button:Hide();
+			trpTarget.portraitClick:Hide();
+			SetPortraitTexture(TargetFrame.TargetFrameContainer.Portrait, "target")
+		end
+		if TRP3_UF_DB.Player.show == true then
+			trpPlayer.button:Show();
+			trpPlayer.portraitClick:Show();
+		else
+			trpPlayer.button:Hide();
+			trpPlayer.portraitClick:Hide();
+			SetPortraitTexture(PlayerFrame.PlayerFrameContainer.PlayerPortrait, "player")
+		end
+		if TRP3_UF_DB.Player.relativePoint == "CENTER" then
+			trpPlayer.button:Hide()
+		elseif TRP3_UF_DB.Player.relativePoint ~= "CENTER" then
+			trpPlayer.portraitClick:Hide();
+		end
+		if TRP3_UF_DB.Target.relativePoint == "CENTER" then
+			trpTarget.button:Hide()
+		elseif TRP3_UF_DB.Target.relativePoint ~= "CENTER" then
+			trpTarget.portraitClick:Hide();
+		end
 	end
 end
 
 
-function trpPlayer.fadeout()
-	UIFrameFadeOut(trpPlayer.button, .5, trpPlayer.button:GetAlpha(), 0)
-end
-function trpPlayer.hide()
-	trpPlayer.button:Hide()
-end
 
-function trpPlayer.fadein()
-	UIFrameFadeIn(trpPlayer.button, .5, trpPlayer.button:GetAlpha(), 1)
-end
-function trpPlayer.show()
-	trpPlayer.SetVisible()
-end
 
 function trpTarget.SetColor()
 	--local r, g, b, a = TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:GetVertexColor()
@@ -2911,6 +2903,8 @@ local function onStart()
 	--trpTarget:RegisterEvent("CHAT_MSG_ADDON")
 	trpTarget:RegisterEvent("PLAYER_TARGET_CHANGED")
 	trpTarget:RegisterEvent("UNIT_TARGET")
+	trpTarget:RegisterEvent("PLAYER_REGEN_DISABLED")
+	trpTarget:RegisterEvent("PLAYER_REGEN_ENABLED")
 
 	local TarWidth = TargetFrame.TargetFrameContainer.Portrait:GetWidth()
 	local TarHeight = TargetFrame.TargetFrameContainer.Portrait:GetHeight()
@@ -2960,13 +2954,6 @@ local function onStart()
 	trpPlayer:RegisterEvent("CLIENT_SCENE_CLOSED")
 	trpPlayer:RegisterEvent("ZONE_CHANGED")
 
-	local AddonChecker = CreateFrame("Frame")
-	AddonChecker:RegisterEvent("ADDON_LOADED")
-	function AddonChecker.Compatibility(event, arg1)
-		if event == "ADDON_LOADED" and arg1 == "Narcissus" then
-			print("yee haw")
-		end
-	end
 	if IsAddOnLoaded("Narcissus") then
 		TRP3_UFPanel.menu[4] = {
 			text = L["Narcissus"],
@@ -3015,7 +3002,6 @@ local function onStart()
 			hasArrow = true
 		}
 	end
-	AddonChecker:SetScript("OnEvent", AddonChecker.Compatibility)
 
 
 	local PlayWidth = PlayerFrame.PlayerFrameContainer.PlayerPortrait:GetWidth()
@@ -3044,14 +3030,43 @@ local function onStart()
 	trpPlayer.button.ring:SetSize(20,20)
 	trpPlayer.button.ring:SetAtlas("bag-border")
 	--trpPlayer.button.ring:SetAtlas("communities-ring-gold")
+
+
+	trpPlayer.fadeGroupShow = trpPlayer.button:CreateAnimationGroup()
+	trpPlayer.fadeGroupHide = trpPlayer.button:CreateAnimationGroup()
+
+
+	trpPlayer.fadeIn = trpPlayer.fadeGroupShow:CreateAnimation("Alpha")
+	trpPlayer.fadeIn:SetDuration(.5)
+	trpPlayer.fadeIn:SetFromAlpha(0)
+	trpPlayer.fadeIn:SetToAlpha(1)
+
+	trpPlayer.fadeOut = trpPlayer.fadeGroupHide:CreateAnimation("Alpha")
+	trpPlayer.fadeOut:SetDuration(.5)
+	trpPlayer.fadeOut:SetFromAlpha(1)
+	trpPlayer.fadeOut:SetToAlpha(0)
+
+	trpPlayer.fadeOut:SetScript("OnFinished", function()
+		trpPlayer.button:Hide()
+	end)
+
+
+	function trpPlayer.ShowFadingFrame()
+		trpPlayer.button:Show()
+		trpPlayer.fadeGroupShow:Play()
+	end
+
+	function trpPlayer.HideFadingFrame()
+		trpPlayer.fadeGroupHide:Play()
+	end
 	
 	trpPlayer:SetScript("OnEvent", function(self, event)
 		if event == "PLAYER_REGEN_DISABLED" then
-			trpPlayer.fadeout()
-			C_Timer.After(.5, trpPlayer.hide)
+			--trpPlayer.fadeout() -- deprecated, causes taint
+			trpPlayer.HideFadingFrame()
 		elseif event == "PLAYER_REGEN_ENABLED" then
-			trpPlayer.fadein()
-			C_Timer.After(.5, trpPlayer.show)
+			--trpPlayer.fadein() -- deprecated, causes taint
+			trpPlayer.ShowFadingFrame()
 		end
 
 		if event == "PLAYER_LOGOUT" then
@@ -3070,7 +3085,46 @@ local function onStart()
 		end
 	end);
 
-	trpTarget:SetScript("OnEvent", trpTarget.nameChecker)
+
+	trpTarget.fadeGroupShow = trpTarget.button:CreateAnimationGroup()
+	trpTarget.fadeGroupHide = trpTarget.button:CreateAnimationGroup()
+
+
+	trpTarget.fadeIn = trpTarget.fadeGroupShow:CreateAnimation("Alpha")
+	trpTarget.fadeIn:SetDuration(.5)
+	trpTarget.fadeIn:SetFromAlpha(0)
+	trpTarget.fadeIn:SetToAlpha(1)
+
+	trpTarget.fadeOut = trpTarget.fadeGroupHide:CreateAnimation("Alpha")
+	trpTarget.fadeOut:SetDuration(.5)
+	trpTarget.fadeOut:SetFromAlpha(1)
+	trpTarget.fadeOut:SetToAlpha(0)
+
+	trpTarget.fadeOut:SetScript("OnFinished", function()
+		trpTarget.button:Hide()
+	end)
+
+
+	function trpTarget.ShowFadingFrame()
+		trpTarget.button:Show()
+		trpTarget.fadeGroupShow:Play()
+	end
+
+	function trpTarget.HideFadingFrame()
+		trpTarget.fadeGroupHide:Play()
+	end
+
+	trpTarget:SetScript("OnEvent", function(self, event)
+		trpTarget.nameChecker()
+		if event == "PLAYER_REGEN_DISABLED" then
+			--trpTarget.fadeout() -- deprecated, causes taint
+			trpTarget.HideFadingFrame()
+		elseif event == "PLAYER_REGEN_ENABLED" then
+			--trpTarget.fadein() -- deprecated, causes taint
+			trpTarget.ShowFadingFrame()
+		end
+	end);
+
 	trpTarget.button:SetScript("OnEnter", function()
 		GameTooltip_SetDefaultAnchor(GameTooltip, trpTarget)
 		GameTooltip:ClearAllPoints()
@@ -3283,7 +3337,7 @@ end
 local totalRP3_UnitFrames = {
     ["name"] = "Total RP 3: Unit Frames",
     ["description"] = "Modifies the target and player frames to have some additional profile info.",
-    ["version"] = 1.3, -- Your version number
+    ["version"] = 1.4, -- Your version number
     ["id"] = "trp3_unitframes", -- Your module ID
     ["onStart"] = onStart, -- Your starting function
     ["minVersion"] = 108, -- Whatever TRP3 minimum build you require, 108 was the current one

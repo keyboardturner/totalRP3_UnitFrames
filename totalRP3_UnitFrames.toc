@@ -1,6 +1,6 @@
-## Interface: 100107
+## Interface: 100200
 ## Author: Keyboardturner
-## Version: 0.1.5
+## Version: @project-version@
 ## Title: Total RP 3: Unit Frames
 ## Notes: Modifies the target and player frames to have some additional profile info.
 ## IconTexture: Interface/Addons/totalRP3_UnitFrames/totalRP3_UnitFrames.blp
@@ -30,6 +30,9 @@
 ## Dependencies: totalRP3
 ## OptionalDeps: Narcissus
 ## SavedVariables: TRP3_UF_DB
+## X-Curse-Project-ID: 709299
+## X-WoWI-ID: 26477
+## X-Wago-ID: PANzOV64
 
 Localization.lua
 core.lua

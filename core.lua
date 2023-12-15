@@ -39,6 +39,12 @@ local defaultsTable = {
 		Text = {r = 1, g = 1, b = 1, custom = false, class = false,},
 		Position = {x = 0, y = 0, width = 300, height = 100, scale = 1,},
 	},
+
+	SecondaryPower = {
+		posX = 30-80,
+		posY = 25,
+		showModels = true,
+	},
 };
 
 --if TRP3_UF_DB.Setting.charSpecific == true then
@@ -177,6 +183,30 @@ PlayerContainerPortrait.tex:SetVertexColor(1,1,1)
 --PlayerContainerPortrait.mask:SetAllPoints(PlayerContainerPortrait.tex)
 --PlayerContainerPortrait.mask:SetTexture(nil)
 --]]
+
+------------------------------------------------------------------------------------------------------------------
+
+--combo points frame
+
+--PlayerFrameBottomManagedFramesContainer:SetPoint("TOP", PlayerFrame, "BOTTOM", 30, 25) -- the default value atm
+
+local SecondaryPowers = { -- set up this for later maybe
+	PALADIN = Enum.PowerType.HolyPower, -- paladin
+	ROGUE = Enum.PowerType.ComboPoints, -- rogue
+	DRUID = Enum.PowerType.ComboPoints, -- druid
+	DEATHKNIGHT = Enum.PowerType.Runes, -- death knight (old?)
+	MONK = Enum.PowerType.Chi, -- monk
+	MAGE = Enum.PowerType.ArcaneCharges, -- mage
+	EVOKER = Enum.PowerType.Essence, -- evoker
+	DEATHKNIGHT = Enum.PowerType.RuneBlood, -- death knight blood
+	DEATHKNIGHT = Enum.PowerType.RuneFrost, -- death knight frost
+	DEATHKNIGHT = Enum.PowerType.RuneUnholy, -- death knight unholy
+};
+
+
+--UnitPower("player", Enum.PowerType.ComboPoints)
+
+--GetSpecializationInfo(GetSpecialization())
 
 ------------------------------------------------------------------------------------------------------------------
 
@@ -531,6 +561,12 @@ function TRP3_UFPanel.CheckSettings()
 	TRP3_UFPanel.TRP3_scrollChild.PortShowCheckbox:SetChecked(TRP3_UF_DB.Border.show);
 	TRP3_UFPanel.TRP3_scrollChild.PortraitButton:SetEnabled(TRP3_UF_DB.Border.show);
 
+	TRP3_UFPanel.scrollChild.SecondaryPowerPosXSlider:SetValue(TRP3_UF_DB.SecondaryPower.posX);
+	TRP3_UFPanel.scrollChild.SecondaryPowerPosYSlider:SetValue(TRP3_UF_DB.SecondaryPower.posY);
+
+	TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosXSlider:SetValue(TRP3_UF_DB.SecondaryPower.posX);
+	TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosYSlider:SetValue(TRP3_UF_DB.SecondaryPower.posY);
+
 	--status / rested texture visibility
 
 	TRP3_UFPanel.scrollChild.StatusHideCheckbox:SetChecked(TRP3_UF_DB.Border.status)
@@ -699,6 +735,45 @@ TRP3_UFPanel.scrollChild.PlayerPosSlider:SetScript("OnValueChanged", function()
 	trpPlayer.SetPos();
 	TRP3_UFPanel.CheckSettings();
 end)
+
+
+TRP3_UFPanel.scrollChild.SecondaryPowerPosXSlider = CreateFrame("Slider", nil, TRP3_UFPanel.scrollChild, "OptionsSliderTemplate");
+TRP3_UFPanel.scrollChild.SecondaryPowerPosXSlider:SetWidth(250);
+TRP3_UFPanel.scrollChild.SecondaryPowerPosXSlider:SetHeight(15);
+TRP3_UFPanel.scrollChild.SecondaryPowerPosXSlider:SetMinMaxValues(-500,500);
+TRP3_UFPanel.scrollChild.SecondaryPowerPosXSlider:SetValueStep(.5);
+TRP3_UFPanel.scrollChild.SecondaryPowerPosXSlider:SetObeyStepOnDrag(true)
+TRP3_UFPanel.scrollChild.SecondaryPowerPosXSlider:ClearAllPoints();
+TRP3_UFPanel.scrollChild.SecondaryPowerPosXSlider:SetPoint("TOPLEFT", TRP3_UFPanel.scrollChild, "TOPLEFT", 5, -53*9.75);
+TRP3_UFPanel.scrollChild.SecondaryPowerPosXSlider.Low:SetText(500);
+TRP3_UFPanel.scrollChild.SecondaryPowerPosXSlider.High:SetText(500);
+TRP3_UFPanel.scrollChild.SecondaryPowerPosXSlider.Text:SetText(L["SecondaryPowerX"]);
+TRP3_UFPanel.scrollChild.SecondaryPowerPosXSlider:SetScript("OnValueChanged", function()
+	local scaleValue = TRP3_UFPanel.scrollChild.SecondaryPowerPosXSlider:GetValue();
+	TRP3_UF_DB.SecondaryPower.posX = scaleValue;
+	trpPlayer.SecondaryPowerPos();
+	TRP3_UFPanel.CheckSettings();
+end)
+
+
+TRP3_UFPanel.scrollChild.SecondaryPowerPosYSlider = CreateFrame("Slider", nil, TRP3_UFPanel.scrollChild, "OptionsSliderTemplate");
+TRP3_UFPanel.scrollChild.SecondaryPowerPosYSlider:SetWidth(250);
+TRP3_UFPanel.scrollChild.SecondaryPowerPosYSlider:SetHeight(15);
+TRP3_UFPanel.scrollChild.SecondaryPowerPosYSlider:SetMinMaxValues(-500,500);
+TRP3_UFPanel.scrollChild.SecondaryPowerPosYSlider:SetValueStep(.5);
+TRP3_UFPanel.scrollChild.SecondaryPowerPosYSlider:SetObeyStepOnDrag(true)
+TRP3_UFPanel.scrollChild.SecondaryPowerPosYSlider:ClearAllPoints();
+TRP3_UFPanel.scrollChild.SecondaryPowerPosYSlider:SetPoint("TOPLEFT", TRP3_UFPanel.scrollChild, "TOPLEFT", 5, -53*10.5);
+TRP3_UFPanel.scrollChild.SecondaryPowerPosYSlider.Low:SetText(-500);
+TRP3_UFPanel.scrollChild.SecondaryPowerPosYSlider.High:SetText(500);
+TRP3_UFPanel.scrollChild.SecondaryPowerPosYSlider.Text:SetText(L["SecondaryPowerY"]);
+TRP3_UFPanel.scrollChild.SecondaryPowerPosYSlider:SetScript("OnValueChanged", function()
+	local scaleValue = TRP3_UFPanel.scrollChild.SecondaryPowerPosYSlider:GetValue();
+	TRP3_UF_DB.SecondaryPower.posY = scaleValue;
+	trpPlayer.SecondaryPowerPos();
+	TRP3_UFPanel.CheckSettings();
+end)
+
 
 ------------------------------------------------------------------------------------------------------------------
 
@@ -1815,6 +1890,44 @@ TRP3_UFPanel.TRP3_scrollChild.PlayerPosSlider:SetScript("OnValueChanged", functi
 	TRP3_UFPanel.CheckSettings();
 end)
 
+
+TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosXSlider = CreateFrame("Slider", nil, TRP3_UFPanel.TRP3_scrollChild, "OptionsSliderTemplate");
+TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosXSlider:SetWidth(250);
+TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosXSlider:SetHeight(15);
+TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosXSlider:SetMinMaxValues(-500,500);
+TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosXSlider:SetValueStep(.5);
+TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosXSlider:SetObeyStepOnDrag(true)
+TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosXSlider:ClearAllPoints();
+TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosXSlider:SetPoint("TOPLEFT", TRP3_UFPanel.TRP3_scrollChild, "TOPLEFT", 5, -53*9.75);
+TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosXSlider.Low:SetText(-500);
+TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosXSlider.High:SetText(500);
+TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosXSlider.Text:SetText(L["SecondaryPowerX"]);
+TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosXSlider:SetScript("OnValueChanged", function()
+	local scaleValue = TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosXSlider:GetValue();
+	TRP3_UF_DB.SecondaryPower.posX = scaleValue;
+	trpPlayer.SecondaryPowerPos();
+	TRP3_UFPanel.CheckSettings();
+end)
+
+
+TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosYSlider = CreateFrame("Slider", nil, TRP3_UFPanel.TRP3_scrollChild, "OptionsSliderTemplate");
+TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosYSlider:SetWidth(250);
+TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosYSlider:SetHeight(15);
+TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosYSlider:SetMinMaxValues(-500,500);
+TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosYSlider:SetValueStep(.5);
+TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosYSlider:SetObeyStepOnDrag(true)
+TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosYSlider:ClearAllPoints();
+TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosYSlider:SetPoint("TOPLEFT", TRP3_UFPanel.TRP3_scrollChild, "TOPLEFT", 5, -53*10.5);
+TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosYSlider.Low:SetText(-500);
+TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosYSlider.High:SetText(500);
+TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosYSlider.Text:SetText(L["SecondaryPowerY"]);
+TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosYSlider:SetScript("OnValueChanged", function()
+	local scaleValue = TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosYSlider:GetValue();
+	TRP3_UF_DB.SecondaryPower.posY = scaleValue;
+	trpPlayer.SecondaryPowerPos();
+	TRP3_UFPanel.CheckSettings();
+end)
+
 ------------------------------------------------------------------------------------------------------------------
 
 TRP3_UFPanel.TRP3_scrollChild.ColorsText = TRP3_UFPanel.TRP3_scrollChild:CreateFontString(nil, "OVERLAY", "GameFontNormal");
@@ -2710,6 +2823,14 @@ function trpPlayer.SetVisible()
 	end
 end
 
+function trpPlayer.SecondaryPowerPos()
+	if TRP3_UF_DB.SecondaryPower then
+		PlayerFrameBottomManagedFramesContainer:SetPoint("TOPLEFT", PlayerFrame, "BOTTOM", TRP3_UF_DB.SecondaryPower.posX, TRP3_UF_DB.SecondaryPower.posY) -- the default value atm
+	else
+		PlayerFrameBottomManagedFramesContainer:SetPoint("TOP", PlayerFrame, "BOTTOM", 30, 25) -- the default value atm
+	end
+end
+
 
 
 
@@ -2879,7 +3000,7 @@ end
 
 local function onStart()
 	if TRP3_UF_DB == nil then
-		TRP3_UF_DB = defaultsTable
+		TRP3_UF_DB = CopyTable(defaultsTable)
 	end
 	--[[ --so that old users now have the new settings put in
 	if not TRP3_UF_DB.CurrNotifier then
@@ -2895,6 +3016,9 @@ local function onStart()
 	end
 	if TRP3_UF_DB.Setting.UseTRPName == nil then
 		TRP3_UF_DB.Setting.UseTRPName = defaultsTable.Setting.UseTRPName
+	end
+	if TRP3_UF_DB.SecondaryPower == nil then
+		TRP3_UF_DB.SecondaryPower = defaultsTable.SecondaryPower
 	end
 
 
@@ -3083,6 +3207,7 @@ local function onStart()
 			trpTarget.UpdateInfo()
 			trpPlayer.UpdateInfo()
 		end
+		trpPlayer.SecondaryPowerPos()
 	end);
 
 
@@ -3151,6 +3276,7 @@ local function onStart()
 	--set out stuff here
 	trpTarget.SetPos()
 	trpPlayer.SetPos()
+	trpPlayer.SecondaryPowerPos()
 	TRP3_UFPanel.CheckSettings()
 
 	trpPlayer.SetVisible()
@@ -3337,7 +3463,7 @@ end
 local totalRP3_UnitFrames = {
     ["name"] = "Total RP 3: Unit Frames",
     ["description"] = "Modifies the target and player frames to have some additional profile info.",
-    ["version"] = 1.4, -- Your version number
+    ["version"] = 1.7, -- Your version number
     ["id"] = "trp3_unitframes", -- Your module ID
     ["onStart"] = onStart, -- Your starting function
     ["minVersion"] = 108, -- Whatever TRP3 minimum build you require, 108 was the current one

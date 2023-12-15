@@ -57,6 +57,9 @@ if LOCALE == "enUS" then
 	L["RainbowPhilly"] = "Rainbow (Philadelphia)"
 	L["RainbowGilBaker"] = "Rainbow (Gilbert Baker)"
 	L["RainbowProgress"] = "Rainbow (Progress)"
+
+	L["SecondaryPowerX"] = "Secondary Resource X Position"
+	L["SecondaryPowerY"] = "Secondary Resource Y Position"
 return end
 
 if LOCALE == "esES" or LOCALE == "esMX" then
@@ -105,6 +108,9 @@ if LOCALE == "esES" or LOCALE == "esMX" then
 	L["RainbowPhilly"] = "Arcoíris (Filadelfia)"
 	L["RainbowGilBaker"] = "Arcoíris (Gilbert Baker)"
 	L["RainbowProgress"] = "Arcoíris (Progreso)"
+
+	L["SecondaryPowerX"] = "Posición de Recurso Secundario X"
+	L["SecondaryPowerY"] = "Posición de recurso secundario Y"
 return end
 
 if LOCALE == "deDE" then
@@ -153,6 +159,9 @@ if LOCALE == "deDE" then
 	L["RainbowPhilly"] = "Regenbogen (Philadelphia)"
 	L["RainbowGilBaker"] = "Regenbogen (Gilbert Baker)"
 	L["RainbowProgress"] = "Regenbogen (Fortschritt)"
+
+	L["SecondaryPowerX"] = "Position der sekundären Ressource X"
+	L["SecondaryPowerY"] = "Position der sekundären Ressource Y"
 return end
 
 if LOCALE == "frFR" then
@@ -201,6 +210,9 @@ if LOCALE == "frFR" then
 	L["RainbowPhilly"] = "Arc-en-ciel (Philadelphia)"
 	L["RainbowGilBaker"] = "Arc-en-ciel (Gilbert Baker)"
 	L["RainbowProgress"] = "Arc-en-ciel (Progrès)"
+
+	L["SecondaryPowerX"] = "Poste X de ressource secondaire"
+	L["SecondaryPowerY"] = "Poste Y de ressource secondaire"
 return end
 
 if LOCALE == "itIT" then
@@ -249,6 +261,9 @@ if LOCALE == "itIT" then
 	L["RainbowPhilly"] = "Arcobaleno (Filadelfia)"
 	L["RainbowGilBaker"] = "Arcobaleno (Gilbert Baker)"
 	L["RainbowProgress"] = "Arcobaleno (Progresso)"
+
+	L["SecondaryPowerX"] = "Posizione X della risorsa secondaria"
+	L["SecondaryPowerY"] = "Posizione Y della risorsa secondaria"
 return end
 
 if LOCALE == "ptBR" then
@@ -297,6 +312,9 @@ if LOCALE == "ptBR" then
 	L["RainbowPhilly"] = "Arco-íris (Filadélfia)"
 	L["RainbowGilBaker"] = "Arco-íris (Gilbert Baker)"
 	L["RainbowProgress"] = "Arco-íris (Progresso)"
+
+	L["SecondaryPowerX"] = "Posição X do Recurso Secundário"
+	L["SecondaryPowerY"] = "Posição Y do Recurso Secundário"
 	-- Note that the EU Portuguese WoW client also
 	-- uses the Brazilian Portuguese locale code.
 return end
@@ -347,6 +365,9 @@ if LOCALE == "ruRU" then
 	L["RainbowPhilly"] = "Радуга (Филадельфия)"
 	L["RainbowGilBaker"] = "Радуга (Гилберт Бейкер)"
 	L["RainbowProgress"] = "Радуга (Прогресс)"
+
+	L["SecondaryPowerX"] = "Позиция вторичного ресурса X"
+	L["SecondaryPowerY"] = "Позиция вторичного ресурса Y"
 return end
 
 if LOCALE == "koKR" then
@@ -395,6 +416,9 @@ if LOCALE == "koKR" then
 	L["RainbowPhilly"] = "무지개 (필라델피아)"
 	L["RainbowGilBaker"] = "무지개 (길버트 베이커)"
 	L["RainbowProgress"] = "무지개 (진전)"
+
+	L["SecondaryPowerX"] = "보조 자원 X 위치"
+	L["SecondaryPowerY"] = "보조 자원 Y 위치"
 return end
 
 if LOCALE == "zhCN" then
@@ -443,6 +467,9 @@ if LOCALE == "zhCN" then
 	L["RainbowPhilly"] = "彩虹 (费城)"
 	L["RainbowGilBaker"] = "彩虹 (吉尔伯特·贝克)"
 	L["RainbowProgress"] = "彩虹 (进步)"
+
+	L["SecondaryPowerX"] = "次要資源 X 位置"
+	L["SecondaryPowerY"] = "次要資源 Y 位置"
 return end
 
 if LOCALE == "zhTW" then
@@ -491,4 +518,7 @@ if LOCALE == "zhTW" then
 	L["RainbowPhilly"] = "彩虹 (費城)"
 	L["RainbowGilBaker"] = "彩虹 (吉爾伯特·貝克)"
 	L["RainbowProgress"] = "彩虹 (進步)"
+
+	L["SecondaryPowerX"] = "次要资源 X 位置"
+	L["SecondaryPowerY"] = "次要资源 Y 位置"
 return end

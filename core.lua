@@ -100,8 +100,6 @@ local function ShowColorPickerText(r, g, b, callbackFunc)
 	end
 end
 
-local r, g, b, a = 1, 1, 1, 1
-
 local function round(number, decimals)
 	return (("%%.%df"):format(decimals)):format(number)
 end
@@ -118,13 +116,11 @@ local function TargetTextColor(restore)
 	 -- Something changed
 		newR, newG, newB = ColorPickerFrame:GetColorRGB();
 	end
-	 -- Update our internal storage.
-	r, g, b = newR, newG, newB
 	 -- And update any UI elements that use this color...
 	TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b = newR, newG, newB;
-	TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetTextColor(TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b)
-	TRP3_UFRepTextDummyTarget:SetTextColor(TRP3_UF_DB.Target.colorText.r,TRP3_UF_DB.Target.colorText.g,TRP3_UF_DB.Target.colorText.b)
-	TRP3_UFSettingsRepTextDummyTarget:SetTextColor(TRP3_UF_DB.Target.colorText.r,TRP3_UF_DB.Target.colorText.g,TRP3_UF_DB.Target.colorText.b)
+	TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetTextColor(ColorMixin.GetRGB(TRP3_UF_DB.Target.colorText))
+	TRP3_UFRepTextDummyTarget:SetTextColor(ColorMixin.GetRGB(TRP3_UF_DB.Target.colorText))
+	TRP3_UFSettingsRepTextDummyTarget:SetTextColor(ColorMixin.GetRGB(TRP3_UF_DB.Target.colorText))
 end
 
 
@@ -140,13 +136,11 @@ local function TargetBackdropColor(restore)
 	 -- Something changed
 		newA, newR, newG, newB = ColorPickerFrame:GetColorAlpha(), ColorPickerFrame:GetColorRGB();
 	end
-	 -- Update our internal storage.
-	r, g, b, a = newR, newG, newB, newA
 	 -- And update any UI elements that use this color...
 	TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a = newR, newG, newB, newA;
-	TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a)
-	TRP3_UFRepDummyTarget:SetVertexColor(TRP3_UF_DB.Target.colorBack.r,TRP3_UF_DB.Target.colorBack.g,TRP3_UF_DB.Target.colorBack.b,TRP3_UF_DB.Target.colorBack.a)
-	TRP3_UFSettingsRepDummyTarget:SetVertexColor(TRP3_UF_DB.Target.colorBack.r,TRP3_UF_DB.Target.colorBack.g,TRP3_UF_DB.Target.colorBack.b,TRP3_UF_DB.Target.colorBack.a)
+	TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack))
+	TRP3_UFRepDummyTarget:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack))
+	TRP3_UFSettingsRepDummyTarget:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack))
 end
 
 
@@ -161,13 +155,11 @@ local function PlayerTextColor(restore)
 	 -- Something changed
 		newR, newG, newB = ColorPickerFrame:GetColorRGB();
 	end
-	 -- Update our internal storage.
-	r, g, b = newR, newG, newB
 	 -- And update any UI elements that use this color...
 	TRP3_UF_DB.Player.colorText.r, TRP3_UF_DB.Player.colorText.g, TRP3_UF_DB.Player.colorText.b = newR, newG, newB;
-	PlayerName:SetTextColor(TRP3_UF_DB.Player.colorText.r, TRP3_UF_DB.Player.colorText.g, TRP3_UF_DB.Player.colorText.b)
-	TRP3_UFRepTextDummyPlayer:SetTextColor(TRP3_UF_DB.Player.colorText.r,TRP3_UF_DB.Player.colorText.g,TRP3_UF_DB.Player.colorText.b)
-	TRP3_UFSettingsRepTextDummyPlayer:SetTextColor(TRP3_UF_DB.Player.colorText.r,TRP3_UF_DB.Player.colorText.g,TRP3_UF_DB.Player.colorText.b)
+	PlayerName:SetTextColor(ColorMixin.GetRGB(TRP3_UF_DB.Player.colorText))
+	TRP3_UFRepTextDummyPlayer:SetTextColor(ColorMixin.GetRGB(TRP3_UF_DB.Player.colorText))
+	TRP3_UFSettingsRepTextDummyPlayer:SetTextColor(ColorMixin.GetRGB(TRP3_UF_DB.Player.colorText))
 end
 
 
@@ -183,13 +175,11 @@ local function PlayerBackdropColor(restore)
 	 -- Something changed
 		newA, newR, newG, newB = ColorPickerFrame:GetColorAlpha(), ColorPickerFrame:GetColorRGB();
 	end
-	 -- Update our internal storage.
-	r, g, b, a = newR, newG, newB, newA
 	 -- And update any UI elements that use this color...
 	TRP3_UF_DB.Player.colorBack.r, TRP3_UF_DB.Player.colorBack.g, TRP3_UF_DB.Player.colorBack.b, TRP3_UF_DB.Player.colorBack.a = newR, newG, newB, newA;
-	PlayerFrameReputationColor:SetVertexColor(TRP3_UF_DB.Player.colorBack.r, TRP3_UF_DB.Player.colorBack.g, TRP3_UF_DB.Player.colorBack.b, TRP3_UF_DB.Player.colorBack.a)
-	TRP3_UFRepDummyPlayer:SetVertexColor(TRP3_UF_DB.Player.colorBack.r,TRP3_UF_DB.Player.colorBack.g,TRP3_UF_DB.Player.colorBack.b,TRP3_UF_DB.Player.colorBack.a)
-	TRP3_UFSettingsRepDummyPlayer:SetVertexColor(TRP3_UF_DB.Player.colorBack.r,TRP3_UF_DB.Player.colorBack.g,TRP3_UF_DB.Player.colorBack.b,TRP3_UF_DB.Player.colorBack.a)
+	PlayerFrameReputationColor:SetVertexColor(ColorMixin.GetRGB(TRP3_UF_DB.Player.colorBack))
+	TRP3_UFRepDummyPlayer:SetVertexColor(ColorMixin.GetRGB(TRP3_UF_DB.Player.colorBack))
+	TRP3_UFSettingsRepDummyPlayer:SetVertexColor(ColorMixin.GetRGB(TRP3_UF_DB.Player.colorBack))
 end
 
 --PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:Hide() -- make this into an option to hide the "rested glow" or even change color

@@ -2861,10 +2861,14 @@ function trpPlayer.SetVisible()
 end
 
 function trpPlayer.SecondaryPowerPos()
-	if TRP3_UF_DB.SecondaryPower then
-		PlayerFrameBottomManagedFramesContainer:SetPoint("TOPLEFT", PlayerFrame, "BOTTOM", TRP3_UF_DB.SecondaryPower.posX, TRP3_UF_DB.SecondaryPower.posY) -- the default value atm
+	if UnitAffectingCombat("player") == true then
+		return
 	else
-		PlayerFrameBottomManagedFramesContainer:SetPoint("TOP", PlayerFrame, "BOTTOM", 30, 25) -- the default value atm
+		if TRP3_UF_DB.SecondaryPower then
+			PlayerFrameBottomManagedFramesContainer:SetPoint("TOPLEFT", PlayerFrame, "BOTTOM", TRP3_UF_DB.SecondaryPower.posX, TRP3_UF_DB.SecondaryPower.posY) -- the default value atm
+		else
+			PlayerFrameBottomManagedFramesContainer:SetPoint("TOP", PlayerFrame, "BOTTOM", 30, 25) -- the default value atm
+		end
 	end
 end
 

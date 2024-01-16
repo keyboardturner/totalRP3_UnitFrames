@@ -53,13 +53,51 @@ local defaultsTable = {
 
 ------------------------------------------------------------------------------------------------------------------
 
-local function ShowColorPicker(r, g, b, a, changedCallback)
-	ColorPickerFrame.hasOpacity, ColorPickerFrame.opacity = (a ~= nil), a;
-	ColorPickerFrame.previousValues = {r,g,b,a};
-	ColorPickerFrame.func, ColorPickerFrame.opacityFunc, ColorPickerFrame.cancelFunc = changedCallback, changedCallback, changedCallback;
-	ColorPickerFrame:SetColorRGB(r,g,b);
-	ColorPickerFrame:Hide(); -- Need to run the OnShow handler.
-	ColorPickerFrame:Show();
+local function ShowColorPicker(r, g, b, a, callbackFunc)
+	if ColorPickerFrame.SetupColorPickerAndShow then
+		local options = {
+			swatchFunc = callbackFunc,
+			opacityFunc = callbackFunc,
+			cancelFunc = callbackFunc,
+			hasOpacity = true,
+			r = r,
+			g = g,
+			b = b,
+			opacity = a,
+		};
+
+		ColorPickerFrame:SetupColorPickerAndShow(options);
+	else
+		ColorPickerFrame.hasOpacity, ColorPickerFrame.opacity = true, a;
+		ColorPickerFrame.previousValues = {r,g,b,a};
+		ColorPickerFrame.func, ColorPickerFrame.opacityFunc, ColorPickerFrame.cancelFunc = callbackFunc, callbackFunc, callbackFunc;
+		ColorPickerFrame:SetColorRGB(r,g,b,a);
+		ColorPickerFrame:Hide();
+		ColorPickerFrame:Show();
+	end
+end
+
+local function ShowColorPickerText(r, g, b, callbackFunc)
+	if ColorPickerFrame.SetupColorPickerAndShow then
+		local options = {
+			swatchFunc = callbackFunc,
+			opacityFunc = callbackFunc,
+			cancelFunc = callbackFunc,
+			hasOpacity = false,
+			r = r,
+			g = g,
+			b = b,
+		};
+
+		ColorPickerFrame:SetupColorPickerAndShow(options);
+	else
+		ColorPickerFrame.hasOpacity, ColorPickerFrame.opacity = false, a;
+		ColorPickerFrame.previousValues = {r,g,b};
+		ColorPickerFrame.func, ColorPickerFrame.opacityFunc, ColorPickerFrame.cancelFunc = callbackFunc, callbackFunc, callbackFunc;
+		ColorPickerFrame:SetColorRGB(r,g,b);
+		ColorPickerFrame:Hide();
+		ColorPickerFrame:Show();
+	end
 end
 
 local r, g, b, a = 1, 1, 1, 1
@@ -70,16 +108,18 @@ end
 
 
 local function TargetTextColor(restore)
-	local newR, newG, newB, newA; -- I forgot what to do with the alpha value but it's needed to not swap RGB values
+	local newR, newG, newB; -- I forgot what to do with the alpha value but it's needed to not swap RGB values
 	if restore then
 	 -- The user bailed, we extract the old color from the table created by ShowColorPicker.
-		newR, newG, newB, newA = unpack(restore);
+		newR = restore["r"]
+		newG = restore["g"]
+		newB = restore["b"]
 	else
 	 -- Something changed
-		newA, newR, newG, newB = OpacitySliderFrame:GetValue(), ColorPickerFrame:GetColorRGB();
+		newR, newG, newB = ColorPickerFrame:GetColorRGB();
 	end
 	 -- Update our internal storage.
-	r, g, b, a = newR, newG, newB, newA
+	r, g, b = newR, newG, newB
 	 -- And update any UI elements that use this color...
 	TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b = newR, newG, newB;
 	TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetTextColor(TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b)
@@ -92,10 +132,13 @@ local function TargetBackdropColor(restore)
 	local newR, newG, newB, newA; -- I forgot what to do with the alpha value but it's needed to not swap RGB values
 	if restore then
 	 -- The user bailed, we extract the old color from the table created by ShowColorPicker.
-		newR, newG, newB, newA = unpack(restore);
+		newR = restore["r"]
+		newG = restore["g"]
+		newB = restore["b"]
+		newA = restore["a"]
 	else
 	 -- Something changed
-		newA, newR, newG, newB = OpacitySliderFrame:GetValue(), ColorPickerFrame:GetColorRGB();
+		newA, newR, newG, newB = ColorPickerFrame:GetColorAlpha(), ColorPickerFrame:GetColorRGB();
 	end
 	 -- Update our internal storage.
 	r, g, b, a = newR, newG, newB, newA
@@ -108,16 +151,18 @@ end
 
 
 local function PlayerTextColor(restore)
-	local newR, newG, newB, newA; -- I forgot what to do with the alpha value but it's needed to not swap RGB values
+	local newR, newG, newB; -- I forgot what to do with the alpha value but it's needed to not swap RGB values
 	if restore then
 	 -- The user bailed, we extract the old color from the table created by ShowColorPicker.
-		newR, newG, newB, newA = unpack(restore);
+		newR = restore["r"]
+		newG = restore["g"]
+		newB = restore["b"]
 	else
 	 -- Something changed
-		newA, newR, newG, newB = OpacitySliderFrame:GetValue(), ColorPickerFrame:GetColorRGB();
+		newR, newG, newB = ColorPickerFrame:GetColorRGB();
 	end
 	 -- Update our internal storage.
-	r, g, b, a = newR, newG, newB, newA
+	r, g, b = newR, newG, newB
 	 -- And update any UI elements that use this color...
 	TRP3_UF_DB.Player.colorText.r, TRP3_UF_DB.Player.colorText.g, TRP3_UF_DB.Player.colorText.b = newR, newG, newB;
 	PlayerName:SetTextColor(TRP3_UF_DB.Player.colorText.r, TRP3_UF_DB.Player.colorText.g, TRP3_UF_DB.Player.colorText.b)
@@ -128,13 +173,15 @@ end
 
 local function PlayerBackdropColor(restore)
 	local newR, newG, newB, newA; -- I forgot what to do with the alpha value but it's needed to not swap RGB values
-	
 	if restore then
 	 -- The user bailed, we extract the old color from the table created by ShowColorPicker.
-		newR, newG, newB, newA = unpack(restore);
+		newR = restore["r"]
+		newG = restore["g"]
+		newB = restore["b"]
+		newA = restore["a"]
 	else
 	 -- Something changed
-		newA, newR, newG, newB = OpacitySliderFrame:GetValue(), ColorPickerFrame:GetColorRGB();
+		newA, newR, newG, newB = ColorPickerFrame:GetColorAlpha(), ColorPickerFrame:GetColorRGB();
 	end
 	 -- Update our internal storage.
 	r, g, b, a = newR, newG, newB, newA
@@ -1445,7 +1492,7 @@ TRP3_UFPanel.scrollChild.TarCustomTextColButton = CreateFrame("Button", nil, TRP
 TRP3_UFPanel.scrollChild.TarCustomTextColButton:SetPoint("TOPLEFT", 150*3.3, -53*4.6);
 TRP3_UFPanel.scrollChild.TarCustomTextColButton:SetSize(120, 26);
 TRP3_UFPanel.scrollChild.TarCustomTextColButton:SetText(COLOR_PICKER)
-TRP3_UFPanel.scrollChild.TarCustomTextColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b, nil, TargetTextColor); end)
+TRP3_UFPanel.scrollChild.TarCustomTextColButton:SetScript("OnClick", function() ShowColorPickerText(TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b, TargetTextColor); end)
 
 
 TRP3_UFPanel.scrollChild.TarCustomBackColButton = CreateFrame("Button", nil, TRP3_UFPanel.scrollChild, "SharedGoldRedButtonSmallTemplate")
@@ -1458,7 +1505,7 @@ TRP3_UFPanel.scrollChild.PlayerCustomTextColButton = CreateFrame("Button", nil, 
 TRP3_UFPanel.scrollChild.PlayerCustomTextColButton:SetPoint("TOPLEFT", 150*3.3, -53*7.1);
 TRP3_UFPanel.scrollChild.PlayerCustomTextColButton:SetSize(120, 26);
 TRP3_UFPanel.scrollChild.PlayerCustomTextColButton:SetText(COLOR_PICKER)
-TRP3_UFPanel.scrollChild.PlayerCustomTextColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Player.colorText.r, TRP3_UF_DB.Player.colorText.g, TRP3_UF_DB.Player.colorText.b, nil, PlayerTextColor); end)
+TRP3_UFPanel.scrollChild.PlayerCustomTextColButton:SetScript("OnClick", function() ShowColorPickerText(TRP3_UF_DB.Player.colorText.r, TRP3_UF_DB.Player.colorText.g, TRP3_UF_DB.Player.colorText.b, PlayerTextColor); end)
 
 TRP3_UFPanel.scrollChild.PlayerCustomBackColButton = CreateFrame("Button", nil, TRP3_UFPanel.scrollChild, "SharedGoldRedButtonSmallTemplate")
 TRP3_UFPanel.scrollChild.PlayerCustomBackColButton:SetPoint("TOPLEFT", 150*3.3, -53*7.6);
@@ -2551,7 +2598,7 @@ TRP3_UFPanel.TRP3_scrollChild.TarCustomTextColButton = CreateFrame("Button", nil
 TRP3_UFPanel.TRP3_scrollChild.TarCustomTextColButton:SetPoint("TOPLEFT", 305, -53*5.1);
 TRP3_UFPanel.TRP3_scrollChild.TarCustomTextColButton:SetSize(120, 26);
 TRP3_UFPanel.TRP3_scrollChild.TarCustomTextColButton:SetText(COLOR_PICKER)
-TRP3_UFPanel.TRP3_scrollChild.TarCustomTextColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b, nil, TargetTextColor); end)
+TRP3_UFPanel.TRP3_scrollChild.TarCustomTextColButton:SetScript("OnClick", function() ShowColorPickerText(TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b, TargetTextColor); end)
 
 
 TRP3_UFPanel.TRP3_scrollChild.TarCustomBackColButton = CreateFrame("Button", nil, TRP3_UFPanel.TRP3_scrollChild, "SharedGoldRedButtonSmallTemplate")
@@ -2564,7 +2611,7 @@ TRP3_UFPanel.TRP3_scrollChild.PlayerCustomTextColButton = CreateFrame("Button", 
 TRP3_UFPanel.TRP3_scrollChild.PlayerCustomTextColButton:SetPoint("TOPLEFT", 305, -53*8.6);
 TRP3_UFPanel.TRP3_scrollChild.PlayerCustomTextColButton:SetSize(120, 26);
 TRP3_UFPanel.TRP3_scrollChild.PlayerCustomTextColButton:SetText(COLOR_PICKER)
-TRP3_UFPanel.TRP3_scrollChild.PlayerCustomTextColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Player.colorText.r, TRP3_UF_DB.Player.colorText.g, TRP3_UF_DB.Player.colorText.b, nil, PlayerTextColor); end)
+TRP3_UFPanel.TRP3_scrollChild.PlayerCustomTextColButton:SetScript("OnClick", function() ShowColorPickerText(TRP3_UF_DB.Player.colorText.r, TRP3_UF_DB.Player.colorText.g, TRP3_UF_DB.Player.colorText.b, PlayerTextColor); end)
 
 TRP3_UFPanel.TRP3_scrollChild.PlayerCustomBackColButton = CreateFrame("Button", nil, TRP3_UFPanel.TRP3_scrollChild, "SharedGoldRedButtonSmallTemplate")
 TRP3_UFPanel.TRP3_scrollChild.PlayerCustomBackColButton:SetPoint("TOPLEFT", 305, -53*9.6);

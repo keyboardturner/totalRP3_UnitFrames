@@ -1,3 +1,7 @@
+# 0.2.1
+
+TOC updates for TWW, added additional Emerald Dream Narcissus border, fix to "Dragonflight" (now Neltharion) option, complete rewrite of dropdown menus, eliminated extraneous code
+
 # 0.2.0
 
 toc bump to 10.2.7

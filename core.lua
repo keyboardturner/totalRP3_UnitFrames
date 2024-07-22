@@ -251,10 +251,12 @@ local trpTarget, trpPlayer
 trpTarget = CreateFrame("Frame")
 trpPlayer = CreateFrame("Frame")
 
-local VERSION_TEXT = string.format(TRP3_API.loc.CREDITS_VERSION_TEXT, GetAddOnMetadata("totalRP3_UnitFrames", "Version"));
+
+
+local VERSION_TEXT = string.format(TRP3_API.loc.CREDITS_VERSION_TEXT, C_AddOns.GetAddOnMetadata("totalRP3_UnitFrames", "Version"));
 local TRP3_UFPanel = CreateFrame("Frame");
 
-TRP3_UFPanel.name = GetAddOnMetadata("totalRP3_UnitFrames", "Title")
+TRP3_UFPanel.name = C_AddOns.GetAddOnMetadata("totalRP3_UnitFrames", "Title")
 
 TRP3_UFPanel.Headline = TRP3_UFPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
 TRP3_UFPanel.Headline:SetFont(TRP3_UFPanel.Headline:GetFont(), 23);
@@ -1277,6 +1279,12 @@ function PlayerDragonFrame.TextureStuff()
 		PlayerDragonFrame:SetSize(99, 81);
 		PlayerDragonFrame.tex:SetTexCoord(-.26, .93, 0, 1) -- Narcissus Pack
 		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
+
+		--NarciAPI.SetBorderTexture(PlayerDragonFrame.tex, 3)
+		--PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -8)
+		--PlayerDragonFrame:SetSize(99, 81);
+		--PlayerDragonFrame.tex:SetTexCoord(0, 1, 0, 1) -- Narcissus Pack
+		--PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
 	end
 	if TRP3_UF_DB.Border.style == "NarciHexagonBorder-Special" then
 		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\Border\\HexagonBorder-Special.tga")
@@ -1333,13 +1341,13 @@ function PlayerDragonFrame.TextureStuff()
 		PlayerDragonFrame.tex:AddMaskTexture(PlayerDragonFrame.mask)
 		PlayerDragonFrame.mask:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\Mask\\RegularHeavy.tga")
 	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonDarkBorder-Dragonflight" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\JPG\\Dragonflight.jpg")
+	if TRP3_UF_DB.Border.style == "NarciHexagonDarkBorder-Dragonflight" or TRP3_UF_DB.Border.style == "NarciHexagonDarkBorder-Neltharion" then
+		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\JPG\\Neltharion.jpg")
 		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -27, 30)
 		PlayerDragonFrame:SetSize(160, 160);
 		PlayerDragonFrame.tex:SetTexCoord(0, 1, 0, 1) -- Narcissus Pack
 		PlayerDragonFrame.tex:AddMaskTexture(PlayerDragonFrame.mask)
-		PlayerDragonFrame.mask:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\Mask\\Dragonflight.tga")
+		PlayerDragonFrame.mask:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\Mask\\Neltharion.tga")
 	end
 	if TRP3_UF_DB.Border.style == "NarciHexagonDarkBorder-Epic" then
 		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\JPG\\Epic.jpg")
@@ -1413,6 +1421,14 @@ function PlayerDragonFrame.TextureStuff()
 		PlayerDragonFrame.tex:AddMaskTexture(PlayerDragonFrame.mask)
 		PlayerDragonFrame.mask:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\Mask\\RegularHeavy.tga")
 	end
+	if TRP3_UF_DB.Border.style == "NarciHexagonDarkBorder-EmeraldDream" then
+		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\JPG\\TreeAndFlame.jpg")
+		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -27, 30)
+		PlayerDragonFrame:SetSize(160, 160);
+		PlayerDragonFrame.tex:SetTexCoord(0, 1, 0, 1) -- Narcissus Pack
+		PlayerDragonFrame.tex:AddMaskTexture(PlayerDragonFrame.mask)
+		PlayerDragonFrame.mask:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\Mask\\TreeAndFlame.tga")
+	end
 
 end
 
@@ -1423,58 +1439,169 @@ PlayerDragonFrame.tex:SetTexCoord(0.77734375, 0.390625, 0.001953125, 0.318359375
 
 ------------------------------------------------------------------------------------------------------------------
 
-
-
-TRP3_UFPanel.menu = {
-	{ text = L["SelectOption"], isTitle = true},
-	{ text = L["Dragons"], hasArrow = true,
-		menuList = {
-			{ text = ITEM_QUALITY3_DESC, func = function() TRP3_UF_DB.Border.style = "rare"; PlayerDragonFrame.TextureStuff(); end },
-			{ text = ELITE, func = function() TRP3_UF_DB.Border.style = "elite"; PlayerDragonFrame.TextureStuff(); end },
-			{ text = ITEM_QUALITY3_DESC .. " " .. ELITE, func = function() TRP3_UF_DB.Border.style = "rare-elite"; PlayerDragonFrame.TextureStuff(); end },
-			{ text = BOSS, func = function() TRP3_UF_DB.Border.style = "boss"; PlayerDragonFrame.TextureStuff(); end },
+TRP3_UFPanel.menuNew = {
+	[1] = {
+		ThemeName = L["Dragons"],
+		ThemeDesc = nil,
+		Data = {
+			[1] = {
+				styleName = ITEM_QUALITY3_DESC,
+				fileName = "rare",
+			},
+			[2] = {
+				styleName = ELITE,
+				fileName = "elite",
+			},
+			[3] = {
+				styleName = ITEM_QUALITY3_DESC .. " " .. ELITE,
+				fileName = "rare-elite",
+			},
+			[4] = {
+				styleName = BOSS,
+				fileName = "boss",
+			},
 		},
 	},
-	{ text = L["Hearthstone"], hasArrow = true,
-		menuList = {
-			{ text = L["ComingSoon"], isTitle = true},
-		},
+	[2] = {
+		ThemeName = L["Hearthstone"],
+		ThemeDesc = L["ComingSoon"],
+		Data = nil,
 	},
-	{ text = L["Narcissus"], hasArrow = true,
-		menuList = {
-			{ text = L["ComingSoon"], isTitle = true},
-		},
+	[3] = {
+		ThemeName = L["Narcissus"],
+		ThemeDesc = L["ComingSoon"],
+		Data = nil,
 	},
-	{ text = L["LGBQT+"], hasArrow = true,
-		menuList = {
-			{ text = L["Agender"], func = function() TRP3_UF_DB.Border.style = "agender"; PlayerDragonFrame.TextureStuff(); end },
-			{ text = L["Asexual"], func = function() TRP3_UF_DB.Border.style = "asexual"; PlayerDragonFrame.TextureStuff(); end },
-			{ text = L["Aromantic Asexual"], func = function() TRP3_UF_DB.Border.style = "aroace"; PlayerDragonFrame.TextureStuff(); end },
-			{ text = L["Bisexual"], func = function() TRP3_UF_DB.Border.style = "bisexual"; PlayerDragonFrame.TextureStuff(); end },
-			{ text = L["Non-Binary"], func = function() TRP3_UF_DB.Border.style = "enby"; PlayerDragonFrame.TextureStuff(); end },
-			{ text = L["Gay Male"], func = function() TRP3_UF_DB.Border.style = "gaym"; PlayerDragonFrame.TextureStuff(); end },
-			{ text = L["Genderfluid"], func = function() TRP3_UF_DB.Border.style = "genderfluid"; PlayerDragonFrame.TextureStuff(); end },
-			{ text = L["Genderqueer"], func = function() TRP3_UF_DB.Border.style = "genderqueer"; PlayerDragonFrame.TextureStuff(); end },
-			{ text = L["Lesbian"], func = function() TRP3_UF_DB.Border.style = "lesbian"; PlayerDragonFrame.TextureStuff(); end },
-			{ text = L["Transgender"], func = function() TRP3_UF_DB.Border.style = "transgender"; PlayerDragonFrame.TextureStuff(); end },
-			{ text = L["Pansexual"], func = function() TRP3_UF_DB.Border.style = "pansexual"; PlayerDragonFrame.TextureStuff(); end },
-			{ text = L["Rainbow"], func = function() TRP3_UF_DB.Border.style = "rainbow"; PlayerDragonFrame.TextureStuff(); end },
-			{ text = L["RainbowPhilly"], func = function() TRP3_UF_DB.Border.style = "rainbowphilly"; PlayerDragonFrame.TextureStuff(); end },
-			{ text = L["RainbowGilBaker"], func = function() TRP3_UF_DB.Border.style = "rainbowgilbaker"; PlayerDragonFrame.TextureStuff(); end },
-			{ text = L["RainbowProgress"], func = function() TRP3_UF_DB.Border.style = "rainbowprogress"; PlayerDragonFrame.TextureStuff(); end },
+	[4] = {
+		ThemeName = L["LGBQT+"],
+		ThemeDesc = nil,
+		Data = {
+			[1] = {
+				styleName = L["Agender"],
+				fileName = "agender",
+			},
+			[2] = {
+				styleName = L["Asexual"],
+				fileName = "asexual",
+			},
+			[3] = {
+				styleName = L["Aromantic Asexual"],
+				fileName = "aroace",
+			},
+			[4] = {
+				styleName = L["Bisexual"],
+				fileName = "bisexual",
+			},
+			[5] = {
+				styleName = L["Non-Binary"],
+				fileName = "enby",
+			},
+			[6] = {
+				styleName = L["Gay Male"],
+				fileName = "gaym",
+			},
+			[7] = {
+				styleName = L["Genderfluid"],
+				fileName = "genderfluid",
+			},
+			[8] = {
+				styleName = L["Genderqueer"],
+				fileName = "genderqueer",
+			},
+			[9] = {
+				styleName = L["Lesbian"],
+				fileName = "lesbian",
+			},
+			[10] = {
+				styleName = L["Transgender"],
+				fileName = "transgender",
+			},
+			[11] = {
+				styleName = L["Pansexual"],
+				fileName = "pansexual",
+			},
+			[12] = {
+				styleName = L["Rainbow"],
+				fileName = "rainbow",
+			},
+			[13] = {
+				styleName = L["RainbowPhilly"],
+				fileName = "rainbowphilly",
+			},
+			[14] = {
+				styleName = L["RainbowGilBaker"],
+				fileName = "rainbowgilbaker",
+			},
+			[15] = {
+				styleName = L["RainbowProgress"],
+				fileName = "rainbowprogress",
+			},
 		},
 	},
 };
 
 
 
-TRP3_UFPanel.scrollChild.menuFrame = CreateFrame("Frame", "TRP3PlayerPortraitMenuFrame", TRP3_UFPanel.scrollChild, "UIDropDownMenuTemplate")
-
-TRP3_UFPanel.scrollChild.PortraitButton = CreateFrame("Button", nil, TRP3_UFPanel.scrollChild, "SharedGoldRedButtonSmallTemplate")
+TRP3_UFPanel.scrollChild.PortraitButton = CreateFrame("DropdownButton", nil, TRP3_UFPanel.scrollChild, "WowStyle1DropdownTemplate")
+TRP3_UFPanel.scrollChild.PortraitButton:SetDefaultText(L["PlayerPortrait"])
 TRP3_UFPanel.scrollChild.PortraitButton:SetPoint("TOPLEFT", 150, -53*5.1);
 TRP3_UFPanel.scrollChild.PortraitButton:SetSize(120, 26);
-TRP3_UFPanel.scrollChild.PortraitButton:SetText(L["PlayerPortrait"])
-TRP3_UFPanel.scrollChild.PortraitButton:SetScript("OnClick", function() EasyMenu(TRP3_UFPanel.menu, TRP3_UFPanel.scrollChild.menuFrame, TRP3_UFPanel.scrollChild.PortraitButton, 0 , 0, "MENU", 10) end)
+TRP3_UFPanel.scrollChild.PortraitButton:SetupMenu(function(dropdown, rootDescription)
+	--rootDescription:CreateTitle("Test Menu")
+
+	--Dragons
+	local elementDescription = rootDescription:CreateButton(TRP3_UFPanel.menuNew[1]["ThemeName"])
+	for k, v in ipairs(TRP3_UFPanel.menuNew[1]["Data"]) do
+		local submenumenu = elementDescription:CreateButton(TRP3_UFPanel.menuNew[1]["Data"][k]["styleName"], function()
+			local bingle = TRP3_UFPanel.menuNew[1]["Data"][k]["fileName"];
+			TRP3_UF_DB.Border.style = bingle;
+			PlayerDragonFrame.TextureStuff();
+		end)
+	end
+
+	local elementDescription = rootDescription:CreateButton(TRP3_UFPanel.menuNew[2]["ThemeName"])
+	local submenumenu = elementDescription:CreateTitle(L["NotDetected"])
+	elementDescription:SetEnabled(false)
+	elementDescription:SetTooltip(function(tooltip, elementDescription)
+		GameTooltip_SetTitle(tooltip, MenuUtil.GetElementText(elementDescription));
+		--GameTooltip_AddInstructionLine(tooltip, "Test Tooltip Instruction");
+		GameTooltip_AddNormalLine(tooltip, L["ComingSoon"]);
+		--GameTooltip_AddErrorLine(tooltip, L["NotDetected"]);
+	end);
+
+	
+	if TRP3_UFPanel.menuNew[3]["Data"] ~= nil then
+		local elementDescription = rootDescription:CreateButton(TRP3_UFPanel.menuNew[3]["ThemeName"])
+		for k, v in ipairs(TRP3_UFPanel.menuNew[3]["Data"]) do
+			local submenumenu = elementDescription:CreateButton(TRP3_UFPanel.menuNew[3]["Data"][k]["styleName"], function()
+				local bingle = TRP3_UFPanel.menuNew[3]["Data"][k]["fileName"];
+				TRP3_UF_DB.Border.style = bingle;
+				PlayerDragonFrame.TextureStuff();
+			end)
+		end
+	else
+		local elementDescription = rootDescription:CreateButton(TRP3_UFPanel.menuNew[3]["ThemeName"])
+		local submenumenu = elementDescription:CreateTitle(L["NotDetected"])
+		elementDescription:SetEnabled(false)
+		elementDescription:SetTooltip(function(tooltip, elementDescription)
+			GameTooltip_SetTitle(tooltip, MenuUtil.GetElementText(elementDescription));
+			--GameTooltip_AddInstructionLine(tooltip, "Test Tooltip Instruction");
+			--GameTooltip_AddNormalLine(tooltip, L["ComingSoon"]);
+			GameTooltip_AddErrorLine(tooltip, L["NotDetected"]);
+		end);
+	end
+
+	--LGBTQ
+	local elementDescription = rootDescription:CreateButton(TRP3_UFPanel.menuNew[4]["ThemeName"])
+	for k, v in ipairs(TRP3_UFPanel.menuNew[4]["Data"]) do
+		local submenumenu = elementDescription:CreateButton(TRP3_UFPanel.menuNew[4]["Data"][k]["styleName"], function()
+			local bingle = TRP3_UFPanel.menuNew[4]["Data"][k]["fileName"];
+			TRP3_UF_DB.Border.style = bingle;
+			PlayerDragonFrame.TextureStuff();
+		end)
+	end
+end)
+
 
 ------------------------------------------------------------------------------------------------------------------
 
@@ -2210,377 +2337,70 @@ end);
 ------------------------------------------------------------------------------------------------------------------
 
 
---setting up our "atlas member" list
-function PlayerDragonFrame.TextureStuff()
-	if TRP3_UF_DB.Border.show ~= true then
-		PlayerDragonFrame:Hide()
-		return
-	end
-	if TRP3_UF_DB.Border.style == "rare" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\uiunitframeboss2x")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", 8, -10)
-		PlayerDragonFrame:SetSize(80, 79);
-		PlayerDragonFrame.tex:SetTexCoord(0.314453125, 0.001953125, 0.322265625, 0.630859375) -- rare
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "rare-elite" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\uiunitframeboss2x")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(0.77734375, 0.390625, 0.001953125, 0.318359375) -- rare-elite
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "elite" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\uiunitframeboss2x")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", 8, -10)
-		PlayerDragonFrame:SetSize(80, 79);
-		PlayerDragonFrame.tex:SetTexCoord(0.3125, 0.001953125, 0.634765625, 0.947265625) -- elite
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "boss" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\uiunitframeboss2x")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(0.388671875, 0.001953125, 0.001953125, 0.318359375) -- boss
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-
-	--LGBTQ+
-	if TRP3_UF_DB.Border.style == "agender" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_agender")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "asexual" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_asexual")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "aroace" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_aroace")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "bisexual" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_BiS")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "enby" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_enby")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "gaym" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_gayM")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "genderfluid" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_genderfluid")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "genderqueer" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_genderqueer")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "lesbian" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_lesbian")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "transgender" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_trans")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "pansexual" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_pansexual")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "rainbow" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_rainbow")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "rainbowphilly" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_philly")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "rainbowgilbaker" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_gilbertbaker")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "rainbowprogress" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\totalRP3_UnitFrames\\tex\\unitframe_progress")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -10)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(.051, .437, .215, .845) -- lgbtq+ player
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-
-
-	--Narcissus
-	if TRP3_UF_DB.Border.style == "NarciHexagonBorder" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\Border\\HexagonBorder.tga")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -8)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(-.26, .93, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonBorder-Artifact" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\Border\\HexagonBorder-Artifact.tga")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -8)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(-.26, .93, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonBorder-Azerite" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\Border\\HexagonBorder-Azerite.tga")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -8)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(-.26, .93, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonBorder-Black" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\Border\\HexagonBorder-Black.tga")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -8)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(-.26, .93, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonBorder-BlackDragon" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\Border\\HexagonBorder-BlackDragon.tga")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -8)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(-.26, .93, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonBorder-Epic" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\Border\\HexagonBorder-Epic.tga")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -8)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(-.26, .93, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonBorder-Heart" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\Border\\HexagonBorder-Heart.tga")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -8)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(-.26, .93, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonBorder-Heirloom" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\Border\\HexagonBorder-Heirloom.tga")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -8)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(-.26, .93, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonBorder-Legendary" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\Border\\HexagonBorder-Legendary.tga")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -8)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(-.26, .93, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonBorder-NZoth" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\Border\\HexagonBorder-NZoth.tga")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -8)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(-.26, .93, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonBorder-Rare" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\Border\\HexagonBorder-Rare.tga")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -8)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(-.26, .93, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonBorder-Special" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\Border\\HexagonBorder-Special.tga")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -8)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(-.26, .93, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonBorder-Uncommon" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\Border\\HexagonBorder-Uncommon.tga")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -8)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(-.26, .93, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonBorder-Void" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\Border\\HexagonBorder-Void.tga")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -10, -8)
-		PlayerDragonFrame:SetSize(99, 81);
-		PlayerDragonFrame.tex:SetTexCoord(-.26, .93, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
-	end
-
-
-	if TRP3_UF_DB.Border.style == "NarciHexagonDarkBorder-Artifact" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\JPG\\Artifact.jpg")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -27, 30)
-		PlayerDragonFrame:SetSize(160, 160);
-		PlayerDragonFrame.tex:SetTexCoord(0, 1, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:AddMaskTexture(PlayerDragonFrame.mask)
-		PlayerDragonFrame.mask:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\Mask\\RegularHeavy.tga")
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonDarkBorder-Azerite" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\JPG\\Azerite.jpg")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -27, 30)
-		PlayerDragonFrame:SetSize(160, 160);
-		PlayerDragonFrame.tex:SetTexCoord(0, 1, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:AddMaskTexture(PlayerDragonFrame.mask)
-		PlayerDragonFrame.mask:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\Mask\\RegularHeavy.tga")
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonDarkBorder-Black" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\JPG\\Black.jpg")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -27, 30)
-		PlayerDragonFrame:SetSize(160, 160);
-		PlayerDragonFrame.tex:SetTexCoord(0, 1, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:AddMaskTexture(PlayerDragonFrame.mask)
-		PlayerDragonFrame.mask:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\Mask\\RegularHeavy.tga")
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonDarkBorder-BlackDragon" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\JPG\\BlackDragon.jpg")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -27, 30)
-		PlayerDragonFrame:SetSize(160, 160);
-		PlayerDragonFrame.tex:SetTexCoord(0, 1, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:AddMaskTexture(PlayerDragonFrame.mask)
-		PlayerDragonFrame.mask:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\Mask\\RegularHeavy.tga")
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonDarkBorder-Dragonflight" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\JPG\\Dragonflight.jpg")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -27, 30)
-		PlayerDragonFrame:SetSize(160, 160);
-		PlayerDragonFrame.tex:SetTexCoord(0, 1, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:AddMaskTexture(PlayerDragonFrame.mask)
-		PlayerDragonFrame.mask:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\Mask\\Dragonflight.tga")
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonDarkBorder-Epic" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\JPG\\Epic.jpg")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -27, 30)
-		PlayerDragonFrame:SetSize(160, 160);
-		PlayerDragonFrame.tex:SetTexCoord(0, 1, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:AddMaskTexture(PlayerDragonFrame.mask)
-		PlayerDragonFrame.mask:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\Mask\\RegularHeavy.tga")
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonDarkBorder-Heart" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\JPG\\Heart.jpg")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -27, 30)
-		PlayerDragonFrame:SetSize(160, 160);
-		PlayerDragonFrame.tex:SetTexCoord(0, 1, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:AddMaskTexture(PlayerDragonFrame.mask)
-		PlayerDragonFrame.mask:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\Mask\\Heart.tga")
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonDarkBorder-Heirloom" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\JPG\\Heirloom.jpg")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -27, 30)
-		PlayerDragonFrame:SetSize(160, 160);
-		PlayerDragonFrame.tex:SetTexCoord(0, 1, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:AddMaskTexture(PlayerDragonFrame.mask)
-		PlayerDragonFrame.mask:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\Mask\\RegularHeavy.tga")
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonDarkBorder-Legendary" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\JPG\\Legendary.jpg")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -27, 30)
-		PlayerDragonFrame:SetSize(160, 160);
-		PlayerDragonFrame.tex:SetTexCoord(0, 1, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:AddMaskTexture(PlayerDragonFrame.mask)
-		PlayerDragonFrame.mask:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\Mask\\RegularHeavy.tga")
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonDarkBorder-Progenitor" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\JPG\\Progenitor.jpg")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -27, 30)
-		PlayerDragonFrame:SetSize(160, 160);
-		PlayerDragonFrame.tex:SetTexCoord(0, 1, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:AddMaskTexture(PlayerDragonFrame.mask)
-		PlayerDragonFrame.mask:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\Mask\\Progenitor.tga")
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonDarkBorder-Rare" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\JPG\\Rare.jpg")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -27, 30)
-		PlayerDragonFrame:SetSize(160, 160);
-		PlayerDragonFrame.tex:SetTexCoord(0, 1, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:AddMaskTexture(PlayerDragonFrame.mask)
-		PlayerDragonFrame.mask:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\Mask\\RegularHeavy.tga")
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonDarkBorder-Runeforge" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\JPG\\Runeforge.jpg")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -27, 30)
-		PlayerDragonFrame:SetSize(160, 160);
-		PlayerDragonFrame.tex:SetTexCoord(0, 1, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:AddMaskTexture(PlayerDragonFrame.mask)
-		PlayerDragonFrame.mask:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\Mask\\Runeforge.tga")
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonDarkBorder-Shield" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\JPG\\Shield.jpg")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -27, 30)
-		PlayerDragonFrame:SetSize(160, 160);
-		PlayerDragonFrame.tex:SetTexCoord(0, 1, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:AddMaskTexture(PlayerDragonFrame.mask)
-		PlayerDragonFrame.mask:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\Mask\\RegularHeavy.tga")
-	end
-	if TRP3_UF_DB.Border.style == "NarciHexagonDarkBorder-Uncommon" then
-		PlayerDragonFrame.tex:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\JPG\\Uncommon.jpg")
-		PlayerDragonFrame:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", -27, 30)
-		PlayerDragonFrame:SetSize(160, 160);
-		PlayerDragonFrame.tex:SetTexCoord(0, 1, 0, 1) -- Narcissus Pack
-		PlayerDragonFrame.tex:AddMaskTexture(PlayerDragonFrame.mask)
-		PlayerDragonFrame.mask:SetTexture("Interface\\AddOns\\Narcissus\\Art\\ItemBorder-Dark\\Mask\\RegularHeavy.tga")
-	end
-
-end
-
-
-------------------------------------------------------------------------------------------------------------------
-
-
 
 TRP3_UFPanel.TRP3_scrollChild.menuFrame = CreateFrame("Frame", "TRP3PlayerPortraitMenuFrame", TRP3_UFPanel.TRP3_scrollChild, "UIDropDownMenuTemplate")
 
-TRP3_UFPanel.TRP3_scrollChild.PortraitButton = CreateFrame("Button", nil, TRP3_UFPanel.TRP3_scrollChild, "SharedGoldRedButtonSmallTemplate")
+TRP3_UFPanel.TRP3_scrollChild.PortraitButton = CreateFrame("DropdownButton", nil, TRP3_UFPanel.TRP3_scrollChild, "WowStyle1DropdownTemplate")
+TRP3_UFPanel.TRP3_scrollChild.PortraitButton:SetDefaultText(L["PlayerPortrait"])
 TRP3_UFPanel.TRP3_scrollChild.PortraitButton:SetPoint("TOPLEFT", 10, -53*5.5);
 TRP3_UFPanel.TRP3_scrollChild.PortraitButton:SetSize(120, 26);
-TRP3_UFPanel.TRP3_scrollChild.PortraitButton:SetText(L["PlayerPortrait"])
-TRP3_UFPanel.TRP3_scrollChild.PortraitButton:SetScript("OnClick", function() EasyMenu(TRP3_UFPanel.menu, TRP3_UFPanel.TRP3_scrollChild.menuFrame, TRP3_UFPanel.TRP3_scrollChild.PortraitButton, 0 , 0, "MENU", 10) end)
+TRP3_UFPanel.TRP3_scrollChild.PortraitButton:SetupMenu(function(dropdown, rootDescription)
+	--rootDescription:CreateTitle("Test Menu")
+
+	--Dragons
+	local elementDescription = rootDescription:CreateButton(TRP3_UFPanel.menuNew[1]["ThemeName"])
+	for k, v in ipairs(TRP3_UFPanel.menuNew[1]["Data"]) do
+		local submenumenu = elementDescription:CreateButton(TRP3_UFPanel.menuNew[1]["Data"][k]["styleName"], function()
+			local bingle = TRP3_UFPanel.menuNew[1]["Data"][k]["fileName"];
+			TRP3_UF_DB.Border.style = bingle;
+			PlayerDragonFrame.TextureStuff();
+		end)
+	end
+
+	local elementDescription = rootDescription:CreateButton(TRP3_UFPanel.menuNew[2]["ThemeName"])
+	local submenumenu = elementDescription:CreateTitle(L["NotDetected"])
+	elementDescription:SetEnabled(false)
+	elementDescription:SetTooltip(function(tooltip, elementDescription)
+		GameTooltip_SetTitle(tooltip, MenuUtil.GetElementText(elementDescription));
+		--GameTooltip_AddInstructionLine(tooltip, "Test Tooltip Instruction");
+		GameTooltip_AddNormalLine(tooltip, L["ComingSoon"]);
+		--GameTooltip_AddErrorLine(tooltip, L["NotDetected"]);
+	end);
+
+	
+	if TRP3_UFPanel.menuNew[3]["Data"] ~= nil then
+		local elementDescription = rootDescription:CreateButton(TRP3_UFPanel.menuNew[3]["ThemeName"])
+		for k, v in ipairs(TRP3_UFPanel.menuNew[3]["Data"]) do
+			local submenumenu = elementDescription:CreateButton(TRP3_UFPanel.menuNew[3]["Data"][k]["styleName"], function()
+				local bingle = TRP3_UFPanel.menuNew[3]["Data"][k]["fileName"];
+				TRP3_UF_DB.Border.style = bingle;
+				PlayerDragonFrame.TextureStuff();
+			end)
+		end
+	else
+		local elementDescription = rootDescription:CreateButton(TRP3_UFPanel.menuNew[3]["ThemeName"])
+		local submenumenu = elementDescription:CreateTitle(L["NotDetected"])
+		elementDescription:SetEnabled(false)
+		elementDescription:SetTooltip(function(tooltip, elementDescription)
+			GameTooltip_SetTitle(tooltip, MenuUtil.GetElementText(elementDescription));
+			--GameTooltip_AddInstructionLine(tooltip, "Test Tooltip Instruction");
+			--GameTooltip_AddNormalLine(tooltip, L["ComingSoon"]);
+			GameTooltip_AddErrorLine(tooltip, L["NotDetected"]);
+		end);
+	end
+
+	--LGBTQ
+	local elementDescription = rootDescription:CreateButton(TRP3_UFPanel.menuNew[4]["ThemeName"])
+	for k, v in ipairs(TRP3_UFPanel.menuNew[4]["Data"]) do
+		local submenumenu = elementDescription:CreateButton(TRP3_UFPanel.menuNew[4]["Data"][k]["styleName"], function()
+			local bingle = TRP3_UFPanel.menuNew[4]["Data"][k]["fileName"];
+			TRP3_UF_DB.Border.style = bingle;
+			PlayerDragonFrame.TextureStuff();
+		end)
+	end
+end)
+
+
 
 ------------------------------------------------------------------------------------------------------------------
 
@@ -2636,8 +2456,9 @@ PlayerRepFrame.tex:SetVertexColor(0,0,0,1)
 
 
 
-
-InterfaceOptions_AddCategory(TRP3_UFPanel);
+local category, layout = Settings.RegisterCanvasLayoutCategory(TRP3_UFPanel, TRP3_UFPanel.name, TRP3_UFPanel.name);
+category.ID = TRP3_UFPanel.name;
+Settings.RegisterAddOnCategory(category)
 
 ------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------
@@ -3082,7 +2903,7 @@ local function onStart()
 	trpTarget.button.tex = trpTarget.button:CreateTexture(nil, "ARTWORK", nil, 0)
 	trpTarget.button.tex:SetAllPoints(trpTarget.button)
 	trpTarget.button.tex:SetTexCoord(.08, .92, .08, .92)
-	SetPortraitToTexture(trpTarget.button.tex)
+	--SetPortraitToTexture(trpTarget.button.tex,nil)
 
 	trpTarget.button:SetScript("OnMouseDown", function()
 		trpTarget.button.tex:SetTexCoord(0, 1, 0, 1)
@@ -3119,53 +2940,139 @@ local function onStart()
 	trpPlayer:RegisterEvent("CLIENT_SCENE_CLOSED")
 	trpPlayer:RegisterEvent("ZONE_CHANGED")
 
-	if IsAddOnLoaded("Narcissus") then
-		TRP3_UFPanel.menu[4] = {
-			text = L["Narcissus"],
-			menuList = {
-				{ text = "NarciHexagonBorder", func = function() TRP3_UF_DB.Border.style = "NarciHexagonBorder"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonBorder-Artifact", func = function() TRP3_UF_DB.Border.style = "NarciHexagonBorder-Artifact"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonBorder-Azerite", func = function() TRP3_UF_DB.Border.style = "NarciHexagonBorder-Azerite"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonBorder-Black", func = function() TRP3_UF_DB.Border.style = "NarciHexagonBorder-Black"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonBorder-BlackDragon", func = function() TRP3_UF_DB.Border.style = "NarciHexagonBorder-BlackDragon"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonBorder-Epic", func = function() TRP3_UF_DB.Border.style = "NarciHexagonBorder-Epic"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonBorder-Heart", func = function() TRP3_UF_DB.Border.style = "NarciHexagonBorder-Heart"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonBorder-Heirloom", func = function() TRP3_UF_DB.Border.style = "NarciHexagonBorder-Heirloom"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonBorder-Legendary", func = function() TRP3_UF_DB.Border.style = "NarciHexagonBorder-Legendary"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonBorder-NZoth", func = function() TRP3_UF_DB.Border.style = "NarciHexagonBorder-NZoth"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonBorder-Rare", func = function() TRP3_UF_DB.Border.style = "NarciHexagonBorder-Rare"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonBorder-Special", func = function() TRP3_UF_DB.Border.style = "NarciHexagonBorder-Special"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonBorder-Uncommon", func = function() TRP3_UF_DB.Border.style = "NarciHexagonBorder-Uncommon"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonBorder-Void", func = function() TRP3_UF_DB.Border.style = "NarciHexagonBorder-Void"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonDarkBorder-Artifact", func = function() TRP3_UF_DB.Border.style = "NarciHexagonDarkBorder-Artifact"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonDarkBorder-Azerite", func = function() TRP3_UF_DB.Border.style = "NarciHexagonDarkBorder-Azerite"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonDarkBorder-Black", func = function() TRP3_UF_DB.Border.style = "NarciHexagonDarkBorder-Black"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonDarkBorder-BlackDragon", func = function() TRP3_UF_DB.Border.style = "NarciHexagonDarkBorder-BlackDragon"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonDarkBorder-Dragonflight", func = function() TRP3_UF_DB.Border.style = "NarciHexagonDarkBorder-Dragonflight"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonDarkBorder-Epic", func = function() TRP3_UF_DB.Border.style = "NarciHexagonDarkBorder-Epic"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonDarkBorder-Heart", func = function() TRP3_UF_DB.Border.style = "NarciHexagonDarkBorder-Heart"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonDarkBorder-Heirloom", func = function() TRP3_UF_DB.Border.style = "NarciHexagonDarkBorder-Heirloom"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonDarkBorder-Legendary", func = function() TRP3_UF_DB.Border.style = "NarciHexagonDarkBorder-Legendary"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonDarkBorder-Progenitor", func = function() TRP3_UF_DB.Border.style = "NarciHexagonDarkBorder-Progenitor"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonDarkBorder-Rare", func = function() TRP3_UF_DB.Border.style = "NarciHexagonDarkBorder-Rare"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonDarkBorder-Runeforge", func = function() TRP3_UF_DB.Border.style = "NarciHexagonDarkBorder-Runeforge"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonDarkBorder-Shield", func = function() TRP3_UF_DB.Border.style = "NarciHexagonDarkBorder-Shield"; PlayerDragonFrame.TextureStuff(); end },
-				{ text = "NarciHexagonDarkBorder-Uncommon", func = function() TRP3_UF_DB.Border.style = "NarciHexagonDarkBorder-Uncommon"; PlayerDragonFrame.TextureStuff(); end },
-
-			},
-			hasArrow = true
-		}
-	else
-		TRP3_UFPanel.menu[4] = {
-			text = L["Narcissus"],
-			menuList = {
+	if C_AddOns.IsAddOnLoaded("Narcissus") then
+		TRP3_UFPanel.menuNew[3] = {
+			ThemeName = L["Narcissus"],
+			ThemeDesc = L["ComingSoon"],
+			Data = {
 				[1] = {
-				isTitle = true,
-				text = L["NotDetected"]
-				}
+					styleName = "NarciHexagonBorder",
+					fileName = "NarciHexagonBorder",
+				},
+				[2] = {
+					styleName = "NarciHexagonBorder-Artifact",
+					fileName = "NarciHexagonBorder-Artifact",
+				},
+				[3] = {
+					styleName = "NarciHexagonBorder-Azerite",
+					fileName = "NarciHexagonBorder-Azerite",
+				},
+				[4] = {
+					styleName = "NarciHexagonBorder-Black",
+					fileName = "NarciHexagonBorder-Black",
+				},
+				[5] = {
+					styleName = "NarciHexagonBorder-BlackDragon",
+					fileName = "NarciHexagonBorder-BlackDragon",
+				},
+				[6] = {
+					styleName = "NarciHexagonBorder-Epic",
+					fileName = "NarciHexagonBorder-Epic",
+				},
+				[7] = {
+					styleName = "NarciHexagonBorder-Heart",
+					fileName = "NarciHexagonBorder-Heart",
+				},
+				[8] = {
+					styleName = "NarciHexagonBorder-Heirloom",
+					fileName = "NarciHexagonBorder-Heirloom",
+				},
+				[9] = {
+					styleName = "NarciHexagonBorder-Legendary",
+					fileName = "NarciHexagonBorder-Legendary",
+				},
+				[10] = {
+					styleName = "NarciHexagonBorder-NZoth",
+					fileName = "NarciHexagonBorder-NZoth",
+				},
+				[11] = {
+					styleName = "NarciHexagonBorder-Rare",
+					fileName = "NarciHexagonBorder-Rare",
+				},
+				[12] = {
+					styleName = "NarciHexagonBorder-Special",
+					fileName = "NarciHexagonBorder-Special",
+				},
+				[13] = {
+					styleName = "NarciHexagonBorder-Uncommon",
+					fileName = "NarciHexagonBorder-Uncommon",
+				},
+				[14] = {
+					styleName = "NarciHexagonBorder-Void",
+					fileName = "NarciHexagonBorder-Void",
+				},
+				[15] = {
+					styleName = "NarciHexagonDarkBorder-Artifact",
+					fileName = "NarciHexagonDarkBorder-Artifact",
+				},
+				[16] = {
+					styleName = "NarciHexagonDarkBorder-Azerite",
+					fileName = "NarciHexagonDarkBorder-Azerite",
+				},
+				[17] = {
+					styleName = "NarciHexagonDarkBorder-Black",
+					fileName = "NarciHexagonDarkBorder-Black",
+				},
+				[18] = {
+					styleName = "NarciHexagonDarkBorder-BlackDragon",
+					fileName = "NarciHexagonDarkBorder-BlackDragon",
+				},
+				[19] = {
+					styleName = "NarciHexagonDarkBorder-Neltharion",
+					fileName = "NarciHexagonDarkBorder-Neltharion",
+				},
+				[20] = {
+					styleName = "NarciHexagonDarkBorder-Epic",
+					fileName = "NarciHexagonDarkBorder-Epic",
+				},
+				[21] = {
+					styleName = "NarciHexagonDarkBorder-Heart",
+					fileName = "NarciHexagonDarkBorder-Heart",
+				},
+				[22] = {
+					styleName = "NarciHexagonDarkBorder-Heirloom",
+					fileName = "NarciHexagonDarkBorder-Heirloom",
+				},
+				[23] = {
+					styleName = "NarciHexagonDarkBorder-Legendary",
+					fileName = "NarciHexagonDarkBorder-Legendary",
+				},
+				[24] = {
+					styleName = "NarciHexagonDarkBorder-Progenitor",
+					fileName = "NarciHexagonDarkBorder-Progenitor",
+				},
+				[25] = {
+					styleName = "NarciHexagonDarkBorder-Rare",
+					fileName = "NarciHexagonDarkBorder-Rare",
+				},
+				[26] = {
+					styleName = "NarciHexagonDarkBorder-Runeforge",
+					fileName = "NarciHexagonDarkBorder-Runeforge",
+				},
+				[27] = {
+					styleName = "NarciHexagonDarkBorder-Shield",
+					fileName = "NarciHexagonDarkBorder-Shield",
+				},
+				[28] = {
+					styleName = "NarciHexagonDarkBorder-Uncommon",
+					fileName = "NarciHexagonDarkBorder-Uncommon",
+				},
+				[29] = {
+					styleName = "NarciHexagonDarkBorder-EmeraldDream",
+					fileName = "NarciHexagonDarkBorder-EmeraldDream",
+				},
+				
 			},
-			hasArrow = true
-		}
+		};
+
+	else
+
+		TRP3_UFPanel.menuNew[3] = {
+			ThemeName = L["Narcissus"],
+			ThemeDesc = L["NotDetected"],
+			Data = nil,
+		};
+
 	end
 
 
@@ -3180,7 +3087,7 @@ local function onStart()
 	trpPlayer.button.tex = trpPlayer.button:CreateTexture(nil, "ARTWORK", nil, 0)
 	trpPlayer.button.tex:SetAllPoints(trpPlayer.button)
 	trpPlayer.button.tex:SetTexCoord(.08, .92, .08, .92)
-	SetPortraitToTexture(trpPlayer.button.tex)
+	--SetPortraitToTexture(trpPlayer.button.tex)
 
 	trpPlayer.button:SetScript("OnMouseDown", function()
 		trpPlayer.button.tex:SetTexCoord(0, 1, 0, 1)

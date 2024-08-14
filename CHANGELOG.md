@@ -1,6 +1,6 @@
 # 0.2.2
 
-color pickers really exploded and haven't actually been effectively usable, so this just cleans up that area. it's also now a Feature™️ that text gets alpha values
+color pickers really exploded and haven't actually been effectively usable, so this just cleans up that area. it's also now a Feature™️ that text gets alpha values.
 
 # 0.2.1
 

@@ -18,12 +18,20 @@ local _, L = ...
 
 local defaultsTable = {
 	Target = {show = true, position = 1, point = "CENTER", relativePoint = "BOTTOMLEFT", scale = 1.5,
-		colorText = {r = 1, g = 1, b = 1, custom = false, class = true,},
-		colorBack = {r = 0, g = 0, b = 0, a = 1, custom = true, class = false,},
+		colorText = {r = 1, g = 1, b = 1, a = 1,},
+		colorBack = {r = 0, g = 0, b = 0, a = 1,},
+		colorTextCustom = false,
+		colorTextClass = true,
+		colorBackCustom = true,
+		colorBackClass = false,
 	},
 	Player = {show = true, position = 1, point = "CENTER", relativePoint = "BOTTOMRIGHT", scale = 1.5,
-		colorText = {r = 1, g = 1, b = 1, custom = false, class = true,},
-		colorBack = {r = 0, g = 0, b = 0, a = 1, custom = true, class = false,},
+		colorText = {r = 1, g = 1, b = 1, a = 1,},
+		colorBack = {r = 0, g = 0, b = 0, a = 1,},
+		colorTextCustom = false,
+		colorTextClass = true,
+		colorBackCustom = true,
+		colorBackClass = false,
 	},
 
 	Border = {show = false, style = "rare-elite",
@@ -53,134 +61,97 @@ local defaultsTable = {
 
 ------------------------------------------------------------------------------------------------------------------
 
-local function ShowColorPicker(r, g, b, a, callbackFunc)
-	if ColorPickerFrame.SetupColorPickerAndShow then
-		local options = {
-			swatchFunc = callbackFunc,
-			opacityFunc = callbackFunc,
-			cancelFunc = callbackFunc,
-			hasOpacity = true,
-			r = r,
-			g = g,
-			b = b,
-			opacity = a,
-		};
-
-		ColorPickerFrame:SetupColorPickerAndShow(options);
-	else
-		ColorPickerFrame.hasOpacity, ColorPickerFrame.opacity = true, a;
-		ColorPickerFrame.previousValues = {r,g,b,a};
-		ColorPickerFrame.func, ColorPickerFrame.opacityFunc, ColorPickerFrame.cancelFunc = callbackFunc, callbackFunc, callbackFunc;
-		ColorPickerFrame:SetColorRGB(r,g,b,a);
-		ColorPickerFrame:Hide();
-		ColorPickerFrame:Show();
+local function SetColors()
+	if TRP3_UF_DB.Target.colorTextCustom then
+		TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText))
+		TRP3_UFRepTextDummyTarget:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText))
+		TRP3_UFSettingsRepTextDummyTarget:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText))
+	end
+	if TRP3_UF_DB.Target.colorBackCustom then
+		TRP3_UFRepDummyTarget:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack))
+		TRP3_UFSettingsRepDummyTarget:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack))
+		TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack))
+	end
+	if TRP3_UF_DB.Player.colorTextCustom then
+		PlayerName:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorText))
+		TRP3_UFRepTextDummyPlayer:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorText))
+		TRP3_UFSettingsRepTextDummyPlayer:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorText))
+	end
+	if TRP3_UF_DB.Player.colorBackCustom then
+		TRP3_UFRepDummyPlayer:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorBack))
+		TRP3_UFSettingsRepDummyPlayer:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorBack))
+		PlayerFrameReputationColor:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorBack))
 	end
 end
 
-local function ShowColorPickerText(r, g, b, callbackFunc)
-	if ColorPickerFrame.SetupColorPickerAndShow then
-		local options = {
-			swatchFunc = callbackFunc,
-			opacityFunc = callbackFunc,
-			cancelFunc = callbackFunc,
-			hasOpacity = false,
-			r = r,
-			g = g,
-			b = b,
-		};
-
-		ColorPickerFrame:SetupColorPickerAndShow(options);
-	else
-		ColorPickerFrame.hasOpacity, ColorPickerFrame.opacity = false, a;
-		ColorPickerFrame.previousValues = {r,g,b};
-		ColorPickerFrame.func, ColorPickerFrame.opacityFunc, ColorPickerFrame.cancelFunc = callbackFunc, callbackFunc, callbackFunc;
-		ColorPickerFrame:SetColorRGB(r,g,b);
-		ColorPickerFrame:Hide();
-		ColorPickerFrame:Show();
+local function updateSVs() -- the color picker really does not like the old settings, so the settings move to their own var
+	if TRP3_UF_DB.Target.colorText.custom ~= nil or TRP3_UF_DB.Target.colorText.class ~= nil then
+		TRP3_UF_DB.Target.colorTextCustom = TRP3_UF_DB.Target.colorText.custom
+		TRP3_UF_DB.Target.colorTextClass = TRP3_UF_DB.Target.colorText.class
+		TRP3_UF_DB.Target.colorText.custom = nil
+		TRP3_UF_DB.Target.colorText.class = nil
 	end
+	if TRP3_UF_DB.Target.colorBack.custom ~= nil or TRP3_UF_DB.Target.colorBack.class ~= nil then
+		TRP3_UF_DB.Target.colorBackCustom = TRP3_UF_DB.Target.colorBack.custom
+		TRP3_UF_DB.Target.colorBackClass = TRP3_UF_DB.Target.colorBack.class
+		TRP3_UF_DB.Target.colorBack.custom = nil
+		TRP3_UF_DB.Target.colorBack.class = nil
+	end
+	if TRP3_UF_DB.Player.colorText.custom ~= nil or TRP3_UF_DB.Player.colorText.class ~= nil then
+		TRP3_UF_DB.Player.colorTextCustom = TRP3_UF_DB.Player.colorText.custom
+		TRP3_UF_DB.Player.colorTextClass = TRP3_UF_DB.Player.colorText.class
+		TRP3_UF_DB.Player.colorText.custom = nil
+		TRP3_UF_DB.Player.colorText.class = nil
+	end
+	if TRP3_UF_DB.Player.colorBack.custom ~= nil or TRP3_UF_DB.Player.colorBack.class ~= nil then
+		TRP3_UF_DB.Player.colorBackCustom = TRP3_UF_DB.Player.colorBack.custom
+		TRP3_UF_DB.Player.colorBackClass = TRP3_UF_DB.Player.colorBack.class
+		TRP3_UF_DB.Player.colorBack.custom = nil
+		TRP3_UF_DB.Player.colorBack.class = nil
+	end
+	if not TRP3_UF_DB.Target.colorText.a then
+		TRP3_UF_DB.Target.colorText.a = 1
+	end
+	if not TRP3_UF_DB.Player.colorText.a then
+		TRP3_UF_DB.Player.colorText.a = 1
+	end
+
+end
+
+-- here, we just pass in the table containing our saved color config
+local function ShowColorPicker(configTable)
+	local r, g, b, a = configTable.r, configTable.g, configTable.b, configTable.a;
+
+	local function OnColorChanged()
+		local newR, newG, newB = ColorPickerFrame:GetColorRGB();
+		local newA = ColorPickerFrame:GetColorAlpha();
+		configTable.r, configTable.g, configTable.b, configTable.a = newR, newG, newB, newA;
+		SetColors()
+	end
+
+	local function OnCancel()
+		configTable.r, configTable.g, configTable.b, configTable.a = r, g, b, a;
+		SetColors()
+	end
+
+	local options = {
+		swatchFunc = OnColorChanged,
+		opacityFunc = OnColorChanged,
+		cancelFunc = OnCancel,
+		hasOpacity = a ~= nil,
+		opacity = a,
+		r = r,
+		g = g,
+		b = b,
+	};
+
+	ColorPickerFrame:SetupColorPickerAndShow(options);
 end
 
 local function round(number, decimals)
 	return (("%%.%df"):format(decimals)):format(number)
 end
 
-
-local function TargetTextColor(restore)
-	local newR, newG, newB; -- I forgot what to do with the alpha value but it's needed to not swap RGB values
-	if restore then
-	 -- The user bailed, we extract the old color from the table created by ShowColorPicker.
-		newR = restore["r"]
-		newG = restore["g"]
-		newB = restore["b"]
-	else
-	 -- Something changed
-		newR, newG, newB = ColorPickerFrame:GetColorRGB();
-	end
-	 -- And update any UI elements that use this color...
-	TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b = newR, newG, newB;
-	TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetTextColor(ColorMixin.GetRGB(TRP3_UF_DB.Target.colorText))
-	TRP3_UFRepTextDummyTarget:SetTextColor(ColorMixin.GetRGB(TRP3_UF_DB.Target.colorText))
-	TRP3_UFSettingsRepTextDummyTarget:SetTextColor(ColorMixin.GetRGB(TRP3_UF_DB.Target.colorText))
-end
-
-
-local function TargetBackdropColor(restore)
-	local newR, newG, newB, newA; -- I forgot what to do with the alpha value but it's needed to not swap RGB values
-	if restore then
-	 -- The user bailed, we extract the old color from the table created by ShowColorPicker.
-		newR = restore["r"]
-		newG = restore["g"]
-		newB = restore["b"]
-		newA = restore["a"]
-	else
-	 -- Something changed
-		newA, newR, newG, newB = ColorPickerFrame:GetColorAlpha(), ColorPickerFrame:GetColorRGB();
-	end
-	 -- And update any UI elements that use this color...
-	TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a = newR, newG, newB, newA;
-	TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack))
-	TRP3_UFRepDummyTarget:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack))
-	TRP3_UFSettingsRepDummyTarget:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack))
-end
-
-
-local function PlayerTextColor(restore)
-	local newR, newG, newB; -- I forgot what to do with the alpha value but it's needed to not swap RGB values
-	if restore then
-	 -- The user bailed, we extract the old color from the table created by ShowColorPicker.
-		newR = restore["r"]
-		newG = restore["g"]
-		newB = restore["b"]
-	else
-	 -- Something changed
-		newR, newG, newB = ColorPickerFrame:GetColorRGB();
-	end
-	 -- And update any UI elements that use this color...
-	TRP3_UF_DB.Player.colorText.r, TRP3_UF_DB.Player.colorText.g, TRP3_UF_DB.Player.colorText.b = newR, newG, newB;
-	PlayerName:SetTextColor(ColorMixin.GetRGB(TRP3_UF_DB.Player.colorText))
-	TRP3_UFRepTextDummyPlayer:SetTextColor(ColorMixin.GetRGB(TRP3_UF_DB.Player.colorText))
-	TRP3_UFSettingsRepTextDummyPlayer:SetTextColor(ColorMixin.GetRGB(TRP3_UF_DB.Player.colorText))
-end
-
-
-local function PlayerBackdropColor(restore)
-	local newR, newG, newB, newA; -- I forgot what to do with the alpha value but it's needed to not swap RGB values
-	if restore then
-	 -- The user bailed, we extract the old color from the table created by ShowColorPicker.
-		newR = restore["r"]
-		newG = restore["g"]
-		newB = restore["b"]
-		newA = restore["a"]
-	else
-	 -- Something changed
-		newA, newR, newG, newB = ColorPickerFrame:GetColorAlpha(), ColorPickerFrame:GetColorRGB();
-	end
-	 -- And update any UI elements that use this color...
-	TRP3_UF_DB.Player.colorBack.r, TRP3_UF_DB.Player.colorBack.g, TRP3_UF_DB.Player.colorBack.b, TRP3_UF_DB.Player.colorBack.a = newR, newG, newB, newA;
-	PlayerFrameReputationColor:SetVertexColor(ColorMixin.GetRGB(TRP3_UF_DB.Player.colorBack))
-	TRP3_UFRepDummyPlayer:SetVertexColor(ColorMixin.GetRGB(TRP3_UF_DB.Player.colorBack))
-	TRP3_UFSettingsRepDummyPlayer:SetVertexColor(ColorMixin.GetRGB(TRP3_UF_DB.Player.colorBack))
-end
 
 --PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:Hide() -- make this into an option to hide the "rested glow" or even change color
 --PLAYER_REGEN_DISABLED -- trigger upon this event
@@ -531,37 +502,37 @@ function TRP3_UFPanel.CheckSettings()
 	TRP3_UFPanel.TRP3_scrollChild.TShowCheckbox:SetChecked(TRP3_UF_DB.Target.show);
 
 	--color checkboxes
-	TRP3_UFPanel.scrollChild.TargetTextColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorText.custom);
-	TRP3_UFPanel.scrollChild.TargetBackColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorBack.custom);
-	TRP3_UFPanel.scrollChild.TargetClassTextColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorText.class);
-	TRP3_UFPanel.scrollChild.TargetClassBackColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorBack.class);
+	TRP3_UFPanel.scrollChild.TargetTextColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorTextCustom);
+	TRP3_UFPanel.scrollChild.TargetBackColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorBackCustom);
+	TRP3_UFPanel.scrollChild.TargetClassTextColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorTextClass);
+	TRP3_UFPanel.scrollChild.TargetClassBackColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorBackClass);
 
-	TRP3_UFPanel.TRP3_scrollChild.TargetTextColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorText.custom);
-	TRP3_UFPanel.TRP3_scrollChild.TargetBackColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorBack.custom);
-	TRP3_UFPanel.TRP3_scrollChild.TargetClassTextColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorText.class);
-	TRP3_UFPanel.TRP3_scrollChild.TargetClassBackColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorBack.class);
+	TRP3_UFPanel.TRP3_scrollChild.TargetTextColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorTextCustom);
+	TRP3_UFPanel.TRP3_scrollChild.TargetBackColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorBackCustom);
+	TRP3_UFPanel.TRP3_scrollChild.TargetClassTextColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorTextClass);
+	TRP3_UFPanel.TRP3_scrollChild.TargetClassBackColorCheckbox:SetChecked(TRP3_UF_DB.Target.colorBackClass);
 
-	TRP3_UFPanel.scrollChild.TarCustomTextColButton:SetEnabled(TRP3_UF_DB.Target.colorText.custom);
-	TRP3_UFPanel.scrollChild.TarCustomBackColButton:SetEnabled(TRP3_UF_DB.Target.colorBack.custom);
+	TRP3_UFPanel.scrollChild.TarCustomTextColButton:SetEnabled(TRP3_UF_DB.Target.colorTextCustom);
+	TRP3_UFPanel.scrollChild.TarCustomBackColButton:SetEnabled(TRP3_UF_DB.Target.colorBackCustom);
 
-	TRP3_UFPanel.TRP3_scrollChild.TarCustomTextColButton:SetEnabled(TRP3_UF_DB.Target.colorText.custom);
-	TRP3_UFPanel.TRP3_scrollChild.TarCustomBackColButton:SetEnabled(TRP3_UF_DB.Target.colorBack.custom);
+	TRP3_UFPanel.TRP3_scrollChild.TarCustomTextColButton:SetEnabled(TRP3_UF_DB.Target.colorTextCustom);
+	TRP3_UFPanel.TRP3_scrollChild.TarCustomBackColButton:SetEnabled(TRP3_UF_DB.Target.colorBackCustom);
 
-	TRP3_UFPanel.scrollChild.PlayerTextColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorText.custom);
-	TRP3_UFPanel.scrollChild.PlayerBackColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorBack.custom);
-	TRP3_UFPanel.scrollChild.PlayerClassTextColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorText.class);
-	TRP3_UFPanel.scrollChild.PlayerClassBackColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorBack.class);
+	TRP3_UFPanel.scrollChild.PlayerTextColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorTextCustom);
+	TRP3_UFPanel.scrollChild.PlayerBackColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorBackCustom);
+	TRP3_UFPanel.scrollChild.PlayerClassTextColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorTextClass);
+	TRP3_UFPanel.scrollChild.PlayerClassBackColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorBackClass);
 
-	TRP3_UFPanel.TRP3_scrollChild.PlayerTextColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorText.custom);
-	TRP3_UFPanel.TRP3_scrollChild.PlayerBackColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorBack.custom);
-	TRP3_UFPanel.TRP3_scrollChild.PlayerClassTextColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorText.class);
-	TRP3_UFPanel.TRP3_scrollChild.PlayerClassBackColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorBack.class);
+	TRP3_UFPanel.TRP3_scrollChild.PlayerTextColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorTextCustom);
+	TRP3_UFPanel.TRP3_scrollChild.PlayerBackColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorBackCustom);
+	TRP3_UFPanel.TRP3_scrollChild.PlayerClassTextColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorTextClass);
+	TRP3_UFPanel.TRP3_scrollChild.PlayerClassBackColorCheckbox:SetChecked(TRP3_UF_DB.Player.colorBackClass);
 
-	TRP3_UFPanel.scrollChild.PlayerCustomTextColButton:SetEnabled(TRP3_UF_DB.Player.colorText.custom);
-	TRP3_UFPanel.scrollChild.PlayerCustomBackColButton:SetEnabled(TRP3_UF_DB.Player.colorBack.custom);
+	TRP3_UFPanel.scrollChild.PlayerCustomTextColButton:SetEnabled(TRP3_UF_DB.Player.colorTextCustom);
+	TRP3_UFPanel.scrollChild.PlayerCustomBackColButton:SetEnabled(TRP3_UF_DB.Player.colorBackCustom);
 
-	TRP3_UFPanel.TRP3_scrollChild.PlayerCustomTextColButton:SetEnabled(TRP3_UF_DB.Player.colorText.custom);
-	TRP3_UFPanel.TRP3_scrollChild.PlayerCustomBackColButton:SetEnabled(TRP3_UF_DB.Player.colorBack.custom);
+	TRP3_UFPanel.TRP3_scrollChild.PlayerCustomTextColButton:SetEnabled(TRP3_UF_DB.Player.colorTextCustom);
+	TRP3_UFPanel.TRP3_scrollChild.PlayerCustomBackColButton:SetEnabled(TRP3_UF_DB.Player.colorBackCustom);
 
 	TRP3_UFPanel.scrollChild.NPCOptionsCheckbox:SetChecked(TRP3_UF_DB.Setting.NPCs);
 	TRP3_UFPanel.scrollChild.UseTRP3NameCheckbox:SetChecked(TRP3_UF_DB.Setting.UseTRPName);
@@ -852,11 +823,11 @@ TRP3_UFPanel.scrollChild.TargetTextColorCheckbox.Text:SetText(L["OverwriteTextCo
 
 TRP3_UFPanel.scrollChild.TargetTextColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.scrollChild.TargetTextColorCheckbox:GetChecked() then
-		TRP3_UF_DB.Target.colorText.custom = true;
+		TRP3_UF_DB.Target.colorTextCustom = true;
 	else
-		TRP3_UF_DB.Target.colorText.custom = false;
+		TRP3_UF_DB.Target.colorTextCustom = false;
 	end
-	TRP3_UFPanel.scrollChild.TarCustomTextColButton:SetEnabled(TRP3_UF_DB.Target.colorText.custom);
+	TRP3_UFPanel.scrollChild.TarCustomTextColButton:SetEnabled(TRP3_UF_DB.Target.colorTextCustom);
 	trpPlayer.UpdateInfo();
 	trpTarget.UpdateInfo();
 	TRP3_UFPanel.CheckSettings();
@@ -870,11 +841,11 @@ TRP3_UFPanel.scrollChild.TargetBackColorCheckbox.Text:SetText(L["OverwriteBackCo
 
 TRP3_UFPanel.scrollChild.TargetBackColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.scrollChild.TargetBackColorCheckbox:GetChecked() then
-		TRP3_UF_DB.Target.colorBack.custom = true;
+		TRP3_UF_DB.Target.colorBackCustom = true;
 	else
-		TRP3_UF_DB.Target.colorBack.custom = false;
+		TRP3_UF_DB.Target.colorBackCustom = false;
 	end
-	TRP3_UFPanel.scrollChild.TarCustomBackColButton:SetEnabled(TRP3_UF_DB.Target.colorBack.custom);
+	TRP3_UFPanel.scrollChild.TarCustomBackColButton:SetEnabled(TRP3_UF_DB.Target.colorBackCustom);
 	trpPlayer.UpdateInfo();
 	trpTarget.UpdateInfo();
 	TRP3_UFPanel.CheckSettings();
@@ -888,9 +859,9 @@ TRP3_UFPanel.scrollChild.TargetClassTextColorCheckbox.Text:SetText(L["BlizzTextC
 
 TRP3_UFPanel.scrollChild.TargetClassTextColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.scrollChild.TargetClassTextColorCheckbox:GetChecked() then
-		TRP3_UF_DB.Target.colorText.class = true;
+		TRP3_UF_DB.Target.colorTextClass = true;
 	else
-		TRP3_UF_DB.Target.colorText.class = false;
+		TRP3_UF_DB.Target.colorTextClass = false;
 	end
 	trpPlayer.UpdateInfo();
 	trpTarget.UpdateInfo();
@@ -905,9 +876,9 @@ TRP3_UFPanel.scrollChild.TargetClassBackColorCheckbox.Text:SetText(L["BlizzBackC
 
 TRP3_UFPanel.scrollChild.TargetClassBackColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.scrollChild.TargetClassBackColorCheckbox:GetChecked() then
-		TRP3_UF_DB.Target.colorBack.class = true;
+		TRP3_UF_DB.Target.colorBackClass = true;
 	else
-		TRP3_UF_DB.Target.colorBack.class = false;
+		TRP3_UF_DB.Target.colorBackClass = false;
 	end
 	trpPlayer.UpdateInfo();
 	trpTarget.UpdateInfo();
@@ -923,11 +894,11 @@ TRP3_UFPanel.scrollChild.PlayerTextColorCheckbox.Text:SetText(L["OverwriteTextCo
 
 TRP3_UFPanel.scrollChild.PlayerTextColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.scrollChild.PlayerTextColorCheckbox:GetChecked() then
-		TRP3_UF_DB.Player.colorText.custom = true;
+		TRP3_UF_DB.Player.colorTextCustom = true;
 	else
-		TRP3_UF_DB.Player.colorText.custom = false;
+		TRP3_UF_DB.Player.colorTextCustom = false;
 	end
-	TRP3_UFPanel.scrollChild.PlayerCustomTextColButton:SetEnabled(TRP3_UF_DB.Player.colorText.custom);
+	TRP3_UFPanel.scrollChild.PlayerCustomTextColButton:SetEnabled(TRP3_UF_DB.Player.colorTextCustom);
 	trpPlayer.UpdateInfo();
 	trpTarget.UpdateInfo();
 	TRP3_UFPanel.CheckSettings();
@@ -941,11 +912,11 @@ TRP3_UFPanel.scrollChild.PlayerBackColorCheckbox.Text:SetText(L["OverwriteBackCo
 
 TRP3_UFPanel.scrollChild.PlayerBackColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.scrollChild.PlayerBackColorCheckbox:GetChecked() then
-		TRP3_UF_DB.Player.colorBack.custom = true;
+		TRP3_UF_DB.Player.colorBackCustom = true;
 	else
-		TRP3_UF_DB.Player.colorBack.custom = false;
+		TRP3_UF_DB.Player.colorBackCustom = false;
 	end
-	TRP3_UFPanel.scrollChild.PlayerCustomBackColButton:SetEnabled(TRP3_UF_DB.Player.colorBack.custom);
+	TRP3_UFPanel.scrollChild.PlayerCustomBackColButton:SetEnabled(TRP3_UF_DB.Player.colorBackCustom);
 	trpPlayer.UpdateInfo();
 	trpTarget.UpdateInfo();
 	TRP3_UFPanel.CheckSettings();
@@ -959,9 +930,9 @@ TRP3_UFPanel.scrollChild.PlayerClassTextColorCheckbox.Text:SetText(L["BlizzTextC
 
 TRP3_UFPanel.scrollChild.PlayerClassTextColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.scrollChild.PlayerClassTextColorCheckbox:GetChecked() then
-		TRP3_UF_DB.Player.colorText.class = true;
+		TRP3_UF_DB.Player.colorTextClass = true;
 	else
-		TRP3_UF_DB.Player.colorText.class = false;
+		TRP3_UF_DB.Player.colorTextClass = false;
 	end
 	trpPlayer.UpdateInfo();
 	trpTarget.UpdateInfo();
@@ -976,9 +947,9 @@ TRP3_UFPanel.scrollChild.PlayerClassBackColorCheckbox.Text:SetText(L["BlizzBackC
 
 TRP3_UFPanel.scrollChild.PlayerClassBackColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.scrollChild.PlayerClassBackColorCheckbox:GetChecked() then
-		TRP3_UF_DB.Player.colorBack.class = true;
+		TRP3_UF_DB.Player.colorBackClass = true;
 	else
-		TRP3_UF_DB.Player.colorBack.class = false;
+		TRP3_UF_DB.Player.colorBackClass = false;
 	end
 	trpPlayer.UpdateInfo();
 	trpTarget.UpdateInfo();
@@ -1609,26 +1580,27 @@ TRP3_UFPanel.scrollChild.TarCustomTextColButton = CreateFrame("Button", nil, TRP
 TRP3_UFPanel.scrollChild.TarCustomTextColButton:SetPoint("TOPLEFT", 150*3.3, -53*4.6);
 TRP3_UFPanel.scrollChild.TarCustomTextColButton:SetSize(120, 26);
 TRP3_UFPanel.scrollChild.TarCustomTextColButton:SetText(COLOR_PICKER)
-TRP3_UFPanel.scrollChild.TarCustomTextColButton:SetScript("OnClick", function() ShowColorPickerText(TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b, TargetTextColor); end)
+TRP3_UFPanel.scrollChild.TarCustomTextColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Target.colorText); end)
 
 
 TRP3_UFPanel.scrollChild.TarCustomBackColButton = CreateFrame("Button", nil, TRP3_UFPanel.scrollChild, "SharedGoldRedButtonSmallTemplate")
 TRP3_UFPanel.scrollChild.TarCustomBackColButton:SetPoint("TOPLEFT", 150*3.3, -53*5.1);
 TRP3_UFPanel.scrollChild.TarCustomBackColButton:SetSize(120, 26);
 TRP3_UFPanel.scrollChild.TarCustomBackColButton:SetText(COLOR_PICKER)
-TRP3_UFPanel.scrollChild.TarCustomBackColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a, TargetBackdropColor); end)
+TRP3_UFPanel.scrollChild.TarCustomBackColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Target.colorBack); end)
 
 TRP3_UFPanel.scrollChild.PlayerCustomTextColButton = CreateFrame("Button", nil, TRP3_UFPanel.scrollChild, "SharedGoldRedButtonSmallTemplate")
 TRP3_UFPanel.scrollChild.PlayerCustomTextColButton:SetPoint("TOPLEFT", 150*3.3, -53*7.1);
 TRP3_UFPanel.scrollChild.PlayerCustomTextColButton:SetSize(120, 26);
 TRP3_UFPanel.scrollChild.PlayerCustomTextColButton:SetText(COLOR_PICKER)
-TRP3_UFPanel.scrollChild.PlayerCustomTextColButton:SetScript("OnClick", function() ShowColorPickerText(TRP3_UF_DB.Player.colorText.r, TRP3_UF_DB.Player.colorText.g, TRP3_UF_DB.Player.colorText.b, PlayerTextColor); end)
+TRP3_UFPanel.scrollChild.PlayerCustomTextColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Player.colorText); end)
 
 TRP3_UFPanel.scrollChild.PlayerCustomBackColButton = CreateFrame("Button", nil, TRP3_UFPanel.scrollChild, "SharedGoldRedButtonSmallTemplate")
 TRP3_UFPanel.scrollChild.PlayerCustomBackColButton:SetPoint("TOPLEFT", 150*3.3, -53*7.6);
 TRP3_UFPanel.scrollChild.PlayerCustomBackColButton:SetSize(120, 26);
 TRP3_UFPanel.scrollChild.PlayerCustomBackColButton:SetText(COLOR_PICKER)
-TRP3_UFPanel.scrollChild.PlayerCustomBackColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Player.colorBack.r, TRP3_UF_DB.Player.colorBack.g, TRP3_UF_DB.Player.colorBack.b, TRP3_UF_DB.Player.colorBack.a, PlayerBackdropColor); end)
+TRP3_UFPanel.scrollChild.PlayerCustomBackColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Player.colorBack); end)
+
 
 ------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------
@@ -2130,11 +2102,11 @@ TRP3_UFPanel.TRP3_scrollChild.TargetTextColorCheckbox.Text:SetText(L["OverwriteT
 
 TRP3_UFPanel.TRP3_scrollChild.TargetTextColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.TRP3_scrollChild.TargetTextColorCheckbox:GetChecked() then
-		TRP3_UF_DB.Target.colorText.custom = true;
+		TRP3_UF_DB.Target.colorTextCustom = true;
 	else
-		TRP3_UF_DB.Target.colorText.custom = false;
+		TRP3_UF_DB.Target.colorTextCustom = false;
 	end
-	TRP3_UFPanel.TRP3_scrollChild.TarCustomTextColButton:SetEnabled(TRP3_UF_DB.Target.colorText.custom);
+	TRP3_UFPanel.TRP3_scrollChild.TarCustomTextColButton:SetEnabled(TRP3_UF_DB.Target.colorTextCustom);
 	trpPlayer.UpdateInfo();
 	trpTarget.UpdateInfo();
 	TRP3_UFPanel.CheckSettings();
@@ -2148,11 +2120,11 @@ TRP3_UFPanel.TRP3_scrollChild.TargetBackColorCheckbox.Text:SetText(L["OverwriteB
 
 TRP3_UFPanel.TRP3_scrollChild.TargetBackColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.TRP3_scrollChild.TargetBackColorCheckbox:GetChecked() then
-		TRP3_UF_DB.Target.colorBack.custom = true;
+		TRP3_UF_DB.Target.colorBackCustom = true;
 	else
-		TRP3_UF_DB.Target.colorBack.custom = false;
+		TRP3_UF_DB.Target.colorBackCustom = false;
 	end
-	TRP3_UFPanel.TRP3_scrollChild.TarCustomBackColButton:SetEnabled(TRP3_UF_DB.Target.colorBack.custom);
+	TRP3_UFPanel.TRP3_scrollChild.TarCustomBackColButton:SetEnabled(TRP3_UF_DB.Target.colorBackCustom);
 	trpPlayer.UpdateInfo();
 	trpTarget.UpdateInfo();
 	TRP3_UFPanel.CheckSettings();
@@ -2166,9 +2138,9 @@ TRP3_UFPanel.TRP3_scrollChild.TargetClassTextColorCheckbox.Text:SetText(L["Blizz
 
 TRP3_UFPanel.TRP3_scrollChild.TargetClassTextColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.TRP3_scrollChild.TargetClassTextColorCheckbox:GetChecked() then
-		TRP3_UF_DB.Target.colorText.class = true;
+		TRP3_UF_DB.Target.colorTextClass = true;
 	else
-		TRP3_UF_DB.Target.colorText.class = false;
+		TRP3_UF_DB.Target.colorTextClass = false;
 	end
 	trpPlayer.UpdateInfo();
 	trpTarget.UpdateInfo();
@@ -2183,9 +2155,9 @@ TRP3_UFPanel.TRP3_scrollChild.TargetClassBackColorCheckbox.Text:SetText(L["Blizz
 
 TRP3_UFPanel.TRP3_scrollChild.TargetClassBackColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.TRP3_scrollChild.TargetClassBackColorCheckbox:GetChecked() then
-		TRP3_UF_DB.Target.colorBack.class = true;
+		TRP3_UF_DB.Target.colorBackClass = true;
 	else
-		TRP3_UF_DB.Target.colorBack.class = false;
+		TRP3_UF_DB.Target.colorBackClass = false;
 	end
 	trpPlayer.UpdateInfo();
 	trpTarget.UpdateInfo();
@@ -2201,11 +2173,11 @@ TRP3_UFPanel.TRP3_scrollChild.PlayerTextColorCheckbox.Text:SetText(L["OverwriteT
 
 TRP3_UFPanel.TRP3_scrollChild.PlayerTextColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.TRP3_scrollChild.PlayerTextColorCheckbox:GetChecked() then
-		TRP3_UF_DB.Player.colorText.custom = true;
+		TRP3_UF_DB.Player.colorTextCustom = true;
 	else
-		TRP3_UF_DB.Player.colorText.custom = false;
+		TRP3_UF_DB.Player.colorTextCustom = false;
 	end
-	TRP3_UFPanel.TRP3_scrollChild.PlayerCustomTextColButton:SetEnabled(TRP3_UF_DB.Player.colorText.custom);
+	TRP3_UFPanel.TRP3_scrollChild.PlayerCustomTextColButton:SetEnabled(TRP3_UF_DB.Player.colorTextCustom);
 	trpPlayer.UpdateInfo();
 	trpTarget.UpdateInfo();
 	TRP3_UFPanel.CheckSettings();
@@ -2219,11 +2191,11 @@ TRP3_UFPanel.TRP3_scrollChild.PlayerBackColorCheckbox.Text:SetText(L["OverwriteB
 
 TRP3_UFPanel.TRP3_scrollChild.PlayerBackColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.TRP3_scrollChild.PlayerBackColorCheckbox:GetChecked() then
-		TRP3_UF_DB.Player.colorBack.custom = true;
+		TRP3_UF_DB.Player.colorBackCustom = true;
 	else
-		TRP3_UF_DB.Player.colorBack.custom = false;
+		TRP3_UF_DB.Player.colorBackCustom = false;
 	end
-	TRP3_UFPanel.TRP3_scrollChild.PlayerCustomBackColButton:SetEnabled(TRP3_UF_DB.Player.colorBack.custom);
+	TRP3_UFPanel.TRP3_scrollChild.PlayerCustomBackColButton:SetEnabled(TRP3_UF_DB.Player.colorBackCustom);
 	trpPlayer.UpdateInfo();
 	trpTarget.UpdateInfo();
 	TRP3_UFPanel.CheckSettings();
@@ -2237,9 +2209,9 @@ TRP3_UFPanel.TRP3_scrollChild.PlayerClassTextColorCheckbox.Text:SetText(L["Blizz
 
 TRP3_UFPanel.TRP3_scrollChild.PlayerClassTextColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.TRP3_scrollChild.PlayerClassTextColorCheckbox:GetChecked() then
-		TRP3_UF_DB.Player.colorText.class = true;
+		TRP3_UF_DB.Player.colorTextClass = true;
 	else
-		TRP3_UF_DB.Player.colorText.class = false;
+		TRP3_UF_DB.Player.colorTextClass = false;
 	end
 	trpPlayer.UpdateInfo();
 	trpTarget.UpdateInfo();
@@ -2254,9 +2226,9 @@ TRP3_UFPanel.TRP3_scrollChild.PlayerClassBackColorCheckbox.Text:SetText(L["Blizz
 
 TRP3_UFPanel.TRP3_scrollChild.PlayerClassBackColorCheckbox:SetScript("OnClick", function(self)
 	if TRP3_UFPanel.TRP3_scrollChild.PlayerClassBackColorCheckbox:GetChecked() then
-		TRP3_UF_DB.Player.colorBack.class = true;
+		TRP3_UF_DB.Player.colorBackClass = true;
 	else
-		TRP3_UF_DB.Player.colorBack.class = false;
+		TRP3_UF_DB.Player.colorBackClass = false;
 	end
 	trpPlayer.UpdateInfo();
 	trpTarget.UpdateInfo();
@@ -2408,26 +2380,26 @@ TRP3_UFPanel.TRP3_scrollChild.TarCustomTextColButton = CreateFrame("Button", nil
 TRP3_UFPanel.TRP3_scrollChild.TarCustomTextColButton:SetPoint("TOPLEFT", 305, -53*5.1);
 TRP3_UFPanel.TRP3_scrollChild.TarCustomTextColButton:SetSize(120, 26);
 TRP3_UFPanel.TRP3_scrollChild.TarCustomTextColButton:SetText(COLOR_PICKER)
-TRP3_UFPanel.TRP3_scrollChild.TarCustomTextColButton:SetScript("OnClick", function() ShowColorPickerText(TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b, TargetTextColor); end)
+TRP3_UFPanel.TRP3_scrollChild.TarCustomTextColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Target.colorText); end)
 
 
 TRP3_UFPanel.TRP3_scrollChild.TarCustomBackColButton = CreateFrame("Button", nil, TRP3_UFPanel.TRP3_scrollChild, "SharedGoldRedButtonSmallTemplate")
 TRP3_UFPanel.TRP3_scrollChild.TarCustomBackColButton:SetPoint("TOPLEFT", 305, -53*6.1);
 TRP3_UFPanel.TRP3_scrollChild.TarCustomBackColButton:SetSize(120, 26);
 TRP3_UFPanel.TRP3_scrollChild.TarCustomBackColButton:SetText(COLOR_PICKER)
-TRP3_UFPanel.TRP3_scrollChild.TarCustomBackColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a, TargetBackdropColor); end)
+TRP3_UFPanel.TRP3_scrollChild.TarCustomBackColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Target.colorBack); end)
 
 TRP3_UFPanel.TRP3_scrollChild.PlayerCustomTextColButton = CreateFrame("Button", nil, TRP3_UFPanel.TRP3_scrollChild, "SharedGoldRedButtonSmallTemplate")
 TRP3_UFPanel.TRP3_scrollChild.PlayerCustomTextColButton:SetPoint("TOPLEFT", 305, -53*8.6);
 TRP3_UFPanel.TRP3_scrollChild.PlayerCustomTextColButton:SetSize(120, 26);
 TRP3_UFPanel.TRP3_scrollChild.PlayerCustomTextColButton:SetText(COLOR_PICKER)
-TRP3_UFPanel.TRP3_scrollChild.PlayerCustomTextColButton:SetScript("OnClick", function() ShowColorPickerText(TRP3_UF_DB.Player.colorText.r, TRP3_UF_DB.Player.colorText.g, TRP3_UF_DB.Player.colorText.b, PlayerTextColor); end)
+TRP3_UFPanel.TRP3_scrollChild.PlayerCustomTextColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Player.colorText); end)
 
 TRP3_UFPanel.TRP3_scrollChild.PlayerCustomBackColButton = CreateFrame("Button", nil, TRP3_UFPanel.TRP3_scrollChild, "SharedGoldRedButtonSmallTemplate")
 TRP3_UFPanel.TRP3_scrollChild.PlayerCustomBackColButton:SetPoint("TOPLEFT", 305, -53*9.6);
 TRP3_UFPanel.TRP3_scrollChild.PlayerCustomBackColButton:SetSize(120, 26);
 TRP3_UFPanel.TRP3_scrollChild.PlayerCustomBackColButton:SetText(COLOR_PICKER)
-TRP3_UFPanel.TRP3_scrollChild.PlayerCustomBackColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Player.colorBack.r, TRP3_UF_DB.Player.colorBack.g, TRP3_UF_DB.Player.colorBack.b, TRP3_UF_DB.Player.colorBack.a, PlayerBackdropColor); end)
+TRP3_UFPanel.TRP3_scrollChild.PlayerCustomBackColButton:SetScript("OnClick", function() ShowColorPicker(TRP3_UF_DB.Player.colorBack); end)
 
 ------------------------------------------------------------------------------------------------------------------
 
@@ -2698,10 +2670,10 @@ end
 
 function trpTarget.SetColor()
 	--local r, g, b, a = TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:GetVertexColor()
-	if TRP3_UF_DB.Target.colorBack.custom == true then
-		TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a)
+	if TRP3_UF_DB.Target.colorBackCustom == true then
+		TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack))
 	end
-	if TRP3_UF_DB.Target.colorText.custom == true then
+	if TRP3_UF_DB.Target.colorTextCustom == true then
 		if TRP3_UF_DB.Setting.FullNameTarget == true and TRP3_UF_DB.Setting.UseTRPName == true then
 			TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(TRP3_API.r.name("target"))
 		elseif TRP3_UF_DB.Setting.FullNameTarget == false and TRP3_UF_DB.Setting.UseTRPName == true then
@@ -2714,7 +2686,7 @@ function trpTarget.SetColor()
 		else
 			TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(UnitName("target"))
 		end
-		TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetTextColor(TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b)
+		TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText))
 	end
 end
 
@@ -2882,6 +2854,7 @@ local function onStart()
 	if TRP3_UF_DB.SecondaryPower == nil then
 		TRP3_UF_DB.SecondaryPower = defaultsTable.SecondaryPower
 	end
+	updateSVs()
 
 
 	--trpTarget.CurrentlyChecker() --(don't forget to enable this, future me), Currently Frame Tester - NYI
@@ -3245,16 +3218,16 @@ local function onStart()
 
 	--handle dummy frames
 	function trpTarget.DummyColors()
-		TRP3_UFRepDummyTarget:SetVertexColor(TRP3_UF_DB.Target.colorBack.r,TRP3_UF_DB.Target.colorBack.g,TRP3_UF_DB.Target.colorBack.b,TRP3_UF_DB.Target.colorBack.a)
-		TRP3_UFRepTextDummyTarget:SetTextColor(TRP3_UF_DB.Target.colorText.r,TRP3_UF_DB.Target.colorText.g,TRP3_UF_DB.Target.colorText.b)
-		TRP3_UFRepDummyPlayer:SetVertexColor(TRP3_UF_DB.Player.colorBack.r,TRP3_UF_DB.Player.colorBack.g,TRP3_UF_DB.Player.colorBack.b,TRP3_UF_DB.Player.colorBack.a)
-		TRP3_UFRepTextDummyPlayer:SetTextColor(TRP3_UF_DB.Player.colorText.r,TRP3_UF_DB.Player.colorText.g,TRP3_UF_DB.Player.colorText.b)
+		TRP3_UFRepDummyTarget:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack))
+		TRP3_UFRepTextDummyTarget:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText))
+		TRP3_UFRepDummyPlayer:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorBack))
+		TRP3_UFRepTextDummyPlayer:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorText))
 
 
-		TRP3_UFSettingsRepDummyTarget:SetVertexColor(TRP3_UF_DB.Target.colorBack.r,TRP3_UF_DB.Target.colorBack.g,TRP3_UF_DB.Target.colorBack.b,TRP3_UF_DB.Target.colorBack.a)
-		TRP3_UFSettingsRepTextDummyTarget:SetTextColor(TRP3_UF_DB.Target.colorText.r,TRP3_UF_DB.Target.colorText.g,TRP3_UF_DB.Target.colorText.b)
-		TRP3_UFSettingsRepDummyPlayer:SetVertexColor(TRP3_UF_DB.Player.colorBack.r,TRP3_UF_DB.Player.colorBack.g,TRP3_UF_DB.Player.colorBack.b,TRP3_UF_DB.Player.colorBack.a)
-		TRP3_UFSettingsRepTextDummyPlayer:SetTextColor(TRP3_UF_DB.Player.colorText.r,TRP3_UF_DB.Player.colorText.g,TRP3_UF_DB.Player.colorText.b)
+		TRP3_UFSettingsRepDummyTarget:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack))
+		TRP3_UFSettingsRepTextDummyTarget:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText))
+		TRP3_UFSettingsRepDummyPlayer:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorBack))
+		TRP3_UFSettingsRepTextDummyPlayer:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorText))
 
 		--AAAAAAAAAAAAAAAAAAAAAAAA
 		--recolor the dummy frames in TRP3 frame
@@ -3291,25 +3264,25 @@ local function onStart()
 		end
 		PlayerName:SetTextColor(1,0.8960791349411,0,1)
 		PlayerFrameReputationColor:SetVertexColor(0, 0, 0, 0)
-		if TRP3_UF_DB.Player.colorText.class == true then
+		if TRP3_UF_DB.Player.colorTextClass == true then
 			PlayerName:SetTextColor(classR, classG, classB)
 		end
 		if AddOn_TotalRP3.Player.CreateFromUnit("player"):GetCustomColorForDisplay() ~= nil then
 			PlayerName:SetTextColor(AddOn_TotalRP3.Player.CreateFromUnit("player"):GetCustomColorForDisplay():GetRGB())
 		end
 
-		if TRP3_UF_DB.Player.colorText.custom == true then
-			PlayerName:SetTextColor(TRP3_UF_DB.Player.colorText.r, TRP3_UF_DB.Player.colorText.g, TRP3_UF_DB.Player.colorText.b)
+		if TRP3_UF_DB.Player.colorTextCustom == true then
+			PlayerName:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorText))
 		end
 
 
-		if TRP3_UF_DB.Player.colorBack.class == true then
+		if TRP3_UF_DB.Player.colorBackClass == true then
 			PlayerFrameReputationColor:SetVertexColor(classR, classG, classB, 1)
 		end
-		if TRP3_UF_DB.Player.colorBack.custom == true then
-			PlayerFrameReputationColor:SetVertexColor(TRP3_UF_DB.Player.colorBack.r, TRP3_UF_DB.Player.colorBack.g, TRP3_UF_DB.Player.colorBack.b, TRP3_UF_DB.Player.colorBack.a)
+		if TRP3_UF_DB.Player.colorBackCustom == true then
+			PlayerFrameReputationColor:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorBack))
 		end
-		if TRP3_UF_DB.Player.colorBack.class == false and TRP3_UF_DB.Player.colorBack.custom == false then
+		if TRP3_UF_DB.Player.colorBackClass == false and TRP3_UF_DB.Player.colorBackCustom == false then
 			PlayerFrameReputationColor:SetVertexColor(0, 0, 0, 0)
 		end
 
@@ -3329,7 +3302,7 @@ local function onStart()
 		TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetTextColor(1,0.8960791349411,0,1)
 		if UnitIsPlayer("target") == true then
 			TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(0, 0, 1, 1)
-			if TRP3_UF_DB.Target.colorText.class == true then
+			if TRP3_UF_DB.Target.colorTextClass == true then
 				local classR, classG, classB = C_ClassColor.GetClassColor(UnitClassBase("target")).r, C_ClassColor.GetClassColor(UnitClassBase("target")).g, C_ClassColor.GetClassColor(UnitClassBase("target")).b
 				if classR == nil or classG == nil or classB == nil then
 					classR, classG, classB = 1, 1, 1
@@ -3359,29 +3332,29 @@ local function onStart()
 				TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetTextColor(profileR, profileG, profileB)
 			end
 			
-			if TRP3_UF_DB.Target.colorText.custom == true then
-				TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetTextColor(TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b)
+			if TRP3_UF_DB.Target.colorTextCustom == true then
+				TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText))
 			end
 
 
-			if TRP3_UF_DB.Target.colorBack.class == true then
+			if TRP3_UF_DB.Target.colorBackClass == true then
 				local classR, classG, classB = C_ClassColor.GetClassColor(UnitClassBase("target")).r, C_ClassColor.GetClassColor(UnitClassBase("target")).g, C_ClassColor.GetClassColor(UnitClassBase("target")).b
 				if classR == nil or classG == nil or classB == nil then
 					classR, classG, classB = 0, 0, 0
 				end
 				TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(classR, classG, classB, 1)
 			end
-			if TRP3_UF_DB.Target.colorBack.custom == true then
-				TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a)
+			if TRP3_UF_DB.Target.colorBackCustom == true then
+				TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack))
 			end
-			if TRP3_UF_DB.Target.colorBack.class == false and TRP3_UF_DB.Target.colorBack.custom == false then
+			if TRP3_UF_DB.Target.colorBackClass == false and TRP3_UF_DB.Target.colorBackCustom == false then
 				TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(0, 0, 1, 1)
 			end
 
 		end
 		if UnitIsPlayer("target") == false and TRP3_UF_DB.Setting.NPCs == true then
-			TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetTextColor(TRP3_UF_DB.Target.colorText.r, TRP3_UF_DB.Target.colorText.g, TRP3_UF_DB.Target.colorText.b)
-			TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(TRP3_UF_DB.Target.colorBack.r, TRP3_UF_DB.Target.colorBack.g, TRP3_UF_DB.Target.colorBack.b, TRP3_UF_DB.Target.colorBack.a)
+			TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText))
+			TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack))
 		end
 	end
 

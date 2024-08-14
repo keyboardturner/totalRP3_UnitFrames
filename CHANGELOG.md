@@ -1,3 +1,7 @@
+# 0.2.2
+
+color pickers really exploded and haven't actually been effectively usable, so this just cleans up that area. it's also now a Feature™️ that text gets alpha values
+
 # 0.2.1
 
 TOC updates for TWW, added additional Emerald Dream Narcissus border, fix to "Dragonflight" (now Neltharion) option, complete rewrite of dropdown menus, eliminated extraneous code

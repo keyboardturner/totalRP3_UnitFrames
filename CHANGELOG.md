@@ -1,3 +1,7 @@
+# 0.2.3
+
+Fix error that occurs when a texture is not 64x64 (texture will remain blank)
+
 # 0.2.2
 
 color pickers really exploded and haven't actually been effectively usable, so this just cleans up that area. it's also now a Feature™️ that text gets alpha values.

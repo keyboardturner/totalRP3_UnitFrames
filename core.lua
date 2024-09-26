@@ -280,6 +280,10 @@ TRP3_UFPanel.scrollChild.Pf:SetSize(64, 64)
 
 TRP3_UFPanel.scrollChild.Pf.tex = TRP3_UFPanel.scrollChild.Pf:CreateTexture()
 TRP3_UFPanel.scrollChild.Pf.tex:SetAllPoints(TRP3_UFPanel.scrollChild.Pf)
+TRP3_UFPanel.scrollChild.Pf.mask = TRP3_UFPanel.scrollChild.Pf:CreateMaskTexture()
+TRP3_UFPanel.scrollChild.Pf.mask:SetAllPoints(TRP3_UFPanel.scrollChild.Pf.tex)
+TRP3_UFPanel.scrollChild.Pf.mask:SetTexture("Interface/CHARACTERFRAME/TempPortraitAlphaMask", "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+TRP3_UFPanel.scrollChild.Pf.tex:AddMaskTexture(TRP3_UFPanel.scrollChild.Pf.mask)
 SetPortraitTexture(TRP3_UFPanel.scrollChild.Pf.tex, "player")
 
 TRP3_UFPanel.scrollChild.Tf = CreateFrame("Frame", nil, TRP3_UFPanel.scrollChild)
@@ -289,6 +293,10 @@ TRP3_UFPanel.scrollChild.Tf:SetSize(64, 64)
 
 TRP3_UFPanel.scrollChild.Tf.tex = TRP3_UFPanel.scrollChild.Tf:CreateTexture()
 TRP3_UFPanel.scrollChild.Tf.tex:SetAllPoints(TRP3_UFPanel.scrollChild.Tf)
+TRP3_UFPanel.scrollChild.Tf.mask = TRP3_UFPanel.scrollChild.Tf:CreateMaskTexture()
+TRP3_UFPanel.scrollChild.Tf.mask:SetAllPoints(TRP3_UFPanel.scrollChild.Tf.tex)
+TRP3_UFPanel.scrollChild.Tf.mask:SetTexture("Interface/CHARACTERFRAME/TempPortraitAlphaMask", "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+TRP3_UFPanel.scrollChild.Tf.tex:AddMaskTexture(TRP3_UFPanel.scrollChild.Tf.mask)
 SetPortraitTexture(TRP3_UFPanel.scrollChild.Tf.tex, "player")
 
 function TRP3_UFPanel.scrollChild.OnShow()

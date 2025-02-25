@@ -1,10 +1,14 @@
-# 0.2.6
+# 0.2.7
 
 11.1.0 toc update
 
-# 0.2.5
+# 0.2.6
 
 11.0.7 toc update
+
+# 0.2.5
+
+it is a mystery (idk what happened to skip this number)
 
 # 0.2.4
 

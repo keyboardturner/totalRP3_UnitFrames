@@ -27,6 +27,18 @@
 ## Title-zhTW: Total RP 3: 單位框架
 ## Notes-zhTW: 修改目標和玩家框架以具有一些額外的個人資料信息。
 
+## Category-enUS: Roleplay
+## Category-deDE: Rollenspiel
+## Category-esES: Juego de rol
+## Category-esMX: Juego de rol
+## Category-frFR: Jeu de rôle
+## Category-itIT: Gioco di Ruolo
+## Category-koKR: 롤플레잉
+## Category-ptBR: Interpretação de Papel
+## Category-ruRU: Ролевая игра
+## Category-zhCN: 角色扮演
+## Category-zhTW: 角色扮演
+
 ## Dependencies: totalRP3
 ## OptionalDeps: Narcissus
 ## SavedVariables: TRP3_UF_DB

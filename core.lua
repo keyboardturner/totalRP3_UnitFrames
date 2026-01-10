@@ -2477,8 +2477,14 @@ function trpTarget.SetAsPortrait()
 		if icon == nil then
 			icon = "inv_inscription_scroll"
 		end
-		SetPortraitToTexture(TargetFrame.TargetFrameContainer.Portrait, "Interface/icons/" .. icon)
-		trpTarget.portraitClick:Show()
+		TargetFrame.TargetFrameContainer.Portrait:SetTexture("Interface/icons/" .. icon)
+		TargetFrame.TargetFrameContainer.Portrait:SetTexCoord(0, 1, 0, 1)
+		if not TargetFrame.TargetFrameContainer.Portrait.TrpMask then
+			TargetFrame.TargetFrameContainer.Portrait.TrpMask = TargetFrame.TargetFrameContainer:CreateMaskTexture()
+			TargetFrame.TargetFrameContainer.Portrait.TrpMask:SetTexture("Interface\\CharacterFrame\\TempPortraitAlphaMask", "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+			TargetFrame.TargetFrameContainer.Portrait.TrpMask:SetAllPoints(TargetFrame.TargetFrameContainer.Portrait)
+			TargetFrame.TargetFrameContainer.Portrait:AddMaskTexture(TargetFrame.TargetFrameContainer.Portrait.TrpMask)
+		end
 		trpPlayer.SetVisible()
 	else
 		SetPortraitTexture(TargetFrame.TargetFrameContainer.Portrait, "target")
@@ -2569,7 +2575,14 @@ function trpPlayer.SetAsPortrait()
 		if icon == nil then
 			icon = "inv_inscription_scroll"
 		end
-		SetPortraitToTexture(PlayerFrame.PlayerFrameContainer.PlayerPortrait, "Interface/icons/" .. icon)
+		PlayerFrame.PlayerFrameContainer.PlayerPortrait:SetTexture("Interface/icons/" .. icon)
+		PlayerFrame.PlayerFrameContainer.PlayerPortrait:SetTexCoord(0, 1, 0, 1)
+		if not PlayerFrame.PlayerFrameContainer.PlayerPortrait.TrpMask then
+			PlayerFrame.PlayerFrameContainer.PlayerPortrait.TrpMask = PlayerFrame.PlayerFrameContainer:CreateMaskTexture()
+			PlayerFrame.PlayerFrameContainer.PlayerPortrait.TrpMask:SetAtlas("UI-HUD-UnitFrame-Player-Portrait-Mask")
+			PlayerFrame.PlayerFrameContainer.PlayerPortrait.TrpMask:SetAllPoints(PlayerFrame.PlayerFrameContainer.PlayerPortrait)
+			PlayerFrame.PlayerFrameContainer.PlayerPortrait:AddMaskTexture(PlayerFrame.PlayerFrameContainer.PlayerPortrait.TrpMask)
+		end
 		trpPlayer.portraitClick:Show()
 		trpPlayer.SetVisible()
 	else
@@ -2718,7 +2731,14 @@ function trpTarget.nameChecker()
 			icon = "inv_inscription_scroll"
 		end
 		--trpTarget.button:SetNormalTexture("Interface/icons/" .. icon)
-		SetPortraitToTexture(trpTarget.button.tex, "Interface/icons/" .. icon)
+		trpTarget.button.tex:SetTexture("Interface/icons/" .. icon)
+		trpTarget.button.tex:SetTexCoord(0, 1, 0, 1)
+		if not trpTarget.button.tex.TrpMask then
+			trpTarget.button.tex.TrpMask = trpTarget.button:CreateMaskTexture()
+			trpTarget.button.tex.TrpMask:SetTexture("Interface\\CharacterFrame\\TempPortraitAlphaMask", "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+			trpTarget.button.tex.TrpMask:SetAllPoints(trpTarget.button.tex)
+			trpTarget.button.tex:AddMaskTexture(trpTarget.button.tex.TrpMask)
+		end
 		trpPlayer.SetVisible()
 		trpTarget.SetAsPortrait()
 	else
@@ -2748,7 +2768,7 @@ trpTarget.CurrentlyNotifier:SetPoint("BOTTOMLEFT", TargetFrame, "TOPLEFT",0,0) -
 trpTarget.CurrentlyNotifier:SetBackdrop({
 	bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
 	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
- 	tile = true,
+	tile = true,
 	tileEdge = true,
 	tileSize = 8,
 	edgeSize = 8,
@@ -3298,7 +3318,14 @@ local function onStart()
 			local player1 = AddOn_TotalRP3.Player.CreateFromUnit("player")
 			local icon = player1:GetCustomIcon()
 			--trpTarget.button:SetNormalTexture("Interface/icons/" .. icon)
-			SetPortraitToTexture(trpPlayer.button.tex, "Interface/icons/" .. icon)
+			trpPlayer.button.tex:SetTexture("Interface/icons/" .. icon)
+			trpPlayer.button.tex:SetTexCoord(0, 1, 0, 1)
+			if not trpPlayer.button.tex.TrpMask then
+				trpPlayer.button.tex.TrpMask = trpPlayer.button:CreateMaskTexture()
+				trpPlayer.button.tex.TrpMask:SetAtlas("UI-HUD-UnitFrame-Player-Portrait-Mask")
+				trpPlayer.button.tex.TrpMask:SetAllPoints(trpPlayer.button.tex)
+				trpPlayer.button.tex:AddMaskTexture(trpPlayer.button.tex.TrpMask)
+			end
 			trpPlayer.SetVisible()
 			trpPlayer.SetAsPortrait()
 		else
@@ -3390,12 +3417,12 @@ end
 
 
 local totalRP3_UnitFrames = {
-    ["name"] = "Total RP 3: Unit Frames",
-    ["description"] = "Modifies the target and player frames to have some additional profile info.",
-    ["version"] = 3.2, -- Your version number
-    ["id"] = "trp3_unitframes", -- Your module ID
-    ["onStart"] = onStart, -- Your starting function
-    ["minVersion"] = 131, -- Whatever TRP3 minimum build you require, 131 is 11.0.0
+	["name"] = "Total RP 3: Unit Frames",
+	["description"] = "Modifies the target and player frames to have some additional profile info.",
+	["version"] = 3.2, -- Your version number
+	["id"] = "trp3_unitframes", -- Your module ID
+	["onStart"] = onStart, -- Your starting function
+	["minVersion"] = 131, -- Whatever TRP3 minimum build you require, 131 is 11.0.0
 };
 
 TRP3_API.module.registerModule(totalRP3_UnitFrames);

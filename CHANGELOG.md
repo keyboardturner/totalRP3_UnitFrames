@@ -1,3 +1,7 @@
+# 0.3.3
+
+Minor adjustment to portrait texture prep for Midnight API changes
+
 # 0.3.2
 
 11.2.7 toc update

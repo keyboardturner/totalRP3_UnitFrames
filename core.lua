@@ -2714,7 +2714,7 @@ end
 function trpTarget.nameChecker()
 	trpTarget.UpdateInfo()
 	trpPlayer.UpdateInfo()
-	if UnitIsPlayer("target") == true and AddOn_TotalRP3.Player.CreateFromUnit("target"):GetProfileID() ~= nil then
+	if UnitIsPlayer("target") and AddOn_TotalRP3.Player.CreateFromUnit("target"):GetProfileID() ~= nil then
 		local textColorQ = AddOn_TotalRP3.Player.CreateFromUnit("target"):GetCustomColorForDisplay()
 		if textColorQ ~= nil then
 			textColorStuff = textColorQ:GenerateHexColor()
@@ -3335,7 +3335,7 @@ local function onStart()
 
 	function trpTarget.UpdateInfo()
 		TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetTextColor(1,0.8960791349411,0,1)
-		if UnitIsPlayer("target") == true then
+		if not issecretvalue(UnitIsPlayer("target")) and UnitIsPlayer("target") then
 			TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(0, 0, 1, 1)
 			if TRP3_UF_DB.Target.colorTextClass == true then
 				local classR, classG, classB = C_ClassColor.GetClassColor(UnitClassBase("target")).r, C_ClassColor.GetClassColor(UnitClassBase("target")).g, C_ClassColor.GetClassColor(UnitClassBase("target")).b
@@ -3361,7 +3361,7 @@ local function onStart()
 
 			local textColorQ = AddOn_TotalRP3.Player.CreateFromUnit("target"):GetCustomColorForDisplay()
 			local profileR, profileG, profileB = 1, 1, 1
-			if textColorQ ~= nil then
+			if textColorQ then
 				textColorStuff = textColorQ:GenerateHexColor()
 				profileR, profileG, profileB = AddOn_TotalRP3.Player.CreateFromUnit("target"):GetCustomColorForDisplay():GetRGBTable().r, AddOn_TotalRP3.Player.CreateFromUnit("target"):GetCustomColorForDisplay():GetRGBTable().g, AddOn_TotalRP3.Player.CreateFromUnit("target"):GetCustomColorForDisplay():GetRGBTable().b
 				TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetTextColor(profileR, profileG, profileB)

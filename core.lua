@@ -579,11 +579,13 @@ function TRP3_UFPanel.CheckSettings()
 	TRP3_UFPanel.TRP3_scrollChild.PortShowCheckbox:SetChecked(TRP3_UF_DB.Border.show);
 	TRP3_UFPanel.TRP3_scrollChild.PortraitButton:SetEnabled(TRP3_UF_DB.Border.show);
 
+	--[[
 	TRP3_UFPanel.scrollChild.SecondaryPowerPosXSlider:SetValue(TRP3_UF_DB.SecondaryPower.posX);
 	TRP3_UFPanel.scrollChild.SecondaryPowerPosYSlider:SetValue(TRP3_UF_DB.SecondaryPower.posY);
 
 	TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosXSlider:SetValue(TRP3_UF_DB.SecondaryPower.posX);
 	TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosYSlider:SetValue(TRP3_UF_DB.SecondaryPower.posY);
+	]]
 
 	--status / rested texture visibility
 
@@ -754,7 +756,7 @@ TRP3_UFPanel.scrollChild.PlayerPosSlider:SetScript("OnValueChanged", function()
 	TRP3_UFPanel.CheckSettings();
 end)
 
-
+--[[
 TRP3_UFPanel.scrollChild.SecondaryPowerPosXSlider = CreateFrame("Slider", nil, TRP3_UFPanel.scrollChild, "OptionsSliderTemplate");
 TRP3_UFPanel.scrollChild.SecondaryPowerPosXSlider:SetWidth(250);
 TRP3_UFPanel.scrollChild.SecondaryPowerPosXSlider:SetHeight(15);
@@ -791,6 +793,7 @@ TRP3_UFPanel.scrollChild.SecondaryPowerPosYSlider:SetScript("OnValueChanged", fu
 	trpPlayer.SecondaryPowerPos();
 	TRP3_UFPanel.CheckSettings();
 end)
+]]
 
 
 ------------------------------------------------------------------------------------------------------------------
@@ -2034,7 +2037,7 @@ TRP3_UFPanel.TRP3_scrollChild.PlayerPosSlider:SetScript("OnValueChanged", functi
 	TRP3_UFPanel.CheckSettings();
 end)
 
-
+--[[
 TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosXSlider = CreateFrame("Slider", nil, TRP3_UFPanel.TRP3_scrollChild, "OptionsSliderTemplate");
 TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosXSlider:SetWidth(250);
 TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosXSlider:SetHeight(15);
@@ -2071,6 +2074,7 @@ TRP3_UFPanel.TRP3_scrollChild.SecondaryPowerPosYSlider:SetScript("OnValueChanged
 	trpPlayer.SecondaryPowerPos();
 	TRP3_UFPanel.CheckSettings();
 end)
+]]
 
 ------------------------------------------------------------------------------------------------------------------
 
@@ -2674,6 +2678,7 @@ function trpPlayer.SetVisible()
 	end
 end
 
+--[[
 function trpPlayer.SecondaryPowerPos()
 	if UnitAffectingCombat("player") == true then
 		return
@@ -2685,6 +2690,7 @@ function trpPlayer.SecondaryPowerPos()
 		end
 	end
 end
+]]
 
 
 
@@ -3156,7 +3162,7 @@ local function onStart()
 			trpTarget.UpdateInfo()
 			trpPlayer.UpdateInfo()
 		end
-		trpPlayer.SecondaryPowerPos()
+		--trpPlayer.SecondaryPowerPos()
 	end);
 
 
@@ -3225,7 +3231,7 @@ local function onStart()
 	--set out stuff here
 	trpTarget.SetPos()
 	trpPlayer.SetPos()
-	trpPlayer.SecondaryPowerPos()
+	--trpPlayer.SecondaryPowerPos()
 	TRP3_UFPanel.CheckSettings()
 
 	trpPlayer.SetVisible()
@@ -3419,7 +3425,7 @@ end
 local totalRP3_UnitFrames = {
 	["name"] = "Total RP 3: Unit Frames",
 	["description"] = "Modifies the target and player frames to have some additional profile info.",
-	["version"] = 3.4, -- Your version number
+	["version"] = 3.5, -- Your version number
 	["id"] = "trp3_unitframes", -- Your module ID
 	["onStart"] = onStart, -- Your starting function
 	["minVersion"] = 131, -- Whatever TRP3 minimum build you require, 131 is 11.0.0

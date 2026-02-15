@@ -1,3 +1,7 @@
+# 0.3.5
+
+Temporarily removed the secondary resource options which were causing a protected function error (might be re-implemented in a future update)
+
 # 0.3.4
 
 12.0.1 toc update

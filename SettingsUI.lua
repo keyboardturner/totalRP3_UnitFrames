@@ -241,6 +241,9 @@ local function InitializeCheckbox(button, data)
 		if data.callback then
 			data.callback(val);
 		end
+		if TRP3_UnitFrames.CheckSettings then
+			TRP3_UnitFrames.CheckSettings();
+		end
 	end)
 
 	if data.tooltip then
@@ -323,6 +326,9 @@ local function InitializeColorPicker(button, data)
 		UpdateSwatchColor();
 		if data.callback then
 			data.callback(val);
+		end
+		if TRP3_UnitFrames.CheckSettings then
+			TRP3_UnitFrames.CheckSettings();
 		end
 	end)
 
@@ -670,6 +676,20 @@ local function BuildSettingsData()
 			end
 		end,
 	})
+	table.insert(allSettingsData, {
+		type = "colorpicker",
+		label = L["ButtonRingCol"],
+		searchText = gs(L["ButtonRingCol"]),
+		get = function() return TRP3_UF_DB.Player.ringColorCustom end,
+		set = function(v)
+			TRP3_UF_DB.Player.ringColorCustom = v;
+			TRP3_UnitFrames.SetColors();
+		end,
+		colorGetter = function() return TRP3_UF_DB.Player.ringColor end,
+		callback = function()
+			TRP3_UnitFrames.SetColors();
+		end,
+	})
 
 	table.insert(allSettingsData, {
 		type = "header",
@@ -750,6 +770,20 @@ local function BuildSettingsData()
 			if trpTarget.SetPos then
 				trpTarget.SetPos();
 			end
+		end,
+	})
+	table.insert(allSettingsData, {
+		type = "colorpicker",
+		label = L["ButtonRingCol"],
+		searchText = gs(L["ButtonRingCol"]),
+		get = function() return TRP3_UF_DB.Target.ringColorCustom end,
+		set = function(v)
+			TRP3_UF_DB.Target.ringColorCustom = v;
+			TRP3_UnitFrames.SetColors();
+		end,
+		colorGetter = function() return TRP3_UF_DB.Target.ringColor end,
+		callback = function()
+			TRP3_UnitFrames.SetColors();
 		end,
 	})
 

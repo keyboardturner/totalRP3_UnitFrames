@@ -18,6 +18,8 @@ local defaultsTable = {
 		colorBackCustom = true,
 		colorBackClass = false,
 		nameWidth = 90,
+		ringColor = {r = 1, g = 1, b = 1, a = 1,},
+		ringColorCustom = false,
 	},
 	Player = {
 		show = true,
@@ -32,6 +34,8 @@ local defaultsTable = {
 		colorBackCustom = true,
 		colorBackClass = false,
 		nameWidth = 96,
+		ringColor = {r = 1, g = 1, b = 1, a = 1,},
+		ringColorCustom = false,
 	},
 
 	Border = {
@@ -64,6 +68,18 @@ local defaultsTable = {
 	},
 };
 
+
+local function ApplyRingColor(ring, colorTable, enabled)
+	if not ring then return end
+	if not colorTable then return end
+	if enabled then
+		ring:SetDesaturated(true);
+		ring:SetVertexColor(colorTable.r, colorTable.g, colorTable.b, colorTable.a or 1);
+	else
+		ring:SetDesaturated(false);
+		ring:SetVertexColor(1, 1, 1, 1);
+	end
+end
 
 function TRP3_UnitFrames.SetColors()
 	if TRP3_UF_DB.Target.colorTextCustom then
@@ -105,6 +121,20 @@ function TRP3_UnitFrames.SetColors()
 			TRP3_UFSettingsRepDummyPlayer:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorBack))
 		end
 	end
+
+	local trpPlayer = TRP3_UnitFrames.trpPlayer
+	local trpTarget = TRP3_UnitFrames.trpTarget
+
+	ApplyRingColor(
+		trpPlayer.button and trpPlayer.button.ring,
+		TRP3_UF_DB.Player.ringColor,
+		TRP3_UF_DB.Player.ringColorCustom
+	)
+	ApplyRingColor(
+		trpTarget.button and trpTarget.button.ring,
+		TRP3_UF_DB.Target.ringColor,
+		TRP3_UF_DB.Target.ringColorCustom
+	)
 end
 
 function TRP3_UnitFrames.updateSVs() -- the color picker really does not like the old settings, so the settings move to their own var
@@ -169,6 +199,10 @@ local function onStart()
 	if TRP3_UF_DB.Setting.FullNameTarget == nil then TRP3_UF_DB.Setting.FullNameTarget = defaultsTable.Setting.FullNameTarget end
 	if TRP3_UF_DB.Setting.UseTRPName == nil then TRP3_UF_DB.Setting.UseTRPName = defaultsTable.Setting.UseTRPName end
 	if TRP3_UF_DB.SecondaryPower == nil then TRP3_UF_DB.SecondaryPower = defaultsTable.SecondaryPower end
+	if TRP3_UF_DB.Player.ringColor == nil then TRP3_UF_DB.Player.ringColor = CopyTable(defaultsTable.Player.ringColor) end
+	if TRP3_UF_DB.Player.ringColorCustom == nil then TRP3_UF_DB.Player.ringColorCustom = defaultsTable.Player.ringColorCustom end
+	if TRP3_UF_DB.Target.ringColor == nil then TRP3_UF_DB.Target.ringColor = CopyTable(defaultsTable.Target.ringColor) end
+	if TRP3_UF_DB.Target.ringColorCustom == nil then TRP3_UF_DB.Target.ringColorCustom = defaultsTable.Target.ringColorCustom end
 
 	TRP3_UnitFrames.updateSVs()
 
@@ -179,6 +213,8 @@ local function onStart()
 	if TRP3_UnitFrames.CheckSettings then
 		TRP3_UnitFrames.CheckSettings()
 	end
+
+	TRP3_UnitFrames.SetColors()
 
 	local SETTINGS_PAGE_ID = "main_unitframesplugin";
 	local SETTINGS_MENU_ID = "main_91_config_main_config_unitframesplugin";

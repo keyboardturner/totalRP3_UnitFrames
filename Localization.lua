@@ -72,6 +72,8 @@ if LOCALE == "enUS" then
 	L["CopyColor"] = "Copy Color"
 	L["PasteColor"] = "Paste Color"
 
+	L["ButtonRingCol"] = "Button Ring Color"
+
 return end
 
 if LOCALE == "esES" or LOCALE == "esMX" then
@@ -132,6 +134,8 @@ if LOCALE == "esES" or LOCALE == "esMX" then
 	L["ColorOptions"] = "Opciones de color"
 	L["CopyColor"] = "Copiar color"
 	L["PasteColor"] = "Pegar color"
+
+	L["ButtonRingCol"] = "Color del anillo del botón"
 
 return end
 
@@ -194,6 +198,8 @@ if LOCALE == "deDE" then
 	L["CopyColor"] = "Farbe kopieren"
 	L["PasteColor"] = "Farbe einfügen"
 
+	L["ButtonRingCol"] = "Farbe des Button-Rings"
+
 return end
 
 if LOCALE == "frFR" then
@@ -254,6 +260,8 @@ if LOCALE == "frFR" then
 	L["ColorOptions"] = "Options de couleur"
 	L["CopyColor"] = "Copier la couleur"
 	L["PasteColor"] = "Coller la couleur"
+
+	L["ButtonRingCol"] = "Couleur de l’anneau du bouton"
 
 return end
 
@@ -316,6 +324,8 @@ if LOCALE == "itIT" then
 	L["CopyColor"] = "Copia colore"
 	L["PasteColor"] = "Incolla colore"
 
+	L["ButtonRingCol"] = "Colore dell’anello del pulsante"
+
 return end
 
 if LOCALE == "ptBR" then
@@ -376,6 +386,8 @@ if LOCALE == "ptBR" then
 	L["ColorOptions"] = "Opções de cor"
 	L["CopyColor"] = "Copiar cor"
 	L["PasteColor"] = "Colar cor"
+
+	L["ButtonRingCol"] = "Cor do anel do botão"
 
 	-- Note that the EU Portuguese WoW client also
 	-- uses the Brazilian Portuguese locale code.
@@ -440,6 +452,8 @@ if LOCALE == "ruRU" then
 	L["CopyColor"] = "Копировать цвет"
 	L["PasteColor"] = "Вставить цвет"
 
+	L["ButtonRingCol"] = "Цвет кольца кнопки"
+
 return end
 
 if LOCALE == "koKR" then
@@ -500,6 +514,8 @@ if LOCALE == "koKR" then
 	L["ColorOptions"] = "색상 옵션"
 	L["CopyColor"] = "색상 복사"
 	L["PasteColor"] = "색상 붙여넣기"
+
+	L["ButtonRingCol"] = "버튼 링 색상"
 
 return end
 
@@ -562,6 +578,8 @@ if LOCALE == "zhCN" then
 	L["CopyColor"] = "复制颜色"
 	L["PasteColor"] = "粘贴颜色"
 
+	L["ButtonRingCol"] = "按钮环颜色"
+
 return end
 
 if LOCALE == "zhTW" then
@@ -616,11 +634,13 @@ if LOCALE == "zhTW" then
 
 	L["NameWidthPlayer"] = "玩家名字長度"
 	L["NameWidthTarget"] = "目標名字長度"	
-	
+
 	L["LC_OpenColorPicker"] = "左鍵：開啟顏色選擇器"
 	L["RC_OpenDropdown"] = "右鍵：其他設定"
 	L["ColorOptions"] = "顏色選項"
 	L["CopyColor"] = "複製顏色"
 	L["PasteColor"] = "貼上顏色"
+
+	L["ButtonRingCol"] = "按鈕環顏色"
 
 return end

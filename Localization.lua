@@ -80,8 +80,11 @@ if LOCALE == "enUS" then
 	L["FrameTexTRPCol"] = "Use TRP3 Profile Color"
 	L["FrameTexCustomCol"] = "Custom Frame Texture Color"
 	L["IncompatibleBBF"] = "This option may be incompatible with BetterBlizzFrames"
-	
+
 	L["ProfileSpecificBorder"] = "Profile-Specific Portraits"
+
+	L["ShowStatusPlayer"] = "Show Player Status Icon"
+	L["ShowStatusTarget"] = "Show Target Status Icon"
 
 return end
 
@@ -155,6 +158,9 @@ if LOCALE == "esES" or LOCALE == "esMX" then
 
 	L["ProfileSpecificBorder"] = "Retratos específicos del perfil"
 
+	L["ShowStatusPlayer"] = "Mostrar icono de estado del jugador"
+	L["ShowStatusTarget"] = "Mostrar icono de estado del objetivo"
+
 return end
 
 if LOCALE == "deDE" then
@@ -226,6 +232,9 @@ if LOCALE == "deDE" then
 	L["IncompatibleBBF"] = "Diese Option ist möglicherweise nicht mit BetterBlizzFrames kompatibel"
 
 	L["ProfileSpecificBorder"] = "Profilspezifische Porträts"
+
+	L["ShowStatusPlayer"] = "Statussymbol des Spielers anzeigen"
+	L["ShowStatusTarget"] = "Statussymbol des Ziels anzeigen"
 
 return end
 
@@ -299,6 +308,9 @@ if LOCALE == "frFR" then
 
 	L["ProfileSpecificBorder"] = "Portraits spécifiques au profil"
 
+	L["ShowStatusPlayer"] = "Afficher l’icône de statut du joueur"
+	L["ShowStatusTarget"] = "Afficher l’icône de statut de la cible"
+
 return end
 
 if LOCALE == "itIT" then
@@ -371,6 +383,9 @@ if LOCALE == "itIT" then
 
 	L["ProfileSpecificBorder"] = "Ritratti specifici del profilo"
 
+	L["ShowStatusPlayer"] = "Mostra icona di stato del giocatore"
+	L["ShowStatusTarget"] = "Mostra icona di stato del bersaglio"
+
 return end
 
 if LOCALE == "ptBR" then
@@ -442,6 +457,9 @@ if LOCALE == "ptBR" then
 	L["IncompatibleBBF"] = "Esta opção pode ser incompatível com BetterBlizzFrames"
 
 	L["ProfileSpecificBorder"] = "Retratos específicos do perfil"
+
+	L["ShowStatusPlayer"] = "Mostrar ícone de status do jogador"
+	L["ShowStatusTarget"] = "Mostrar ícone de status do alvo"
 
 	-- Note that the EU Portuguese WoW client also
 	-- uses the Brazilian Portuguese locale code.
@@ -517,6 +535,9 @@ if LOCALE == "ruRU" then
 
 	L["ProfileSpecificBorder"] = "Портреты, специфичные для профиля"
 
+	L["ShowStatusPlayer"] = "Показывать значок статуса игрока"
+	L["ShowStatusTarget"] = "Показывать значок статуса цели"
+
 return end
 
 if LOCALE == "koKR" then
@@ -588,6 +609,9 @@ if LOCALE == "koKR" then
 	L["IncompatibleBBF"] = "이 옵션은 BetterBlizzFrames와 호환되지 않을 수 있습니다"
 
 	L["ProfileSpecificBorder"] = "프로필별 초상화"
+
+	L["ShowStatusPlayer"] = "플레이어 상태 아이콘 표시"
+	L["ShowStatusTarget"] = "대상 상태 아이콘 표시"
 
 return end
 
@@ -661,6 +685,9 @@ if LOCALE == "zhCN" then
 
 	L["ProfileSpecificBorder"] = "资料专属头像"
 
+	L["ShowStatusPlayer"] = "显示玩家状态图标"
+	L["ShowStatusTarget"] = "显示目标状态图标"
+
 return end
 
 if LOCALE == "zhTW" then
@@ -732,5 +759,8 @@ if LOCALE == "zhTW" then
 	L["IncompatibleBBF"] = "此選項可能與 BetterBlizzFrames 不相容"
 
 	L["ProfileSpecificBorder"] = "個人檔案專屬頭像"
+
+	L["ShowStatusPlayer"] = "顯示玩家狀態圖示"
+	L["ShowStatusTarget"] = "顯示目標狀態圖示"
 
 return end

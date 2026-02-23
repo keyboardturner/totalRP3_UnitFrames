@@ -25,6 +25,7 @@ local defaultsTable = {
 		frameTextureCustom = false,
 		frameTextureClass = false,
 		frameTextureTRP = false,
+		showStatus = true,
 	},
 	Player = {
 		show = true,
@@ -46,6 +47,7 @@ local defaultsTable = {
 		frameTextureCustom = false,
 		frameTextureClass = false,
 		frameTextureTRP = false,
+		showStatus = true,
 	},
 
 	Border = {
@@ -91,6 +93,30 @@ local function ApplyRingColor(ring, colorTable, enabled)
 	else
 		ring:SetDesaturated(false);
 		ring:SetVertexColor(1, 1, 1, 1);
+	end
+end
+
+local STATUS_ICON_DISCONNECTED = "Interface\\AddOns\\totalRP3_UnitFrames\\tex\\DCd.png";
+local STATUS_ICON_AFK = "Interface\\AddOns\\totalRP3_UnitFrames\\tex\\Away.png";
+local STATUS_ICON_DND = "Interface\\AddOns\\totalRP3_UnitFrames\\tex\\Busy.png";
+
+function TRP3_UnitFrames.UpdateStatusIcon(unit, tex, enabled)
+	if not tex then return end
+	if not enabled then
+		tex:Hide();
+		return
+	end
+	if not UnitIsConnected(unit) then
+		tex:SetTexture(STATUS_ICON_DISCONNECTED);
+		tex:Show();
+	elseif UnitIsAFK(unit) then
+		tex:SetTexture(STATUS_ICON_AFK);
+		tex:Show();
+	elseif UnitIsDND(unit) then
+		tex:SetTexture(STATUS_ICON_DND);
+		tex:Show();
+	else
+		tex:Hide();
 	end
 end
 
@@ -247,6 +273,9 @@ local function onStart()
 	
 	if TRP3_UF_DB.Setting.profileSpecificBorder == nil then TRP3_UF_DB.Setting.profileSpecificBorder = defaultsTable.Setting.profileSpecificBorder end
 
+	if TRP3_UF_DB.Player.showStatus == nil then TRP3_UF_DB.Player.showStatus = defaultsTable.Player.showStatus end
+	if TRP3_UF_DB.Target.showStatus == nil then TRP3_UF_DB.Target.showStatus = defaultsTable.Target.showStatus end
+
 	TRP3_UnitFrames.updateSVs()
 
 	if TRP3_UnitFrames.InitializeSettingsUI then
@@ -285,6 +314,19 @@ local function onStart()
 			end
 			if TRP3_UnitFrames.CheckSettings then
 				TRP3_UnitFrames.CheckSettings();
+			end
+		end
+	end)
+
+	TRP3_UnitFrames.trpPlayer:RegisterEvent("PLAYER_FLAGS_CHANGED")
+	TRP3_UnitFrames.trpPlayer:SetScript("OnEvent", function(_, event, unit)
+		if event == "PLAYER_FLAGS_CHANGED" then
+			local trpPlayer = TRP3_UnitFrames.trpPlayer
+			local trpTarget = TRP3_UnitFrames.trpTarget
+			if unit == "player" and trpPlayer.UpdateStatusIcon then
+				trpPlayer.UpdateStatusIcon();
+			elseif unit == "target" and trpTarget.UpdateStatusIcon then
+				trpTarget.UpdateStatusIcon();
 			end
 		end
 	end)

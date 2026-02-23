@@ -13,7 +13,15 @@ PlayerRepFrame.tex:SetAtlas("UI-HUD-UnitFrame-Target-PortraitOn-Type")
 PlayerRepFrame.tex:SetTexCoord(1, 0, 0, 1)
 PlayerRepFrame.tex:SetVertexColor(0,0,0,1)
 
---set info on frames
+local playerStatusTex = PlayerFrame:CreateTexture(nil, "OVERLAY", nil, 7)
+playerStatusTex:SetSize(22, 22)
+playerStatusTex:SetPoint("BOTTOMLEFT", PlayerFrame.PlayerFrameContainer.PlayerPortrait, "TOPRIGHT", -15, -5)
+playerStatusTex:Hide()
+trpPlayer.statusTex = playerStatusTex
+
+function trpPlayer.UpdateStatusIcon()
+	TRP3_UnitFrames.UpdateStatusIcon("player", trpPlayer.statusTex, TRP3_UF_DB and TRP3_UF_DB.Player.showStatus);
+end
 
 function trpPlayer.UpdateInfo()
 	local classR, classG, classB = C_ClassColor.GetClassColor(UnitClassBase("player")).r, C_ClassColor.GetClassColor(UnitClassBase("player")).g, C_ClassColor.GetClassColor(UnitClassBase("player")).b
@@ -141,6 +149,8 @@ function trpPlayer.UpdateInfo()
 			end
 		end
 	end
+
+	trpPlayer.UpdateStatusIcon()
 end
 
 --this should cover the cases of resting a bit better than before, since it pulls from the actual blizz interface method

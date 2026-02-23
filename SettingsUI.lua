@@ -661,6 +661,30 @@ local function BuildSettingsData()
 			end
 		end,
 	})
+	table.insert(allSettingsData, {
+		type = "checkbox",
+		label =L["ShowStatusPlayer"],
+		searchText = gs(L["ShowStatusPlayer"]),
+		get = function() return TRP3_UF_DB.Player.showStatus end,
+		set = function(v) TRP3_UF_DB.Player.showStatus = v end,
+		callback = function()
+			if trpPlayer.UpdateStatusIcon then
+				trpPlayer.UpdateStatusIcon();
+			end
+		end,
+	})
+	table.insert(allSettingsData, {
+		type = "checkbox",
+		label = L["ShowStatusTarget"],
+		searchText = gs(L["ShowStatusTarget"]),
+		get = function() return TRP3_UF_DB.Target.showStatus end,
+		set = function(v) TRP3_UF_DB.Target.showStatus = v end,
+		callback = function()
+			if trpTarget.UpdateStatusIcon then
+				trpTarget.UpdateStatusIcon();
+			end
+		end,
+	})
 
 	table.insert(allSettingsData, {
 		type = "header",

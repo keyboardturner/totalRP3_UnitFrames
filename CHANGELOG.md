@@ -12,7 +12,11 @@ Added options to colorize the target/player frames
 
 Added option for TRP3 Profile-specific portraits
 
+Added options to view AFK/DND/Disconnect status of a unit target (DC probably won't be visible)
+
 Added tooltips to potentially incompatible options, such as with BetterBlizzFrames which functionally overlaps / overwrites many features.
+
+Fixed up the "resting glow" hide method
 
 # 0.3.5
 

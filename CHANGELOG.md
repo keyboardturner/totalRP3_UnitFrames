@@ -1,3 +1,23 @@
+# 1.0.0
+
+Reworked much of the code to be more portioned out and organized across separate files. Still more work to do but it's in a functional state
+
+Reworked the settings panel, now with more standardized widgets and searchable settings (organization / order is a WIP)
+
+Added a new Narcissus Portrait option to the player portraits.
+
+Added options to colorize the Open Profile button ring
+
+Added options to colorize the target/player frames
+
+Added option for TRP3 Profile-specific portraits
+
+Added options to view AFK/DND/Disconnect status of a unit target (DC probably won't be visible)
+
+Added tooltips to potentially incompatible options, such as with BetterBlizzFrames which functionally overlaps / overwrites many features.
+
+Fixed up the "resting glow" hide method
+
 # 0.3.5
 
 Temporarily removed the secondary resource options which were causing a protected function error (might be re-implemented in a future update)

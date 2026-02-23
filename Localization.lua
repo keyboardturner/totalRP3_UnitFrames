@@ -1,4 +1,6 @@
-local totalRP3_UnitFrames, L = ...; -- Let's use the private table passed to every .lua 
+local addonName, TRP3_UnitFrames = ...; -- Let's use the private table passed to every .lua
+local L = {};
+TRP3_UnitFrames.L = L;
 
 local function defaultFunc(L, key)
  -- If this function was called, we have no localization for this key.
@@ -60,6 +62,30 @@ if LOCALE == "enUS" then
 
 	L["SecondaryPowerX"] = "Secondary Resource X Position"
 	L["SecondaryPowerY"] = "Secondary Resource Y Position"
+
+	L["NameWidthPlayer"] = "Player Name Length"
+	L["NameWidthTarget"] = "Target Name Length"
+
+	L["LC_OpenColorPicker"] = "Left-Click: Open Color Picker"
+	L["RC_OpenDropdown"] = "Right-Click: Additional Settings"
+	L["ColorOptions"] = "Color Options"
+	L["CopyColor"] = "Copy Color"
+	L["PasteColor"] = "Paste Color"
+
+	L["ButtonRingCol"] = "Button Ring Color"
+
+	L["FrameTexture"] = "Frame Texture"
+	L["FrameTexEnabled"] = "Colorize Frame Texture"
+	L["FrameTexClassCol"] = "Use Class Color"
+	L["FrameTexTRPCol"] = "Use TRP3 Profile Color"
+	L["FrameTexCustomCol"] = "Custom Frame Texture Color"
+	L["IncompatibleBBF"] = "This option may be incompatible with BetterBlizzFrames"
+
+	L["ProfileSpecificBorder"] = "Profile-Specific Portraits"
+
+	L["ShowStatusPlayer"] = "Show Player Status Icon"
+	L["ShowStatusTarget"] = "Show Target Status Icon"
+
 return end
 
 if LOCALE == "esES" or LOCALE == "esMX" then
@@ -111,6 +137,30 @@ if LOCALE == "esES" or LOCALE == "esMX" then
 
 	L["SecondaryPowerX"] = "Posición de Recurso Secundario X"
 	L["SecondaryPowerY"] = "Posición de recurso secundario Y"
+
+	L["NameWidthPlayer"] = "Longitud del nombre del jugador"
+	L["NameWidthTarget"] = "Longitud del nombre del objetivo"
+
+	L["LC_OpenColorPicker"] = "Clic izquierdo: Abrir selector de color"
+	L["RC_OpenDropdown"] = "Clic derecho: Configuración adicional"
+	L["ColorOptions"] = "Opciones de color"
+	L["CopyColor"] = "Copiar color"
+	L["PasteColor"] = "Pegar color"
+
+	L["ButtonRingCol"] = "Color del anillo del botón"
+
+	L["FrameTexture"] = "Textura del marco"
+	L["FrameTexEnabled"] = "Colorear la textura del marco"
+	L["FrameTexClassCol"] = "Usar color de clase"
+	L["FrameTexTRPCol"] = "Usar color del perfil TRP3"
+	L["FrameTexCustomCol"] = "Color personalizado de la textura del marco"
+	L["IncompatibleBBF"] = "Esta opción puede no ser compatible con BetterBlizzFrames"
+
+	L["ProfileSpecificBorder"] = "Retratos específicos del perfil"
+
+	L["ShowStatusPlayer"] = "Mostrar icono de estado del jugador"
+	L["ShowStatusTarget"] = "Mostrar icono de estado del objetivo"
+
 return end
 
 if LOCALE == "deDE" then
@@ -162,6 +212,30 @@ if LOCALE == "deDE" then
 
 	L["SecondaryPowerX"] = "Position der sekundären Ressource X"
 	L["SecondaryPowerY"] = "Position der sekundären Ressource Y"
+
+	L["NameWidthPlayer"] = "Spieler-Namenslänge"
+	L["NameWidthTarget"] = "Ziel-Namenslänge"
+
+	L["LC_OpenColorPicker"] = "Links-Klick: Farbwähler öffnen"
+	L["RC_OpenDropdown"] = "Rechts-Klick: Zusätzliche Einstellungen"
+	L["ColorOptions"] = "Farboptionen"
+	L["CopyColor"] = "Farbe kopieren"
+	L["PasteColor"] = "Farbe einfügen"
+
+	L["ButtonRingCol"] = "Farbe des Button-Rings"
+
+	L["FrameTexture"] = "Rahmentextur"
+	L["FrameTexEnabled"] = "Rahmentextur einfärben"
+	L["FrameTexClassCol"] = "Klassenfarbe verwenden"
+	L["FrameTexTRPCol"] = "TRP3-Profilfarbe verwenden"
+	L["FrameTexCustomCol"] = "Benutzerdefinierte Rahmentexturfarbe"
+	L["IncompatibleBBF"] = "Diese Option ist möglicherweise nicht mit BetterBlizzFrames kompatibel"
+
+	L["ProfileSpecificBorder"] = "Profilspezifische Porträts"
+
+	L["ShowStatusPlayer"] = "Statussymbol des Spielers anzeigen"
+	L["ShowStatusTarget"] = "Statussymbol des Ziels anzeigen"
+
 return end
 
 if LOCALE == "frFR" then
@@ -213,6 +287,30 @@ if LOCALE == "frFR" then
 
 	L["SecondaryPowerX"] = "Poste X de ressource secondaire"
 	L["SecondaryPowerY"] = "Poste Y de ressource secondaire"
+	
+	L["NameWidthPlayer"] = "Longueur du nom du joueur"
+	L["NameWidthTarget"] = "Longueur du nom de la cible"
+
+	L["LC_OpenColorPicker"] = "Clic gauche : Ouvrir le sélecteur de couleur"
+	L["RC_OpenDropdown"] = "Clic droit : Paramètres supplémentaires"
+	L["ColorOptions"] = "Options de couleur"
+	L["CopyColor"] = "Copier la couleur"
+	L["PasteColor"] = "Coller la couleur"
+
+	L["ButtonRingCol"] = "Couleur de l’anneau du bouton"
+
+	L["FrameTexture"] = "Texture du cadre"
+	L["FrameTexEnabled"] = "Colorer la texture du cadre"
+	L["FrameTexClassCol"] = "Utiliser la couleur de classe"
+	L["FrameTexTRPCol"] = "Utiliser la couleur du profil TRP3"
+	L["FrameTexCustomCol"] = "Couleur personnalisée de la texture du cadre"
+	L["IncompatibleBBF"] = "Cette option peut être incompatible avec BetterBlizzFrames"
+
+	L["ProfileSpecificBorder"] = "Portraits spécifiques au profil"
+
+	L["ShowStatusPlayer"] = "Afficher l’icône de statut du joueur"
+	L["ShowStatusTarget"] = "Afficher l’icône de statut de la cible"
+
 return end
 
 if LOCALE == "itIT" then
@@ -264,6 +362,30 @@ if LOCALE == "itIT" then
 
 	L["SecondaryPowerX"] = "Posizione X della risorsa secondaria"
 	L["SecondaryPowerY"] = "Posizione Y della risorsa secondaria"
+
+	L["NameWidthPlayer"] = "Lunghezza nome giocatore"
+	L["NameWidthTarget"] = "Lunghezza nome bersaglio"
+
+	L["LC_OpenColorPicker"] = "Clic sinistro: Apri selettore colore"
+	L["RC_OpenDropdown"] = "Clic destro: Impostazioni aggiuntive"
+	L["ColorOptions"] = "Opzioni colore"
+	L["CopyColor"] = "Copia colore"
+	L["PasteColor"] = "Incolla colore"
+
+	L["ButtonRingCol"] = "Colore dell’anello del pulsante"
+
+	L["FrameTexture"] = "Texture della cornice"
+	L["FrameTexEnabled"] = "Colora la texture della cornice"
+	L["FrameTexClassCol"] = "Usa il colore della classe"
+	L["FrameTexTRPCol"] = "Usa il colore del profilo TRP3"
+	L["FrameTexCustomCol"] = "Colore personalizzato della texture della cornice"
+	L["IncompatibleBBF"] = "Questa opzione potrebbe non essere compatibile con BetterBlizzFrames"
+
+	L["ProfileSpecificBorder"] = "Ritratti specifici del profilo"
+
+	L["ShowStatusPlayer"] = "Mostra icona di stato del giocatore"
+	L["ShowStatusTarget"] = "Mostra icona di stato del bersaglio"
+
 return end
 
 if LOCALE == "ptBR" then
@@ -315,6 +437,30 @@ if LOCALE == "ptBR" then
 
 	L["SecondaryPowerX"] = "Posição X do Recurso Secundário"
 	L["SecondaryPowerY"] = "Posição Y do Recurso Secundário"
+
+	L["NameWidthPlayer"] = "Comprimento do nome do jogador"
+	L["NameWidthTarget"] = "Comprimento do nome do alvo"
+
+	L["LC_OpenColorPicker"] = "Clique esquerdo: Abrir seletor de cores"
+	L["RC_OpenDropdown"] = "Clique direito: Configurações adicionais"
+	L["ColorOptions"] = "Opções de cor"
+	L["CopyColor"] = "Copiar cor"
+	L["PasteColor"] = "Colar cor"
+
+	L["ButtonRingCol"] = "Cor do anel do botão"
+
+	L["FrameTexture"] = "Textura da moldura"
+	L["FrameTexEnabled"] = "Colorir textura da moldura"
+	L["FrameTexClassCol"] = "Usar cor da classe"
+	L["FrameTexTRPCol"] = "Usar cor do perfil TRP3"
+	L["FrameTexCustomCol"] = "Cor personalizada da textura da moldura"
+	L["IncompatibleBBF"] = "Esta opção pode ser incompatível com BetterBlizzFrames"
+
+	L["ProfileSpecificBorder"] = "Retratos específicos do perfil"
+
+	L["ShowStatusPlayer"] = "Mostrar ícone de status do jogador"
+	L["ShowStatusTarget"] = "Mostrar ícone de status do alvo"
+
 	-- Note that the EU Portuguese WoW client also
 	-- uses the Brazilian Portuguese locale code.
 return end
@@ -368,6 +514,30 @@ if LOCALE == "ruRU" then
 
 	L["SecondaryPowerX"] = "Позиция вторичного ресурса X"
 	L["SecondaryPowerY"] = "Позиция вторичного ресурса Y"
+
+	L["NameWidthPlayer"] = "Длина имени игрока"
+	L["NameWidthTarget"] = "Длина имени цели"
+
+	L["LC_OpenColorPicker"] = "ЛКМ: Открыть палитру цветов"
+	L["RC_OpenDropdown"] = "ПКМ: Дополнительные настройки"
+	L["ColorOptions"] = "Параметры цвета"
+	L["CopyColor"] = "Копировать цвет"
+	L["PasteColor"] = "Вставить цвет"
+
+	L["ButtonRingCol"] = "Цвет кольца кнопки"
+
+	L["FrameTexture"] = "Текстура рамки"
+	L["FrameTexEnabled"] = "Окрашивать текстуру рамки"
+	L["FrameTexClassCol"] = "Использовать цвет класса"
+	L["FrameTexTRPCol"] = "Использовать цвет профиля TRP3"
+	L["FrameTexCustomCol"] = "Пользовательский цвет текстуры рамки"
+	L["IncompatibleBBF"] = "Этот параметр может быть несовместим с BetterBlizzFrames"
+
+	L["ProfileSpecificBorder"] = "Портреты, специфичные для профиля"
+
+	L["ShowStatusPlayer"] = "Показывать значок статуса игрока"
+	L["ShowStatusTarget"] = "Показывать значок статуса цели"
+
 return end
 
 if LOCALE == "koKR" then
@@ -419,6 +589,30 @@ if LOCALE == "koKR" then
 
 	L["SecondaryPowerX"] = "보조 자원 X 위치"
 	L["SecondaryPowerY"] = "보조 자원 Y 위치"
+
+	L["NameWidthPlayer"] = "플레이어 이름 길이"
+	L["NameWidthTarget"] = "대상 이름 길이"
+
+	L["LC_OpenColorPicker"] = "좌클릭: 색상 선택기 열기"
+	L["RC_OpenDropdown"] = "우클릭: 추가 설정"
+	L["ColorOptions"] = "색상 옵션"
+	L["CopyColor"] = "색상 복사"
+	L["PasteColor"] = "색상 붙여넣기"
+
+	L["ButtonRingCol"] = "버튼 링 색상"
+
+	L["FrameTexture"] = "프레임 텍스처"
+	L["FrameTexEnabled"] = "프레임 텍스처 색상 적용"
+	L["FrameTexClassCol"] = "직업 색상 사용"
+	L["FrameTexTRPCol"] = "TRP3 프로필 색상 사용"
+	L["FrameTexCustomCol"] = "사용자 지정 프레임 텍스처 색상"
+	L["IncompatibleBBF"] = "이 옵션은 BetterBlizzFrames와 호환되지 않을 수 있습니다"
+
+	L["ProfileSpecificBorder"] = "프로필별 초상화"
+
+	L["ShowStatusPlayer"] = "플레이어 상태 아이콘 표시"
+	L["ShowStatusTarget"] = "대상 상태 아이콘 표시"
+
 return end
 
 if LOCALE == "zhCN" then
@@ -470,6 +664,30 @@ if LOCALE == "zhCN" then
 
 	L["SecondaryPowerX"] = "次要資源 X 位置"
 	L["SecondaryPowerY"] = "次要資源 Y 位置"
+
+	L["NameWidthPlayer"] = "玩家名字长度"
+	L["NameWidthTarget"] = "目标名字长度"
+
+	L["LC_OpenColorPicker"] = "左键：打开颜色选择器"
+	L["RC_OpenDropdown"] = "右键：更多设置"
+	L["ColorOptions"] = "颜色选项"
+	L["CopyColor"] = "复制颜色"
+	L["PasteColor"] = "粘贴颜色"
+
+	L["ButtonRingCol"] = "按钮环颜色"
+
+	L["FrameTexture"] = "框体纹理"
+	L["FrameTexEnabled"] = "为框体纹理着色"
+	L["FrameTexClassCol"] = "使用职业颜色"
+	L["FrameTexTRPCol"] = "使用 TRP3 资料颜色"
+	L["FrameTexCustomCol"] = "自定义框体纹理颜色"
+	L["IncompatibleBBF"] = "此选项可能与 BetterBlizzFrames 不兼容"
+
+	L["ProfileSpecificBorder"] = "资料专属头像"
+
+	L["ShowStatusPlayer"] = "显示玩家状态图标"
+	L["ShowStatusTarget"] = "显示目标状态图标"
+
 return end
 
 if LOCALE == "zhTW" then
@@ -521,4 +739,28 @@ if LOCALE == "zhTW" then
 
 	L["SecondaryPowerX"] = "次要资源 X 位置"
 	L["SecondaryPowerY"] = "次要资源 Y 位置"
+
+	L["NameWidthPlayer"] = "玩家名字長度"
+	L["NameWidthTarget"] = "目標名字長度"	
+
+	L["LC_OpenColorPicker"] = "左鍵：開啟顏色選擇器"
+	L["RC_OpenDropdown"] = "右鍵：其他設定"
+	L["ColorOptions"] = "顏色選項"
+	L["CopyColor"] = "複製顏色"
+	L["PasteColor"] = "貼上顏色"
+
+	L["ButtonRingCol"] = "按鈕環顏色"
+
+	L["FrameTexture"] = "框架材質"
+	L["FrameTexEnabled"] = "為框架材質上色"
+	L["FrameTexClassCol"] = "使用職業顏色"
+	L["FrameTexTRPCol"] = "使用 TRP3 個人檔案顏色"
+	L["FrameTexCustomCol"] = "自訂框架材質顏色"
+	L["IncompatibleBBF"] = "此選項可能與 BetterBlizzFrames 不相容"
+
+	L["ProfileSpecificBorder"] = "個人檔案專屬頭像"
+
+	L["ShowStatusPlayer"] = "顯示玩家狀態圖示"
+	L["ShowStatusTarget"] = "顯示目標狀態圖示"
+
 return end

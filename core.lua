@@ -134,8 +134,11 @@ function TRP3_UnitFrames.GetBorderConfig()
 end
 
 function TRP3_UnitFrames.SetColors()
-	if TRP3_UF_DB.Target.colorTextCustom then
-		TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText))
+	local TargetName = TargetFrame.TargetFrameContent.TargetFrameContentMain.Name;
+	local ReputationColor = TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor;
+
+	if TRP3_UF_DB.Target.colorTextCustom and TargetName then
+		TargetName:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText))
 		if TRP3_UFRepTextDummyTarget then
 			TRP3_UFRepTextDummyTarget:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText))
 		end
@@ -144,8 +147,8 @@ function TRP3_UnitFrames.SetColors()
 		end
 	end
 
-	if TRP3_UF_DB.Target.colorBackCustom then
-		TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack))
+	if TRP3_UF_DB.Target.colorBackCustom and ReputationColor then
+		ReputationColor:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack))
 		if TRP3_UFRepDummyTarget then
 			TRP3_UFRepDummyTarget:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack))
 		end
@@ -154,7 +157,7 @@ function TRP3_UnitFrames.SetColors()
 		end
 	end
 
-	if TRP3_UF_DB.Player.colorTextCustom then
+	if TRP3_UF_DB.Player.colorTextCustom and PlayerName then
 		PlayerName:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorText))
 		if TRP3_UFRepTextDummyPlayer then
 			TRP3_UFRepTextDummyPlayer:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorText))
@@ -164,7 +167,7 @@ function TRP3_UnitFrames.SetColors()
 		end
 	end
 
-	if TRP3_UF_DB.Player.colorBackCustom then
+	if TRP3_UF_DB.Player.colorBackCustom and PlayerFrameReputationColor then
 		PlayerFrameReputationColor:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorBack))
 		if TRP3_UFRepDummyPlayer then
 			TRP3_UFRepDummyPlayer:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorBack))

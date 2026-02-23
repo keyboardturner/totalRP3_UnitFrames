@@ -17,30 +17,37 @@ PlayerRepFrame.tex:SetVertexColor(0,0,0,1)
 
 function trpPlayer.UpdateInfo()
 	local classR, classG, classB = C_ClassColor.GetClassColor(UnitClassBase("player")).r, C_ClassColor.GetClassColor(UnitClassBase("player")).g, C_ClassColor.GetClassColor(UnitClassBase("player")).b
-	
-	if TRP3_UF_DB.Setting.FullNamePlayer and TRP3_UF_DB.Setting.UseTRPName then
-		PlayerName:SetText(TRP3_API.r.name("player"))
-	elseif not TRP3_UF_DB.Setting.FullNamePlayer and TRP3_UF_DB.Setting.UseTRPName then
-		PlayerName:SetText(AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("player")):GetFirstName())
-	else
-		PlayerName:SetText(UnitName("player"))
-	end
-	
-	PlayerName:SetTextColor(1, 0.896, 0, 1)
-	PlayerFrameReputationColor:SetVertexColor(0, 0, 0, 0)
-	
-	if TRP3_UF_DB.Player.colorTextClass then
-		PlayerName:SetTextColor(classR, classG, classB)
-	end
-	
-	local customColor = AddOn_TotalRP3.Player.CreateFromUnit("player"):GetCustomColorForDisplay()
-	if customColor then
-		PlayerName:SetTextColor(customColor:GetRGB())
-	end
 
-	if TRP3_UF_DB.Player.colorTextCustom then
-		PlayerName:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorText))
+	if PlayerName then
+		if TRP3_UF_DB.Player.nameWidth then
+			PlayerName:SetWidth(TRP3_UF_DB.Player.nameWidth)
+		end
+
+		if TRP3_UF_DB.Setting.FullNamePlayer and TRP3_UF_DB.Setting.UseTRPName then
+			PlayerName:SetText(TRP3_API.r.name("player"))
+		elseif not TRP3_UF_DB.Setting.FullNamePlayer and TRP3_UF_DB.Setting.UseTRPName then
+			PlayerName:SetText(AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("player")):GetFirstName())
+		else
+			PlayerName:SetText(UnitName("player"))
+		end
+		
+		PlayerName:SetTextColor(1, 0.896, 0, 1)
+		PlayerFrameReputationColor:SetVertexColor(0, 0, 0, 0)
+
+		if TRP3_UF_DB.Player.colorTextClass then
+			PlayerName:SetTextColor(classR, classG, classB)
+		end
+		
+		local customColor = AddOn_TotalRP3.Player.CreateFromUnit("player"):GetCustomColorForDisplay()
+		if customColor then
+			PlayerName:SetTextColor(customColor:GetRGB())
+		end
+
+		if TRP3_UF_DB.Player.colorTextCustom then
+			PlayerName:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorText))
+		end
 	end
+	
 
 	if TRP3_UF_DB.Player.colorBackClass then
 		PlayerFrameReputationColor:SetVertexColor(classR, classG, classB, 1)

@@ -9,8 +9,7 @@ local defaultsTable = {
 		show = true,
 		position = 1,
 		point = "CENTER",
-		relativePoint =
-		"BOTTOMLEFT",
+		relativePoint = "BOTTOMLEFT",
 		scale = 1.5,
 		colorText = {r = 1, g = 1, b = 1, a = 1,},
 		colorBack = {r = 0, g = 0, b = 0, a = 1,},
@@ -18,6 +17,7 @@ local defaultsTable = {
 		colorTextClass = true,
 		colorBackCustom = true,
 		colorBackClass = false,
+		nameWidth = 90,
 	},
 	Player = {
 		show = true,
@@ -31,6 +31,7 @@ local defaultsTable = {
 		colorTextClass = true,
 		colorBackCustom = true,
 		colorBackClass = false,
+		nameWidth = 96,
 	},
 
 	Border = {

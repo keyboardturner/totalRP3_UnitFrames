@@ -62,6 +62,16 @@ if LOCALE == "enUS" then
 
 	L["SecondaryPowerX"] = "Secondary Resource X Position"
 	L["SecondaryPowerY"] = "Secondary Resource Y Position"
+
+	L["NameWidthPlayer"] = "Player Name Length"
+	L["NameWidthTarget"] = "Target Name Length"
+
+	L["LC_OpenColorPicker"] = "Left-Click: Open Color Picker"
+	L["RC_OpenDropdown"] = "Right-Click: Additional Settings"
+	L["ColorOptions"] = "Color Options"
+	L["CopyColor"] = "Copy Color"
+	L["PasteColor"] = "Paste Color"
+
 return end
 
 if LOCALE == "esES" or LOCALE == "esMX" then
@@ -113,6 +123,16 @@ if LOCALE == "esES" or LOCALE == "esMX" then
 
 	L["SecondaryPowerX"] = "Posición de Recurso Secundario X"
 	L["SecondaryPowerY"] = "Posición de recurso secundario Y"
+
+	L["NameWidthPlayer"] = "Longitud del nombre del jugador"
+	L["NameWidthTarget"] = "Longitud del nombre del objetivo"
+
+	L["LC_OpenColorPicker"] = "Clic izquierdo: Abrir selector de color"
+	L["RC_OpenDropdown"] = "Clic derecho: Configuración adicional"
+	L["ColorOptions"] = "Opciones de color"
+	L["CopyColor"] = "Copiar color"
+	L["PasteColor"] = "Pegar color"
+
 return end
 
 if LOCALE == "deDE" then
@@ -164,6 +184,16 @@ if LOCALE == "deDE" then
 
 	L["SecondaryPowerX"] = "Position der sekundären Ressource X"
 	L["SecondaryPowerY"] = "Position der sekundären Ressource Y"
+
+	L["NameWidthPlayer"] = "Spieler-Namenslänge"
+	L["NameWidthTarget"] = "Ziel-Namenslänge"
+
+	L["LC_OpenColorPicker"] = "Links-Klick: Farbwähler öffnen"
+	L["RC_OpenDropdown"] = "Rechts-Klick: Zusätzliche Einstellungen"
+	L["ColorOptions"] = "Farboptionen"
+	L["CopyColor"] = "Farbe kopieren"
+	L["PasteColor"] = "Farbe einfügen"
+
 return end
 
 if LOCALE == "frFR" then
@@ -215,6 +245,16 @@ if LOCALE == "frFR" then
 
 	L["SecondaryPowerX"] = "Poste X de ressource secondaire"
 	L["SecondaryPowerY"] = "Poste Y de ressource secondaire"
+	
+	L["NameWidthPlayer"] = "Longueur du nom du joueur"
+	L["NameWidthTarget"] = "Longueur du nom de la cible"
+
+	L["LC_OpenColorPicker"] = "Clic gauche : Ouvrir le sélecteur de couleur"
+	L["RC_OpenDropdown"] = "Clic droit : Paramètres supplémentaires"
+	L["ColorOptions"] = "Options de couleur"
+	L["CopyColor"] = "Copier la couleur"
+	L["PasteColor"] = "Coller la couleur"
+
 return end
 
 if LOCALE == "itIT" then
@@ -266,6 +306,16 @@ if LOCALE == "itIT" then
 
 	L["SecondaryPowerX"] = "Posizione X della risorsa secondaria"
 	L["SecondaryPowerY"] = "Posizione Y della risorsa secondaria"
+
+	L["NameWidthPlayer"] = "Lunghezza nome giocatore"
+	L["NameWidthTarget"] = "Lunghezza nome bersaglio"
+
+	L["LC_OpenColorPicker"] = "Clic sinistro: Apri selettore colore"
+	L["RC_OpenDropdown"] = "Clic destro: Impostazioni aggiuntive"
+	L["ColorOptions"] = "Opzioni colore"
+	L["CopyColor"] = "Copia colore"
+	L["PasteColor"] = "Incolla colore"
+
 return end
 
 if LOCALE == "ptBR" then
@@ -317,6 +367,16 @@ if LOCALE == "ptBR" then
 
 	L["SecondaryPowerX"] = "Posição X do Recurso Secundário"
 	L["SecondaryPowerY"] = "Posição Y do Recurso Secundário"
+
+	L["NameWidthPlayer"] = "Comprimento do nome do jogador"
+	L["NameWidthTarget"] = "Comprimento do nome do alvo"
+
+	L["LC_OpenColorPicker"] = "Clique esquerdo: Abrir seletor de cores"
+	L["RC_OpenDropdown"] = "Clique direito: Configurações adicionais"
+	L["ColorOptions"] = "Opções de cor"
+	L["CopyColor"] = "Copiar cor"
+	L["PasteColor"] = "Colar cor"
+
 	-- Note that the EU Portuguese WoW client also
 	-- uses the Brazilian Portuguese locale code.
 return end
@@ -370,6 +430,16 @@ if LOCALE == "ruRU" then
 
 	L["SecondaryPowerX"] = "Позиция вторичного ресурса X"
 	L["SecondaryPowerY"] = "Позиция вторичного ресурса Y"
+
+	L["NameWidthPlayer"] = "Длина имени игрока"
+	L["NameWidthTarget"] = "Длина имени цели"
+
+	L["LC_OpenColorPicker"] = "ЛКМ: Открыть палитру цветов"
+	L["RC_OpenDropdown"] = "ПКМ: Дополнительные настройки"
+	L["ColorOptions"] = "Параметры цвета"
+	L["CopyColor"] = "Копировать цвет"
+	L["PasteColor"] = "Вставить цвет"
+
 return end
 
 if LOCALE == "koKR" then
@@ -421,6 +491,16 @@ if LOCALE == "koKR" then
 
 	L["SecondaryPowerX"] = "보조 자원 X 위치"
 	L["SecondaryPowerY"] = "보조 자원 Y 위치"
+
+	L["NameWidthPlayer"] = "플레이어 이름 길이"
+	L["NameWidthTarget"] = "대상 이름 길이"
+
+	L["LC_OpenColorPicker"] = "좌클릭: 색상 선택기 열기"
+	L["RC_OpenDropdown"] = "우클릭: 추가 설정"
+	L["ColorOptions"] = "색상 옵션"
+	L["CopyColor"] = "색상 복사"
+	L["PasteColor"] = "색상 붙여넣기"
+
 return end
 
 if LOCALE == "zhCN" then
@@ -472,6 +552,16 @@ if LOCALE == "zhCN" then
 
 	L["SecondaryPowerX"] = "次要資源 X 位置"
 	L["SecondaryPowerY"] = "次要資源 Y 位置"
+
+	L["NameWidthPlayer"] = "玩家名字长度"
+	L["NameWidthTarget"] = "目标名字长度"
+
+	L["LC_OpenColorPicker"] = "左键：打开颜色选择器"
+	L["RC_OpenDropdown"] = "右键：更多设置"
+	L["ColorOptions"] = "颜色选项"
+	L["CopyColor"] = "复制颜色"
+	L["PasteColor"] = "粘贴颜色"
+
 return end
 
 if LOCALE == "zhTW" then
@@ -523,4 +613,14 @@ if LOCALE == "zhTW" then
 
 	L["SecondaryPowerX"] = "次要资源 X 位置"
 	L["SecondaryPowerY"] = "次要资源 Y 位置"
+
+	L["NameWidthPlayer"] = "玩家名字長度"
+	L["NameWidthTarget"] = "目標名字長度"	
+	
+	L["LC_OpenColorPicker"] = "左鍵：開啟顏色選擇器"
+	L["RC_OpenDropdown"] = "右鍵：其他設定"
+	L["ColorOptions"] = "顏色選項"
+	L["CopyColor"] = "複製顏色"
+	L["PasteColor"] = "貼上顏色"
+
 return end

@@ -7,6 +7,8 @@ local trpPlayer = TRP3_UnitFrames.trpPlayer;
 local allSettingsData = {};
 local allFilterFuncs  = {};
 
+local _colorClipboard = nil;
+
 local function BuildDummyFrames(panel, playerOffX, playerOffY, targetOffX, targetOffY, playerRepName, playerRepTextName, targetRepName, targetRepTextName)
 
 	panel.dummyFramePlayer = CreateFrame("Frame", nil, panel)
@@ -267,11 +269,29 @@ local function InitializeColorPicker(button, data)
 		button.cpLabel:SetPoint("RIGHT", button, "CENTER", -5, 0);
 		button.cpLabel:SetJustifyH("LEFT");
 
-		button.cpBtn = CreateFrame("Button", nil, button, "SharedGoldRedButtonSmallTemplate");
+		button.cpBtn = CreateFrame("Button", nil, button);
 		button.cpBtn:SetPoint("RIGHT", button, "RIGHT", -10, 0);
-		button.cpBtn:SetSize(120, 22);
-		button.cpBtn:SetText(COLOR_PICKER);
+		button.cpBtn:SetSize(20, 20);
+		button.cpBtn:RegisterForClicks("AnyUp");
+
+		button.cpBtn.Highlight = button.cpBtn:CreateTexture(nil, "HIGHLIGHT", nil, 0);
+		button.cpBtn.Highlight:SetPoint("TOPLEFT", -5, 5);
+		button.cpBtn.Highlight:SetPoint("BOTTOMRIGHT", 5, -5);
+		button.cpBtn.Highlight:SetTexture(457293);
+		button.cpBtn.Highlight:SetTexCoord(-0.03, 0.50, 0.52, 0.79);
+		button.cpBtn.Highlight:SetBlendMode("ADD");
+
+		button.cpBtn.Color = button.cpBtn:CreateTexture(nil, "BACKGROUND", nil, 2);
+		button.cpBtn.Color:SetPoint("CENTER");
+		button.cpBtn.Color:SetSize(14, 14);
+		button.cpBtn.Color:SetColorTexture(1, 1, 1, 1);
+
+		button.cpBtn.Border = button.cpBtn:CreateTexture(nil, "BORDER", nil, 3);
+		button.cpBtn.Border:SetAllPoints();
+		button.cpBtn.Border:SetTexture(130656);
+		button.cpBtn.Border:SetTexCoord(0.00, 0.50, 0.00, 0.50);
 	end
+	
 	button.cpCheckbox:Show()
 	button.cpLabel:Show()
 	button.cpBtn:Show()
@@ -281,16 +301,102 @@ local function InitializeColorPicker(button, data)
 	button.cpCheckbox:SetChecked(checked)
 	button.cpBtn:SetEnabled(checked)
 
+	local function UpdateSwatchColor()
+		local current = data.colorGetter()
+		if current then
+			if button.cpCheckbox:GetChecked() then
+				button.cpBtn.Color:SetVertexColor(current.r, current.g, current.b, current.a or 1);
+				button.cpBtn.Highlight:SetVertexColor(current.r, current.g, current.b, current.a or 1);
+			else
+				button.cpBtn.Color:SetVertexColor(0.3, 0.3, 0.3, 0.5);
+				button.cpBtn.Highlight:SetVertexColor(0.3, 0.3, 0.3, 0.5);
+			end
+		end
+	end
+	
+	UpdateSwatchColor()
+
 	button.cpCheckbox:SetScript("OnClick", function(self)
 		local val = self:GetChecked();
 		data.set(val);
 		button.cpBtn:SetEnabled(val);
+		UpdateSwatchColor();
 		if data.callback then
 			data.callback(val);
 		end
 	end)
-	button.cpBtn:SetScript("OnClick", function()
-		TRP3_UnitFrames.ShowColorPicker(data.colorGetter());
+
+	button.cpBtn:SetScript("OnEnter", function(self)
+		GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+		GameTooltip:SetText(data.label, 1, 1, 1);
+		GameTooltip:AddLine(L["LC_OpenColorPicker"] or "Left Click to open color picker", 1, 1, 1);
+		GameTooltip:AddLine(L["RC_OpenDropdown"] or "Right Click for options", 1, 1, 1);
+		GameTooltip:Show();
+	end)
+	button.cpBtn:SetScript("OnLeave", GameTooltip_Hide)
+
+	button.cpBtn:SetScript("OnClick", function(_, clickType)
+		local current = data.colorGetter()
+
+		if clickType == "RightButton" then
+			MenuUtil.CreateContextMenu(button.cpBtn, function(owner, rootDescription)
+				rootDescription:CreateTitle(L["ColorOptions"] or "Color Options");
+
+				rootDescription:CreateButton(L["CopyColor"] or "Copy Color", function()
+					_colorClipboard = CopyTable(current);
+				end)
+
+				local pasteBtn = rootDescription:CreateButton(L["PasteColor"] or "Paste Color", function()
+					if not _colorClipboard then return; end
+					current.r, current.g, current.b, current.a = _colorClipboard.r, _colorClipboard.g, _colorClipboard.b, _colorClipboard.a;
+					UpdateSwatchColor();
+					TRP3_UnitFrames.SetColors();
+					if data.callback then
+						data.callback(true);
+					end
+				end)
+				if not _colorClipboard then
+					pasteBtn:SetEnabled(false);
+				end
+
+				rootDescription:CreateButton(RESET_TO_DEFAULT or "Reset", function()
+					current.r, current.g, current.b, current.a = 1, 1, 1, 1;
+					UpdateSwatchColor();
+					TRP3_UnitFrames.SetColors();
+					if data.callback then
+						data.callback(true);
+					end
+				end);
+			end)
+			return
+		end
+
+		local info = {};
+		info.r, info.g, info.b, info.opacity = current.r, current.g, current.b, current.a or 1
+		info.hasOpacity = true
+
+		info.swatchFunc = function()
+			local r, g, b = ColorPickerFrame:GetColorRGB();
+			local a = ColorPickerFrame:GetColorAlpha();
+			current.r, current.g, current.b, current.a = r, g, b, a;
+			UpdateSwatchColor();
+			TRP3_UnitFrames.SetColors();
+			if data.callback then
+				data.callback(true);
+			end
+		end
+
+		info.cancelFunc = function()
+			local r, g, b, a = ColorPickerFrame:GetPreviousValues();
+			current.r, current.g, current.b, current.a = r, g, b, a;
+			UpdateSwatchColor();
+			TRP3_UnitFrames.SetColors();
+			if data.callback then
+				data.callback(true);
+			end
+		end
+
+		ColorPickerFrame:SetupColorPickerAndShow(info)
 	end)
 end
 
@@ -450,7 +556,7 @@ local function SettingsRowInitializer(button, data)
 end
 
 
-local function BuildSettingsData(menuNew)
+local function BuildSettingsData()
 	allSettingsData = {};
 
 	local function gs(lbl, tt)
@@ -528,88 +634,6 @@ local function BuildSettingsData(menuNew)
 			else
 				PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:Show();
 			end
-		end,
-	})
-
-	table.insert(allSettingsData, {
-		type = "header",
-		label = HUD_EDIT_MODE_TARGET_FRAME_LABEL
-	})
-
-	table.insert(allSettingsData, {
-		type = "slider",
-		label = L["ButtonSizeTarget"],
-		searchText = gs(L["ButtonSizeTarget"]),
-		min = 0.5, max = 15, step = 0.5,
-		formatter = function(v) return string.format("%.1f", v) end,
-		get = function() return TRP3_UF_DB.Target.scale end,
-		set = function(v) TRP3_UF_DB.Target.scale = v end,
-		callback = function(v)
-			if trpTarget.button then
-				trpTarget.button:SetScale(v);
-			end
-		end,
-	})
-	table.insert(allSettingsData, {
-		type = "slider",
-		label = L["ButtonPosTarget"],
-		searchText = gs(L["ButtonPosTarget"]),
-		min = -15, max = 15, step = 0.5,
-		formatter = function(v) return string.format("%.1f", v) end,
-		get = function() return TRP3_UF_DB.Target.position end,
-		set = function(v) TRP3_UF_DB.Target.position = v end,
-		callback = function()
-			if trpTarget.SetPos then
-				trpTarget.SetPos();
-			end
-		end,
-	})
-
-	table.insert(allSettingsData, {
-		type = "header",
-		label = HUD_EDIT_MODE_TARGET_FRAME_LABEL .. ": " .. COLORS,
-	})
-
-	table.insert(allSettingsData, {
-		type = "colorpicker",
-		label = L["OverwriteTextCol"],
-		searchText = gs(L["OverwriteTextCol"]),
-		get = function() return TRP3_UF_DB.Target.colorTextCustom end,
-		set = function(v) TRP3_UF_DB.Target.colorTextCustom = v end,
-		colorGetter = function() return TRP3_UF_DB.Target.colorText end,
-		callback = function()
-			refreshFrames();
-		end,
-	})
-	table.insert(allSettingsData, {
-		type = "checkbox",
-		label = L["BlizzTextCol"],
-		searchText = gs(L["BlizzTextCol"]),
-		get = function() return TRP3_UF_DB.Target.colorTextClass end,
-		set = function(v) TRP3_UF_DB.Target.colorTextClass = v end,
-		callback = function()
-			refreshFrames();
-		end,
-	})
-	table.insert(allSettingsData, {
-		type = "colorpicker",
-		label = L["OverwriteBackCol"],
-		searchText = gs(L["OverwriteBackCol"]),
-		get = function() return TRP3_UF_DB.Target.colorBackCustom end,
-		set = function(v) TRP3_UF_DB.Target.colorBackCustom = v end,
-		colorGetter = function() return TRP3_UF_DB.Target.colorBack end,
-		callback = function()
-			refreshFrames();
-		end,
-	})
-	table.insert(allSettingsData, {
-		type = "checkbox",
-		label = L["BlizzBackCol"],
-		searchText = gs(L["BlizzBackCol"]),
-		get = function() return TRP3_UF_DB.Target.colorBackClass end,
-		set = function(v) TRP3_UF_DB.Target.colorBackClass = v end,
-		callback = function()
-			refreshFrames();
 		end,
 	})
 
@@ -697,6 +721,88 @@ local function BuildSettingsData(menuNew)
 
 	table.insert(allSettingsData, {
 		type = "header",
+		label = HUD_EDIT_MODE_TARGET_FRAME_LABEL
+	})
+
+	table.insert(allSettingsData, {
+		type = "slider",
+		label = L["ButtonSizeTarget"],
+		searchText = gs(L["ButtonSizeTarget"]),
+		min = 0.5, max = 15, step = 0.5,
+		formatter = function(v) return string.format("%.1f", v) end,
+		get = function() return TRP3_UF_DB.Target.scale end,
+		set = function(v) TRP3_UF_DB.Target.scale = v end,
+		callback = function(v)
+			if trpTarget.button then
+				trpTarget.button:SetScale(v);
+			end
+		end,
+	})
+	table.insert(allSettingsData, {
+		type = "slider",
+		label = L["ButtonPosTarget"],
+		searchText = gs(L["ButtonPosTarget"]),
+		min = -15, max = 15, step = 0.5,
+		formatter = function(v) return string.format("%.1f", v) end,
+		get = function() return TRP3_UF_DB.Target.position end,
+		set = function(v) TRP3_UF_DB.Target.position = v end,
+		callback = function()
+			if trpTarget.SetPos then
+				trpTarget.SetPos();
+			end
+		end,
+	})
+
+	table.insert(allSettingsData, {
+		type = "header",
+		label = HUD_EDIT_MODE_TARGET_FRAME_LABEL .. ": " .. COLORS,
+	})
+
+	table.insert(allSettingsData, {
+		type = "colorpicker",
+		label = L["OverwriteTextCol"],
+		searchText = gs(L["OverwriteTextCol"]),
+		get = function() return TRP3_UF_DB.Target.colorTextCustom end,
+		set = function(v) TRP3_UF_DB.Target.colorTextCustom = v end,
+		colorGetter = function() return TRP3_UF_DB.Target.colorText end,
+		callback = function()
+			refreshFrames();
+		end,
+	})
+	table.insert(allSettingsData, {
+		type = "checkbox",
+		label = L["BlizzTextCol"],
+		searchText = gs(L["BlizzTextCol"]),
+		get = function() return TRP3_UF_DB.Target.colorTextClass end,
+		set = function(v) TRP3_UF_DB.Target.colorTextClass = v end,
+		callback = function()
+			refreshFrames();
+		end,
+	})
+	table.insert(allSettingsData, {
+		type = "colorpicker",
+		label = L["OverwriteBackCol"],
+		searchText = gs(L["OverwriteBackCol"]),
+		get = function() return TRP3_UF_DB.Target.colorBackCustom end,
+		set = function(v) TRP3_UF_DB.Target.colorBackCustom = v end,
+		colorGetter = function() return TRP3_UF_DB.Target.colorBack end,
+		callback = function()
+			refreshFrames();
+		end,
+	})
+	table.insert(allSettingsData, {
+		type = "checkbox",
+		label = L["BlizzBackCol"],
+		searchText = gs(L["BlizzBackCol"]),
+		get = function() return TRP3_UF_DB.Target.colorBackClass end,
+		set = function(v) TRP3_UF_DB.Target.colorBackClass = v end,
+		callback = function()
+			refreshFrames();
+		end,
+	})
+
+	table.insert(allSettingsData, {
+		type = "header",
 		label = NAMES_LABEL
 	})
 
@@ -747,6 +853,38 @@ local function BuildSettingsData(menuNew)
 	})
 
 	table.insert(allSettingsData, {
+		type = "slider",
+		label = L["NameWidthPlayer"],
+		searchText = gs(L["NameWidthPlayer"]),
+		min = 50, max = 150, step = 5,
+		formatter = function(v) return string.format("%.0f", v) end,
+		get = function() return TRP3_UF_DB.Player.nameWidth or 96 end,
+		set = function(v) TRP3_UF_DB.Player.nameWidth = v end,
+		callback = function(v)
+			PlayerName:SetWidth(v);
+			if trpPlayer.UpdateInfo then
+				trpPlayer.UpdateInfo();
+			end
+		end,
+	})
+
+	table.insert(allSettingsData, {
+		type = "slider",
+		label = L["NameWidthTarget"],
+		searchText = gs(L["NameWidthTarget"]),
+		min = 50, max = 150, step = 5,
+		formatter = function(v) return string.format("%.0f", v) end,
+		get = function() return TRP3_UF_DB.Target.nameWidth or 90 end,
+		set = function(v) TRP3_UF_DB.Target.nameWidth = v end,
+		callback = function(v)
+			TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetWidth(v);
+			if trpTarget.UpdateInfo then
+				trpTarget.UpdateInfo();
+			end
+		end,
+	})
+
+	table.insert(allSettingsData, {
 		type = "header",
 		label = L["PlayerPortrait"]
 	})
@@ -758,16 +896,21 @@ local function BuildSettingsData(menuNew)
 		searchText = gs(L["PlayerPortrait"]),
 		isEnabled = function() return TRP3_UF_DB.Border.show end,
 		menuBuilder = function(_, rootDescription)
-			for _, menu in ipairs(menuNew) do
+			for _, menu in ipairs(TRP3_UnitFrames.PortraitThemes) do
 				local elementDescription = rootDescription:CreateButton(menu.ThemeName)
 				if menu.Data then
 					for _, v in ipairs(menu.Data) do
-						elementDescription:CreateButton(v.styleName, function()
-							TRP3_UF_DB.Border.style = v.fileName;
-							if trpPlayer.SetAsPortrait then
-								trpPlayer.SetAsPortrait();
+						elementDescription:CreateRadio(v.name,
+							function()
+								return TRP3_UF_DB.Border.style == v.id;
+							end,
+							function()
+								TRP3_UF_DB.Border.style = v.id;
+								if trpPlayer.SetAsPortrait then
+									trpPlayer.SetAsPortrait();
+								end
 							end
-						end)
+						)
 					end
 				else
 					elementDescription:SetEnabled(false)
@@ -855,64 +998,11 @@ function TRP3_UnitFrames.InitializeSettingsUI()
 	TRP3_UFPanel.Version:SetPoint("LEFT", TRP3_UFPanel.Headline, "RIGHT", 25, 0)
 	TRP3_UFPanel.Version:SetText(VERSION_TEXT)
 
-	local menuNew = {
-		[1] = {
-			ThemeName = L["Dragons"],
-			Data = {
-				[1] = { styleName = ITEM_QUALITY3_DESC,						fileName = "rare", },
-				[2] = { styleName = ELITE,									fileName = "elite", },
-				[3] = { styleName = ITEM_QUALITY3_DESC .. " " .. ELITE,		fileName = "rare-elite", },
-				[4] = { styleName = BOSS,									fileName = "boss", },
-			},
-		},
-		--[2] = { ThemeName = L["Hearthstone"], ThemeDesc = L["ComingSoon"], Data = nil, },
-		[2] = C_AddOns.IsAddOnLoaded("Narcissus") and {
-			ThemeName = L["Narcissus"],
-			Data = {
-				[1] = { styleName = "Default",				fileName = "NarciHexagonBorder", },
-				[2] = { styleName = "Artifact",				fileName = "NarciHexagonBorder-Artifact", },
-				[3] = { styleName = "Azerite",				fileName = "NarciHexagonBorder-Azerite", },
-				[4] = { styleName = "Black",				fileName = "NarciHexagonBorder-Black", },
-				[5] = { styleName = "Black Dragon",			fileName = "NarciHexagonBorder-BlackDragon", },
-				[6] = { styleName = ITEM_QUALITY6_DESC,		fileName = "NarciHexagonBorder-Epic", },
-				[7] = { styleName = "Heart",				fileName = "NarciHexagonBorder-Heart", },
-				[8] = { styleName = "Heirloom",				fileName = "NarciHexagonBorder-Heirloom", },
-				[9] = { styleName = ITEM_QUALITY5_DESC,		fileName = "NarciHexagonBorder-Legendary", },
-				[10] = { styleName = "N'Zoth",				fileName = "NarciHexagonBorder-NZoth", },
-				[11] = { styleName = ITEM_QUALITY3_DESC,	fileName = "NarciHexagonBorder-Rare", },
-				[12] = { styleName = "Special",				fileName = "NarciHexagonBorder-Special", },
-				[13] = { styleName = ITEM_QUALITY2_DESC, 	fileName = "NarciHexagonBorder-Uncommon", },
-				[14] = { styleName = "Void",				fileName = "NarciHexagonBorder-Void", },
-			},
-		} or { ThemeName = L["Narcissus"], ThemeDesc = L["NotDetected"], Data = nil, },
-		[3] = {
-			ThemeName = L["LGBQT+"],
-			Data = {
-				[1] = { styleName = L["Agender"],				fileName = "agender", },
-				[2] = { styleName = L["Asexual"],				fileName = "asexual", },
-				[3] = { styleName = L["Aromantic Asexual"],		fileName = "aroace", },
-				[4] = { styleName = L["Bisexual"],				fileName = "bisexual", },
-				[5] = { styleName = L["Non-Binary"],			fileName = "enby", },
-				[6] = { styleName = L["Gay Male"],				fileName = "gaym", },
-				[7] = { styleName = L["Genderfluid"],			fileName = "genderfluid", },
-				[8] = { styleName = L["Genderqueer"],			fileName = "genderqueer", },
-				[9] = { styleName = L["Lesbian"],				fileName = "lesbian", },
-				[10] = { styleName = L["Transgender"],			fileName = "transgender", },
-				[11] = { styleName = L["Pansexual"],			fileName = "pansexual", },
-				[12] = { styleName = L["Rainbow"],				fileName = "rainbow", },
-				[13] = { styleName = L["RainbowPhilly"],		fileName = "rainbowphilly", },
-				[14] = { styleName = L["RainbowGilBaker"],		fileName = "rainbowgilbaker", },
-				[15] = { styleName = L["RainbowProgress"],		fileName = "rainbowprogress", },
-			},
-		},
-	};
-	TRP3_UFPanel.menuNew = menuNew
-
 	BuildDummyFrames(TRP3_UFPanel, 5, -50, 350, -50,
 		"TRP3_UFRepDummyPlayer",	"TRP3_UFRepTextDummyPlayer",
 		"TRP3_UFRepDummyTarget",	"TRP3_UFRepTextDummyTarget")
 
-	BuildSettingsData(menuNew)
+	BuildSettingsData()
 
 	local filter1 = BuildScrollArea(TRP3_UFPanel, -155)
 	table.insert(allFilterFuncs, filter1)

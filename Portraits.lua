@@ -228,17 +228,31 @@ PlayerDragonFrame.mask:SetTexture(nil)
 TRP3_UnitFrames.PlayerDragonFrame = PlayerDragonFrame
 
 function trpPlayer.SetVisible()
-	if TRP3_UF_DB.Player.show == true then
-		trpPlayer:Show()
-		if trpPlayer.button then trpPlayer.button:Show() end
+	if TRP3_UF_DB.Player.show then
+		if trpPlayer.button then
+			trpPlayer.button:Show()
+		end
 	else
-		trpPlayer:Hide()
-		if trpPlayer.button then trpPlayer.button:Hide() end
+		if trpPlayer.button then
+			trpPlayer.button:Hide()
+		end
+	end
+end
+
+function trpTarget.SetVisible()
+	if TRP3_UF_DB.Target.show then
+		if trpTarget.button then
+			trpTarget.button:Show();
+		end
+	else
+		if trpTarget.button then
+			trpTarget.button:Hide();
+		end
 	end
 end
 
 function trpPlayer.SetAsPortrait()
-	if TRP3_UF_DB.Border.show ~= true then
+	if not TRP3_UF_DB.Border.show then
 		PlayerDragonFrame:Hide()
 		return
 	end
@@ -263,7 +277,7 @@ function trpPlayer.SetAsPortrait()
 
 	PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
 
-	if TRP3_UF_DB.Border.colorBorderCustom == true then
+	if TRP3_UF_DB.Border.colorBorderCustom then
 		PlayerDragonFrame.tex:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Border.color))
 	else
 		PlayerDragonFrame.tex:SetVertexColor(1, 1, 1, 1)

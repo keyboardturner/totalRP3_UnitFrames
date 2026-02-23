@@ -18,9 +18,9 @@ PlayerRepFrame.tex:SetVertexColor(0,0,0,1)
 function trpPlayer.UpdateInfo()
 	local classR, classG, classB = C_ClassColor.GetClassColor(UnitClassBase("player")).r, C_ClassColor.GetClassColor(UnitClassBase("player")).g, C_ClassColor.GetClassColor(UnitClassBase("player")).b
 	
-	if TRP3_UF_DB.Setting.FullNamePlayer == true and TRP3_UF_DB.Setting.UseTRPName == true then
+	if TRP3_UF_DB.Setting.FullNamePlayer and TRP3_UF_DB.Setting.UseTRPName then
 		PlayerName:SetText(TRP3_API.r.name("player"))
-	elseif TRP3_UF_DB.Setting.FullNamePlayer == false and TRP3_UF_DB.Setting.UseTRPName == true then
+	elseif not TRP3_UF_DB.Setting.FullNamePlayer and TRP3_UF_DB.Setting.UseTRPName then
 		PlayerName:SetText(AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("player")):GetFirstName())
 	else
 		PlayerName:SetText(UnitName("player"))
@@ -29,30 +29,30 @@ function trpPlayer.UpdateInfo()
 	PlayerName:SetTextColor(1, 0.896, 0, 1)
 	PlayerFrameReputationColor:SetVertexColor(0, 0, 0, 0)
 	
-	if TRP3_UF_DB.Player.colorTextClass == true then
+	if TRP3_UF_DB.Player.colorTextClass then
 		PlayerName:SetTextColor(classR, classG, classB)
 	end
 	
 	local customColor = AddOn_TotalRP3.Player.CreateFromUnit("player"):GetCustomColorForDisplay()
-	if customColor ~= nil then
+	if customColor then
 		PlayerName:SetTextColor(customColor:GetRGB())
 	end
 
-	if TRP3_UF_DB.Player.colorTextCustom == true then
+	if TRP3_UF_DB.Player.colorTextCustom then
 		PlayerName:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorText))
 	end
 
-	if TRP3_UF_DB.Player.colorBackClass == true then
+	if TRP3_UF_DB.Player.colorBackClass then
 		PlayerFrameReputationColor:SetVertexColor(classR, classG, classB, 1)
 	end
-	if TRP3_UF_DB.Player.colorBackCustom == true then
+	if TRP3_UF_DB.Player.colorBackCustom then
 		PlayerFrameReputationColor:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorBack))
 	end
-	if TRP3_UF_DB.Player.colorBackClass == false and TRP3_UF_DB.Player.colorBackCustom == false then
+	if not TRP3_UF_DB.Player.colorBackClass and not TRP3_UF_DB.Player.colorBackCustom then
 		PlayerFrameReputationColor:SetVertexColor(0, 0, 0, 0)
 	end
 
-	if AddOn_TotalRP3.Player.CreateFromUnit("player"):GetProfileID() ~= nil then
+	if AddOn_TotalRP3.Player.CreateFromUnit("player"):GetProfileID() then
 		local player1 = AddOn_TotalRP3.Player.CreateFromUnit("player")
 		local icon = player1:GetCustomIcon() or "inv_inscription_scroll"
 		
@@ -78,8 +78,10 @@ function trpPlayer.UpdateInfo()
 			PlayerFrame.PlayerFrameContainer.PlayerPortrait:SetTexCoord(0, 1, 0, 1)
 		else
 			if not InCombatLockdown() then
-				if trpPlayer.button then
-					trpPlayer.button:Show()
+				if TRP3_UF_DB.Player.show then
+					if trpPlayer.button then trpPlayer.button:Show() end
+				else
+					if trpPlayer.button then trpPlayer.button:Hide() end
 				end
 			end
 			if trpPlayer.portraitClick then

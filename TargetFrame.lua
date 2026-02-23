@@ -5,18 +5,18 @@ local trpTarget = TRP3_UnitFrames.trpTarget;
 local trpPlayer = TRP3_UnitFrames.trpPlayer;
 
 function trpTarget.SetColor()
-	if TRP3_UF_DB.Target.colorBackCustom == true then
+	if TRP3_UF_DB.Target.colorBackCustom then
 		TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack))
 	end
-	if TRP3_UF_DB.Target.colorTextCustom == true then
-		if TRP3_UF_DB.Setting.FullNameTarget == true and TRP3_UF_DB.Setting.UseTRPName == true then
+	if TRP3_UF_DB.Target.colorTextCustom then
+		if TRP3_UF_DB.Setting.FullNameTarget and TRP3_UF_DB.Setting.UseTRPName then
 			TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(TRP3_API.r.name("target"))
-		elseif TRP3_UF_DB.Setting.FullNameTarget == false and TRP3_UF_DB.Setting.UseTRPName == true then
+		elseif not TRP3_UF_DB.Setting.FullNameTarget and TRP3_UF_DB.Setting.UseTRPName then
 			local firstName = AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("target")):GetFirstName()
-			if firstName == nil then
-				TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(UnitName("target"))
-			else
+			if firstName then
 				TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(firstName)
+			else
+				TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(UnitName("target"))
 			end
 		else
 			TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(UnitName("target"))
@@ -31,13 +31,13 @@ function trpTarget.UpdateInfo()
 	if UnitIsPlayer("target") then
 		TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(0, 0, 1, 1)
 
-		if TRP3_UF_DB.Target.colorTextClass == true then
+		if TRP3_UF_DB.Target.colorTextClass then
 			local classR, classG, classB = C_ClassColor.GetClassColor(UnitClassBase("target")).r, C_ClassColor.GetClassColor(UnitClassBase("target")).g, C_ClassColor.GetClassColor(UnitClassBase("target")).b
 			classR, classG, classB = classR or 1, classG or 1, classB or 1
 
-			if TRP3_UF_DB.Setting.FullNameTarget == true and TRP3_UF_DB.Setting.UseTRPName == true then
+			if TRP3_UF_DB.Setting.FullNameTarget and TRP3_UF_DB.Setting.UseTRPName then
 				TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(TRP3_API.r.name("target"))
-			elseif TRP3_UF_DB.Setting.FullNameTarget == false and TRP3_UF_DB.Setting.UseTRPName == true then
+			elseif not TRP3_UF_DB.Setting.FullNameTarget and TRP3_UF_DB.Setting.UseTRPName then
 				local firstName = AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("target")):GetFirstName()
 				TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetText(firstName or UnitName("target"))
 			else
@@ -52,24 +52,24 @@ function trpTarget.UpdateInfo()
 			TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetTextColor(rgb.r, rgb.g, rgb.b)
 		end
 
-		if TRP3_UF_DB.Target.colorTextCustom == true then
+		if TRP3_UF_DB.Target.colorTextCustom then
 			TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText))
 		end
 
-		if TRP3_UF_DB.Target.colorBackClass == true then
+		if TRP3_UF_DB.Target.colorBackClass then
 			local classR, classG, classB = C_ClassColor.GetClassColor(UnitClassBase("target")).r, C_ClassColor.GetClassColor(UnitClassBase("target")).g, C_ClassColor.GetClassColor(UnitClassBase("target")).b
 			classR, classG, classB = classR or 0, classG or 0, classB or 0
 			TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(classR, classG, classB, 1)
 		end
-		if TRP3_UF_DB.Target.colorBackCustom == true then
+		if TRP3_UF_DB.Target.colorBackCustom then
 			TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack))
 		end
-		if TRP3_UF_DB.Target.colorBackClass == false and TRP3_UF_DB.Target.colorBackCustom == false then
+		if not TRP3_UF_DB.Target.colorBackClass and not TRP3_UF_DB.Target.colorBackCustom then
 			TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(0, 0, 1, 1)
 		end
 	end
 
-	if UnitIsPlayer("target") == false and TRP3_UF_DB.Setting.NPCs == true then
+	if not UnitIsPlayer("target") and TRP3_UF_DB.Setting.NPCs then
 		TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText))
 		TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack))
 	end
@@ -79,7 +79,7 @@ function trpTarget.nameChecker()
 	trpTarget.UpdateInfo()
 	trpPlayer.UpdateInfo()
 
-	if UnitIsPlayer("target") and AddOn_TotalRP3.Player.CreateFromUnit("target"):GetProfileID() ~= nil then
+	if UnitIsPlayer("target") and AddOn_TotalRP3.Player.CreateFromUnit("target"):GetProfileID() then
 		trpTarget.SetColor()
 
 		local player = AddOn_TotalRP3.Player.CreateFromUnit("target")
@@ -106,7 +106,7 @@ function trpTarget.nameChecker()
 			TargetFrame.TargetFrameContainer.Portrait:SetTexture("Interface/icons/" .. icon)
 			TargetFrame.TargetFrameContainer.Portrait:SetTexCoord(0, 1, 0, 1)
 		else
-			if not InCombatLockdown() then
+			if not InCombatLockdown() and TRP3_UF_DB.Target.show then
 				if trpTarget.button then
 					trpTarget.button:Show()
 				end

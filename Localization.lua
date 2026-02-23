@@ -1,4 +1,6 @@
-local totalRP3_UnitFrames, L = ...; -- Let's use the private table passed to every .lua 
+local addonName, TRP3_UnitFrames = ...; -- Let's use the private table passed to every .lua
+local L = {};
+TRP3_UnitFrames.L = L;
 
 local function defaultFunc(L, key)
  -- If this function was called, we have no localization for this key.

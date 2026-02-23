@@ -120,6 +120,7 @@ trpPlayer.button:SetParent(PlayerFrame)
 trpPlayer.button:SetSize(14.3, 14.3)
 trpPlayer.button:SetScale(TRP3_UF_DB and TRP3_UF_DB.Player.scale or 1.5)
 trpPlayer.button:SetFrameLevel(trpPlayer.button:GetParent():GetFrameLevel() + 5)
+trpPlayer.button:Hide()
 
 trpPlayer.button.tex = trpPlayer.button:CreateTexture(nil, "ARTWORK", nil, 0)
 trpPlayer.button.tex:SetAllPoints(trpPlayer.button)
@@ -217,8 +218,7 @@ trpPlayer:SetScript("OnEvent", function(self, event)
 	elseif event == "PLAYER_UPDATE_RESTING" then
 		StatusTextureVisibility()
 	elseif event == "PLAYER_REGEN_ENABLED" then
-		if AddOn_TotalRP3.Player.CreateFromUnit("player"):GetProfileID() ~= nil
-		and TRP3_UF_DB.Player.relativePoint ~= "CENTER" then
+		if AddOn_TotalRP3.Player.CreateFromUnit("player"):GetProfileID() and TRP3_UF_DB.Player.relativePoint ~= "CENTER" and TRP3_UF_DB.Player.show then
 			trpPlayer.ShowFadingFrame()
 		end
 	elseif event == "PLAYER_LOGOUT" then
@@ -243,9 +243,7 @@ trpTarget:SetScript("OnEvent", function(self, event)
 	if event == "PLAYER_REGEN_DISABLED" then
 		trpTarget.HideFadingFrame()
 	elseif event == "PLAYER_REGEN_ENABLED" then
-		if UnitIsPlayer("target")
-		and AddOn_TotalRP3.Player.CreateFromUnit("target"):GetProfileID() ~= nil
-		and TRP3_UF_DB.Target.relativePoint ~= "CENTER" then
+		if UnitIsPlayer("target") and AddOn_TotalRP3.Player.CreateFromUnit("target"):GetProfileID() and TRP3_UF_DB.Target.relativePoint ~= "CENTER" and TRP3_UF_DB.Target.show then
 			trpTarget.ShowFadingFrame()
 		end
 	else

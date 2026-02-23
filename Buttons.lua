@@ -204,19 +204,9 @@ end
 CreateFadeAnimations(trpPlayer)
 CreateFadeAnimations(trpTarget)
 
-local function StatusTextureVisibility()
-	if TRP3_UF_DB and TRP3_UF_DB.Border.status and IsResting() then
-		PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:Hide();
-	else
-		PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:Show();
-	end
-end
-
 trpPlayer:SetScript("OnEvent", function(self, event)
 	if event == "PLAYER_REGEN_DISABLED" then
 		trpPlayer.HideFadingFrame()
-	elseif event == "PLAYER_UPDATE_RESTING" then
-		StatusTextureVisibility()
 	elseif event == "PLAYER_REGEN_ENABLED" then
 		if AddOn_TotalRP3.Player.CreateFromUnit("player"):GetProfileID() and TRP3_UF_DB.Player.relativePoint ~= "CENTER" and TRP3_UF_DB.Player.show then
 			trpPlayer.ShowFadingFrame()
@@ -228,7 +218,6 @@ trpPlayer:SetScript("OnEvent", function(self, event)
 		if trpPlayer.UpdateInfo then
 			trpPlayer.UpdateInfo()
 		end
-		StatusTextureVisibility()
 	else
 		if trpTarget.UpdateInfo then
 			trpTarget.UpdateInfo()
@@ -268,7 +257,6 @@ trpPlayer:RegisterEvent("UNIT_PHASE")
 trpPlayer:RegisterEvent("CLIENT_SCENE_OPENED")
 trpPlayer:RegisterEvent("CLIENT_SCENE_CLOSED")
 trpPlayer:RegisterEvent("ZONE_CHANGED")
-trpPlayer:RegisterEvent("PLAYER_UPDATE_RESTING")
 
 trpTarget:RegisterEvent("PLAYER_TARGET_CHANGED")
 trpTarget:RegisterEvent("UNIT_TARGET")

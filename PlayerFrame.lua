@@ -142,3 +142,21 @@ function trpPlayer.UpdateInfo()
 		end
 	end
 end
+
+--this should cover the cases of resting a bit better than before, since it pulls from the actual blizz interface method
+local function StatusTextureVisibility()
+	if TRP3_UF_DB and TRP3_UF_DB.Border and TRP3_UF_DB.Border.status and IsResting() then
+		PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:Hide();
+		--local PlayerRestLoop = PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerRestLoop;
+		--PlayerRestLoop:Hide();
+		--PlayerRestLoop.PlayerRestLoopAnim:Stop(); -- this is probably a bit overkill
+	else
+		PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:Show();
+	end
+end
+
+hooksecurefunc("PlayerFrame_UpdatePlayerRestLoop", function(state)
+	if state then
+		StatusTextureVisibility();
+	end
+end);

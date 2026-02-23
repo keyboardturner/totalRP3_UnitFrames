@@ -80,6 +80,8 @@ if LOCALE == "enUS" then
 	L["FrameTexTRPCol"] = "Use TRP3 Profile Color"
 	L["FrameTexCustomCol"] = "Custom Frame Texture Color"
 	L["IncompatibleBBF"] = "This option may be incompatible with BetterBlizzFrames"
+	
+	L["ProfileSpecificBorder"] = "Profile-Specific Portraits"
 
 return end
 
@@ -151,6 +153,8 @@ if LOCALE == "esES" or LOCALE == "esMX" then
 	L["FrameTexCustomCol"] = "Color personalizado de la textura del marco"
 	L["IncompatibleBBF"] = "Esta opción puede no ser compatible con BetterBlizzFrames"
 
+	L["ProfileSpecificBorder"] = "Retratos específicos del perfil"
+
 return end
 
 if LOCALE == "deDE" then
@@ -220,6 +224,8 @@ if LOCALE == "deDE" then
 	L["FrameTexTRPCol"] = "TRP3-Profilfarbe verwenden"
 	L["FrameTexCustomCol"] = "Benutzerdefinierte Rahmentexturfarbe"
 	L["IncompatibleBBF"] = "Diese Option ist möglicherweise nicht mit BetterBlizzFrames kompatibel"
+
+	L["ProfileSpecificBorder"] = "Profilspezifische Porträts"
 
 return end
 
@@ -291,6 +297,8 @@ if LOCALE == "frFR" then
 	L["FrameTexCustomCol"] = "Couleur personnalisée de la texture du cadre"
 	L["IncompatibleBBF"] = "Cette option peut être incompatible avec BetterBlizzFrames"
 
+	L["ProfileSpecificBorder"] = "Portraits spécifiques au profil"
+
 return end
 
 if LOCALE == "itIT" then
@@ -361,6 +369,8 @@ if LOCALE == "itIT" then
 	L["FrameTexCustomCol"] = "Colore personalizzato della texture della cornice"
 	L["IncompatibleBBF"] = "Questa opzione potrebbe non essere compatibile con BetterBlizzFrames"
 
+	L["ProfileSpecificBorder"] = "Ritratti specifici del profilo"
+
 return end
 
 if LOCALE == "ptBR" then
@@ -430,6 +440,8 @@ if LOCALE == "ptBR" then
 	L["FrameTexTRPCol"] = "Usar cor do perfil TRP3"
 	L["FrameTexCustomCol"] = "Cor personalizada da textura da moldura"
 	L["IncompatibleBBF"] = "Esta opção pode ser incompatível com BetterBlizzFrames"
+
+	L["ProfileSpecificBorder"] = "Retratos específicos do perfil"
 
 	-- Note that the EU Portuguese WoW client also
 	-- uses the Brazilian Portuguese locale code.
@@ -503,6 +515,8 @@ if LOCALE == "ruRU" then
 	L["FrameTexCustomCol"] = "Пользовательский цвет текстуры рамки"
 	L["IncompatibleBBF"] = "Этот параметр может быть несовместим с BetterBlizzFrames"
 
+	L["ProfileSpecificBorder"] = "Портреты, специфичные для профиля"
+
 return end
 
 if LOCALE == "koKR" then
@@ -572,6 +586,8 @@ if LOCALE == "koKR" then
 	L["FrameTexTRPCol"] = "TRP3 프로필 색상 사용"
 	L["FrameTexCustomCol"] = "사용자 지정 프레임 텍스처 색상"
 	L["IncompatibleBBF"] = "이 옵션은 BetterBlizzFrames와 호환되지 않을 수 있습니다"
+
+	L["ProfileSpecificBorder"] = "프로필별 초상화"
 
 return end
 
@@ -643,6 +659,8 @@ if LOCALE == "zhCN" then
 	L["FrameTexCustomCol"] = "自定义框体纹理颜色"
 	L["IncompatibleBBF"] = "此选项可能与 BetterBlizzFrames 不兼容"
 
+	L["ProfileSpecificBorder"] = "资料专属头像"
+
 return end
 
 if LOCALE == "zhTW" then
@@ -712,5 +730,7 @@ if LOCALE == "zhTW" then
 	L["FrameTexTRPCol"] = "使用 TRP3 個人檔案顏色"
 	L["FrameTexCustomCol"] = "自訂框架材質顏色"
 	L["IncompatibleBBF"] = "此選項可能與 BetterBlizzFrames 不相容"
+
+	L["ProfileSpecificBorder"] = "個人檔案專屬頭像"
 
 return end

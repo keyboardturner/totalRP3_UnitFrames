@@ -111,31 +111,34 @@ function trpPlayer.UpdateInfo()
 	end
 
 	local frameTex = PlayerFrame.PlayerFrameContainer.FrameTexture
-	if frameTex then
-		if TRP3_UF_DB.Player.frameTextureEnabled then
-			frameTex:SetDesaturated(true);
-			local r, g, b, a = 1, 1, 1, 1;
-			if TRP3_UF_DB.Player.frameTextureClass then
-				r, g, b = classR, classG, classB;
-				a = 1;
-			end
-			if TRP3_UF_DB.Player.frameTextureTRP then
-				local customColor = AddOn_TotalRP3.Player.CreateFromUnit("player"):GetCustomColorForDisplay();
-				if customColor then
-					r, g, b = customColor:GetRGB();
+	local altFrameTex = PlayerFrame.PlayerFrameContainer.AlternatePowerFrameTexture
+	for _, tex in ipairs({ frameTex, altFrameTex }) do
+		if tex then
+			if TRP3_UF_DB.Player.frameTextureEnabled then
+				tex:SetDesaturated(true);
+				local r, g, b, a = 1, 1, 1, 1;
+				if TRP3_UF_DB.Player.frameTextureClass then
+					r, g, b = classR, classG, classB;
 					a = 1;
 				end
+				if TRP3_UF_DB.Player.frameTextureTRP then
+					local customColor = AddOn_TotalRP3.Player.CreateFromUnit("player"):GetCustomColorForDisplay();
+					if customColor then
+						r, g, b = customColor:GetRGB();
+						a = 1;
+					end
+				end
+				if TRP3_UF_DB.Player.frameTextureCustom then
+					r = TRP3_UF_DB.Player.frameTextureColor.r;
+					g = TRP3_UF_DB.Player.frameTextureColor.g;
+					b = TRP3_UF_DB.Player.frameTextureColor.b;
+					a = TRP3_UF_DB.Player.frameTextureColor.a or 1;
+				end
+				tex:SetVertexColor(r, g, b, a);
+			else
+				tex:SetDesaturated(false);
+				tex:SetVertexColor(1, 1, 1, 1);
 			end
-			if TRP3_UF_DB.Player.frameTextureCustom then
-				r = TRP3_UF_DB.Player.frameTextureColor.r;
-				g = TRP3_UF_DB.Player.frameTextureColor.g;
-				b = TRP3_UF_DB.Player.frameTextureColor.b;
-				a = TRP3_UF_DB.Player.frameTextureColor.a or 1;
-			end
-			frameTex:SetVertexColor(r, g, b, a);
-		else
-			frameTex:SetDesaturated(false);
-			frameTex:SetVertexColor(1, 1, 1, 1);
 		end
 	end
 end

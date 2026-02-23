@@ -55,6 +55,8 @@ local defaultsTable = {
 		status = false,
 	},
 
+	ProfileBorders = {},
+
 	Setting = {
 		locked = true,
 		charSpecific = false,
@@ -62,6 +64,7 @@ local defaultsTable = {
 		FullNamePlayer = true,
 		FullNameTarget = true,
 		UseTRPName = true,
+		profileSpecificBorder = false,
 	},
 
 	CurrNotifier = {show = true,
@@ -89,6 +92,19 @@ local function ApplyRingColor(ring, colorTable, enabled)
 		ring:SetDesaturated(false);
 		ring:SetVertexColor(1, 1, 1, 1);
 	end
+end
+
+function TRP3_UnitFrames.GetBorderConfig()
+	if TRP3_UF_DB.Setting.profileSpecificBorder and TRP3_API and TRP3_API.profile and TRP3_API.profile.getPlayerCurrentProfileID then
+		local profileID = TRP3_API.profile.getPlayerCurrentProfileID();
+		if profileID then
+			if not TRP3_UF_DB.ProfileBorders[profileID] then
+				TRP3_UF_DB.ProfileBorders[profileID] = CopyTable(TRP3_UF_DB.Border);
+			end
+			return TRP3_UF_DB.ProfileBorders[profileID];
+		end
+	end
+	return TRP3_UF_DB.Border;
 end
 
 function TRP3_UnitFrames.SetColors()
@@ -227,6 +243,9 @@ local function onStart()
 	if TRP3_UF_DB.Target.frameTextureCustom == nil then TRP3_UF_DB.Target.frameTextureCustom = defaultsTable.Target.frameTextureCustom end
 	if TRP3_UF_DB.Target.frameTextureClass == nil then TRP3_UF_DB.Target.frameTextureClass = defaultsTable.Target.frameTextureClass end
 	if TRP3_UF_DB.Target.frameTextureTRP == nil then TRP3_UF_DB.Target.frameTextureTRP = defaultsTable.Target.frameTextureTRP end
+	if TRP3_UF_DB.ProfileBorders == nil then TRP3_UF_DB.ProfileBorders = {} end
+	
+	if TRP3_UF_DB.Setting.profileSpecificBorder == nil then TRP3_UF_DB.Setting.profileSpecificBorder = defaultsTable.Setting.profileSpecificBorder end
 
 	TRP3_UnitFrames.updateSVs()
 
@@ -260,6 +279,14 @@ local function onStart()
 		local trpTarget = TRP3_UnitFrames.trpTarget
 		if trpPlayer.UpdateInfo then trpPlayer.UpdateInfo() end
 		if trpTarget.UpdateInfo then trpTarget.UpdateInfo() end
+		if unitID == TRP3_API.globals.player_id or unitID == nil then
+			if trpPlayer.SetAsPortrait then
+				trpPlayer.SetAsPortrait();
+			end
+			if TRP3_UnitFrames.CheckSettings then
+				TRP3_UnitFrames.CheckSettings();
+			end
+		end
 	end)
 end
 

@@ -322,11 +322,11 @@ TRP3_UnitFrames.PlayerDragonFrame = PlayerDragonFrame
 function trpPlayer.SetVisible()
 	if TRP3_UF_DB.Player.show then
 		if trpPlayer.button then
-			trpPlayer.button:Show()
+			trpPlayer.button:Show();
 		end
 	else
 		if trpPlayer.button then
-			trpPlayer.button:Hide()
+			trpPlayer.button:Hide();
 		end
 	end
 end
@@ -344,15 +344,17 @@ function trpTarget.SetVisible()
 end
 
 function trpPlayer.SetAsPortrait()
-	if not TRP3_UF_DB.Border.show then
-		PlayerDragonFrame:Hide()
-		return
+	local borderCfg = TRP3_UnitFrames.GetBorderConfig()
+
+	if not borderCfg.show then
+		PlayerDragonFrame:Hide();
+		return;
 	end
 
-	local styleData = TRP3_UnitFrames.PortraitStyles[TRP3_UF_DB.Border.style]
+	local styleData = TRP3_UnitFrames.PortraitStyles[borderCfg.style]
 	if not styleData then
-		PlayerDragonFrame:Hide()
-		return
+		PlayerDragonFrame:Hide();
+		return;
 	end
 
 	PlayerDragonFrame.tex:SetTexture(styleData.texture)
@@ -369,10 +371,10 @@ function trpPlayer.SetAsPortrait()
 
 	PlayerDragonFrame.tex:RemoveMaskTexture(PlayerDragonFrame.mask)
 
-	if TRP3_UF_DB.Border.colorBorderCustom then
-		PlayerDragonFrame.tex:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Border.color))
+	if borderCfg.color.custom then
+		PlayerDragonFrame.tex:SetVertexColor(ColorMixin.GetRGBA(borderCfg.color));
 	else
-		PlayerDragonFrame.tex:SetVertexColor(1, 1, 1, 1)
+		PlayerDragonFrame.tex:SetVertexColor(1, 1, 1, 1);
 	end
 
 	PlayerDragonFrame:Show()

@@ -580,6 +580,7 @@ end
 
 
 local function BuildSettingsData()
+	local function BC() return TRP3_UnitFrames.GetBorderConfig(); end
 	allSettingsData = {};
 
 	local function gs(lbl, tt)
@@ -628,8 +629,8 @@ local function BuildSettingsData()
 		type = "checkbox",
 		label = L["ShowBorderFrame"],
 		searchText = gs(L["ShowBorderFrame"]),
-		get = function() return TRP3_UF_DB.Border.show end,
-		set = function(v) TRP3_UF_DB.Border.show = v end,
+		get = function() return BC().show end,
+		set = function(v) BC().show = v end,
 		callback = function(v)
 			local pdf = TRP3_UnitFrames.PlayerDragonFrame;
 			if pdf then
@@ -650,8 +651,8 @@ local function BuildSettingsData()
 		label = L["HideRestedGlow"],
 		searchText = gs(L["HideRestedGlow"]),
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
-		get = function() return TRP3_UF_DB.Border.status end,
-		set = function(v) TRP3_UF_DB.Border.status = v end,
+		get = function() return BC().status end,
+		set = function(v) BC().status = v end,
 		callback = function(v)
 			if v then
 				PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:Hide();
@@ -1065,7 +1066,7 @@ local function BuildSettingsData()
 		label = L["PlayerPortrait"],
 		defaultText = L["PlayerPortrait"],
 		searchText = gs(L["PlayerPortrait"]),
-		isEnabled = function() return TRP3_UF_DB.Border.show end,
+		isEnabled = function() return BC().show end,
 		menuBuilder = function(_, rootDescription)
 			for _, menu in ipairs(TRP3_UnitFrames.PortraitThemes) do
 				local elementDescription = rootDescription:CreateButton(menu.ThemeName)
@@ -1073,10 +1074,10 @@ local function BuildSettingsData()
 					for _, v in ipairs(menu.Data) do
 						elementDescription:CreateRadio(v.name,
 							function()
-								return TRP3_UF_DB.Border.style == v.id;
+								return BC().style == v.id;
 							end,
 							function()
-								TRP3_UF_DB.Border.style = v.id;
+								BC().style = v.id;
 								if trpPlayer.SetAsPortrait then
 									trpPlayer.SetAsPortrait();
 								end
@@ -1091,6 +1092,25 @@ local function BuildSettingsData()
 					end)
 				end
 			end
+		end,
+	})
+	table.insert(allSettingsData, {
+		type = "checkbox",
+		label = L["ProfileSpecificBorder"],
+		searchText = gs(L["ProfileSpecificBorder"]),
+		get = function() return TRP3_UF_DB.Setting.profileSpecificBorder; end,
+		set = function(v)
+			TRP3_UF_DB.Setting.profileSpecificBorder = v;
+			if v and TRP3_API.profile and TRP3_API.profile.getPlayerCurrentProfileID then
+				local pid = TRP3_API.profile.getPlayerCurrentProfileID();
+				if pid and not TRP3_UF_DB.ProfileBorders[pid] then
+					TRP3_UF_DB.ProfileBorders[pid] = CopyTable(TRP3_UF_DB.Border);
+				end
+			end
+		end,
+		callback = function()
+			if trpPlayer.SetAsPortrait then trpPlayer.SetAsPortrait() end
+			TRP3_UnitFrames.CheckSettings();
 		end,
 	})
 end

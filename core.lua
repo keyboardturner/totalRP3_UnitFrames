@@ -20,6 +20,11 @@ local defaultsTable = {
 		nameWidth = 90,
 		ringColor = {r = 1, g = 1, b = 1, a = 1,},
 		ringColorCustom = false,
+		frameTextureEnabled = false,
+		frameTextureColor = {r = 1, g = 1, b = 1, a = 1,},
+		frameTextureCustom = false,
+		frameTextureClass = false,
+		frameTextureTRP = false,
 	},
 	Player = {
 		show = true,
@@ -36,6 +41,11 @@ local defaultsTable = {
 		nameWidth = 96,
 		ringColor = {r = 1, g = 1, b = 1, a = 1,},
 		ringColorCustom = false,
+		frameTextureEnabled = false,
+		frameTextureColor = {r = 1, g = 1, b = 1, a = 1,},
+		frameTextureCustom = false,
+		frameTextureClass = false,
+		frameTextureTRP = false,
 	},
 
 	Border = {
@@ -135,6 +145,9 @@ function TRP3_UnitFrames.SetColors()
 		TRP3_UF_DB.Target.ringColor,
 		TRP3_UF_DB.Target.ringColorCustom
 	)
+
+	if trpPlayer.UpdateInfo then trpPlayer.UpdateInfo() end
+	if trpTarget.UpdateInfo then trpTarget.UpdateInfo() end
 end
 
 function TRP3_UnitFrames.updateSVs() -- the color picker really does not like the old settings, so the settings move to their own var
@@ -203,6 +216,17 @@ local function onStart()
 	if TRP3_UF_DB.Player.ringColorCustom == nil then TRP3_UF_DB.Player.ringColorCustom = defaultsTable.Player.ringColorCustom end
 	if TRP3_UF_DB.Target.ringColor == nil then TRP3_UF_DB.Target.ringColor = CopyTable(defaultsTable.Target.ringColor) end
 	if TRP3_UF_DB.Target.ringColorCustom == nil then TRP3_UF_DB.Target.ringColorCustom = defaultsTable.Target.ringColorCustom end
+
+	if TRP3_UF_DB.Player.frameTextureEnabled == nil then TRP3_UF_DB.Player.frameTextureEnabled = defaultsTable.Player.frameTextureEnabled end
+	if TRP3_UF_DB.Player.frameTextureColor == nil then TRP3_UF_DB.Player.frameTextureColor = CopyTable(defaultsTable.Player.frameTextureColor) end
+	if TRP3_UF_DB.Player.frameTextureCustom == nil then TRP3_UF_DB.Player.frameTextureCustom = defaultsTable.Player.frameTextureCustom end
+	if TRP3_UF_DB.Player.frameTextureClass == nil then TRP3_UF_DB.Player.frameTextureClass = defaultsTable.Player.frameTextureClass end
+	if TRP3_UF_DB.Player.frameTextureTRP == nil then TRP3_UF_DB.Player.frameTextureTRP = defaultsTable.Player.frameTextureTRP end
+	if TRP3_UF_DB.Target.frameTextureEnabled == nil then TRP3_UF_DB.Target.frameTextureEnabled = defaultsTable.Target.frameTextureEnabled end
+	if TRP3_UF_DB.Target.frameTextureColor == nil then TRP3_UF_DB.Target.frameTextureColor = CopyTable(defaultsTable.Target.frameTextureColor) end
+	if TRP3_UF_DB.Target.frameTextureCustom == nil then TRP3_UF_DB.Target.frameTextureCustom = defaultsTable.Target.frameTextureCustom end
+	if TRP3_UF_DB.Target.frameTextureClass == nil then TRP3_UF_DB.Target.frameTextureClass = defaultsTable.Target.frameTextureClass end
+	if TRP3_UF_DB.Target.frameTextureTRP == nil then TRP3_UF_DB.Target.frameTextureTRP = defaultsTable.Target.frameTextureTRP end
 
 	TRP3_UnitFrames.updateSVs()
 

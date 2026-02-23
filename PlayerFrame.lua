@@ -62,7 +62,7 @@ function trpPlayer.UpdateInfo()
 	if AddOn_TotalRP3.Player.CreateFromUnit("player"):GetProfileID() then
 		local player1 = AddOn_TotalRP3.Player.CreateFromUnit("player")
 		local icon = player1:GetCustomIcon() or "inv_inscription_scroll"
-		
+
 		if trpPlayer.button and trpPlayer.button.tex then
 			trpPlayer.button.tex:SetTexture("Interface/icons/" .. icon)
 			trpPlayer.button.tex:SetTexCoord(0, 1, 0, 1)
@@ -108,5 +108,34 @@ function trpPlayer.UpdateInfo()
 			trpPlayer.portraitClick:Hide()
 		end
 		SetPortraitTexture(PlayerFrame.PlayerFrameContainer.PlayerPortrait, "player")
+	end
+
+	local frameTex = PlayerFrame.PlayerFrameContainer.FrameTexture
+	if frameTex then
+		if TRP3_UF_DB.Player.frameTextureEnabled then
+			frameTex:SetDesaturated(true);
+			local r, g, b, a = 1, 1, 1, 1;
+			if TRP3_UF_DB.Player.frameTextureClass then
+				r, g, b = classR, classG, classB;
+				a = 1;
+			end
+			if TRP3_UF_DB.Player.frameTextureTRP then
+				local customColor = AddOn_TotalRP3.Player.CreateFromUnit("player"):GetCustomColorForDisplay();
+				if customColor then
+					r, g, b = customColor:GetRGB();
+					a = 1;
+				end
+			end
+			if TRP3_UF_DB.Player.frameTextureCustom then
+				r = TRP3_UF_DB.Player.frameTextureColor.r;
+				g = TRP3_UF_DB.Player.frameTextureColor.g;
+				b = TRP3_UF_DB.Player.frameTextureColor.b;
+				a = TRP3_UF_DB.Player.frameTextureColor.a or 1;
+			end
+			frameTex:SetVertexColor(r, g, b, a);
+		else
+			frameTex:SetDesaturated(false);
+			frameTex:SetVertexColor(1, 1, 1, 1);
+		end
 	end
 end

@@ -74,6 +74,13 @@ if LOCALE == "enUS" then
 
 	L["ButtonRingCol"] = "Button Ring Color"
 
+	L["FrameTexture"] = "Frame Texture"
+	L["FrameTexEnabled"] = "Colorize Frame Texture"
+	L["FrameTexClassCol"] = "Use Class Color"
+	L["FrameTexTRPCol"] = "Use TRP3 Profile Color"
+	L["FrameTexCustomCol"] = "Custom Frame Texture Color"
+	L["IncompatibleBBF"] = "This option may be incompatible with BetterBlizzFrames"
+
 return end
 
 if LOCALE == "esES" or LOCALE == "esMX" then
@@ -136,6 +143,13 @@ if LOCALE == "esES" or LOCALE == "esMX" then
 	L["PasteColor"] = "Pegar color"
 
 	L["ButtonRingCol"] = "Color del anillo del botón"
+
+	L["FrameTexture"] = "Textura del marco"
+	L["FrameTexEnabled"] = "Colorear la textura del marco"
+	L["FrameTexClassCol"] = "Usar color de clase"
+	L["FrameTexTRPCol"] = "Usar color del perfil TRP3"
+	L["FrameTexCustomCol"] = "Color personalizado de la textura del marco"
+	L["IncompatibleBBF"] = "Esta opción puede no ser compatible con BetterBlizzFrames"
 
 return end
 
@@ -200,6 +214,13 @@ if LOCALE == "deDE" then
 
 	L["ButtonRingCol"] = "Farbe des Button-Rings"
 
+	L["FrameTexture"] = "Rahmentextur"
+	L["FrameTexEnabled"] = "Rahmentextur einfärben"
+	L["FrameTexClassCol"] = "Klassenfarbe verwenden"
+	L["FrameTexTRPCol"] = "TRP3-Profilfarbe verwenden"
+	L["FrameTexCustomCol"] = "Benutzerdefinierte Rahmentexturfarbe"
+	L["IncompatibleBBF"] = "Diese Option ist möglicherweise nicht mit BetterBlizzFrames kompatibel"
+
 return end
 
 if LOCALE == "frFR" then
@@ -262,6 +283,13 @@ if LOCALE == "frFR" then
 	L["PasteColor"] = "Coller la couleur"
 
 	L["ButtonRingCol"] = "Couleur de l’anneau du bouton"
+
+	L["FrameTexture"] = "Texture du cadre"
+	L["FrameTexEnabled"] = "Colorer la texture du cadre"
+	L["FrameTexClassCol"] = "Utiliser la couleur de classe"
+	L["FrameTexTRPCol"] = "Utiliser la couleur du profil TRP3"
+	L["FrameTexCustomCol"] = "Couleur personnalisée de la texture du cadre"
+	L["IncompatibleBBF"] = "Cette option peut être incompatible avec BetterBlizzFrames"
 
 return end
 
@@ -326,6 +354,13 @@ if LOCALE == "itIT" then
 
 	L["ButtonRingCol"] = "Colore dell’anello del pulsante"
 
+	L["FrameTexture"] = "Texture della cornice"
+	L["FrameTexEnabled"] = "Colora la texture della cornice"
+	L["FrameTexClassCol"] = "Usa il colore della classe"
+	L["FrameTexTRPCol"] = "Usa il colore del profilo TRP3"
+	L["FrameTexCustomCol"] = "Colore personalizzato della texture della cornice"
+	L["IncompatibleBBF"] = "Questa opzione potrebbe non essere compatibile con BetterBlizzFrames"
+
 return end
 
 if LOCALE == "ptBR" then
@@ -388,6 +423,13 @@ if LOCALE == "ptBR" then
 	L["PasteColor"] = "Colar cor"
 
 	L["ButtonRingCol"] = "Cor do anel do botão"
+
+	L["FrameTexture"] = "Textura da moldura"
+	L["FrameTexEnabled"] = "Colorir textura da moldura"
+	L["FrameTexClassCol"] = "Usar cor da classe"
+	L["FrameTexTRPCol"] = "Usar cor do perfil TRP3"
+	L["FrameTexCustomCol"] = "Cor personalizada da textura da moldura"
+	L["IncompatibleBBF"] = "Esta opção pode ser incompatível com BetterBlizzFrames"
 
 	-- Note that the EU Portuguese WoW client also
 	-- uses the Brazilian Portuguese locale code.
@@ -454,6 +496,13 @@ if LOCALE == "ruRU" then
 
 	L["ButtonRingCol"] = "Цвет кольца кнопки"
 
+	L["FrameTexture"] = "Текстура рамки"
+	L["FrameTexEnabled"] = "Окрашивать текстуру рамки"
+	L["FrameTexClassCol"] = "Использовать цвет класса"
+	L["FrameTexTRPCol"] = "Использовать цвет профиля TRP3"
+	L["FrameTexCustomCol"] = "Пользовательский цвет текстуры рамки"
+	L["IncompatibleBBF"] = "Этот параметр может быть несовместим с BetterBlizzFrames"
+
 return end
 
 if LOCALE == "koKR" then
@@ -516,6 +565,13 @@ if LOCALE == "koKR" then
 	L["PasteColor"] = "색상 붙여넣기"
 
 	L["ButtonRingCol"] = "버튼 링 색상"
+
+	L["FrameTexture"] = "프레임 텍스처"
+	L["FrameTexEnabled"] = "프레임 텍스처 색상 적용"
+	L["FrameTexClassCol"] = "직업 색상 사용"
+	L["FrameTexTRPCol"] = "TRP3 프로필 색상 사용"
+	L["FrameTexCustomCol"] = "사용자 지정 프레임 텍스처 색상"
+	L["IncompatibleBBF"] = "이 옵션은 BetterBlizzFrames와 호환되지 않을 수 있습니다"
 
 return end
 
@@ -580,6 +636,13 @@ if LOCALE == "zhCN" then
 
 	L["ButtonRingCol"] = "按钮环颜色"
 
+	L["FrameTexture"] = "框体纹理"
+	L["FrameTexEnabled"] = "为框体纹理着色"
+	L["FrameTexClassCol"] = "使用职业颜色"
+	L["FrameTexTRPCol"] = "使用 TRP3 资料颜色"
+	L["FrameTexCustomCol"] = "自定义框体纹理颜色"
+	L["IncompatibleBBF"] = "此选项可能与 BetterBlizzFrames 不兼容"
+
 return end
 
 if LOCALE == "zhTW" then
@@ -642,5 +705,12 @@ if LOCALE == "zhTW" then
 	L["PasteColor"] = "貼上顏色"
 
 	L["ButtonRingCol"] = "按鈕環顏色"
+
+	L["FrameTexture"] = "框架材質"
+	L["FrameTexEnabled"] = "為框架材質上色"
+	L["FrameTexClassCol"] = "使用職業顏色"
+	L["FrameTexTRPCol"] = "使用 TRP3 個人檔案顏色"
+	L["FrameTexCustomCol"] = "自訂框架材質顏色"
+	L["IncompatibleBBF"] = "此選項可能與 BetterBlizzFrames 不相容"
 
 return end

@@ -79,6 +79,36 @@ function trpTarget.UpdateInfo()
 			TargetName:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText));
 			ReputationColor:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack));
 		end
+
+		local frameTex = TargetFrame.TargetFrameContainer.FrameTexture
+		if frameTex then
+			if TRP3_UF_DB.Target.frameTextureEnabled then
+				frameTex:SetDesaturated(true);
+				local r, g, b, a = 1, 1, 1, 1;
+				if TRP3_UF_DB.Target.frameTextureClass and UnitIsPlayer("target") then
+					local classR, classG, classB = C_ClassColor.GetClassColor(UnitClassBase("target")).r, C_ClassColor.GetClassColor(UnitClassBase("target")).g, C_ClassColor.GetClassColor(UnitClassBase("target")).b;
+					r, g, b = (classR or 1), (classG or 1), (classB or 1);
+					a = 1;
+				end
+				if TRP3_UF_DB.Target.frameTextureTRP and UnitIsPlayer("target") then
+					local customColor = AddOn_TotalRP3.Player.CreateFromUnit("target"):GetCustomColorForDisplay()
+					if customColor then
+						r, g, b = customColor:GetRGB();
+						a = 1;
+					end
+				end
+				if TRP3_UF_DB.Target.frameTextureCustom then
+					r = TRP3_UF_DB.Target.frameTextureColor.r;
+					g = TRP3_UF_DB.Target.frameTextureColor.g;
+					b = TRP3_UF_DB.Target.frameTextureColor.b;
+					a = TRP3_UF_DB.Target.frameTextureColor.a or 1;
+				end
+				frameTex:SetVertexColor(r, g, b, a);
+			else
+				frameTex:SetDesaturated(false);
+				frameTex:SetVertexColor(1, 1, 1, 1);
+			end
+		end
 	end
 end
 

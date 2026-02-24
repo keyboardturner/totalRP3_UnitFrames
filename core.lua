@@ -100,23 +100,23 @@ local STATUS_ICON_DISCONNECTED = "Interface\\AddOns\\totalRP3_UnitFrames\\tex\\D
 local STATUS_ICON_AFK = "Interface\\AddOns\\totalRP3_UnitFrames\\tex\\Away.png";
 local STATUS_ICON_DND = "Interface\\AddOns\\totalRP3_UnitFrames\\tex\\Busy.png";
 
-function TRP3_UnitFrames.UpdateStatusIcon(unit, tex, enabled)
-	if not tex then return end
+function TRP3_UnitFrames.UpdateStatusIcon(unit, frame, enabled)
+	if not frame or not frame.Tex then return end
 	if not enabled then
-		tex:Hide();
+		frame:Hide();
 		return
 	end
 	if not UnitIsConnected(unit) then
-		tex:SetTexture(STATUS_ICON_DISCONNECTED);
-		tex:Show();
+		frame.Tex:SetTexture(STATUS_ICON_DISCONNECTED);
+		frame:Show();
 	elseif UnitIsAFK(unit) then
-		tex:SetTexture(STATUS_ICON_AFK);
-		tex:Show();
+		frame.Tex:SetTexture(STATUS_ICON_AFK);
+		frame:Show();
 	elseif UnitIsDND(unit) then
-		tex:SetTexture(STATUS_ICON_DND);
-		tex:Show();
+		frame.Tex:SetTexture(STATUS_ICON_DND);
+		frame:Show();
 	else
-		tex:Hide();
+		frame:Hide();
 	end
 end
 

@@ -6,14 +6,17 @@ local trpPlayer = TRP3_UnitFrames.trpPlayer;
 local TargetName = TargetFrame.TargetFrameContent.TargetFrameContentMain.Name;
 local ReputationColor = TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor;
 
-local targetStatusTex = TargetFrame:CreateTexture(nil, "OVERLAY", nil, 7)
-targetStatusTex:SetSize(22, 22)
-targetStatusTex:SetPoint("BOTTOMRIGHT", TargetFrame.TargetFrameContainer.Portrait, "TOPLEFT", 25, -5)
-targetStatusTex:Hide()
-trpTarget.statusTex = targetStatusTex
+local targetStatus = CreateFrame("Frame", nil, TargetFrame)
+targetStatus:SetSize(22, 22)
+targetStatus:SetPoint("CENTER", TargetFrame.TargetFrameContainer.Portrait, "TOP", 0, -15)
+targetStatus:SetFrameStrata("MEDIUM")
+targetStatus.Tex = targetStatus:CreateTexture(nil, "OVERLAY", nil, 7)
+targetStatus.Tex:SetAllPoints()
+targetStatus:Hide()
+trpTarget.status = targetStatus
 
 function trpTarget.UpdateStatusIcon()
-	TRP3_UnitFrames.UpdateStatusIcon("target", trpTarget.statusTex, TRP3_UF_DB and TRP3_UF_DB.Target.showStatus);
+	TRP3_UnitFrames.UpdateStatusIcon("target", trpTarget.status, TRP3_UF_DB and TRP3_UF_DB.Target.showStatus);
 end
 
 function trpTarget.SetColor()

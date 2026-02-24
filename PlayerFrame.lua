@@ -13,14 +13,17 @@ PlayerRepFrame.tex:SetAtlas("UI-HUD-UnitFrame-Target-PortraitOn-Type")
 PlayerRepFrame.tex:SetTexCoord(1, 0, 0, 1)
 PlayerRepFrame.tex:SetVertexColor(0,0,0,1)
 
-local playerStatusTex = PlayerFrame:CreateTexture(nil, "OVERLAY", nil, 7)
-playerStatusTex:SetSize(22, 22)
-playerStatusTex:SetPoint("BOTTOMLEFT", PlayerFrame.PlayerFrameContainer.PlayerPortrait, "TOPRIGHT", -15, -5)
-playerStatusTex:Hide()
-trpPlayer.statusTex = playerStatusTex
+local playerStatus = CreateFrame("Frame", nil, PlayerFrame)
+playerStatus:SetSize(22, 22)
+playerStatus:SetPoint("CENTER", PlayerFrame.PlayerFrameContainer.PlayerPortrait, "TOP", 0, -15)
+playerStatus:SetFrameStrata("MEDIUM")
+playerStatus.Tex = playerStatus:CreateTexture(nil, "OVERLAY", nil, 7)
+playerStatus.Tex:SetAllPoints()
+playerStatus:Hide()
+trpPlayer.status = playerStatus
 
 function trpPlayer.UpdateStatusIcon()
-	TRP3_UnitFrames.UpdateStatusIcon("player", trpPlayer.statusTex, TRP3_UF_DB and TRP3_UF_DB.Player.showStatus);
+	TRP3_UnitFrames.UpdateStatusIcon("player", trpPlayer.status, TRP3_UF_DB and TRP3_UF_DB.Player.showStatus);
 end
 
 function trpPlayer.UpdateInfo()

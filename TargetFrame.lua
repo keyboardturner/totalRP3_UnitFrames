@@ -70,7 +70,7 @@ function trpTarget.UpdateInfo()
 			end
 
 			local textColorQ = AddOn_TotalRP3.Player.CreateFromUnit("target"):GetCustomColorForDisplay()
-			if textColorQ then
+			if not issecretvalue(AddOn_TotalRP3.Player.CreateFromUnit("target")) and textColorQ then
 				local rgb = textColorQ:GetRGBTable()
 				TargetName:SetTextColor(rgb.r, rgb.g, rgb.b)
 			end
@@ -109,7 +109,7 @@ function trpTarget.UpdateInfo()
 				end
 				if TRP3_UF_DB.Target.frameTextureTRP and UnitIsPlayer("target") then
 					local customColor = AddOn_TotalRP3.Player.CreateFromUnit("target"):GetCustomColorForDisplay()
-					if customColor then
+					if not issecretvalue(AddOn_TotalRP3.Player.CreateFromUnit("target")) and customColor then
 						r, g, b = customColor:GetRGB();
 						a = 1;
 					end

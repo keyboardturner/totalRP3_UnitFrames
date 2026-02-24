@@ -221,11 +221,18 @@ local function InitializeCheckbox(button, data)
 		button.checkbox = CreateFrame("CheckButton", nil, button, "ChatConfigCheckButtonTemplate");
 		button.checkbox:SetPoint("LEFT", button, "LEFT", 10, 0);
 		button.checkbox:SetSize(24, 24);
+		button.checkbox:SetMotionScriptsWhileDisabled(true); 
+
 		button.cbLabel = button.checkbox.Text;
 		button.cbLabel:ClearAllPoints();
 		button.cbLabel:SetPoint("LEFT", button.checkbox, "RIGHT", 5, 0);
 		button.cbLabel:SetPoint("RIGHT", button, "RIGHT", -5, 0);
 		button.cbLabel:SetJustifyH("LEFT");
+
+		button.lockIcon = button.checkbox:CreateTexture(nil, "OVERLAY", nil, 5);
+		button.lockIcon:SetPoint("CENTER", button.checkbox, "CENTER", 0, 0);
+		button.lockIcon:SetSize(16, 16);
+		button.lockIcon:SetAtlas("tradeskills-icon-locked");
 	end
 	button.checkbox:Show()
 	button.cbLabel:Show()
@@ -234,6 +241,14 @@ local function InitializeCheckbox(button, data)
 	local enabled = (data.isEnabled == nil) or data.isEnabled()
 	button.checkbox:SetEnabled(enabled)
 	button.checkbox:SetChecked(data.get())
+
+	if enabled then
+		button.cbLabel:SetTextColor(1, 1, 1);
+		button.lockIcon:Hide();
+	else
+		button.cbLabel:SetTextColor(0.5, 0.5, 0.5);
+		button.lockIcon:Show();
+	end
 
 	button.checkbox:SetScript("OnClick", function(self)
 		local val = self:GetChecked();
@@ -246,11 +261,16 @@ local function InitializeCheckbox(button, data)
 		end
 	end)
 
-	if data.tooltip then
+	if data.tooltip or not enabled then
 		button.checkbox:SetScript("OnEnter", function(self)
 			GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
 			GameTooltip:SetText(data.label, 1, 1, 1);
-			GameTooltip:AddLine(data.tooltip, nil, nil, nil, true);
+			if data.tooltip then
+				GameTooltip:AddLine(data.tooltip, nil, nil, nil, true);
+			end
+			if not enabled and data.lockedTooltip then
+				GameTooltip:AddLine(data.lockedTooltip, 1, 0.3, 0.3, true);
+			end
 			GameTooltip:Show();
 		end)
 		button.checkbox:SetScript("OnLeave", GameTooltip_Hide);
@@ -540,6 +560,9 @@ local function SettingsRowInitializer(button, data)
 	if button.cbLabel then
 		button.cbLabel:Hide();
 	end
+	if button.lockIcon then
+		button.lockIcon:Hide();
+	end
 	if button.cpCheckbox then
 		button.cpCheckbox:Hide();
 	end
@@ -808,6 +831,7 @@ local function BuildSettingsData()
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
 		searchText = gs(L["FrameTexClassCol"]),
 		isEnabled = function() return TRP3_UF_DB.Player.frameTextureEnabled end,
+		lockedTooltip = string.format(LOCKED_WITH_SPELL, L["FrameTexEnabled"]),
 		get = function() return TRP3_UF_DB.Player.frameTextureClass end,
 		set = function(v) TRP3_UF_DB.Player.frameTextureClass = v end,
 		callback = function()
@@ -820,6 +844,7 @@ local function BuildSettingsData()
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
 		searchText = gs(L["FrameTexTRPCol"]),
 		isEnabled = function() return TRP3_UF_DB.Player.frameTextureEnabled end,
+		lockedTooltip = string.format(LOCKED_WITH_SPELL, L["FrameTexEnabled"]),
 		get = function() return TRP3_UF_DB.Player.frameTextureTRP end,
 		set = function(v) TRP3_UF_DB.Player.frameTextureTRP = v end,
 		callback = function()
@@ -961,6 +986,7 @@ local function BuildSettingsData()
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
 		searchText = gs(L["FrameTexClassCol"]),
 		isEnabled = function() return TRP3_UF_DB.Target.frameTextureEnabled end,
+		lockedTooltip = string.format(LOCKED_WITH_SPELL, L["FrameTexEnabled"]),
 		get = function() return TRP3_UF_DB.Target.frameTextureClass end,
 		set = function(v) TRP3_UF_DB.Target.frameTextureClass = v end,
 		callback = function()
@@ -973,6 +999,7 @@ local function BuildSettingsData()
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
 		searchText = gs(L["FrameTexTRPCol"]),
 		isEnabled = function() return TRP3_UF_DB.Target.frameTextureEnabled end,
+		lockedTooltip = string.format(LOCKED_WITH_SPELL, L["FrameTexEnabled"]),
 		get = function() return TRP3_UF_DB.Target.frameTextureTRP end,
 		set = function(v) TRP3_UF_DB.Target.frameTextureTRP = v end,
 		callback = function()
@@ -1016,6 +1043,7 @@ local function BuildSettingsData()
 		get = function() return TRP3_UF_DB.Setting.FullNamePlayer end,
 		set = function(v) TRP3_UF_DB.Setting.FullNamePlayer = v end,
 		isEnabled = function() return TRP3_UF_DB.Setting.UseTRPName end,
+		lockedTooltip = string.format(LOCKED_WITH_SPELL, L["TRP3CustomName"]),
 		callback = function()
 			refreshFrames();
 		end,
@@ -1028,6 +1056,7 @@ local function BuildSettingsData()
 		get = function() return TRP3_UF_DB.Setting.FullNameTarget end,
 		set = function(v) TRP3_UF_DB.Setting.FullNameTarget = v end,
 		isEnabled = function() return TRP3_UF_DB.Setting.UseTRPName end,
+		lockedTooltip = string.format(LOCKED_WITH_SPELL, L["TRP3CustomName"]),
 		callback = function()
 			refreshFrames();
 		end,

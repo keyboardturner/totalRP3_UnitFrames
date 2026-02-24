@@ -1,3 +1,9 @@
+# 1.0.2
+
+Added lock icon / greyed text to options which are unavailable and require another option to function.
+
+Fixed secret value error on status check
+
 # 1.0.1
 
 Fixed the minor catastrophic issue that happened where the toc was missing every single new file in the packaged versions. You can imagine this probably lead to some errors

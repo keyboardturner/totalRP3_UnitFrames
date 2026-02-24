@@ -322,17 +322,6 @@ local function onStart()
 	end)
 
 	TRP3_UnitFrames.trpPlayer:RegisterEvent("PLAYER_FLAGS_CHANGED")
-	TRP3_UnitFrames.trpPlayer:SetScript("OnEvent", function(_, event, unit)
-		if event == "PLAYER_FLAGS_CHANGED" then
-			local trpPlayer = TRP3_UnitFrames.trpPlayer
-			local trpTarget = TRP3_UnitFrames.trpTarget
-			if unit == "player" and trpPlayer.UpdateStatusIcon then
-				trpPlayer.UpdateStatusIcon();
-			elseif unit == "target" and trpTarget.UpdateStatusIcon then
-				trpTarget.UpdateStatusIcon();
-			end
-		end
-	end)
 end
 
 local totalRP3_UnitFrames = {

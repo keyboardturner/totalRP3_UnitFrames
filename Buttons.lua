@@ -204,26 +204,32 @@ end
 CreateFadeAnimations(trpPlayer)
 CreateFadeAnimations(trpTarget)
 
-trpPlayer:SetScript("OnEvent", function(self, event)
+trpPlayer:SetScript("OnEvent", function(self, event, unit)
 	if event == "PLAYER_REGEN_DISABLED" then
-		trpPlayer.HideFadingFrame()
+		trpPlayer.HideFadingFrame();
 	elseif event == "PLAYER_REGEN_ENABLED" then
 		if AddOn_TotalRP3.Player.CreateFromUnit("player"):GetProfileID() and TRP3_UF_DB.Player.relativePoint ~= "CENTER" and TRP3_UF_DB.Player.show then
-			trpPlayer.ShowFadingFrame()
+			trpPlayer.ShowFadingFrame();
 		end
 	elseif event == "PLAYER_LOGOUT" then
 		SetPortraitTexture(TargetFrame.TargetFrameContainer.Portrait, "target")
 		SetPortraitTexture(PlayerFrame.PlayerFrameContainer.PlayerPortrait, "player")
 	elseif event == "PLAYER_ENTERING_WORLD" then
 		if trpPlayer.UpdateInfo then
-			trpPlayer.UpdateInfo()
+			trpPlayer.UpdateInfo();
+		end
+	elseif event == "PLAYER_FLAGS_CHANGED" then
+		if unit == "player" and trpPlayer.UpdateStatusIcon then
+			trpPlayer.UpdateStatusIcon();
+		elseif unit == "target" and trpTarget.UpdateStatusIcon then
+			trpTarget.UpdateStatusIcon();
 		end
 	else
 		if trpTarget.UpdateInfo then
-			trpTarget.UpdateInfo()
+			trpTarget.UpdateInfo();
 		end
 		if trpPlayer.UpdateInfo then
-			trpPlayer.UpdateInfo()
+			trpPlayer.UpdateInfo();
 		end
 	end
 end)

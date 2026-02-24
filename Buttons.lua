@@ -61,7 +61,7 @@ end)
 
 function trpTarget.SetPos()
 	if TRP3_UF_DB.Target.relativePoint == "CENTER" then
-		if trpTarget.nameChecker then
+		if trpTarget.nameChecker and not issecretvalue(UnitGUID("target")) then
 			trpTarget.nameChecker()
 		end
 		return
@@ -85,7 +85,7 @@ function trpTarget.SetPos()
 	trpTarget.button:ClearAllPoints()
 	trpTarget.button:SetPoint("CENTER", TargetFrame.TargetFrameContainer.Portrait, TRP3_UF_DB.Target.relativePoint, xPos, yPos)
 
-	if trpTarget.nameChecker then
+	if trpTarget.nameChecker and not issecretvalue(UnitGUID("target")) then
 		trpTarget.nameChecker()
 	end
 end
@@ -242,7 +242,7 @@ trpTarget:SetScript("OnEvent", function(self, event)
 			trpTarget.ShowFadingFrame()
 		end
 	else
-		if trpTarget.nameChecker then
+		if trpTarget.nameChecker and not issecretvalue(UnitGUID("target")) then
 			trpTarget.nameChecker()
 		end
 	end

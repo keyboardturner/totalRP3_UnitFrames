@@ -26,7 +26,7 @@ function trpTarget.SetColor()
 	if TRP3_UF_DB.Target.colorTextCustom and TargetName  then
 		if TRP3_UF_DB.Setting.FullNameTarget and TRP3_UF_DB.Setting.UseTRPName then
 			TargetName:SetText(TRP3_API.r.name("target"))
-		elseif not TRP3_UF_DB.Setting.FullNameTarget and TRP3_UF_DB.Setting.UseTRPName then
+		elseif not issecretvalue(UnitGUID("target")) and not TRP3_UF_DB.Setting.FullNameTarget and TRP3_UF_DB.Setting.UseTRPName then
 			local firstName = AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("target")):GetFirstName()
 			if not issecretvalue(UnitGUID("target")) and firstName then
 				TargetName:SetText(firstName);
@@ -56,7 +56,7 @@ function trpTarget.UpdateInfo()
 
 				if TRP3_UF_DB.Setting.FullNameTarget and TRP3_UF_DB.Setting.UseTRPName then
 					TargetName:SetText(TRP3_API.r.name("target"))
-				elseif not TRP3_UF_DB.Setting.FullNameTarget and TRP3_UF_DB.Setting.UseTRPName then
+				elseif not TRP3_UF_DB.Setting.FullNameTarget and TRP3_UF_DB.Setting.UseTRPName and not issecretvalue(UnitGUID("target")) then
 					local firstName = AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("target")):GetFirstName()
 					if not issecretvalue(UnitGUID("target")) and firstName then
 						TargetName:SetText(firstName)
@@ -107,7 +107,7 @@ function trpTarget.UpdateInfo()
 					r, g, b = (classR or 1), (classG or 1), (classB or 1);
 					a = 1;
 				end
-				if TRP3_UF_DB.Target.frameTextureTRP and UnitIsPlayer("target") then
+				if TRP3_UF_DB.Target.frameTextureTRP and UnitIsPlayer("target") and not issecretvalue(AddOn_TotalRP3.Player.CreateFromUnit("target")) then
 					local customColor = AddOn_TotalRP3.Player.CreateFromUnit("target"):GetCustomColorForDisplay()
 					if not issecretvalue(AddOn_TotalRP3.Player.CreateFromUnit("target")) and customColor then
 						r, g, b = customColor:GetRGB();

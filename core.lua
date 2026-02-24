@@ -101,17 +101,29 @@ local STATUS_ICON_AFK = "Interface\\AddOns\\totalRP3_UnitFrames\\tex\\Away.png";
 local STATUS_ICON_DND = "Interface\\AddOns\\totalRP3_UnitFrames\\tex\\Busy.png";
 
 function TRP3_UnitFrames.UpdateStatusIcon(unit, frame, enabled)
-	if not frame or not frame.Tex or issecretvalue(unit) or issecretvalue(UnitIsConnected(unit)) or issecretvalue(UnitIsAFK(unit)) or issecretvalue(UnitIsDND(unit)) or not enabled then 
+	if not frame or not frame.Tex or not enabled then
 		frame:Hide();
 		return;
 	end
-	if UnitIsAFK(unit) then
+
+	local isAFK, isDND, isConnected;
+	if unit == "player" or not unit then
+		isAFK = IsChatAFK();
+		isDND = IsChatDND();
+		isConnected = true;
+	else
+		isAFK = scrubsecretvalues(UnitIsAFK(unit));
+		isDND = scrubsecretvalues(UnitIsDND(unit));
+		isConnected = scrubsecretvalues(UnitIsConnected(unit));
+	end
+
+	if isAFK then
 		frame.Tex:SetTexture(STATUS_ICON_AFK);
 		frame:Show();
-	elseif UnitIsDND(unit) then
+	elseif isDND then
 		frame.Tex:SetTexture(STATUS_ICON_DND);
 		frame:Show();
-	elseif not UnitIsConnected(unit) then
+	elseif isConnected == false then
 		frame.Tex:SetTexture(STATUS_ICON_DISCONNECTED);
 		frame:Show();
 	else
@@ -321,6 +333,8 @@ local function onStart()
 	end)
 
 	TRP3_UnitFrames.trpPlayer:RegisterEvent("PLAYER_FLAGS_CHANGED")
+	TRP3_UnitFrames.trpPlayer:RegisterEvent("BN_INFO_CHANGED")
+	TRP3_UnitFrames.trpPlayer:RegisterEvent("BN_FRIEND_INFO_CHANGED")
 end
 
 local totalRP3_UnitFrames = {

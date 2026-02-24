@@ -28,15 +28,15 @@ function trpTarget.SetColor()
 			TargetName:SetText(TRP3_API.r.name("target"))
 		elseif not TRP3_UF_DB.Setting.FullNameTarget and TRP3_UF_DB.Setting.UseTRPName then
 			local firstName = AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("target")):GetFirstName()
-			if firstName then
-				TargetName:SetText(firstName)
+			if not issecretvalue(UnitGUID("target")) and firstName then
+				TargetName:SetText(firstName);
 			else
-				TargetName:SetText(UnitName("target"))
+				TargetName:SetText(UnitName("target"));
 			end
 		else
-			TargetName:SetText(UnitName("target"))
+			TargetName:SetText(UnitName("target"));
 		end
-		TargetName:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText))
+		TargetName:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText));
 	end
 end
 
@@ -47,10 +47,10 @@ function trpTarget.UpdateInfo()
 			TargetName:SetWidth(TRP3_UF_DB.Target.nameWidth)
 		end
 
-		if UnitIsPlayer("target") then
+		if not issecretvalue(UnitIsPlayer("target")) and UnitIsPlayer("target") then
 			ReputationColor:SetVertexColor(0, 0, 1, 1)
 
-			if TRP3_UF_DB.Target.colorTextClass then
+			if TRP3_UF_DB.Target.colorTextClass and not issecretvalue(UnitClassBase("target")) then
 				local classR, classG, classB = C_ClassColor.GetClassColor(UnitClassBase("target")).r, C_ClassColor.GetClassColor(UnitClassBase("target")).g, C_ClassColor.GetClassColor(UnitClassBase("target")).b
 				classR, classG, classB = classR or 1, classG or 1, classB or 1
 
@@ -58,7 +58,11 @@ function trpTarget.UpdateInfo()
 					TargetName:SetText(TRP3_API.r.name("target"))
 				elseif not TRP3_UF_DB.Setting.FullNameTarget and TRP3_UF_DB.Setting.UseTRPName then
 					local firstName = AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("target")):GetFirstName()
-					TargetName:SetText(firstName or UnitName("target"))
+					if not issecretvalue(UnitGUID("target")) and firstName then
+						TargetName:SetText(firstName)
+					else
+						TargetName:SetText(UnitName("target"))
+					end
 				else
 					TargetName:SetText(UnitName("target"))
 				end

@@ -101,7 +101,7 @@ local STATUS_ICON_AFK = "Interface\\AddOns\\totalRP3_UnitFrames\\tex\\Away.png";
 local STATUS_ICON_DND = "Interface\\AddOns\\totalRP3_UnitFrames\\tex\\Busy.png";
 
 function TRP3_UnitFrames.UpdateStatusIcon(unit, frame, enabled)
-	if not frame or not frame.Tex or issecretvalue(unit) or UnitIsConnected(unit) or UnitIsAFK(unit) or UnitIsDND(unit) or not enabled then 
+	if not frame or not frame.Tex or issecretvalue(unit) or issecretvalue(UnitIsConnected(unit)) or issecretvalue(UnitIsAFK(unit)) or issecretvalue(UnitIsDND(unit)) or not enabled then 
 		frame:Hide();
 		return;
 	end
@@ -111,9 +111,9 @@ function TRP3_UnitFrames.UpdateStatusIcon(unit, frame, enabled)
 	elseif UnitIsDND(unit) then
 		frame.Tex:SetTexture(STATUS_ICON_DND);
 		frame:Show();
-	--elseif UnitIsConnected(unit) then -- seems a little weird when targeting self in dungeons, investigate later
-	--	frame.Tex:SetTexture(STATUS_ICON_DISCONNECTED);
-	--	frame:Show();
+	elseif not UnitIsConnected(unit) then
+		frame.Tex:SetTexture(STATUS_ICON_DISCONNECTED);
+		frame:Show();
 	else
 		frame:Hide();
 	end

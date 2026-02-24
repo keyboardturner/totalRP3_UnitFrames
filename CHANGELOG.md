@@ -1,3 +1,7 @@
+# 1.0.3
+
+Even more secret value error checks for PvP
+
 # 1.0.2
 
 Added lock icon / greyed text to options which are unavailable and require another option to function.

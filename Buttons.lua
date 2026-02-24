@@ -238,7 +238,7 @@ trpTarget:SetScript("OnEvent", function(self, event)
 	if event == "PLAYER_REGEN_DISABLED" then
 		trpTarget.HideFadingFrame()
 	elseif event == "PLAYER_REGEN_ENABLED" then
-		if UnitIsPlayer("target") and AddOn_TotalRP3.Player.CreateFromUnit("target"):GetProfileID() and TRP3_UF_DB.Target.relativePoint ~= "CENTER" and TRP3_UF_DB.Target.show then
+		if UnitIsPlayer("target") and not issecretvalue(UnitGUID("target")) and AddOn_TotalRP3.Player.CreateFromUnit("target"):GetProfileID() and TRP3_UF_DB.Target.relativePoint ~= "CENTER" and TRP3_UF_DB.Target.show then
 			trpTarget.ShowFadingFrame()
 		end
 	else

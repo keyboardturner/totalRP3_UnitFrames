@@ -47,4 +47,9 @@
 ## X-Wago-ID: PANzOV64
 
 Localization.lua
-core.lua
+Core.lua
+SettingsUI.lua
+PlayerFrame.lua
+TargetFrame.lua
+Portraits.lua
+Buttons.lua

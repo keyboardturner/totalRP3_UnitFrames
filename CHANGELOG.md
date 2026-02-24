@@ -1,3 +1,7 @@
+# 1.0.1
+
+Fixed the minor catastrophic issue that happened where the toc was missing every single new file in the packaged versions. You can imagine this probably lead to some errors
+
 # 1.0.0
 
 Reworked much of the code to be more portioned out and organized across separate files. Still more work to do but it's in a functional state

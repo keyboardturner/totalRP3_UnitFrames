@@ -107,7 +107,7 @@ function trpTarget.UpdateInfo()
 					r, g, b = (classR or 1), (classG or 1), (classB or 1);
 					a = 1;
 				end
-				if TRP3_UF_DB.Target.frameTextureTRP and UnitIsPlayer("target") and not issecretvalue(AddOn_TotalRP3.Player.CreateFromUnit("target")) then
+				if TRP3_UF_DB.Target.frameTextureTRP and UnitIsPlayer("target") and not issecretvalue(UnitGUID("target")) then -- here
 					local customColor = AddOn_TotalRP3.Player.CreateFromUnit("target"):GetCustomColorForDisplay()
 					if not issecretvalue(AddOn_TotalRP3.Player.CreateFromUnit("target")) and customColor then
 						r, g, b = customColor:GetRGB();

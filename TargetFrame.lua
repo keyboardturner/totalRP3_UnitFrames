@@ -47,7 +47,7 @@ function trpTarget.UpdateInfo()
 			TargetName:SetWidth(TRP3_UF_DB.Target.nameWidth)
 		end
 
-		if not issecretvalue(UnitIsPlayer("target")) and UnitIsPlayer("target") then
+		if not issecretvalue(UnitGUID("target")) and UnitIsPlayer("target") then
 			ReputationColor:SetVertexColor(0, 0, 1, 1)
 
 			if TRP3_UF_DB.Target.colorTextClass and not issecretvalue(UnitClassBase("target")) then

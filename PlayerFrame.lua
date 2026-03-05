@@ -34,9 +34,9 @@ function trpPlayer.UpdateInfo()
 			PlayerName:SetWidth(TRP3_UF_DB.Player.nameWidth);
 		end
 
-		if TRP3_UF_DB.Setting.FullNamePlayer and TRP3_UF_DB.Setting.UseTRPName and not issecretvalue(TRP3_API.r.name("player")) then
+		if TRP3_UF_DB.Setting.FullNamePlayer and TRP3_UF_DB.Setting.UseTRPName and TRP3_API.r.name("player") then
 			PlayerName:SetText(TRP3_API.r.name("player"));
-		elseif not TRP3_UF_DB.Setting.FullNamePlayer and TRP3_UF_DB.Setting.UseTRPName and ( not issecretvalue(UnitGUID("player")) and not issecretvalue(AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("player")):GetFirstName()) ) then
+		elseif not TRP3_UF_DB.Setting.FullNamePlayer and TRP3_UF_DB.Setting.UseTRPName and ( not issecretvalue(UnitGUID("player")) and AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("player")):GetFirstName() ) then
 			PlayerName:SetText(AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("player")):GetFirstName());
 		else
 			PlayerName:SetText(UnitName("player"));

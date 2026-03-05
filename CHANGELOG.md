@@ -1,3 +1,7 @@
+# 1.0.4
+
+Fixes to button positioning & settings UI
+
 # 1.0.3
 
 Even more secret value error checks for PvP

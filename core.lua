@@ -302,6 +302,9 @@ local function onStart()
 
 	TRP3_UnitFrames.SetColors()
 
+	if TRP3_UnitFrames.trpPlayer.SetPos then TRP3_UnitFrames.trpPlayer.SetPos() end
+	if TRP3_UnitFrames.trpTarget.SetPos then TRP3_UnitFrames.trpTarget.SetPos() end
+
 	local SETTINGS_PAGE_ID = "main_unitframesplugin";
 	local SETTINGS_MENU_ID = "main_91_config_main_config_unitframesplugin";
 

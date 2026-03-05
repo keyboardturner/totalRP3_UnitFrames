@@ -53,11 +53,11 @@ local function BuildDummyFrames(panel, playerOffX, playerOffY, targetOffX, targe
 	panel.Tf.tex:AddMaskTexture(panel.Tf.mask)
 	SetPortraitTexture(panel.Tf.tex, "player")
 
-	function panel.OnShow()
-		SetPortraitTexture(panel.Pf.tex, "player");
-		SetPortraitTexture(panel.Tf.tex, "player");
-	end
-	panel.Tf:SetScript("OnShow", panel.OnShow)
+	--function panel.OnShow()
+	--	SetPortraitTexture(panel.Pf.tex, "player");
+	--	SetPortraitTexture(panel.Tf.tex, "player");
+	--end
+	--panel.Tf:SetScript("OnShow", panel.OnShow)
 
 	panel.Pf.TitleText = panel.Pf:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 	panel.Pf.TitleText:SetFont(panel.Pf.TitleText:GetFont(), 12)
@@ -81,15 +81,15 @@ local function BuildDummyFrames(panel, playerOffX, playerOffY, targetOffX, targe
 	panel.Pf.radioBottom = CreateFrame("CheckButton", nil, panel.Pf, "UIRadioButtonTemplate")
 	panel.Pf.radioBottomRight = CreateFrame("CheckButton", nil, panel.Pf, "UIRadioButtonTemplate")
 
-	panel.Pf.radioTopLeft:SetChecked(false)
-	panel.Pf.radioTop:SetChecked(false)
-	panel.Pf.radioTopRight:SetChecked(false)
-	panel.Pf.radioLeft:SetChecked(false)
-	panel.Pf.radioCenter:SetChecked(false)
-	panel.Pf.radioRight:SetChecked(false)
-	panel.Pf.radioBottomLeft:SetChecked(false)
-	panel.Pf.radioBottom:SetChecked(false)
-	panel.Pf.radioBottomRight:SetChecked(true)
+	--panel.Pf.radioTopLeft:SetChecked(false)
+	--panel.Pf.radioTop:SetChecked(false)
+	--panel.Pf.radioTopRight:SetChecked(false)
+	--panel.Pf.radioLeft:SetChecked(false)
+	--panel.Pf.radioCenter:SetChecked(false)
+	--panel.Pf.radioRight:SetChecked(false)
+	--panel.Pf.radioBottomLeft:SetChecked(false)
+	--panel.Pf.radioBottom:SetChecked(false)
+	--panel.Pf.radioBottomRight:SetChecked(true)
 
 	panel.Pf.radioTopLeft:SetPoint("CENTER", panel.Pf, "TOPLEFT", 0, 0)
 	panel.Pf.radioTop:SetPoint("CENTER", panel.Pf, "TOP", 0, 0)
@@ -140,15 +140,15 @@ local function BuildDummyFrames(panel, playerOffX, playerOffY, targetOffX, targe
 	panel.Tf.radioBottom = CreateFrame("CheckButton", nil, panel.Tf, "UIRadioButtonTemplate")
 	panel.Tf.radioBottomRight = CreateFrame("CheckButton", nil, panel.Tf, "UIRadioButtonTemplate")
 
-	panel.Tf.radioTopLeft:SetChecked(false)
-	panel.Tf.radioTop:SetChecked(false)
-	panel.Tf.radioTopRight:SetChecked(false)
-	panel.Tf.radioLeft:SetChecked(false)
-	panel.Tf.radioCenter:SetChecked(false)
-	panel.Tf.radioRight:SetChecked(false)
-	panel.Tf.radioBottomLeft:SetChecked(true)
-	panel.Tf.radioBottom:SetChecked(false)
-	panel.Tf.radioBottomRight:SetChecked(false)
+	--panel.Tf.radioTopLeft:SetChecked(false)
+	--panel.Tf.radioTop:SetChecked(false)
+	--panel.Tf.radioTopRight:SetChecked(false)
+	--panel.Tf.radioLeft:SetChecked(false)
+	--panel.Tf.radioCenter:SetChecked(false)
+	--panel.Tf.radioRight:SetChecked(false)
+	--panel.Tf.radioBottomLeft:SetChecked(true)
+	--panel.Tf.radioBottom:SetChecked(false)
+	--panel.Tf.radioBottomRight:SetChecked(false)
 
 	panel.Tf.radioTopLeft:SetPoint("CENTER", panel.Tf, "TOPLEFT", 0, 0)
 	panel.Tf.radioTop:SetPoint("CENTER", panel.Tf, "TOP", 0, 0)
@@ -213,6 +213,35 @@ local function BuildDummyFrames(panel, playerOffX, playerOffY, targetOffX, targe
 	panel.TColor.Name:SetTextColor(1, 1, 1, 1)
 	panel.TColor.Name:SetPoint("TOP", panel.TColor, "TOP", 0, 0)
 	panel.TColor.Name:SetText(TARGET)
+
+	function panel.OnShow()
+		SetPortraitTexture(panel.Pf.tex, "player");
+		SetPortraitTexture(panel.Tf.tex, "player");
+
+		local p_point = TRP3_UF_DB and TRP3_UF_DB.Player and TRP3_UF_DB.Player.relativePoint or "BOTTOMRIGHT";
+		panel.Pf.radioTopLeft:SetChecked(p_point == "TOPLEFT")
+		panel.Pf.radioTop:SetChecked(p_point == "TOP")
+		panel.Pf.radioTopRight:SetChecked(p_point == "TOPRIGHT")
+		panel.Pf.radioLeft:SetChecked(p_point == "LEFT")
+		panel.Pf.radioCenter:SetChecked(p_point == "CENTER")
+		panel.Pf.radioRight:SetChecked(p_point == "RIGHT")
+		panel.Pf.radioBottomLeft:SetChecked(p_point == "BOTTOMLEFT")
+		panel.Pf.radioBottom:SetChecked(p_point == "BOTTOM")
+		panel.Pf.radioBottomRight:SetChecked(p_point == "BOTTOMRIGHT")
+
+		local t_point = TRP3_UF_DB and TRP3_UF_DB.Target and TRP3_UF_DB.Target.relativePoint or "BOTTOMLEFT";
+		panel.Tf.radioTopLeft:SetChecked(t_point == "TOPLEFT")
+		panel.Tf.radioTop:SetChecked(t_point == "TOP")
+		panel.Tf.radioTopRight:SetChecked(t_point == "TOPRIGHT")
+		panel.Tf.radioLeft:SetChecked(t_point == "LEFT")
+		panel.Tf.radioCenter:SetChecked(t_point == "CENTER")
+		panel.Tf.radioRight:SetChecked(t_point == "RIGHT")
+		panel.Tf.radioBottomLeft:SetChecked(t_point == "BOTTOMLEFT")
+		panel.Tf.radioBottom:SetChecked(t_point == "BOTTOM")
+		panel.Tf.radioBottomRight:SetChecked(t_point == "BOTTOMRIGHT")
+	end
+	
+	panel:SetScript("OnShow", panel.OnShow)
 end
 
 local function InitializeCheckbox(button, data)

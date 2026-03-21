@@ -192,11 +192,13 @@ local function CreateFadeAnimations(frameTable)
 	frameTable.fadeOut:SetScript("OnFinished", function() frameTable.button:Hide() end)
 
 	frameTable.ShowFadingFrame = function()
+		frameTable.fadeGroupHide:Stop()
 		frameTable.button:Show()
 		frameTable.fadeGroupShow:Play()
 	end
 
 	frameTable.HideFadingFrame = function()
+		frameTable.fadeGroupShow:Stop()
 		frameTable.fadeGroupHide:Play()
 	end
 end
@@ -242,7 +244,7 @@ trpTarget:SetScript("OnEvent", function(self, event)
 			trpTarget.ShowFadingFrame()
 		end
 	else
-		if trpTarget.nameChecker and not issecretvalue(UnitGUID("target")) then
+		if trpTarget.nameChecker then
 			trpTarget.nameChecker()
 		end
 	end

@@ -154,6 +154,8 @@ function trpTarget.nameChecker()
 
 		if TRP3_UF_DB.Target.relativePoint == "CENTER" then
 			if trpTarget.button then
+				if trpTarget.fadeGroupShow then trpTarget.fadeGroupShow:Stop() end
+				if trpTarget.fadeGroupHide then trpTarget.fadeGroupHide:Stop() end
 				trpTarget.button:Hide()
 			end
 			if trpTarget.portraitClick then
@@ -164,6 +166,8 @@ function trpTarget.nameChecker()
 		else
 			if not InCombatLockdown() and TRP3_UF_DB.Target.show then
 				if trpTarget.button then
+					if trpTarget.fadeGroupShow then trpTarget.fadeGroupShow:Stop() end
+					if trpTarget.fadeGroupHide then trpTarget.fadeGroupHide:Stop() end
 					trpTarget.button:Show()
 				end
 			end
@@ -178,6 +182,8 @@ function trpTarget.nameChecker()
 		end
 	else
 		if trpTarget.button then
+			if trpTarget.fadeGroupShow then trpTarget.fadeGroupShow:Stop() end
+			if trpTarget.fadeGroupHide then trpTarget.fadeGroupHide:Stop() end
 			trpTarget.button:Hide()
 		end
 		if trpTarget.portraitClick then

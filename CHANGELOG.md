@@ -1,3 +1,7 @@
+# 1.0.5
+
+Fix funni buttons lingering when targeting a player with a profile and then targeting an NPC
+
 # 1.0.4
 
 Fixes to button positioning & settings UI

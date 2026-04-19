@@ -1,3 +1,7 @@
+# 1.0.6
+
+12.0.5 toc update
+
 # 1.0.5
 
 Fix funni buttons lingering when targeting a player with a profile and then targeting an NPC

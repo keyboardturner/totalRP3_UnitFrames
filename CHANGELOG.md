@@ -2,6 +2,8 @@
 
 12.0.5 toc update
 
+Potentially fixed issue where `realm` was nil regarding the playerframe, causing an error
+
 # 1.0.5
 
 Fix funni buttons lingering when targeting a player with a profile and then targeting an NPC

@@ -135,7 +135,7 @@ function trpTarget.nameChecker()
 	trpTarget.UpdateInfo()
 	trpPlayer.UpdateInfo()
 
-	if UnitIsPlayer("target") and AddOn_TotalRP3.Player.CreateFromUnit("target"):GetProfileID() then
+	if UnitIsPlayer("target") and not issecretvalue(UnitGUID("target")) and AddOn_TotalRP3.Player.CreateFromUnit("target"):GetProfileID() then
 		trpTarget.SetColor()
 
 		local player = AddOn_TotalRP3.Player.CreateFromUnit("target")

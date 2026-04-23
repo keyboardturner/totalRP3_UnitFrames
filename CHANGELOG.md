@@ -1,3 +1,7 @@
+# 1.0.7
+
+Potential fix to "attempt to compare local 'name'" error
+
 # 1.0.6
 
 12.0.5 toc update

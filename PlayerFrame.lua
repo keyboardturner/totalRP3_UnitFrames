@@ -27,28 +27,24 @@ function trpPlayer.UpdateStatusIcon()
 end
 
 function trpPlayer.UpdateInfo()
-	local pName, pRealm = UnitName("player");
-	pRealm = pRealm or GetNormalizedRealmName();
-	
-	if not pRealm or not (TRP3_API and TRP3_API.globals and TRP3_API.globals.player_realm_id) then
-		return;
-	end
-
-	local safeUnitID = pName .. "-" .. pRealm;
-
-	local classR, classG, classB = C_ClassColor.GetClassColor(UnitClassBase("player")).r, C_ClassColor.GetClassColor(UnitClassBase("player")).g, C_ClassColor.GetClassColor(UnitClassBase("player")).b;
+	local playerClass = UnitClassBase("player");
+	local playerGUID = UnitGUID("player");
+	local playerNameString = UnitName("player");
+	if issecretvalue(playerClass) or issecretvalue(playerGUID) or issecretvalue(playerNameString) then return end;
+	if not playerClass or not playerGUID or not playerNameString or playerNameString == "" then return end;
+	local classR, classG, classB = C_ClassColor.GetClassColor(UnitClassBase("player")).r, C_ClassColor.GetClassColor(UnitClassBase("player")).g, C_ClassColor.GetClassColor(UnitClassBase("player")).b
 
 	if PlayerName then
 		if TRP3_UF_DB.Player.nameWidth then
 			PlayerName:SetWidth(TRP3_UF_DB.Player.nameWidth);
 		end
 
-		if TRP3_UF_DB.Setting.FullNamePlayer and TRP3_UF_DB.Setting.UseTRPName and TRP3_API.r and type(TRP3_API.r.name) == "function" and TRP3_API.r.name(safeUnitID) then
-			PlayerName:SetText(TRP3_API.r.name(safeUnitID));
+		if TRP3_UF_DB.Setting.FullNamePlayer and TRP3_UF_DB.Setting.UseTRPName and TRP3_API and TRP3_API.globals and TRP3_API.globals.player_realm_id and TRP3_API.r.name("player") then
+			PlayerName:SetText(TRP3_API.r.name("player"));
 		elseif not TRP3_UF_DB.Setting.FullNamePlayer and TRP3_UF_DB.Setting.UseTRPName and ( not issecretvalue(UnitGUID("player")) and AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("player")):GetFirstName() ) then
 			PlayerName:SetText(AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("player")):GetFirstName());
 		else
-			PlayerName:SetText(pName or UnitName("player"));
+			PlayerName:SetText(UnitName("player"));
 		end
 		
 		PlayerName:SetTextColor(1, 0.896, 0, 1)

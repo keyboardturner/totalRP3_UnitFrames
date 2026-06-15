@@ -1,3 +1,7 @@
+# 1.0.9
+
+12.0.7 toc update
+
 # 1.0.8
 
 Fix a minor catastrophic issue with the player name not being updated properly

@@ -52,4 +52,5 @@ SettingsUI.lua
 PlayerFrame.lua
 TargetFrame.lua
 Portraits.lua
+Backplate.lua
 Buttons.lua

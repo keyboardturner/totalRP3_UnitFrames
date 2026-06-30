@@ -86,6 +86,14 @@ if LOCALE == "enUS" then
 	L["ShowStatusPlayer"] = "Show Player Status Icon"
 	L["ShowStatusTarget"] = "Show Target Status Icon"
 
+	L["PlayerBackplate"] =  "Player Backplate"
+	L["ShowBackplate"] =  "Show Backplate"
+	L["BackplateStyle"] = "Backplate Style"
+	L["ProfileSpecificBackplate"] = "Profile-Specific Backplate"
+	L["DeathKnight"] = GetClassInfo(6) -- Death Knight
+	L["BPStyle_SwordRunes"] = "Sword Runes"
+	L["BPStyle_SwordPlain"] = "Sword Plain"
+
 return end
 
 if LOCALE == "esES" or LOCALE == "esMX" then
@@ -160,6 +168,14 @@ if LOCALE == "esES" or LOCALE == "esMX" then
 
 	L["ShowStatusPlayer"] = "Mostrar icono de estado del jugador"
 	L["ShowStatusTarget"] = "Mostrar icono de estado del objetivo"
+
+	L["PlayerBackplate"] = "Placa de fondo del jugador"
+	L["ShowBackplate"] = "Mostrar placa de fondo"
+	L["BackplateStyle"] = "Estilo de la placa de fondo"
+	L["ProfileSpecificBackplate"] = "Placa de fondo específica del perfil"
+	L["DeathKnight"] = GetClassInfo(6) -- Death Knight
+	L["BPStyle_SwordRunes"] = "Espada con runas"
+	L["BPStyle_SwordPlain"] = "Espada sencilla"
 
 return end
 
@@ -236,6 +252,14 @@ if LOCALE == "deDE" then
 	L["ShowStatusPlayer"] = "Statussymbol des Spielers anzeigen"
 	L["ShowStatusTarget"] = "Statussymbol des Ziels anzeigen"
 
+	L["PlayerBackplate"] = "Spielerhintergrund"
+	L["ShowBackplate"] = "Hintergrund anzeigen"
+	L["BackplateStyle"] = "Hintergrundstil"
+	L["ProfileSpecificBackplate"] = "Profilspezifischer Hintergrund"
+	L["DeathKnight"] = GetClassInfo(6) -- Death Knight
+	L["BPStyle_SwordRunes"] = "Runenschwert"
+	L["BPStyle_SwordPlain"] = "Einfaches Schwert"
+
 return end
 
 if LOCALE == "frFR" then
@@ -310,6 +334,14 @@ if LOCALE == "frFR" then
 
 	L["ShowStatusPlayer"] = "Afficher l’icône de statut du joueur"
 	L["ShowStatusTarget"] = "Afficher l’icône de statut de la cible"
+
+	L["PlayerBackplate"] = "Plaque de fond du joueur"
+	L["ShowBackplate"] = "Afficher la plaque de fond"
+	L["BackplateStyle"] = "Style de la plaque de fond"
+	L["ProfileSpecificBackplate"] = "Plaque de fond spécifique au profil"
+	L["DeathKnight"] = GetClassInfo(6) -- Death Knight
+	L["BPStyle_SwordRunes"] = "Épée runique"
+	L["BPStyle_SwordPlain"] = "Épée simple"
 
 return end
 
@@ -386,6 +418,14 @@ if LOCALE == "itIT" then
 	L["ShowStatusPlayer"] = "Mostra icona di stato del giocatore"
 	L["ShowStatusTarget"] = "Mostra icona di stato del bersaglio"
 
+	L["PlayerBackplate"] = "Pannello di sfondo del giocatore"
+	L["ShowBackplate"] = "Mostra pannello di sfondo"
+	L["BackplateStyle"] = "Stile del pannello di sfondo"
+	L["ProfileSpecificBackplate"] = "Pannello di sfondo specifico del profilo"
+	L["DeathKnight"] = GetClassInfo(6) -- Death Knight
+	L["BPStyle_SwordRunes"] = "Spada runica"
+	L["BPStyle_SwordPlain"] = "Spada semplice"
+
 return end
 
 if LOCALE == "ptBR" then
@@ -460,6 +500,14 @@ if LOCALE == "ptBR" then
 
 	L["ShowStatusPlayer"] = "Mostrar ícone de status do jogador"
 	L["ShowStatusTarget"] = "Mostrar ícone de status do alvo"
+
+	L["PlayerBackplate"] = "Placa de fundo do jogador"
+	L["ShowBackplate"] = "Mostrar placa de fundo"
+	L["BackplateStyle"] = "Estilo da placa de fundo"
+	L["ProfileSpecificBackplate"] = "Placa de fundo específica do perfil"
+	L["DeathKnight"] = GetClassInfo(6) -- Death Knight
+	L["BPStyle_SwordRunes"] = "Espada rúnica"
+	L["BPStyle_SwordPlain"] = "Espada simples"
 
 	-- Note that the EU Portuguese WoW client also
 	-- uses the Brazilian Portuguese locale code.
@@ -538,6 +586,14 @@ if LOCALE == "ruRU" then
 	L["ShowStatusPlayer"] = "Показывать значок статуса игрока"
 	L["ShowStatusTarget"] = "Показывать значок статуса цели"
 
+	L["PlayerBackplate"] = "Фоновая панель игрока"
+	L["ShowBackplate"] = "Показывать фоновую панель"
+	L["BackplateStyle"] = "Стиль фоновой панели"
+	L["ProfileSpecificBackplate"] = "Фоновая панель для профиля"
+	L["DeathKnight"] = GetClassInfo(6) -- Death Knight
+	L["BPStyle_SwordRunes"] = "Рунический меч"
+	L["BPStyle_SwordPlain"] = "Простой меч"
+
 return end
 
 if LOCALE == "koKR" then
@@ -612,6 +668,14 @@ if LOCALE == "koKR" then
 
 	L["ShowStatusPlayer"] = "플레이어 상태 아이콘 표시"
 	L["ShowStatusTarget"] = "대상 상태 아이콘 표시"
+
+	L["PlayerBackplate"] = "플레이어 배경판"
+	L["ShowBackplate"] = "배경판 표시"
+	L["BackplateStyle"] = "배경판 스타일"
+	L["ProfileSpecificBackplate"] = "프로필별 배경판"
+	L["DeathKnight"] = GetClassInfo(6) -- Death Knight
+	L["BPStyle_SwordRunes"] = "룬 검"
+	L["BPStyle_SwordPlain"] = "기본 검"
 
 return end
 
@@ -688,6 +752,14 @@ if LOCALE == "zhCN" then
 	L["ShowStatusPlayer"] = "显示玩家状态图标"
 	L["ShowStatusTarget"] = "显示目标状态图标"
 
+	L["PlayerBackplate"] = "玩家底板"
+	L["ShowBackplate"] = "显示底板"
+	L["BackplateStyle"] = "底板样式"
+	L["ProfileSpecificBackplate"] = "配置文件专用底板"
+	L["DeathKnight"] = GetClassInfo(6) -- Death Knight
+	L["BPStyle_SwordRunes"] = "符文之剑"
+	L["BPStyle_SwordPlain"] = "普通之剑"
+
 return end
 
 if LOCALE == "zhTW" then
@@ -762,5 +834,13 @@ if LOCALE == "zhTW" then
 
 	L["ShowStatusPlayer"] = "顯示玩家狀態圖示"
 	L["ShowStatusTarget"] = "顯示目標狀態圖示"
+
+	L["PlayerBackplate"] = "玩家底板"
+	L["ShowBackplate"] = "顯示底板"
+	L["BackplateStyle"] = "底板樣式"
+	L["ProfileSpecificBackplate"] = "設定檔專用底板"
+	L["DeathKnight"] = GetClassInfo(6) -- Death Knight
+	L["BPStyle_SwordRunes"] = "符文之劍"
+	L["BPStyle_SwordPlain"] = "普通之劍"
 
 return end

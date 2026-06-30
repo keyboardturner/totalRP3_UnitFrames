@@ -633,6 +633,7 @@ end
 
 local function BuildSettingsData()
 	local function BC() return TRP3_UnitFrames.GetBorderConfig(); end
+	local function BPC() return TRP3_UnitFrames.GetBackplateConfig(); end
 	allSettingsData = {};
 
 	local function gs(lbl, tt)
@@ -1192,6 +1193,78 @@ local function BuildSettingsData()
 		end,
 		callback = function()
 			if trpPlayer.SetAsPortrait then trpPlayer.SetAsPortrait() end
+			TRP3_UnitFrames.CheckSettings();
+		end,
+	})
+	table.insert(allSettingsData, {
+		type = "header",
+		label = L["PlayerBackplate"]
+	})
+
+	table.insert(allSettingsData, {
+		type = "checkbox",
+		label = L["ShowBackplate"],
+		searchText = gs(L["ShowBackplate"]),
+		get = function() return BPC().show end,
+		set = function(v) BPC().show = v end,
+		callback = function(v)
+			if trpPlayer.SetBackplate then
+				trpPlayer.SetBackplate();
+			end
+			TRP3_UnitFrames.CheckSettings();
+		end,
+	})
+
+	table.insert(allSettingsData, {
+		type = "dropdown",
+		label = L["BackplateStyle"],
+		defaultText = L["BackplateStyle"],
+		searchText = gs(L["BackplateStyle"]),
+		isEnabled = function() return BPC().show end,
+		menuBuilder = function(_, rootDescription)
+			for _, menu in ipairs(TRP3_UnitFrames.BackplateThemes) do
+				local elementDescription = rootDescription:CreateButton(menu.ThemeName)
+				if menu.Data then
+					for _, v in ipairs(menu.Data) do
+						elementDescription:CreateRadio(v.name,
+							function()
+								return BPC().style == v.id;
+							end,
+							function()
+								BPC().style = v.id;
+								if trpPlayer.SetBackplate then
+									trpPlayer.SetBackplate();
+								end
+							end
+						)
+					end
+				else
+					elementDescription:SetEnabled(false)
+					elementDescription:SetTooltip(function(tooltip, elementDesc)
+						GameTooltip_SetTitle(tooltip, MenuUtil.GetElementText(elementDesc));
+						GameTooltip_AddErrorLine(tooltip, menu.ThemeDesc);
+					end)
+				end
+			end
+		end,
+	})
+
+	table.insert(allSettingsData, {
+		type = "checkbox",
+		label = L["ProfileSpecificBackplate"],
+		searchText = gs(L["ProfileSpecificBackplate"]),
+		get = function() return TRP3_UF_DB.Setting.profileSpecificBackplate; end,
+		set = function(v)
+			TRP3_UF_DB.Setting.profileSpecificBackplate = v;
+			if v and TRP3_API.profile and TRP3_API.profile.getPlayerCurrentProfileID then
+				local pid = TRP3_API.profile.getPlayerCurrentProfileID();
+				if pid and not TRP3_UF_DB.ProfileBackplates[pid] then
+					TRP3_UF_DB.ProfileBackplates[pid] = CopyTable(TRP3_UF_DB.Backplate);
+				end
+			end
+		end,
+		callback = function()
+			if trpPlayer.SetBackplate then trpPlayer.SetBackplate() end
 			TRP3_UnitFrames.CheckSettings();
 		end,
 	})

@@ -56,8 +56,13 @@ local defaultsTable = {
 		color = {r = 1, g = 1, b = 1, a = 1, custom = false, class = false,},
 		status = false,
 	},
+	Backplate = {
+		show = false,
+		style = "swordplain",
+	},
 
 	ProfileBorders = {},
+	ProfileBackplates = {},
 
 	Setting = {
 		locked = true,
@@ -67,6 +72,7 @@ local defaultsTable = {
 		FullNameTarget = true,
 		UseTRPName = true,
 		profileSpecificBorder = false,
+		profileSpecificBackplate = false,
 	},
 
 	CurrNotifier = {show = true,
@@ -142,6 +148,19 @@ function TRP3_UnitFrames.GetBorderConfig()
 		end
 	end
 	return TRP3_UF_DB.Border;
+end
+
+function TRP3_UnitFrames.GetBackplateConfig()
+	if TRP3_UF_DB.Setting.profileSpecificBackplate and TRP3_API and TRP3_API.profile and TRP3_API.profile.getPlayerCurrentProfileID then
+		local profileID = TRP3_API.profile.getPlayerCurrentProfileID();
+		if profileID then
+			if not TRP3_UF_DB.ProfileBackplates[profileID] then
+				TRP3_UF_DB.ProfileBackplates[profileID] = CopyTable(TRP3_UF_DB.Backplate);
+			end
+			return TRP3_UF_DB.ProfileBackplates[profileID];
+		end
+	end
+	return TRP3_UF_DB.Backplate;
 end
 
 function TRP3_UnitFrames.SetColors()
@@ -289,6 +308,10 @@ local function onStart()
 
 	if TRP3_UF_DB.Player.showStatus == nil then TRP3_UF_DB.Player.showStatus = defaultsTable.Player.showStatus end
 	if TRP3_UF_DB.Target.showStatus == nil then TRP3_UF_DB.Target.showStatus = defaultsTable.Target.showStatus end
+	
+	if TRP3_UF_DB.Backplate == nil then TRP3_UF_DB.Backplate = CopyTable(defaultsTable.Backplate) end
+	if TRP3_UF_DB.ProfileBackplates == nil then TRP3_UF_DB.ProfileBackplates = {} end
+	if TRP3_UF_DB.Setting.profileSpecificBackplate == nil then TRP3_UF_DB.Setting.profileSpecificBackplate = defaultsTable.Setting.profileSpecificBackplate end
 
 	TRP3_UnitFrames.updateSVs()
 
@@ -320,7 +343,7 @@ local function onStart()
 		onSelected = function() TRP3_API.navigation.page.setPage(SETTINGS_PAGE_ID); end,
 	});
 
-	TRP3_API.RegisterCallback(TRP3_Addon, "REGISTER_DATA_UPDATED", function()
+	TRP3_API.RegisterCallback(TRP3_Addon, "REGISTER_DATA_UPDATED", function(event, unitID)
 		local trpPlayer = TRP3_UnitFrames.trpPlayer
 		local trpTarget = TRP3_UnitFrames.trpTarget
 		if trpPlayer.UpdateInfo then trpPlayer.UpdateInfo() end
@@ -328,6 +351,9 @@ local function onStart()
 		if unitID == TRP3_API.globals.player_id or unitID == nil then
 			if trpPlayer.SetAsPortrait then
 				trpPlayer.SetAsPortrait();
+			end
+			if trpPlayer.SetBackplate then
+				trpPlayer.SetBackplate();
 			end
 			if TRP3_UnitFrames.CheckSettings then
 				TRP3_UnitFrames.CheckSettings();

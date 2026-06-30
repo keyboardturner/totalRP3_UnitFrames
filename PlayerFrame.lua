@@ -122,6 +122,9 @@ function trpPlayer.UpdateInfo()
 		if trpPlayer.SetAsPortrait then
 			trpPlayer.SetAsPortrait();
 		end
+		if trpPlayer.SetBackplate then
+			trpPlayer.SetBackplate();
+		end
 	else
 		if trpPlayer.button then
 			trpPlayer.button:Hide();

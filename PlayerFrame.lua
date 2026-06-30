@@ -27,6 +27,7 @@ function trpPlayer.UpdateStatusIcon()
 end
 
 function trpPlayer.UpdateInfo()
+	if not (TRP3_API and TRP3_API.globals and TRP3_API.globals.player_realm_id) then return end;
 	local playerClass = UnitClassBase("player");
 	local playerGUID = UnitGUID("player");
 	local playerNameString = UnitName("player");

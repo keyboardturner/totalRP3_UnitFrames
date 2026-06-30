@@ -636,10 +636,6 @@ local function BuildSettingsData()
 	local function BPC() return TRP3_UnitFrames.GetBackplateConfig(); end
 	allSettingsData = {};
 
-	local function gs(lbl, tt)
-		return (lbl .. " " .. (tt or "")):lower();
-	end
-
 	local function refreshFrames()
 		if trpPlayer.UpdateInfo then
 			trpPlayer.UpdateInfo();
@@ -657,7 +653,6 @@ local function BuildSettingsData()
 	table.insert(allSettingsData, {
 		type = "checkbox",
 		label = L["ShowButtonPlayer"],
-		searchText = gs(L["ShowButtonPlayer"]),
 		get = function() return TRP3_UF_DB.Player.show end,
 		set = function(v) TRP3_UF_DB.Player.show = v end,
 		callback = function()
@@ -669,72 +664,11 @@ local function BuildSettingsData()
 	table.insert(allSettingsData, {
 		type = "checkbox",
 		label = L["ShowButtonTarget"],
-		searchText = gs(L["ShowButtonTarget"]),
 		get = function() return TRP3_UF_DB.Target.show end,
 		set = function(v) TRP3_UF_DB.Target.show = v end,
 		callback = function()
 			if trpTarget.SetVisible then
 				trpTarget.SetVisible();
-			end
-		end,
-	})
-	table.insert(allSettingsData, {
-		type = "checkbox",
-		label = L["ShowBorderFrame"],
-		searchText = gs(L["ShowBorderFrame"]),
-		get = function() return BC().show end,
-		set = function(v) BC().show = v end,
-		callback = function(v)
-			local pdf = TRP3_UnitFrames.PlayerDragonFrame;
-			if pdf then
-				if v then
-					pdf:Show();
-				else
-					pdf:Hide();
-				end
-			end
-			if trpPlayer.SetAsPortrait then
-				trpPlayer.SetAsPortrait();
-			end
-			TRP3_UnitFrames.CheckSettings();
-		end,
-	})
-	table.insert(allSettingsData, {
-		type = "checkbox",
-		label = L["HideRestedGlow"],
-		searchText = gs(L["HideRestedGlow"]),
-		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
-		get = function() return BC().status end,
-		set = function(v) BC().status = v end,
-		callback = function(v)
-			if v then
-				PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:Hide();
-			else
-				PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:Show();
-			end
-		end,
-	})
-	table.insert(allSettingsData, {
-		type = "checkbox",
-		label =L["ShowStatusPlayer"],
-		searchText = gs(L["ShowStatusPlayer"]),
-		get = function() return TRP3_UF_DB.Player.showStatus end,
-		set = function(v) TRP3_UF_DB.Player.showStatus = v end,
-		callback = function()
-			if trpPlayer.UpdateStatusIcon then
-				trpPlayer.UpdateStatusIcon();
-			end
-		end,
-	})
-	table.insert(allSettingsData, {
-		type = "checkbox",
-		label = L["ShowStatusTarget"],
-		searchText = gs(L["ShowStatusTarget"]),
-		get = function() return TRP3_UF_DB.Target.showStatus end,
-		set = function(v) TRP3_UF_DB.Target.showStatus = v end,
-		callback = function()
-			if trpTarget.UpdateStatusIcon then
-				trpTarget.UpdateStatusIcon();
 			end
 		end,
 	})
@@ -747,7 +681,6 @@ local function BuildSettingsData()
 	table.insert(allSettingsData, {
 		type = "slider",
 		label = L["ButtonSizePlayer"],
-		searchText = gs(L["ButtonSizePlayer"]),
 		min = 0.5, max = 15, step = 0.5,
 		formatter = function(v) return string.format("%.1f", v) end,
 		get = function() return TRP3_UF_DB.Player.scale end,
@@ -761,7 +694,6 @@ local function BuildSettingsData()
 	table.insert(allSettingsData, {
 		type = "slider",
 		label = L["ButtonPosPlayer"],
-		searchText = gs(L["ButtonPosPlayer"]),
 		min = -15, max = 15, step = 0.5,
 		formatter = function(v) return string.format("%.1f", v) end,
 		get = function() return TRP3_UF_DB.Player.position end,
@@ -775,7 +707,6 @@ local function BuildSettingsData()
 	table.insert(allSettingsData, {
 		type = "colorpicker",
 		label = L["ButtonRingCol"],
-		searchText = gs(L["ButtonRingCol"]),
 		get = function() return TRP3_UF_DB.Player.ringColorCustom end,
 		set = function(v)
 			TRP3_UF_DB.Player.ringColorCustom = v;
@@ -796,7 +727,6 @@ local function BuildSettingsData()
 		type = "colorpicker",
 		label = L["OverwriteTextCol"],
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
-		searchText = gs(L["OverwriteTextCol"]),
 		get = function() return TRP3_UF_DB.Player.colorTextCustom end,
 		set = function(v) TRP3_UF_DB.Player.colorTextCustom = v end,
 		colorGetter = function() return TRP3_UF_DB.Player.colorText end,
@@ -808,7 +738,6 @@ local function BuildSettingsData()
 		type = "checkbox",
 		label = L["BlizzTextCol"],
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
-		searchText = gs(L["BlizzTextCol"]),
 		get = function() return TRP3_UF_DB.Player.colorTextClass end,
 		set = function(v) TRP3_UF_DB.Player.colorTextClass = v end,
 		callback = function()
@@ -819,7 +748,6 @@ local function BuildSettingsData()
 		type = "colorpicker",
 		label = L["OverwriteBackCol"],
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
-		searchText = gs(L["OverwriteBackCol"]),
 		get = function() return TRP3_UF_DB.Player.colorBackCustom end,
 		set = function(v) TRP3_UF_DB.Player.colorBackCustom = v end,
 		colorGetter = function() return TRP3_UF_DB.Player.colorBack end,
@@ -831,7 +759,6 @@ local function BuildSettingsData()
 		type = "checkbox",
 		label = L["BlizzBackCol"],
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
-		searchText = gs(L["BlizzBackCol"]),
 		get = function() return TRP3_UF_DB.Player.colorBackClass end,
 		set = function(v) TRP3_UF_DB.Player.colorBackClass = v end,
 		callback = function()
@@ -847,7 +774,6 @@ local function BuildSettingsData()
 		type = "checkbox",
 		label = L["FrameTexEnabled"],
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
-		searchText = gs(L["FrameTexEnabled"]),
 		get = function() return TRP3_UF_DB.Player.frameTextureEnabled end,
 		set = function(v) TRP3_UF_DB.Player.frameTextureEnabled = v end,
 		callback = function()
@@ -859,7 +785,6 @@ local function BuildSettingsData()
 		type = "checkbox",
 		label = L["FrameTexClassCol"],
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
-		searchText = gs(L["FrameTexClassCol"]),
 		isEnabled = function() return TRP3_UF_DB.Player.frameTextureEnabled end,
 		lockedTooltip = string.format(LOCKED_WITH_SPELL, L["FrameTexEnabled"]),
 		get = function() return TRP3_UF_DB.Player.frameTextureClass end,
@@ -872,7 +797,6 @@ local function BuildSettingsData()
 		type = "checkbox",
 		label = L["FrameTexTRPCol"],
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
-		searchText = gs(L["FrameTexTRPCol"]),
 		isEnabled = function() return TRP3_UF_DB.Player.frameTextureEnabled end,
 		lockedTooltip = string.format(LOCKED_WITH_SPELL, L["FrameTexEnabled"]),
 		get = function() return TRP3_UF_DB.Player.frameTextureTRP end,
@@ -885,7 +809,6 @@ local function BuildSettingsData()
 		type = "colorpicker",
 		label = L["FrameTexCustomCol"],
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
-		searchText = gs(L["FrameTexCustomCol"]),
 		get = function() return TRP3_UF_DB.Player.frameTextureCustom end,
 		set = function(v) TRP3_UF_DB.Player.frameTextureCustom = v end,
 		colorGetter = function() return TRP3_UF_DB.Player.frameTextureColor end,
@@ -902,7 +825,6 @@ local function BuildSettingsData()
 	table.insert(allSettingsData, {
 		type = "slider",
 		label = L["ButtonSizeTarget"],
-		searchText = gs(L["ButtonSizeTarget"]),
 		min = 0.5, max = 15, step = 0.5,
 		formatter = function(v) return string.format("%.1f", v) end,
 		get = function() return TRP3_UF_DB.Target.scale end,
@@ -916,7 +838,6 @@ local function BuildSettingsData()
 	table.insert(allSettingsData, {
 		type = "slider",
 		label = L["ButtonPosTarget"],
-		searchText = gs(L["ButtonPosTarget"]),
 		min = -15, max = 15, step = 0.5,
 		formatter = function(v) return string.format("%.1f", v) end,
 		get = function() return TRP3_UF_DB.Target.position end,
@@ -930,7 +851,6 @@ local function BuildSettingsData()
 	table.insert(allSettingsData, {
 		type = "colorpicker",
 		label = L["ButtonRingCol"],
-		searchText = gs(L["ButtonRingCol"]),
 		get = function() return TRP3_UF_DB.Target.ringColorCustom end,
 		set = function(v)
 			TRP3_UF_DB.Target.ringColorCustom = v;
@@ -951,7 +871,6 @@ local function BuildSettingsData()
 		type = "colorpicker",
 		label = L["OverwriteTextCol"],
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
-		searchText = gs(L["OverwriteTextCol"]),
 		get = function() return TRP3_UF_DB.Target.colorTextCustom end,
 		set = function(v) TRP3_UF_DB.Target.colorTextCustom = v end,
 		colorGetter = function() return TRP3_UF_DB.Target.colorText end,
@@ -963,7 +882,6 @@ local function BuildSettingsData()
 		type = "checkbox",
 		label = L["BlizzTextCol"],
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
-		searchText = gs(L["BlizzTextCol"]),
 		get = function() return TRP3_UF_DB.Target.colorTextClass end,
 		set = function(v) TRP3_UF_DB.Target.colorTextClass = v end,
 		callback = function()
@@ -974,7 +892,6 @@ local function BuildSettingsData()
 		type = "colorpicker",
 		label = L["OverwriteBackCol"],
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
-		searchText = gs(L["OverwriteBackCol"]),
 		get = function() return TRP3_UF_DB.Target.colorBackCustom end,
 		set = function(v) TRP3_UF_DB.Target.colorBackCustom = v end,
 		colorGetter = function() return TRP3_UF_DB.Target.colorBack end,
@@ -986,7 +903,6 @@ local function BuildSettingsData()
 		type = "checkbox",
 		label = L["BlizzBackCol"],
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
-		searchText = gs(L["BlizzBackCol"]),
 		get = function() return TRP3_UF_DB.Target.colorBackClass end,
 		set = function(v) TRP3_UF_DB.Target.colorBackClass = v end,
 		callback = function()
@@ -1002,7 +918,6 @@ local function BuildSettingsData()
 		type = "checkbox",
 		label = L["FrameTexEnabled"],
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
-		searchText = gs(L["FrameTexEnabled"]),
 		get = function() return TRP3_UF_DB.Target.frameTextureEnabled end,
 		set = function(v) TRP3_UF_DB.Target.frameTextureEnabled = v end,
 		callback = function()
@@ -1014,7 +929,6 @@ local function BuildSettingsData()
 		type = "checkbox",
 		label = L["FrameTexClassCol"],
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
-		searchText = gs(L["FrameTexClassCol"]),
 		isEnabled = function() return TRP3_UF_DB.Target.frameTextureEnabled end,
 		lockedTooltip = string.format(LOCKED_WITH_SPELL, L["FrameTexEnabled"]),
 		get = function() return TRP3_UF_DB.Target.frameTextureClass end,
@@ -1027,7 +941,6 @@ local function BuildSettingsData()
 		type = "checkbox",
 		label = L["FrameTexTRPCol"],
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
-		searchText = gs(L["FrameTexTRPCol"]),
 		isEnabled = function() return TRP3_UF_DB.Target.frameTextureEnabled end,
 		lockedTooltip = string.format(LOCKED_WITH_SPELL, L["FrameTexEnabled"]),
 		get = function() return TRP3_UF_DB.Target.frameTextureTRP end,
@@ -1040,7 +953,6 @@ local function BuildSettingsData()
 		type = "colorpicker",
 		label = L["FrameTexCustomCol"],
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
-		searchText = gs(L["FrameTexCustomCol"]),
 		get = function() return TRP3_UF_DB.Target.frameTextureCustom end,
 		set = function(v) TRP3_UF_DB.Target.frameTextureCustom = v end,
 		colorGetter = function() return TRP3_UF_DB.Target.frameTextureColor end,
@@ -1057,7 +969,6 @@ local function BuildSettingsData()
 	table.insert(allSettingsData, {
 		type = "checkbox",
 		label = L["TRP3CustomName"],
-		searchText = gs(L["TRP3CustomName"]),
 		get = function() return TRP3_UF_DB.Setting.UseTRPName end,
 		set = function(v) TRP3_UF_DB.Setting.UseTRPName = v end,
 		callback = function()
@@ -1069,7 +980,6 @@ local function BuildSettingsData()
 		type = "checkbox",
 		label = L["FullNamePlayer"],
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
-		searchText = gs(L["FullNamePlayer"]),
 		get = function() return TRP3_UF_DB.Setting.FullNamePlayer end,
 		set = function(v) TRP3_UF_DB.Setting.FullNamePlayer = v end,
 		isEnabled = function() return TRP3_UF_DB.Setting.UseTRPName end,
@@ -1082,7 +992,6 @@ local function BuildSettingsData()
 		type = "checkbox",
 		label = L["FullNameTarget"],
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
-		searchText = gs(L["FullNameTarget"]),
 		get = function() return TRP3_UF_DB.Setting.FullNameTarget end,
 		set = function(v) TRP3_UF_DB.Setting.FullNameTarget = v end,
 		isEnabled = function() return TRP3_UF_DB.Setting.UseTRPName end,
@@ -1095,7 +1004,6 @@ local function BuildSettingsData()
 		type = "checkbox",
 		label = L["ApplyToNPCs"],
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
-		searchText = gs(L["ApplyToNPCs"]),
 		get = function() return TRP3_UF_DB.Setting.NPCs end,
 		set = function(v) TRP3_UF_DB.Setting.NPCs = v end,
 		callback = function()
@@ -1109,7 +1017,6 @@ local function BuildSettingsData()
 		type = "slider",
 		label = L["NameWidthPlayer"],
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
-		searchText = gs(L["NameWidthPlayer"]),
 		min = 50, max = 150, step = 5,
 		formatter = function(v) return string.format("%.0f", v) end,
 		get = function() return TRP3_UF_DB.Player.nameWidth or 96 end,
@@ -1126,7 +1033,6 @@ local function BuildSettingsData()
 		type = "slider",
 		label = L["NameWidthTarget"],
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
-		searchText = gs(L["NameWidthTarget"]),
 		min = 50, max = 150, step = 5,
 		formatter = function(v) return string.format("%.0f", v) end,
 		get = function() return TRP3_UF_DB.Target.nameWidth or 90 end,
@@ -1144,11 +1050,31 @@ local function BuildSettingsData()
 		label = L["PlayerPortrait"]
 	})
 
+
+	table.insert(allSettingsData, {
+		type = "checkbox",
+		label = L["ShowBorderFrame"],
+		get = function() return BC().show end,
+		set = function(v) BC().show = v end,
+		callback = function(v)
+			local pdf = TRP3_UnitFrames.PlayerDragonFrame;
+			if pdf then
+				if v then
+					pdf:Show();
+				else
+					pdf:Hide();
+				end
+			end
+			if trpPlayer.SetAsPortrait then
+				trpPlayer.SetAsPortrait();
+			end
+			TRP3_UnitFrames.CheckSettings();
+		end,
+	})
 	table.insert(allSettingsData, {
 		type = "dropdown",
 		label = L["PlayerPortrait"],
 		defaultText = L["PlayerPortrait"],
-		searchText = gs(L["PlayerPortrait"]),
 		isEnabled = function() return BC().show end,
 		menuBuilder = function(_, rootDescription)
 			for _, menu in ipairs(TRP3_UnitFrames.PortraitThemes) do
@@ -1180,7 +1106,6 @@ local function BuildSettingsData()
 	table.insert(allSettingsData, {
 		type = "checkbox",
 		label = L["ProfileSpecificBorder"],
-		searchText = gs(L["ProfileSpecificBorder"]),
 		get = function() return TRP3_UF_DB.Setting.profileSpecificBorder; end,
 		set = function(v)
 			TRP3_UF_DB.Setting.profileSpecificBorder = v;
@@ -1196,6 +1121,45 @@ local function BuildSettingsData()
 			TRP3_UnitFrames.CheckSettings();
 		end,
 	})
+
+
+	table.insert(allSettingsData, {
+		type = "checkbox",
+		label = L["HideRestedGlow"],
+		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
+		get = function() return BC().status end,
+		set = function(v) BC().status = v end,
+		callback = function(v)
+			if v then
+				PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:Hide();
+			else
+				PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture:Show();
+			end
+		end,
+	})
+	table.insert(allSettingsData, {
+		type = "checkbox",
+		label =L["ShowStatusPlayer"],
+		get = function() return TRP3_UF_DB.Player.showStatus end,
+		set = function(v) TRP3_UF_DB.Player.showStatus = v end,
+		callback = function()
+			if trpPlayer.UpdateStatusIcon then
+				trpPlayer.UpdateStatusIcon();
+			end
+		end,
+	})
+	table.insert(allSettingsData, {
+		type = "checkbox",
+		label = L["ShowStatusTarget"],
+		get = function() return TRP3_UF_DB.Target.showStatus end,
+		set = function(v) TRP3_UF_DB.Target.showStatus = v end,
+		callback = function()
+			if trpTarget.UpdateStatusIcon then
+				trpTarget.UpdateStatusIcon();
+			end
+		end,
+	})
+	
 	table.insert(allSettingsData, {
 		type = "header",
 		label = L["PlayerBackplate"]
@@ -1204,7 +1168,6 @@ local function BuildSettingsData()
 	table.insert(allSettingsData, {
 		type = "checkbox",
 		label = L["ShowBackplate"],
-		searchText = gs(L["ShowBackplate"]),
 		get = function() return BPC().show end,
 		set = function(v) BPC().show = v end,
 		callback = function(v)
@@ -1219,7 +1182,6 @@ local function BuildSettingsData()
 		type = "dropdown",
 		label = L["BackplateStyle"],
 		defaultText = L["BackplateStyle"],
-		searchText = gs(L["BackplateStyle"]),
 		isEnabled = function() return BPC().show end,
 		menuBuilder = function(_, rootDescription)
 			for _, menu in ipairs(TRP3_UnitFrames.BackplateThemes) do
@@ -1252,7 +1214,6 @@ local function BuildSettingsData()
 	table.insert(allSettingsData, {
 		type = "checkbox",
 		label = L["ProfileSpecificBackplate"],
-		searchText = gs(L["ProfileSpecificBackplate"]),
 		get = function() return TRP3_UF_DB.Setting.profileSpecificBackplate; end,
 		set = function(v)
 			TRP3_UF_DB.Setting.profileSpecificBackplate = v;
@@ -1268,6 +1229,12 @@ local function BuildSettingsData()
 			TRP3_UnitFrames.CheckSettings();
 		end,
 	})
+
+	for _, data in ipairs(allSettingsData) do
+		local labelText = data.label or ""
+		local tooltipText = data.tooltip or ""
+		data.searchText = string.lower(labelText .. " " .. tooltipText)
+	end
 end
 
 
@@ -1295,13 +1262,25 @@ local function BuildScrollArea(parentFrame, topOffset)
 	local function FilterSettings()
 		local query = SearchBox:GetText():lower();
 		local filtered = {};
+		
+		local currentHeader = nil;
+		local headerMatches = false;
+		
 		for _, data in ipairs(allSettingsData) do
-			if query == "" then
-				table.insert(filtered, data);
-			elseif data.type ~= "header" and data.searchText and data.searchText:find(query, 1, true) then
-				table.insert(filtered, data);
+			if data.type == "header" then
+				currentHeader = data;
+				headerMatches = (query == "" or (data.searchText and data.searchText:find(query, 1, true)));
+			else
+				if headerMatches or query == "" or (data.searchText and data.searchText:find(query, 1, true)) then
+					if currentHeader then
+						table.insert(filtered, currentHeader);
+						currentHeader = nil;
+					end
+					table.insert(filtered, data);
+				end
 			end
 		end
+		
 		ScrollView:SetDataProvider(CreateDataProvider(filtered));
 	end
 

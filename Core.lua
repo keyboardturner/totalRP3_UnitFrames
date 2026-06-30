@@ -89,6 +89,22 @@ local defaultsTable = {
 	},
 };
 
+local function FillDefaults(db, defaults)
+	for k, v in pairs(defaults) do
+		if type(v) == "table" then
+			if db[k] == nil then
+				db[k] = CopyTable(v)
+			else
+				FillDefaults(db[k], v)
+			end
+		else
+			if db[k] == nil then
+				db[k] = v
+			end
+		end
+	end
+end
+
 
 local function ApplyRingColor(ring, colorTable, enabled)
 	if not ring then return end
@@ -281,37 +297,9 @@ end
 local function onStart()
 	if TRP3_UF_DB == nil then
 		TRP3_UF_DB = CopyTable(defaultsTable)
+	else
+		FillDefaults(TRP3_UF_DB, defaultsTable)
 	end
-
-	if TRP3_UF_DB.Setting.FullNamePlayer == nil then TRP3_UF_DB.Setting.FullNamePlayer = defaultsTable.Setting.FullNamePlayer end
-	if TRP3_UF_DB.Setting.FullNameTarget == nil then TRP3_UF_DB.Setting.FullNameTarget = defaultsTable.Setting.FullNameTarget end
-	if TRP3_UF_DB.Setting.UseTRPName == nil then TRP3_UF_DB.Setting.UseTRPName = defaultsTable.Setting.UseTRPName end
-	if TRP3_UF_DB.SecondaryPower == nil then TRP3_UF_DB.SecondaryPower = defaultsTable.SecondaryPower end
-	if TRP3_UF_DB.Player.ringColor == nil then TRP3_UF_DB.Player.ringColor = CopyTable(defaultsTable.Player.ringColor) end
-	if TRP3_UF_DB.Player.ringColorCustom == nil then TRP3_UF_DB.Player.ringColorCustom = defaultsTable.Player.ringColorCustom end
-	if TRP3_UF_DB.Target.ringColor == nil then TRP3_UF_DB.Target.ringColor = CopyTable(defaultsTable.Target.ringColor) end
-	if TRP3_UF_DB.Target.ringColorCustom == nil then TRP3_UF_DB.Target.ringColorCustom = defaultsTable.Target.ringColorCustom end
-
-	if TRP3_UF_DB.Player.frameTextureEnabled == nil then TRP3_UF_DB.Player.frameTextureEnabled = defaultsTable.Player.frameTextureEnabled end
-	if TRP3_UF_DB.Player.frameTextureColor == nil then TRP3_UF_DB.Player.frameTextureColor = CopyTable(defaultsTable.Player.frameTextureColor) end
-	if TRP3_UF_DB.Player.frameTextureCustom == nil then TRP3_UF_DB.Player.frameTextureCustom = defaultsTable.Player.frameTextureCustom end
-	if TRP3_UF_DB.Player.frameTextureClass == nil then TRP3_UF_DB.Player.frameTextureClass = defaultsTable.Player.frameTextureClass end
-	if TRP3_UF_DB.Player.frameTextureTRP == nil then TRP3_UF_DB.Player.frameTextureTRP = defaultsTable.Player.frameTextureTRP end
-	if TRP3_UF_DB.Target.frameTextureEnabled == nil then TRP3_UF_DB.Target.frameTextureEnabled = defaultsTable.Target.frameTextureEnabled end
-	if TRP3_UF_DB.Target.frameTextureColor == nil then TRP3_UF_DB.Target.frameTextureColor = CopyTable(defaultsTable.Target.frameTextureColor) end
-	if TRP3_UF_DB.Target.frameTextureCustom == nil then TRP3_UF_DB.Target.frameTextureCustom = defaultsTable.Target.frameTextureCustom end
-	if TRP3_UF_DB.Target.frameTextureClass == nil then TRP3_UF_DB.Target.frameTextureClass = defaultsTable.Target.frameTextureClass end
-	if TRP3_UF_DB.Target.frameTextureTRP == nil then TRP3_UF_DB.Target.frameTextureTRP = defaultsTable.Target.frameTextureTRP end
-	if TRP3_UF_DB.ProfileBorders == nil then TRP3_UF_DB.ProfileBorders = {} end
-	
-	if TRP3_UF_DB.Setting.profileSpecificBorder == nil then TRP3_UF_DB.Setting.profileSpecificBorder = defaultsTable.Setting.profileSpecificBorder end
-
-	if TRP3_UF_DB.Player.showStatus == nil then TRP3_UF_DB.Player.showStatus = defaultsTable.Player.showStatus end
-	if TRP3_UF_DB.Target.showStatus == nil then TRP3_UF_DB.Target.showStatus = defaultsTable.Target.showStatus end
-	
-	if TRP3_UF_DB.Backplate == nil then TRP3_UF_DB.Backplate = CopyTable(defaultsTable.Backplate) end
-	if TRP3_UF_DB.ProfileBackplates == nil then TRP3_UF_DB.ProfileBackplates = {} end
-	if TRP3_UF_DB.Setting.profileSpecificBackplate == nil then TRP3_UF_DB.Setting.profileSpecificBackplate = defaultsTable.Setting.profileSpecificBackplate end
 
 	TRP3_UnitFrames.updateSVs()
 

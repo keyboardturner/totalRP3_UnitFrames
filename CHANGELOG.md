@@ -1,3 +1,19 @@
+[Full Changelog & Previous Releases](https://github.com/keyboardturner/totalRP3_UnitFrames/releases)
+
+# 1.1.0
+
+Added Backplate texture feature with 2 options reminiscent of alpha/beta Wrath Death Knight player portraits:
+ - A "Sword Runes" option, with premade box for Runes
+ - A "Plain Sword" option
+   - These options may not align with many player portrait frame UIs, many things changed in 20 years
+   - Options/customization for secondary resource bars like Combo Points may come in a future update to help resize/move them (Blizz was supposed to add it in edit mode but it seems to still be unavailable)
+
+Settings UI got reworked slightly to now allow allow displaying a parent option's header, as well as displaying all of a header's children when searching the header
+
+Possibly fixed an error upon login where the trp3 profile for placing the buttons was not available fast enough
+
+renamed core.lua to Core.lua hopefully
+
 # 1.0.9
 
 12.0.7 toc update

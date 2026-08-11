@@ -1,5 +1,9 @@
 [Full Changelog & Previous Releases](https://github.com/keyboardturner/totalRP3_UnitFrames/releases)
 
+# 1.1.1
+
+12.1.0 toc update
+
 # 1.1.0
 
 Added Backplate texture feature with 2 options reminiscent of alpha/beta Wrath Death Knight player portraits:

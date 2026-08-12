@@ -1,5 +1,11 @@
 [Full Changelog & Previous Releases](https://github.com/keyboardturner/totalRP3_UnitFrames/releases)
 
+# 1.1.2
+
+Better name text/color compatibility with BetterBlizzFrames
+ - the two should now conflict less and be rid of overlapping text
+ - Switching profiles with BBF should correctly update the name text (this is a bug on BBF's side)
+
 # 1.1.1
 
 12.1.0 toc update

@@ -122,6 +122,25 @@ local STATUS_ICON_DISCONNECTED = "Interface\\AddOns\\totalRP3_UnitFrames\\tex\\D
 local STATUS_ICON_AFK = "Interface\\AddOns\\totalRP3_UnitFrames\\tex\\Away.png";
 local STATUS_ICON_DND = "Interface\\AddOns\\totalRP3_UnitFrames\\tex\\Busy.png";
 
+function TRP3_UnitFrames.ApplyTextColor(fontString, bbfString, r, g, b, a)
+	a = a or 1;
+	if bbfString then
+		bbfString:SetTextColor(r, g, b, a);
+		fontString:SetTextColor(r, g, b, 0);
+	else
+		fontString:SetTextColor(r, g, b, a);
+	end
+end
+
+function TRP3_UnitFrames.SetText(fontString, bbfString, text)
+	if fontString then
+		fontString:SetText(text);
+	end
+	if bbfString then
+		bbfString:SetText(text);
+	end
+end
+
 function TRP3_UnitFrames.UpdateStatusIcon(unit, frame, enabled)
 	if not frame or not frame.Tex or not enabled then
 		frame:Hide();
@@ -184,7 +203,8 @@ function TRP3_UnitFrames.SetColors()
 	local ReputationColor = TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor;
 
 	if TRP3_UF_DB.Target.colorTextCustom and TargetName then
-		TargetName:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText))
+		local r, g, b, a = ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText);
+		TRP3_UnitFrames.ApplyTextColor(TargetName, TargetFrame.bbfName, r, g, b, a);
 		if TRP3_UFRepTextDummyTarget then
 			TRP3_UFRepTextDummyTarget:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText))
 		end
@@ -204,7 +224,8 @@ function TRP3_UnitFrames.SetColors()
 	end
 
 	if TRP3_UF_DB.Player.colorTextCustom and PlayerName then
-		PlayerName:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorText))
+		local r, g, b, a = ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorText);
+		TRP3_UnitFrames.ApplyTextColor(PlayerName, PlayerFrame.bbfName, r, g, b, a);
 		if TRP3_UFRepTextDummyPlayer then
 			TRP3_UFRepTextDummyPlayer:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorText))
 		end

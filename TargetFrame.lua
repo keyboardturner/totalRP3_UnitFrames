@@ -36,13 +36,14 @@ function trpTarget.SetColor()
 		else
 			TargetName:SetText(UnitName("target"));
 		end
-		TargetName:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText));
+		local r, g, b, a = ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText);
+		TRP3_UnitFrames.ApplyTextColor(TargetName, TargetFrame.bbfName, r, g, b, a);
 	end
 end
 
 function trpTarget.UpdateInfo()
 	if TargetName then
-		TargetName:SetTextColor(1, 0.896, 0, 1)
+		local textR, textG, textB, textA = 1, 0.896, 0, 1;
 		if TRP3_UF_DB.Target.nameWidth then
 			TargetName:SetWidth(TRP3_UF_DB.Target.nameWidth)
 		end
@@ -66,17 +67,17 @@ function trpTarget.UpdateInfo()
 				else
 					TargetName:SetText(UnitName("target"))
 				end
-				TargetName:SetTextColor(classR, classG, classB)
+				textR, textG, textB = classR, classG, classB;
 			end
 
 			local textColorQ = AddOn_TotalRP3.Player.CreateFromUnit("target"):GetCustomColorForDisplay()
 			if not issecretvalue(AddOn_TotalRP3.Player.CreateFromUnit("target")) and textColorQ then
 				local rgb = textColorQ:GetRGBTable()
-				TargetName:SetTextColor(rgb.r, rgb.g, rgb.b)
+				textR, textG, textB = rgb.r, rgb.g, rgb.b;
 			end
 
 			if TRP3_UF_DB.Target.colorTextCustom then
-				TargetName:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText))
+				textR, textG, textB, textA = ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText);
 			end
 
 			if TRP3_UF_DB.Target.colorBackClass then
@@ -93,9 +94,11 @@ function trpTarget.UpdateInfo()
 		end
 
 		if not UnitIsPlayer("target") and TRP3_UF_DB.Setting.NPCs then
-			TargetName:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText));
+			textR, textG, textB, textA = ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText);
 			ReputationColor:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack));
 		end
+
+		TRP3_UnitFrames.ApplyTextColor(TargetName, TargetFrame.bbfName, textR, textG, textB, textA);
 
 		local frameTex = TargetFrame.TargetFrameContainer.FrameTexture
 		if frameTex then

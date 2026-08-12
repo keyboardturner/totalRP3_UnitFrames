@@ -40,29 +40,33 @@ function trpPlayer.UpdateInfo()
 			PlayerName:SetWidth(TRP3_UF_DB.Player.nameWidth);
 		end
 
+		local nameToSet = playerNameString;
 		if TRP3_UF_DB.Setting.FullNamePlayer and TRP3_UF_DB.Setting.UseTRPName and TRP3_API and TRP3_API.globals and TRP3_API.globals.player_realm_id and TRP3_API.r.name("player") then
-			PlayerName:SetText(TRP3_API.r.name("player"));
+			nameToSet = TRP3_API.r.name("player");
 		elseif not TRP3_UF_DB.Setting.FullNamePlayer and TRP3_UF_DB.Setting.UseTRPName and ( not issecretvalue(playerGUID) and AddOn_TotalRP3.Player.CreateFromGUID(playerGUID):GetFirstName() ) then
-			PlayerName:SetText(AddOn_TotalRP3.Player.CreateFromGUID(playerGUID):GetFirstName());
-		else
-			PlayerName:SetText(playerNameString);
+			nameToSet = AddOn_TotalRP3.Player.CreateFromGUID(playerGUID):GetFirstName();
 		end
+
+		TRP3_UnitFrames.SetText(PlayerName, PlayerFrame.bbfName, nameToSet);
 		
-		PlayerName:SetTextColor(1, 0.896, 0, 1)
-		PlayerFrameReputationColor:SetVertexColor(0, 0, 0, 0)
+		local textR, textG, textB, textA = 1, 0.896, 0, 1;
+		PlayerFrameReputationColor:SetVertexColor(0, 0, 0, 0);
 
 		if TRP3_UF_DB.Player.colorTextClass then
-			PlayerName:SetTextColor(classR, classG, classB);
+			textR, textG, textB = classR, classG, classB;
 		end
 		
-		local customColor = AddOn_TotalRP3.Player.CreateFromUnit("player"):GetCustomColorForDisplay()
+		local customColor = AddOn_TotalRP3.Player.CreateFromUnit("player"):GetCustomColorForDisplay();
 		if not issecretvalue(customColor) and customColor then
-			PlayerName:SetTextColor(customColor:GetRGB());
+			local rgb = customColor:GetRGBTable();
+			textR, textG, textB = rgb.r, rgb.g, rgb.b;
 		end
 
 		if TRP3_UF_DB.Player.colorTextCustom then
-			PlayerName:SetTextColor(ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorText));
+			textR, textG, textB, textA = ColorMixin.GetRGBA(TRP3_UF_DB.Player.colorText);
 		end
+
+		TRP3_UnitFrames.ApplyTextColor(PlayerName, PlayerFrame.bbfName, textR, textG, textB, textA);
 	end
 	
 

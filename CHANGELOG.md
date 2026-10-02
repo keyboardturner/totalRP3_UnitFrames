@@ -1,5 +1,9 @@
 [Full Changelog & Previous Releases](https://github.com/keyboardturner/totalRP3_UnitFrames/releases)
 
+# 1.1.3
+
+Create color priority dropdown options for Player Frame text, Player Frame Texture, Target Frame Text, Target Frame Backdrop, and Target Frame Texture. Options include being able to choose a priority of Class, TRP3, and Overwrite, was Overwrite>TRP3>Class>Default.
+
 # 1.1.2
 
 Better name text/color compatibility with BetterBlizzFrames

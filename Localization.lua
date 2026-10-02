@@ -94,6 +94,17 @@ if LOCALE == "enUS" then
 	L["BPStyle_SwordRunes"] = "Sword Runes"
 	L["BPStyle_SwordPlain"] = "Sword Plain"
 
+	L["ColorPriority"] = "Color Priority"
+	L["Text"] = "Text"
+	L["Texture"] = "Texture"
+	L["Backdrop"] = "Backdrop"
+	L["OVERWRITE_TRP_CLASS"] = "Overwrite > TRP3 > Class > Default"
+	L["OVERWRITE_CLASS_TRP"] = "Overwrite > Class > TRP3 > Default"
+	L["TRP_OVERWRITE_CLASS"] = "TRP3 > Overwrite > Class > Default"
+	L["TRP_CLASS_OVERWRITE"] = "TRP3 > Class > Overwrite > Default"
+	L["CLASS_OVERWRITE_TRP"] = "Class > Overwrite > TRP3 > Default"
+	L["CLASS_TRP_OVERWRITE"] = "Class > TRP3 > Overwrite > Default"
+
 return end
 
 if LOCALE == "esES" or LOCALE == "esMX" then
@@ -176,6 +187,17 @@ if LOCALE == "esES" or LOCALE == "esMX" then
 	L["DeathKnight"] = GetClassInfo(6) -- Death Knight
 	L["BPStyle_SwordRunes"] = "Espada con runas"
 	L["BPStyle_SwordPlain"] = "Espada sencilla"
+
+	L["ColorPriority"] = "Prioridad de color"
+	L["Text"] = "Texto"
+	L["Texture"] = "Textura"
+	L["Backdrop"] = "Fondo"
+	L["OVERWRITE_TRP_CLASS"] = "Sobrescritura > TRP3 > Clase > Predeterminado"
+	L["OVERWRITE_CLASS_TRP"] = "Sobrescritura > Clase > TRP3 > Predeterminado"
+	L["TRP_OVERWRITE_CLASS"] = "TRP3 > Sobrescritura > Clase > Predeterminado"
+	L["TRP_CLASS_OVERWRITE"] = "TRP3 > Clase > Sobrescritura > Predeterminado"
+	L["CLASS_OVERWRITE_TRP"] = "Clase > Sobrescritura > TRP3 > Predeterminado"
+	L["CLASS_TRP_OVERWRITE"] = "Clase > TRP3 > Sobrescritura > Predeterminado"
 
 return end
 
@@ -260,6 +282,17 @@ if LOCALE == "deDE" then
 	L["BPStyle_SwordRunes"] = "Runenschwert"
 	L["BPStyle_SwordPlain"] = "Einfaches Schwert"
 
+	L["ColorPriority"] = "Farbreihenfolge"
+	L["Text"] = "Text"
+	L["Texture"] = "Textur"
+	L["Backdrop"] = "Hintergrund"
+	L["OVERWRITE_TRP_CLASS"] = "Überschreiben > TRP3 > Klasse > Standard"
+	L["OVERWRITE_CLASS_TRP"] = "Überschreiben > Klasse > TRP3 > Standard"
+	L["TRP_OVERWRITE_CLASS"] = "TRP3 > Überschreiben > Klasse > Standard"
+	L["TRP_CLASS_OVERWRITE"] = "TRP3 > Klasse > Überschreiben > Standard"
+	L["CLASS_OVERWRITE_TRP"] = "Klasse > Überschreiben > TRP3 > Standard"
+	L["CLASS_TRP_OVERWRITE"] = "Klasse > TRP3 > Überschreiben > Standard"
+
 return end
 
 if LOCALE == "frFR" then
@@ -342,6 +375,17 @@ if LOCALE == "frFR" then
 	L["DeathKnight"] = GetClassInfo(6) -- Death Knight
 	L["BPStyle_SwordRunes"] = "Épée runique"
 	L["BPStyle_SwordPlain"] = "Épée simple"
+
+	L["ColorPriority"] = "Priorité de couleur"
+	L["Text"] = "Texte"
+	L["Texture"] = "Texture"
+	L["Backdrop"] = "Arrière-plan"
+	L["OVERWRITE_TRP_CLASS"] = "Remplacement > TRP3 > Classe > Par défaut"
+	L["OVERWRITE_CLASS_TRP"] = "Remplacement > Classe > TRP3 > Par défaut"
+	L["TRP_OVERWRITE_CLASS"] = "TRP3 > Remplacement > Classe > Par défaut"
+	L["TRP_CLASS_OVERWRITE"] = "TRP3 > Classe > Remplacement > Par défaut"
+	L["CLASS_OVERWRITE_TRP"] = "Classe > Remplacement > TRP3 > Par défaut"
+	L["CLASS_TRP_OVERWRITE"] = "Classe > TRP3 > Remplacement > Par défaut"
 
 return end
 
@@ -426,6 +470,17 @@ if LOCALE == "itIT" then
 	L["BPStyle_SwordRunes"] = "Spada runica"
 	L["BPStyle_SwordPlain"] = "Spada semplice"
 
+	L["ColorPriority"] = "Priorità colore"
+	L["Text"] = "Testo"
+	L["Texture"] = "Texture"
+	L["Backdrop"] = "Sfondo"
+	L["OVERWRITE_TRP_CLASS"] = "Sovrascrittura > TRP3 > Classe > Predefinito"
+	L["OVERWRITE_CLASS_TRP"] = "Sovrascrittura > Classe > TRP3 > Predefinito"
+	L["TRP_OVERWRITE_CLASS"] = "TRP3 > Sovrascrittura > Classe > Predefinito"
+	L["TRP_CLASS_OVERWRITE"] = "TRP3 > Classe > Sovrascrittura > Predefinito"
+	L["CLASS_OVERWRITE_TRP"] = "Classe > Sovrascrittura > TRP3 > Predefinito"
+	L["CLASS_TRP_OVERWRITE"] = "Classe > TRP3 > Sovrascrittura > Predefinito"
+
 return end
 
 if LOCALE == "ptBR" then
@@ -508,6 +563,17 @@ if LOCALE == "ptBR" then
 	L["DeathKnight"] = GetClassInfo(6) -- Death Knight
 	L["BPStyle_SwordRunes"] = "Espada rúnica"
 	L["BPStyle_SwordPlain"] = "Espada simples"
+
+	L["ColorPriority"] = "Prioridade de cor"
+	L["Text"] = "Texto"
+	L["Texture"] = "Textura"
+	L["Backdrop"] = "Plano de fundo"
+	L["OVERWRITE_TRP_CLASS"] = "Sobrescrita > TRP3 > Classe > Padrão"
+	L["OVERWRITE_CLASS_TRP"] = "Sobrescrita > Classe > TRP3 > Padrão"
+	L["TRP_OVERWRITE_CLASS"] = "TRP3 > Sobrescrita > Classe > Padrão"
+	L["TRP_CLASS_OVERWRITE"] = "TRP3 > Classe > Sobrescrita > Padrão"
+	L["CLASS_OVERWRITE_TRP"] = "Classe > Sobrescrita > TRP3 > Padrão"
+	L["CLASS_TRP_OVERWRITE"] = "Classe > TRP3 > Sobrescrita > Padrão"
 
 	-- Note that the EU Portuguese WoW client also
 	-- uses the Brazilian Portuguese locale code.
@@ -594,6 +660,17 @@ if LOCALE == "ruRU" then
 	L["BPStyle_SwordRunes"] = "Рунический меч"
 	L["BPStyle_SwordPlain"] = "Простой меч"
 
+	L["ColorPriority"] = "Приоритет цвета"
+	L["Text"] = "Текст"
+	L["Texture"] = "Текстура"
+	L["Backdrop"] = "Фон"
+	L["OVERWRITE_TRP_CLASS"] = "Переопределение > TRP3 > Класс > По умолчанию"
+	L["OVERWRITE_CLASS_TRP"] = "Переопределение > Класс > TRP3 > По умолчанию"
+	L["TRP_OVERWRITE_CLASS"] = "TRP3 > Переопределение > Класс > По умолчанию"
+	L["TRP_CLASS_OVERWRITE"] = "TRP3 > Класс > Переопределение > По умолчанию"
+	L["CLASS_OVERWRITE_TRP"] = "Класс > Переопределение > TRP3 > По умолчанию"
+	L["CLASS_TRP_OVERWRITE"] = "Класс > TRP3 > Переопределение > По умолчанию"
+
 return end
 
 if LOCALE == "koKR" then
@@ -676,6 +753,17 @@ if LOCALE == "koKR" then
 	L["DeathKnight"] = GetClassInfo(6) -- Death Knight
 	L["BPStyle_SwordRunes"] = "룬 검"
 	L["BPStyle_SwordPlain"] = "기본 검"
+
+	L["ColorPriority"] = "색상 우선순위"
+	L["Text"] = "텍스트"
+	L["Texture"] = "텍스처"
+	L["Backdrop"] = "배경"
+	L["OVERWRITE_TRP_CLASS"] = "재정의 > TRP3 > 직업 > 기본값"
+	L["OVERWRITE_CLASS_TRP"] = "재정의 > 직업 > TRP3 > 기본값"
+	L["TRP_OVERWRITE_CLASS"] = "TRP3 > 재정의 > 직업 > 기본값"
+	L["TRP_CLASS_OVERWRITE"] = "TRP3 > 직업 > 재정의 > 기본값"
+	L["CLASS_OVERWRITE_TRP"] = "직업 > 재정의 > TRP3 > 기본값"
+	L["CLASS_TRP_OVERWRITE"] = "직업 > TRP3 > 재정의 > 기본값"
 
 return end
 
@@ -760,6 +848,17 @@ if LOCALE == "zhCN" then
 	L["BPStyle_SwordRunes"] = "符文之剑"
 	L["BPStyle_SwordPlain"] = "普通之剑"
 
+	L["ColorPriority"] = "颜色优先级"
+	L["Text"] = "文本"
+	L["Texture"] = "纹理"
+	L["Backdrop"] = "背景"
+	L["OVERWRITE_TRP_CLASS"] = "覆盖 > TRP3 > 职业 > 默认"
+	L["OVERWRITE_CLASS_TRP"] = "覆盖 > 职业 > TRP3 > 默认"
+	L["TRP_OVERWRITE_CLASS"] = "TRP3 > 覆盖 > 职业 > 默认"
+	L["TRP_CLASS_OVERWRITE"] = "TRP3 > 职业 > 覆盖 > 默认"
+	L["CLASS_OVERWRITE_TRP"] = "职业 > 覆盖 > TRP3 > 默认"
+	L["CLASS_TRP_OVERWRITE"] = "职业 > TRP3 > 覆盖 > 默认"
+
 return end
 
 if LOCALE == "zhTW" then
@@ -842,5 +941,16 @@ if LOCALE == "zhTW" then
 	L["DeathKnight"] = GetClassInfo(6) -- Death Knight
 	L["BPStyle_SwordRunes"] = "符文之劍"
 	L["BPStyle_SwordPlain"] = "普通之劍"
+
+	L["ColorPriority"] = "顏色優先順序"
+	L["Text"] = "文字"
+	L["Texture"] = "材質"
+	L["Backdrop"] = "背景"
+	L["OVERWRITE_TRP_CLASS"] = "覆寫 > TRP3 > 職業 > 預設"
+	L["OVERWRITE_CLASS_TRP"] = "覆寫 > 職業 > TRP3 > 預設"
+	L["TRP_OVERWRITE_CLASS"] = "TRP3 > 覆寫 > 職業 > 預設"
+	L["TRP_CLASS_OVERWRITE"] = "TRP3 > 職業 > 覆寫 > 預設"
+	L["CLASS_OVERWRITE_TRP"] = "職業 > 覆寫 > TRP3 > 預設"
+	L["CLASS_TRP_OVERWRITE"] = "職業 > TRP3 > 覆寫 > 預設"
 
 return end

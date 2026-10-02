@@ -9,6 +9,15 @@ local allFilterFuncs  = {};
 
 local _colorClipboard = nil;
 
+local function GetPriorityLabel(priorityID)
+	for _, opt in ipairs(TRP3_UnitFrames.PriorityOptions) do
+		if opt.id == priorityID then
+			return opt.label;
+		end
+	end
+	return TRP3_UnitFrames.PriorityOptions[1].label;
+end
+
 local function BuildDummyFrames(panel, playerOffX, playerOffY, targetOffX, targetOffY, playerRepName, playerRepTextName, targetRepName, targetRepTextName)
 
 	panel.dummyFramePlayer = CreateFrame("Frame", nil, panel)
@@ -724,6 +733,25 @@ local function BuildSettingsData()
 	})
 
 	table.insert(allSettingsData, {
+		type = "dropdown",
+		label = (L["ColorPriority"] .. " - " .. L["Text"]),
+		defaultText = GetPriorityLabel(TRP3_UF_DB.Player.colorTextPriority),
+		menuBuilder = function(_, rootDescription)
+			for _, opt in ipairs(TRP3_UnitFrames.PriorityOptions) do
+				rootDescription:CreateRadio(
+					opt.label,
+					function() return TRP3_UF_DB.Player.colorTextPriority == opt.id end,
+					function()
+						TRP3_UF_DB.Player.colorTextPriority = opt.id;
+						refreshFrames();
+						TRP3_UnitFrames.CheckSettings();
+					end
+				);
+			end
+		end,
+	});
+
+	table.insert(allSettingsData, {
 		type = "colorpicker",
 		label = L["OverwriteTextCol"],
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
@@ -781,6 +809,25 @@ local function BuildSettingsData()
 			TRP3_UnitFrames.CheckSettings();
 		end,
 	})
+	table.insert(allSettingsData, {
+		type = "dropdown",
+		label = (L["ColorPriority"] .. " - "  .. L["Texture"]),
+		defaultText = GetPriorityLabel(TRP3_UF_DB.Player.frameTexturePriority),
+		isEnabled = function() return TRP3_UF_DB.Player.frameTextureEnabled end,
+		menuBuilder = function(_, rootDescription)
+			for _, opt in ipairs(TRP3_UnitFrames.PriorityOptions) do
+				rootDescription:CreateRadio(
+					opt.label,
+					function() return TRP3_UF_DB.Player.frameTexturePriority == opt.id end,
+					function()
+						TRP3_UF_DB.Player.frameTexturePriority = opt.id;
+						refreshFrames();
+						TRP3_UnitFrames.CheckSettings();
+					end
+				);
+			end
+		end,
+	});
 	table.insert(allSettingsData, {
 		type = "checkbox",
 		label = L["FrameTexClassCol"],
@@ -868,6 +915,25 @@ local function BuildSettingsData()
 	})
 
 	table.insert(allSettingsData, {
+		type = "dropdown",
+		label = (L["ColorPriority"] .. " - "  .. L["Text"]),
+		defaultText = GetPriorityLabel(TRP3_UF_DB.Target.colorTextPriority),
+		menuBuilder = function(_, rootDescription)
+			for _, opt in ipairs(TRP3_UnitFrames.PriorityOptions) do
+				rootDescription:CreateRadio(
+					opt.label,
+					function() return TRP3_UF_DB.Target.colorTextPriority == opt.id end,
+					function()
+						TRP3_UF_DB.Target.colorTextPriority = opt.id;
+						refreshFrames();
+						TRP3_UnitFrames.CheckSettings();
+					end
+				);
+			end
+		end,
+	});
+
+	table.insert(allSettingsData, {
 		type = "colorpicker",
 		label = L["OverwriteTextCol"],
 		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
@@ -886,6 +952,25 @@ local function BuildSettingsData()
 		set = function(v) TRP3_UF_DB.Target.colorTextClass = v end,
 		callback = function()
 			refreshFrames();
+		end,
+	})
+
+	table.insert(allSettingsData, {
+		type = "dropdown",
+		label = (L["ColorPriority"] .. " - "  .. L["Backdrop"]),
+		defaultText = GetPriorityLabel(TRP3_UF_DB.Target.colorBackPriority),
+		menuBuilder = function(_, rootDescription)
+			for _, opt in ipairs(TRP3_UnitFrames.PriorityOptions) do
+				rootDescription:CreateRadio(
+					opt.label,
+					function() return TRP3_UF_DB.Target.colorBackPriority == opt.id end,
+					function()
+						TRP3_UF_DB.Target.colorBackPriority = opt.id;
+						refreshFrames();
+						TRP3_UnitFrames.CheckSettings();
+					end
+				)
+			end
 		end,
 	})
 	table.insert(allSettingsData, {
@@ -925,6 +1010,25 @@ local function BuildSettingsData()
 			TRP3_UnitFrames.CheckSettings();
 		end,
 	})
+	table.insert(allSettingsData, {
+		type = "dropdown",
+		label = (L["ColorPriority"] .. " - "  .. L["Texture"]),
+		defaultText = GetPriorityLabel(TRP3_UF_DB.Target.frameTexturePriority),
+		isEnabled = function() return TRP3_UF_DB.Target.frameTextureEnabled end,
+		menuBuilder = function(_, rootDescription)
+			for _, opt in ipairs(TRP3_UnitFrames.PriorityOptions) do
+				rootDescription:CreateRadio(
+					opt.label,
+					function() return TRP3_UF_DB.Target.frameTexturePriority == opt.id end,
+					function()
+						TRP3_UF_DB.Target.frameTexturePriority = opt.id;
+						refreshFrames();
+						TRP3_UnitFrames.CheckSettings();
+					end
+				);
+			end
+		end,
+	});
 	table.insert(allSettingsData, {
 		type = "checkbox",
 		label = L["FrameTexClassCol"],
@@ -1059,18 +1163,12 @@ local function BuildSettingsData()
 		callback = function(v)
 			local pdf = TRP3_UnitFrames.PlayerDragonFrame;
 			if pdf then
-				if v then
-					pdf:Show();
-				else
-					pdf:Hide();
-				end
+				if v then pdf:Show(); else pdf:Hide(); end
 			end
-			if trpPlayer.SetAsPortrait then
-				trpPlayer.SetAsPortrait();
-			end
+			if trpPlayer.SetAsPortrait then trpPlayer.SetAsPortrait(); end
 			TRP3_UnitFrames.CheckSettings();
 		end,
-	})
+	});
 	table.insert(allSettingsData, {
 		type = "dropdown",
 		label = L["PlayerPortrait"],

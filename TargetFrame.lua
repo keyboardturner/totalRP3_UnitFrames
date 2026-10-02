@@ -20,83 +20,50 @@ function trpTarget.UpdateStatusIcon()
 end
 
 function trpTarget.SetColor()
-	if TRP3_UF_DB.Target.colorBackCustom then
-		ReputationColor:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack))
-	end
-	if TRP3_UF_DB.Target.colorTextCustom and TargetName  then
-		if TRP3_UF_DB.Setting.FullNameTarget and TRP3_UF_DB.Setting.UseTRPName then
-			TargetName:SetText(TRP3_API.r.name("target"))
-		elseif not issecretvalue(UnitGUID("target")) and not TRP3_UF_DB.Setting.FullNameTarget and TRP3_UF_DB.Setting.UseTRPName then
-			local firstName = AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("target")):GetFirstName()
-			if not issecretvalue(UnitGUID("target")) and firstName then
-				TargetName:SetText(firstName);
-			else
-				TargetName:SetText(UnitName("target"));
-			end
-		else
-			TargetName:SetText(UnitName("target"));
-		end
-		local r, g, b, a = ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText);
-		TRP3_UnitFrames.ApplyTextColor(TargetName, TargetFrame.bbfName, r, g, b, a);
-	end
+	trpTarget.UpdateInfo();
 end
 
 function trpTarget.UpdateInfo()
 	if TargetName then
-		local textR, textG, textB, textA = 1, 0.896, 0, 1;
+		--local textR, textG, textB, textA = 1, 0.896, 0, 1;
 		if TRP3_UF_DB.Target.nameWidth then
-			TargetName:SetWidth(TRP3_UF_DB.Target.nameWidth)
+			TargetName:SetWidth(TRP3_UF_DB.Target.nameWidth);
 		end
 
-		if not issecretvalue(UnitGUID("target")) and UnitIsPlayer("target") then
-			ReputationColor:SetVertexColor(0, 0, 1, 1)
+		local isTargetPlayer = not issecretvalue(UnitGUID("target")) and UnitIsPlayer("target");
 
-			if TRP3_UF_DB.Target.colorTextClass and not issecretvalue(UnitClassBase("target")) then
-				local classR, classG, classB = C_ClassColor.GetClassColor(UnitClassBase("target")).r, C_ClassColor.GetClassColor(UnitClassBase("target")).g, C_ClassColor.GetClassColor(UnitClassBase("target")).b
-				classR, classG, classB = classR or 1, classG or 1, classB or 1
-
-				if TRP3_UF_DB.Setting.FullNameTarget and TRP3_UF_DB.Setting.UseTRPName then
-					TargetName:SetText(TRP3_API.r.name("target"))
-				elseif not TRP3_UF_DB.Setting.FullNameTarget and TRP3_UF_DB.Setting.UseTRPName and not issecretvalue(UnitGUID("target")) then
-					local firstName = AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("target")):GetFirstName()
-					if not issecretvalue(UnitGUID("target")) and firstName then
-						TargetName:SetText(firstName)
-					else
-						TargetName:SetText(UnitName("target"))
-					end
+		if isTargetPlayer then
+			if TRP3_UF_DB.Setting.FullNameTarget and TRP3_UF_DB.Setting.UseTRPName then
+				TargetName:SetText(TRP3_API.r.name("target"));
+			elseif not TRP3_UF_DB.Setting.FullNameTarget and TRP3_UF_DB.Setting.UseTRPName and not issecretvalue(UnitGUID("target")) then
+				local firstName = AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("target")):GetFirstName();
+				if not issecretvalue(UnitGUID("target")) and firstName then
+					TargetName:SetText(firstName);
 				else
-					TargetName:SetText(UnitName("target"))
+					TargetName:SetText(UnitName("target"));
 				end
-				textR, textG, textB = classR, classG, classB;
-			end
-
-			local textColorQ = AddOn_TotalRP3.Player.CreateFromUnit("target"):GetCustomColorForDisplay()
-			if not issecretvalue(AddOn_TotalRP3.Player.CreateFromUnit("target")) and textColorQ then
-				local rgb = textColorQ:GetRGBTable()
-				textR, textG, textB = rgb.r, rgb.g, rgb.b;
-			end
-
-			if TRP3_UF_DB.Target.colorTextCustom then
-				textR, textG, textB, textA = ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText);
-			end
-
-			if TRP3_UF_DB.Target.colorBackClass then
-				local classR, classG, classB = C_ClassColor.GetClassColor(UnitClassBase("target")).r, C_ClassColor.GetClassColor(UnitClassBase("target")).g, C_ClassColor.GetClassColor(UnitClassBase("target")).b
-				classR, classG, classB = classR or 0, classG or 0, classB or 0
-				ReputationColor:SetVertexColor(classR, classG, classB, 1)
-			end
-			if TRP3_UF_DB.Target.colorBackCustom then
-				ReputationColor:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack))
-			end
-			if not TRP3_UF_DB.Target.colorBackClass and not TRP3_UF_DB.Target.colorBackCustom then
-				ReputationColor:SetVertexColor(0, 0, 1, 1)
+			else
+				TargetName:SetText(UnitName("target"));
 			end
 		end
 
-		if not UnitIsPlayer("target") and TRP3_UF_DB.Setting.NPCs then
-			textR, textG, textB, textA = ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorText);
-			ReputationColor:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack));
-		end
+		local textR, textG, textB, textA = TRP3_UnitFrames.ResolveColorPriority("target", TRP3_UF_DB.Target.colorTextPriority, {
+			customEnabled = TRP3_UF_DB.Target.colorTextCustom or (not isTargetPlayer and TRP3_UF_DB.Setting.NPCs),
+			customColor = TRP3_UF_DB.Target.colorText,
+			classEnabled = TRP3_UF_DB.Target.colorTextClass and isTargetPlayer,
+			trpEnabled = (TRP3_UF_DB.Target.colorTextTRP ~= false) and isTargetPlayer,
+			defaultColor = { r = 1, g = 0.896, b = 0, a = 1 },
+		});
+
+		local backR, backG, backB, backA = TRP3_UnitFrames.ResolveColorPriority("target", TRP3_UF_DB.Target.colorBackPriority, {
+			customEnabled = TRP3_UF_DB.Target.colorBackCustom or (not isTargetPlayer and TRP3_UF_DB.Setting.NPCs),
+			customColor = TRP3_UF_DB.Target.colorBack,
+			classEnabled = TRP3_UF_DB.Target.colorBackClass and isTargetPlayer,
+			trpEnabled = (TRP3_UF_DB.Target.colorBackTRP ~= false) and isTargetPlayer,
+			defaultColor = { r = 0, g = 0, b = 1, a = 1 },
+		});
+
+		ReputationColor:SetVertexColor(backR, backG, backB, backA);
 
 		TRP3_UnitFrames.ApplyTextColor(TargetName, TargetFrame.bbfName, textR, textG, textB, textA);
 
@@ -104,25 +71,13 @@ function trpTarget.UpdateInfo()
 		if frameTex then
 			if TRP3_UF_DB.Target.frameTextureEnabled then
 				frameTex:SetDesaturated(true);
-				local r, g, b, a = 1, 1, 1, 1;
-				if TRP3_UF_DB.Target.frameTextureClass and UnitIsPlayer("target") then
-					local classR, classG, classB = C_ClassColor.GetClassColor(UnitClassBase("target")).r, C_ClassColor.GetClassColor(UnitClassBase("target")).g, C_ClassColor.GetClassColor(UnitClassBase("target")).b;
-					r, g, b = (classR or 1), (classG or 1), (classB or 1);
-					a = 1;
-				end
-				if TRP3_UF_DB.Target.frameTextureTRP and UnitIsPlayer("target") and not issecretvalue(UnitGUID("target")) then -- here
-					local customColor = AddOn_TotalRP3.Player.CreateFromUnit("target"):GetCustomColorForDisplay()
-					if not issecretvalue(AddOn_TotalRP3.Player.CreateFromUnit("target")) and customColor then
-						r, g, b = customColor:GetRGB();
-						a = 1;
-					end
-				end
-				if TRP3_UF_DB.Target.frameTextureCustom then
-					r = TRP3_UF_DB.Target.frameTextureColor.r;
-					g = TRP3_UF_DB.Target.frameTextureColor.g;
-					b = TRP3_UF_DB.Target.frameTextureColor.b;
-					a = TRP3_UF_DB.Target.frameTextureColor.a or 1;
-				end
+				local r, g, b, a = TRP3_UnitFrames.ResolveColorPriority("target", TRP3_UF_DB.Target.frameTexturePriority, {
+					customEnabled = TRP3_UF_DB.Target.frameTextureCustom,
+					customColor = TRP3_UF_DB.Target.frameTextureColor,
+					classEnabled = TRP3_UF_DB.Target.frameTextureClass and isTargetPlayer,
+					trpEnabled = TRP3_UF_DB.Target.frameTextureTRP and isTargetPlayer,
+					defaultColor = { r = 1, g = 1, b = 1, a = 1 },
+				});
 				frameTex:SetVertexColor(r, g, b, a);
 			else
 				frameTex:SetDesaturated(false);

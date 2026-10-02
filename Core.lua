@@ -4,6 +4,68 @@ local L = TRP3_UnitFrames.L;
 TRP3_UnitFrames.trpTarget = CreateFrame("Frame")
 TRP3_UnitFrames.trpPlayer = CreateFrame("Frame")
 
+TRP3_UnitFrames.PRIORITY_ORDERS = {
+	["OVERWRITE_TRP_CLASS"] = { "OVERWRITE", "TRP", "CLASS" },
+	["OVERWRITE_CLASS_TRP"] = { "OVERWRITE", "CLASS", "TRP" },
+	["TRP_OVERWRITE_CLASS"] = { "TRP", "OVERWRITE", "CLASS" },
+	["TRP_CLASS_OVERWRITE"] = { "TRP", "CLASS", "OVERWRITE" },
+	["CLASS_OVERWRITE_TRP"] = { "CLASS", "OVERWRITE", "TRP" },
+	["CLASS_TRP_OVERWRITE"] = { "CLASS", "TRP", "OVERWRITE" },
+};
+
+TRP3_UnitFrames.PriorityOptions = {
+	{ id = "OVERWRITE_TRP_CLASS", label = L["OVERWRITE_TRP_CLASS"] },
+	{ id = "OVERWRITE_CLASS_TRP", label = L["OVERWRITE_CLASS_TRP"] },
+	{ id = "TRP_OVERWRITE_CLASS", label = L["TRP_OVERWRITE_CLASS"] },
+	{ id = "TRP_CLASS_OVERWRITE", label = L["TRP_CLASS_OVERWRITE"] },
+	{ id = "CLASS_OVERWRITE_TRP", label = L["CLASS_OVERWRITE_TRP"] },
+	{ id = "CLASS_TRP_OVERWRITE", label = L["CLASS_TRP_OVERWRITE"] },
+};
+
+function TRP3_UnitFrames.ResolveColorPriority(unit, priorityID, config)
+	local order = TRP3_UnitFrames.PRIORITY_ORDERS[priorityID] or TRP3_UnitFrames.PRIORITY_ORDERS["OVERWRITE_TRP_CLASS"];
+	
+	for _, source in ipairs(order) do
+		if source == "OVERWRITE" then
+			if config.customEnabled and config.customColor then
+				local r, g, b, a = ColorMixin.GetRGBA(config.customColor);
+				return r, g, b, a or 1;
+			end
+		elseif source == "TRP" then
+			if config.trpEnabled ~= false and unit and not issecretvalue(UnitGUID(unit)) then
+				local trpPlayerObj = AddOn_TotalRP3 and AddOn_TotalRP3.Player and AddOn_TotalRP3.Player.CreateFromUnit(unit);
+				if trpPlayerObj and not issecretvalue(trpPlayerObj) then
+					local customColor = trpPlayerObj:GetCustomColorForDisplay();
+					if customColor and not issecretvalue(customColor) then
+						local rgb = customColor.GetRGBTable and customColor:GetRGBTable() or nil;
+						if rgb then
+							return rgb.r, rgb.g, rgb.b, 1;
+						else
+							local r, g, b = customColor:GetRGB();
+							if r then return
+								r, g, b, 1;
+							end
+						end
+					end
+				end
+			end
+		elseif source == "CLASS" then
+			if config.classEnabled and unit then
+				local classBase = UnitClassBase(unit);
+				if classBase and not issecretvalue(classBase) then
+					local classColor = C_ClassColor.GetClassColor(classBase);
+					if classColor then
+						return classColor.r, classColor.g, classColor.b, 1;
+					end
+				end
+			end
+		end
+	end
+
+	local def = config.defaultColor or { r = 1, g = 1, b = 1, a = 1 };
+	return def.r, def.g, def.b, def.a or 1;
+end
+
 local defaultsTable = {
 	Target = {
 		show = true,
@@ -15,8 +77,12 @@ local defaultsTable = {
 		colorBack = {r = 0, g = 0, b = 0, a = 1,},
 		colorTextCustom = false,
 		colorTextClass = true,
+		colorTextTRP = true,
+		colorTextPriority = "OVERWRITE_TRP_CLASS",
 		colorBackCustom = true,
 		colorBackClass = false,
+		colorBackTRP = true,
+		colorBackPriority = "OVERWRITE_TRP_CLASS",
 		nameWidth = 90,
 		ringColor = {r = 1, g = 1, b = 1, a = 1,},
 		ringColorCustom = false,
@@ -25,6 +91,7 @@ local defaultsTable = {
 		frameTextureCustom = false,
 		frameTextureClass = false,
 		frameTextureTRP = false,
+		frameTexturePriority = "OVERWRITE_TRP_CLASS",
 		showStatus = true,
 	},
 	Player = {
@@ -37,8 +104,12 @@ local defaultsTable = {
 		colorBack = {r = 0, g = 0, b = 0, a = 1,},
 		colorTextCustom = false,
 		colorTextClass = true,
+		colorTextTRP = true,
+		colorTextPriority = "OVERWRITE_TRP_CLASS",
 		colorBackCustom = true,
 		colorBackClass = false,
+		colorBackTRP = true,
+		colorBackPriority = "OVERWRITE_TRP_CLASS",
 		nameWidth = 96,
 		ringColor = {r = 1, g = 1, b = 1, a = 1,},
 		ringColorCustom = false,
@@ -47,6 +118,7 @@ local defaultsTable = {
 		frameTextureCustom = false,
 		frameTextureClass = false,
 		frameTextureTRP = false,
+		frameTexturePriority = "OVERWRITE_TRP_CLASS",
 		showStatus = true,
 	},
 

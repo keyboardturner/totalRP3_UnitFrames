@@ -100,7 +100,8 @@ function trpTarget.nameChecker()
 		local icon = player:GetCustomIcon() or "inv_inscription_scroll"
 
 		if trpTarget.button and trpTarget.button.tex then
-			trpTarget.button.tex:SetTexture("Interface/icons/" .. icon)
+			--trpTarget.button.tex:SetTexture("Interface/icons/" .. icon);
+			TRP3_IconUtil.SetTextureToIcon(trpTarget.button.tex, icon);
 			trpTarget.button.tex:SetTexCoord(0, 1, 0, 1)
 			if not trpTarget.button.tex.TrpMask then
 				trpTarget.button.tex.TrpMask = trpTarget.button:CreateMaskTexture()
@@ -119,7 +120,8 @@ function trpTarget.nameChecker()
 			if trpTarget.portraitClick then
 				trpTarget.portraitClick:Show()
 			end
-			TargetFrame.TargetFrameContainer.Portrait:SetTexture("Interface/icons/" .. icon)
+			--TargetFrame.TargetFrameContainer.Portrait:SetTexture("Interface/icons/" .. icon);
+			TRP3_IconUtil.SetTextureToIcon(TargetFrame.TargetFrameContainer.Portrait, icon);
 			TargetFrame.TargetFrameContainer.Portrait:SetTexCoord(0, 1, 0, 1)
 		else
 			if not InCombatLockdown() and TRP3_UF_DB.Target.show then

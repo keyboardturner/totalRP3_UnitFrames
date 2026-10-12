@@ -76,7 +76,8 @@ function trpPlayer.UpdateInfo()
 		local icon = player1:GetCustomIcon() or "inv_inscription_scroll"
 
 		if trpPlayer.button and trpPlayer.button.tex then
-			trpPlayer.button.tex:SetTexture("Interface/icons/" .. icon)
+			--trpPlayer.button.tex:SetTexture("Interface/icons/" .. icon);
+			TRP3_IconUtil.SetTextureToIcon(trpPlayer.button.tex, icon);
 			trpPlayer.button.tex:SetTexCoord(0, 1, 0, 1)
 			if not trpPlayer.button.tex.TrpMask then
 				trpPlayer.button.tex.TrpMask = trpPlayer.button:CreateMaskTexture();
@@ -93,7 +94,8 @@ function trpPlayer.UpdateInfo()
 			if trpPlayer.portraitClick then
 				trpPlayer.portraitClick:Show();
 			end
-			PlayerFrame.PlayerFrameContainer.PlayerPortrait:SetTexture("Interface/icons/" .. icon);
+			--PlayerFrame.PlayerFrameContainer.PlayerPortrait:SetTexture("Interface/icons/" .. icon);
+			TRP3_IconUtil.SetTextureToIcon(PlayerFrame.PlayerFrameContainer.PlayerPortrait, icon);
 			PlayerFrame.PlayerFrameContainer.PlayerPortrait:SetTexCoord(0, 1, 0, 1);
 		else
 			if not InCombatLockdown() then

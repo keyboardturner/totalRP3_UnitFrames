@@ -1,5 +1,9 @@
 [Full Changelog & Previous Releases](https://github.com/keyboardturner/totalRP3_UnitFrames/releases)
 
+# 1.1.4b
+
+Added a testing version for WoW Forever
+
 # 1.1.4a
 
 Possible fix to an error related to trp3 NameUtil.

@@ -41,23 +41,26 @@ function trpPlayer.UpdateInfo()
 		end
 
 		local nameToSet = playerNameString;
-		if TRP3_UF_DB.Setting.FullNamePlayer and TRP3_UF_DB.Setting.UseTRPName and TRP3_API and TRP3_API.globals and TRP3_API.globals.player_realm_id and TRP3_API.r.name("player") then
-			nameToSet = TRP3_API.r.name("player");
-		elseif not TRP3_UF_DB.Setting.FullNamePlayer and TRP3_UF_DB.Setting.UseTRPName and ( not issecretvalue(playerGUID) and AddOn_TotalRP3.Player.CreateFromGUID(playerGUID):GetFirstName() ) then
-			nameToSet = AddOn_TotalRP3.Player.CreateFromGUID(playerGUID):GetFirstName();
+		
+		if TRP3_UF_DB.Setting.FullNamePlayer and TRP3_UF_DB.Setting.UseTRPName and TRP3_API and TRP3_API.globals and TRP3_API.globals.player_realm_id then
+			local trpPlayerObj = AddOn_TotalRP3 and AddOn_TotalRP3.Player and AddOn_TotalRP3.Player.CreateFromUnit("player");
+			if trpPlayerObj and not issecretvalue(trpPlayerObj) and trpPlayerObj:GetProfileID() then
+				local fullName = TRP3_API.r.name("player");
+				if fullName and fullName ~= "" then
+					nameToSet = fullName;
+				end
+			end
+		elseif not TRP3_UF_DB.Setting.FullNamePlayer and TRP3_UF_DB.Setting.UseTRPName and not issecretvalue(playerGUID) then
+			local trpPlayerObj = AddOn_TotalRP3 and AddOn_TotalRP3.Player and AddOn_TotalRP3.Player.CreateFromGUID(playerGUID);
+			if trpPlayerObj and not issecretvalue(trpPlayerObj) then
+				local firstName = trpPlayerObj:GetFirstName();
+				if firstName then
+					nameToSet = firstName;
+				end
+			end
 		end
 
 		TRP3_UnitFrames.SetText(PlayerName, PlayerFrame.bbfName, nameToSet);
-		
-		local textR, textG, textB, textA = TRP3_UnitFrames.ResolveColorPriority("player", TRP3_UF_DB.Player.colorTextPriority, {
-			customEnabled = TRP3_UF_DB.Player.colorTextCustom,
-			customColor = TRP3_UF_DB.Player.colorText,
-			classEnabled = TRP3_UF_DB.Player.colorTextClass,
-			trpEnabled = TRP3_UF_DB.Player.colorTextTRP ~= false,
-			defaultColor = { r = 1, g = 0.896, b = 0, a = 1 },
-		});
-
-		TRP3_UnitFrames.ApplyTextColor(PlayerName, PlayerFrame.bbfName, textR, textG, textB, textA);
 	end
 	
 

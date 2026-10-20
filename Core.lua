@@ -285,8 +285,7 @@ function TRP3_UnitFrames.SetColors()
 		end
 	end
 
-	if TRP3_UF_DB.Target.colorBackCustom and ReputationColor then
-		ReputationColor:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack))
+	if TRP3_UF_DB.Target.colorBackCustom then
 		if TRP3_UFRepDummyTarget then
 			TRP3_UFRepDummyTarget:SetVertexColor(ColorMixin.GetRGBA(TRP3_UF_DB.Target.colorBack))
 		end

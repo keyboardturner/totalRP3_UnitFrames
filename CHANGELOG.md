@@ -1,5 +1,12 @@
 [Full Changelog & Previous Releases](https://github.com/keyboardturner/totalRP3_UnitFrames/releases)
 
+# 1.1.4a
+
+Possible fix to an error related to trp3 NameUtil.
+
+Potential adjustments to overwrite backdrop color option when targeting NPCs where class/trp3 color wouldn't apply.
+ - You might have to re-adjust some of the settings priorities for some expected behavior
+
 # 1.1.4
 
 12.1.5 toc update

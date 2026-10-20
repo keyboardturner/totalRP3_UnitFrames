@@ -19,6 +19,17 @@ function trpTarget.UpdateStatusIcon()
 	TRP3_UnitFrames.UpdateStatusIcon("target", trpTarget.status, TRP3_UF_DB and TRP3_UF_DB.Target.showStatus);
 end
 
+local function GetBlizzardRepColor()
+	if not UnitExists("target") then return nil end
+	local controlled = scrubsecretvalues(UnitPlayerControlled("target"));
+	local tapDenied = scrubsecretvalues(UnitIsTapDenied("target"));
+	if not controlled and tapDenied then
+		return { r = 0.5, g = 0.5, b = 0.5, a = 1 };
+	end
+	local r, g, b = UnitSelectionColor("target");
+	return { r = r, g = g, b = b, a = 1 };
+end
+
 function trpTarget.SetColor()
 	trpTarget.UpdateInfo();
 end
@@ -55,15 +66,18 @@ function trpTarget.UpdateInfo()
 			defaultColor = { r = 1, g = 0.896, b = 0, a = 1 },
 		});
 
+		local backDefault = GetBlizzardRepColor();
 		local backR, backG, backB, backA = TRP3_UnitFrames.ResolveColorPriority("target", TRP3_UF_DB.Target.colorBackPriority, {
-			customEnabled = TRP3_UF_DB.Target.colorBackCustom or (not isTargetPlayer and TRP3_UF_DB.Setting.NPCs),
+			customEnabled = TRP3_UF_DB.Target.colorBackCustom and (isTargetPlayer or TRP3_UF_DB.Setting.NPCs),
 			customColor = TRP3_UF_DB.Target.colorBack,
 			classEnabled = TRP3_UF_DB.Target.colorBackClass and isTargetPlayer,
 			trpEnabled = (TRP3_UF_DB.Target.colorBackTRP ~= false) and isTargetPlayer,
-			defaultColor = { r = 0, g = 0, b = 1, a = 1 },
+			defaultColor = backDefault or { r = 1, g = 1, b = 1, a = 1 },
 		});
 
-		ReputationColor:SetVertexColor(backR, backG, backB, backA);
+		if backDefault then
+			ReputationColor:SetVertexColor(backR, backG, backB, backA);
+		end
 
 		TRP3_UnitFrames.ApplyTextColor(TargetName, TargetFrame.bbfName, textR, textG, textB, textA);
 

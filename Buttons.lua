@@ -206,11 +206,19 @@ end
 CreateFadeAnimations(trpPlayer)
 CreateFadeAnimations(trpTarget)
 
+local function PlayerHasProfile()
+	if not (TRP3_API and TRP3_API.globals and TRP3_API.globals.player_realm_id) then return false; end
+	if not GetNormalizedRealmName() then return false; end
+	local trpUnit = AddOn_TotalRP3.Player.CreateFromUnit("player");
+	if not trpUnit or issecretvalue(trpUnit) then return false; end
+	return trpUnit:GetProfileID() ~= nil;
+end
+
 trpPlayer:SetScript("OnEvent", function(self, event, unit)
 	if event == "PLAYER_REGEN_DISABLED" then
 		trpPlayer.HideFadingFrame();
 	elseif event == "PLAYER_REGEN_ENABLED" then
-		if AddOn_TotalRP3.Player.CreateFromUnit("player"):GetProfileID() and TRP3_UF_DB.Player.relativePoint ~= "CENTER" and TRP3_UF_DB.Player.show then
+		if PlayerHasProfile() and TRP3_UF_DB.Player.relativePoint ~= "CENTER" and TRP3_UF_DB.Player.show then
 			trpPlayer.ShowFadingFrame();
 		end
 	elseif event == "PLAYER_LOGOUT" then

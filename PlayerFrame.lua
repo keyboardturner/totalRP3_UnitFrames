@@ -61,6 +61,15 @@ function trpPlayer.UpdateInfo()
 		end
 
 		TRP3_UnitFrames.SetText(PlayerName, PlayerFrame.bbfName, nameToSet);
+
+		local textR, textG, textB, textA = TRP3_UnitFrames.ResolveColorPriority("player", TRP3_UF_DB.Player.colorTextPriority, {
+			customEnabled = TRP3_UF_DB.Player.colorTextCustom,
+			customColor = TRP3_UF_DB.Player.colorText,
+			classEnabled = TRP3_UF_DB.Player.colorTextClass,
+			trpEnabled = TRP3_UF_DB.Player.colorTextTRP ~= false,
+			defaultColor = { r = 1, g = 0.82, b = 0, a = 1 },
+		});
+		TRP3_UnitFrames.ApplyTextColor(PlayerName, PlayerFrame.bbfName, textR, textG, textB, textA);
 	end
 	
 

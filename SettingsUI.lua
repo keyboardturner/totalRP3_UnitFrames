@@ -772,6 +772,18 @@ local function BuildSettingsData()
 			refreshFrames();
 		end,
 	})
+
+	table.insert(allSettingsData, {
+		type = "checkbox",
+		label = L["FrameTexTRPCol"] .. " - " .. HELPFRAME_REPORT_PLAYER_EXAMPLE_TARGET_NAME,
+		tooltip = C_AddOns.IsAddOnLoaded("BetterBlizzFrames") and L["IncompatibleBBF"],
+		get = function() return TRP3_UF_DB.Player.colorTextTRP ~= false end,
+		set = function(v) TRP3_UF_DB.Player.colorTextTRP = v end,
+		callback = function()
+			refreshFrames();
+		end,
+	})
+
 	table.insert(allSettingsData, {
 		type = "colorpicker",
 		label = L["OverwriteBackCol"],

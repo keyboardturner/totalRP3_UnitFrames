@@ -43,16 +43,16 @@ function trpPlayer.UpdateInfo()
 		local nameToSet = playerNameString;
 		
 		if TRP3_UF_DB.Setting.FullNamePlayer and TRP3_UF_DB.Setting.UseTRPName and TRP3_API and TRP3_API.globals and TRP3_API.globals.player_realm_id then
-			local trpPlayerObj = AddOn_TotalRP3 and AddOn_TotalRP3.Player and AddOn_TotalRP3.Player.CreateFromUnit("player");
-			if trpPlayerObj and not issecretvalue(trpPlayerObj) and trpPlayerObj:GetProfileID() then
+			local trpPlayerObj = TRP3_UnitFrames.GetTRPPlayer("player");
+			if trpPlayerObj and trpPlayerObj:GetProfileID() then
 				local fullName = TRP3_API.r.name("player");
 				if fullName and fullName ~= "" then
 					nameToSet = fullName;
 				end
 			end
-		elseif not TRP3_UF_DB.Setting.FullNamePlayer and TRP3_UF_DB.Setting.UseTRPName and not issecretvalue(playerGUID) then
-			local trpPlayerObj = AddOn_TotalRP3 and AddOn_TotalRP3.Player and AddOn_TotalRP3.Player.CreateFromGUID(playerGUID);
-			if trpPlayerObj and not issecretvalue(trpPlayerObj) then
+		elseif not TRP3_UF_DB.Setting.FullNamePlayer and TRP3_UF_DB.Setting.UseTRPName then
+			local trpPlayerObj = TRP3_UnitFrames.GetTRPPlayer("player");
+			if trpPlayerObj then
 				local firstName = trpPlayerObj:GetFirstName();
 				if firstName then
 					nameToSet = firstName;
@@ -82,9 +82,8 @@ function trpPlayer.UpdateInfo()
 	});
 	PlayerFrameReputationColor:SetVertexColor(backR, backG, backB, backA);
 
-	local profileID = AddOn_TotalRP3.Player.CreateFromUnit("player"):GetProfileID();
-	if not issecretvalue(AddOn_TotalRP3.Player.CreateFromUnit("player")) and profileID then
-		local player1 = AddOn_TotalRP3.Player.CreateFromUnit("player")
+	local player1 = TRP3_UnitFrames.GetTRPPlayer("player");
+	if player1 and player1:GetProfileID() then
 		local icon = player1:GetCustomIcon() or "inv_inscription_scroll"
 
 		if trpPlayer.button and trpPlayer.button.tex then

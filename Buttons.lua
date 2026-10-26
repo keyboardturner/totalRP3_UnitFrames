@@ -209,8 +209,8 @@ CreateFadeAnimations(trpTarget)
 local function PlayerHasProfile()
 	if not (TRP3_API and TRP3_API.globals and TRP3_API.globals.player_realm_id) then return false; end
 	if not GetNormalizedRealmName() then return false; end
-	local trpUnit = AddOn_TotalRP3.Player.CreateFromUnit("player");
-	if not trpUnit or issecretvalue(trpUnit) then return false; end
+	local trpUnit = TRP3_UnitFrames.GetTRPPlayer("player");
+	if not trpUnit then return false; end
 	return trpUnit:GetProfileID() ~= nil;
 end
 
@@ -249,7 +249,8 @@ trpTarget:SetScript("OnEvent", function(self, event)
 		trpTarget.HideFadingFrame()
 	elseif event == "PLAYER_REGEN_ENABLED" then
 		if (TRP3_API and TRP3_API.globals and TRP3_API.globals.player_realm_id) then
-			if UnitIsPlayer("target") and not issecretvalue(UnitGUID("target")) and AddOn_TotalRP3.Player.CreateFromUnit("target"):GetProfileID() and TRP3_UF_DB.Target.relativePoint ~= "CENTER" and TRP3_UF_DB.Target.show then
+			local trpTargetObj = TRP3_UnitFrames.GetTRPPlayer("target");
+			if trpTargetObj and trpTargetObj:GetProfileID() and TRP3_UF_DB.Target.relativePoint ~= "CENTER" and TRP3_UF_DB.Target.show then
 				trpTarget.ShowFadingFrame()
 			end
 		end

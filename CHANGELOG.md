@@ -1,5 +1,9 @@
 [Full Changelog & Previous Releases](https://github.com/keyboardturner/totalRP3_UnitFrames/releases)
 
+# 1.1.4d
+
+*maybe* fixed an error that occurred where it failed to construct a player object from an invalid unit??
+
 # 1.1.4c
 
 Fix up trp3 profile name coloration applying to the player and added option to toggle for it haha oops loel

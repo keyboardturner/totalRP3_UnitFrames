@@ -47,8 +47,9 @@ function trpTarget.UpdateInfo()
 			if TRP3_UF_DB.Setting.FullNameTarget and TRP3_UF_DB.Setting.UseTRPName then
 				TargetName:SetText(TRP3_API.r.name("target"));
 			elseif not TRP3_UF_DB.Setting.FullNameTarget and TRP3_UF_DB.Setting.UseTRPName and not issecretvalue(UnitGUID("target")) then
-				local firstName = AddOn_TotalRP3.Player.CreateFromGUID(UnitGUID("target")):GetFirstName();
-				if not issecretvalue(UnitGUID("target")) and firstName then
+				local trpTargetObj = TRP3_UnitFrames.GetTRPPlayer("target");
+				local firstName = trpTargetObj and trpTargetObj:GetFirstName();
+				if firstName then
 					TargetName:SetText(firstName);
 				else
 					TargetName:SetText(UnitName("target"));
@@ -107,10 +108,9 @@ function trpTarget.nameChecker()
 	trpTarget.UpdateInfo()
 	trpPlayer.UpdateInfo()
 
-	if UnitIsPlayer("target") and not issecretvalue(UnitGUID("target")) and AddOn_TotalRP3.Player.CreateFromUnit("target"):GetProfileID() then
+	local player = TRP3_UnitFrames.GetTRPPlayer("target")
+	if player and player:GetProfileID() then
 		trpTarget.SetColor()
-
-		local player = AddOn_TotalRP3.Player.CreateFromUnit("target")
 		local icon = player:GetCustomIcon() or "inv_inscription_scroll"
 
 		if trpTarget.button and trpTarget.button.tex then

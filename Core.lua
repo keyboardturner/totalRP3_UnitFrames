@@ -250,6 +250,15 @@ local TextureAtlasData = {
 	},
 };
 
+function TRP3_UnitFrames.GetTRPPlayer(unit)
+	if not unit then return nil; end
+	if not (AddOn_TotalRP3 and AddOn_TotalRP3.Player and TRP3_NameUtil and TRP3_API and TRP3_API.globals and TRP3_API.globals.player_id) then return nil; end
+	if not UnitExists(unit) or not UnitIsPlayer(unit) then return nil; end
+	if issecretvalue(UnitGUID(unit)) then return nil; end
+	if not TRP3_NameUtil.GetQualifiedName(unit) then return nil; end
+	return AddOn_TotalRP3.Player.CreateFromUnit(unit);
+end
+
 function TRP3_UnitFrames.ResolveColorPriority(unit, priorityID, config)
 	local order = TRP3_UnitFrames.PRIORITY_ORDERS[priorityID] or TRP3_UnitFrames.PRIORITY_ORDERS["OVERWRITE_TRP_CLASS"];
 	
@@ -261,8 +270,8 @@ function TRP3_UnitFrames.ResolveColorPriority(unit, priorityID, config)
 			end
 		elseif source == "TRP" then
 			if config.trpEnabled ~= false and unit and not issecretvalue(UnitGUID(unit)) then
-				local trpPlayerObj = AddOn_TotalRP3 and AddOn_TotalRP3.Player and AddOn_TotalRP3.Player.CreateFromUnit(unit);
-				if trpPlayerObj and not issecretvalue(trpPlayerObj) then
+				local trpPlayerObj = TRP3_UnitFrames.GetTRPPlayer(unit);
+				if trpPlayerObj then
 					local customColor = trpPlayerObj:GetCustomColorForDisplay();
 					if customColor and not issecretvalue(customColor) then
 						local rgb = customColor.GetRGBTable and customColor:GetRGBTable() or nil;

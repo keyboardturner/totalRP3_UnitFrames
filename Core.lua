@@ -250,6 +250,29 @@ local TextureAtlasData = {
 	},
 };
 
+TRP3_UnitFrames.IsForever = (WOW_PROJECT_CAMELOT ~= nil and WOW_PROJECT_ID == WOW_PROJECT_CAMELOT);
+
+function TRP3_UnitFrames.GetBlizzardUnitName(unit, fullName)
+	if not unit then return nil; end
+	if fullName then
+		if GetUnitName then
+			local combined = GetUnitName(unit);
+			if combined and not issecretvalue(combined) and combined ~= "" then
+				return combined;
+			end
+		end
+		local first, last = UnitName(unit);
+		if issecretvalue(first) then return first; end
+		if first and last and not issecretvalue(last) and last ~= "" then
+			return first .. " " .. last;
+		end
+		return first;
+	else
+		local first = UnitName(unit);
+		return first;
+	end
+end
+
 function TRP3_UnitFrames.GetTRPPlayer(unit)
 	if not unit then return nil; end
 	if not (AddOn_TotalRP3 and AddOn_TotalRP3.Player and TRP3_NameUtil and TRP3_API and TRP3_API.globals and TRP3_API.globals.player_id) then return nil; end

@@ -1,6 +1,8 @@
 local addonName, TRP3_UnitFrames = ...;
 local L = TRP3_UnitFrames.L;
 
+local IsForever = WOW_PROJECT_ID == WOW_PROJECT_CAMELOT;
+
 local trpTarget = TRP3_UnitFrames.trpTarget;
 local trpPlayer = TRP3_UnitFrames.trpPlayer;
 
@@ -207,8 +209,12 @@ CreateFadeAnimations(trpPlayer)
 CreateFadeAnimations(trpTarget)
 
 local function PlayerHasProfile()
-	if not (TRP3_API and TRP3_API.globals and TRP3_API.globals.player_realm_id) then return false; end
-	if not GetNormalizedRealmName() then return false; end
+	if not TRP3_UnitFrames.IsForever then
+		if not (TRP3_API and TRP3_API.globals and TRP3_API.globals.player_realm_id) then return false; end
+		if not GetNormalizedRealmName() then return false; end
+	elseif not (TRP3_API and TRP3_API.globals) then
+		return false;
+	end
 	local trpUnit = TRP3_UnitFrames.GetTRPPlayer("player");
 	if not trpUnit then return false; end
 	return trpUnit:GetProfileID() ~= nil;

@@ -1,6 +1,8 @@
 local addonName, TRP3_UnitFrames = ...;
 local L = TRP3_UnitFrames.L;
 
+local IsForever = WOW_PROJECT_ID == WOW_PROJECT_CAMELOT;
+
 local trpPlayer = TRP3_UnitFrames.trpPlayer;
 
 local PlayerRepFrame = CreateFrame("Frame", nil, PlayerFrame)
@@ -27,13 +29,15 @@ function trpPlayer.UpdateStatusIcon()
 end
 
 function trpPlayer.UpdateInfo()
-	if not (TRP3_API and TRP3_API.globals and TRP3_API.globals.player_realm_id) then return end;
+	if not TRP3_UnitFrames.IsForever then
+		if not (TRP3_API and TRP3_API.globals and TRP3_API.globals.player_realm_id) then return; end
+	elseif not (TRP3_API and TRP3_API.globals) then return; end
+
 	local playerClass = UnitClassBase("player");
 	local playerGUID = UnitGUID("player");
-	local playerNameString = UnitName("player");
+	local playerNameString = TRP3_UnitFrames.GetBlizzardUnitName("player", TRP3_UF_DB.Setting.FullNamePlayer);
 	if issecretvalue(playerClass) or issecretvalue(playerGUID) or issecretvalue(playerNameString) then return end;
 	if not playerClass or not playerGUID or not playerNameString or playerNameString == "" then return end;
-	--local classR, classG, classB = C_ClassColor.GetClassColor(playerClass).r, C_ClassColor.GetClassColor(playerClass).g, C_ClassColor.GetClassColor(playerClass).b
 
 	if PlayerName then
 		if TRP3_UF_DB.Player.nameWidth then
@@ -41,8 +45,9 @@ function trpPlayer.UpdateInfo()
 		end
 
 		local nameToSet = playerNameString;
-		
-		if TRP3_UF_DB.Setting.FullNamePlayer and TRP3_UF_DB.Setting.UseTRPName and TRP3_API and TRP3_API.globals and TRP3_API.globals.player_realm_id then
+		local hasRealmOrForever = TRP3_UnitFrames.IsForever or (TRP3_API and TRP3_API.globals and TRP3_API.globals.player_realm_id);
+
+		if TRP3_UF_DB.Setting.FullNamePlayer and TRP3_UF_DB.Setting.UseTRPName and hasRealmOrForever then
 			local trpPlayerObj = TRP3_UnitFrames.GetTRPPlayer("player");
 			if trpPlayerObj and trpPlayerObj:GetProfileID() then
 				local fullName = TRP3_API.r.name("player");
@@ -54,7 +59,7 @@ function trpPlayer.UpdateInfo()
 			local trpPlayerObj = TRP3_UnitFrames.GetTRPPlayer("player");
 			if trpPlayerObj then
 				local firstName = trpPlayerObj:GetFirstName();
-				if firstName then
+				if firstName and firstName ~= "" then
 					nameToSet = firstName;
 				end
 			end

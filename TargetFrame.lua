@@ -44,18 +44,20 @@ function trpTarget.UpdateInfo()
 		local isTargetPlayer = not issecretvalue(UnitGUID("target")) and UnitIsPlayer("target");
 
 		if isTargetPlayer then
-			if TRP3_UF_DB.Setting.FullNameTarget and TRP3_UF_DB.Setting.UseTRPName then
-				TargetName:SetText(TRP3_API.r.name("target"));
-			elseif not TRP3_UF_DB.Setting.FullNameTarget and TRP3_UF_DB.Setting.UseTRPName and not issecretvalue(UnitGUID("target")) then
-				local trpTargetObj = TRP3_UnitFrames.GetTRPPlayer("target");
-				local firstName = trpTargetObj and trpTargetObj:GetFirstName();
-				if firstName then
-					TargetName:SetText(firstName);
+			local resolvedName = nil;
+			if TRP3_UF_DB.Setting.UseTRPName then
+				if TRP3_UF_DB.Setting.FullNameTarget then
+					resolvedName = TRP3_API.r.name("target");
 				else
-					TargetName:SetText(UnitName("target"));
+					local trpTargetObj = TRP3_UnitFrames.GetTRPPlayer("target");
+					resolvedName = trpTargetObj and trpTargetObj:GetFirstName();
 				end
-			else
-				TargetName:SetText(UnitName("target"));
+			end
+			if not resolvedName or resolvedName == "" then
+				resolvedName = TRP3_UnitFrames.GetBlizzardUnitName("target", TRP3_UF_DB.Setting.FullNameTarget);
+			end
+			if resolvedName then
+				TargetName:SetText(resolvedName);
 			end
 		end
 
